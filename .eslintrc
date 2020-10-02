@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "@puncsky/eslint-config-onefx-react",
+    "@puncsky/eslint-config-onefx"
+  ],
+  "rules": {
+    "global-require": [0]
+  }
+}

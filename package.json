@@ -1,0 +1,151 @@
+{
+  "name": "mobile-beancount",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "eject": "expo eject",
+    "_note": "npm run lint && npm run tsc-test && ",
+    "test": "npm run lint && npm run schema && tsc && jest",
+    "jest": "jest",
+    "typecheck": "tsc --noEmit",
+    "lint": "pretty-quick --staged && eslint src --quiet --fix --ext .js,.tsx,.ts",
+    "prettier": "prettier --single-quote --trailing-comma es5 --write \"src/{*.ts,**/*.ts,*.tsx,**/*.tsx}\"\n",
+    "postinstall": "cp -f patch-jest.js ./node_modules/jest-expo/bin/jest.js && npm run schema",
+    "schema": "npm run schema:download && npm run schema:generate",
+    "schema:download": "apollo schema:download --endpoint=https://beancount.io/api-gateway/ schema.json",
+    "schema:generate": "apollo client:codegen --no-addTypename --target=typescript --localSchemaFile=./schema.json"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js",
+      "^.+\\.tsx?$": [
+        "babel-jest",
+        {
+          "configFile": "./babel.config.js"
+        }
+      ]
+    },
+    "testMatch": [
+      "**/__tests__/**/*.ts?(x)",
+      "**/?(*.)+(spec|test).ts?(x)"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "tsx"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": {
+          "jsx": "react"
+        }
+      }
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "dependencies": {
+    "@ant-design/react-native": "^4.0.4",
+    "@expo/vector-icons": "10.2.0",
+    "@react-native-community/async-storage": "1.11.0",
+    "@react-native-community/cameraroll": "^4.0.0",
+    "@react-native-community/picker": "1.6.0",
+    "@react-native-community/segmented-control": "1.6.1",
+    "@react-native-community/slider": "3.0.0",
+    "@react-native-community/viewpager": "3.3.0",
+    "@sentry/react": "^5.21.1",
+    "@sentry/react-native": "^1.7.1",
+    "@types/deep-extend": "^0.4.31",
+    "@types/i18n-js": "^3.0.1",
+    "@types/react-navigation": "^2.13.10",
+    "@types/react-redux": "7.0.0",
+    "@types/use-subscription": "^1.0.0",
+    "apollo-cache-inmemory": "1.6.3",
+    "apollo-client": "2.6.4",
+    "apollo-link": "1.2.13",
+    "apollo-link-error": "^1.1.13",
+    "apollo-link-http": "1.5.16",
+    "axios": "0.19.0",
+    "buffer": "^5.4.3",
+    "currency-icons": "^1.0.13",
+    "deep-extend": "^0.6.0",
+    "expo": "^38.0.9",
+    "expo-analytics": "^1.0.13",
+    "expo-asset": "~8.1.5",
+    "expo-constants": "~9.1.1",
+    "expo-font": "~8.2.1",
+    "expo-haptics": "~8.2.1",
+    "expo-localization": "~8.2.1",
+    "expo-permissions": "~9.0.1",
+    "expo-splash-screen": "^0.3.1",
+    "expo-status-bar": "^1.0.2",
+    "expo-store-review": "~2.1.0",
+    "expo-web-browser": "~8.3.1",
+    "fbemitter": "^2.1.1",
+    "graphql": "14.5.8",
+    "graphql-tag": "2.10.1",
+    "i18n-js": "3.3.0",
+    "isomorphic-unfetch": "3.0.0",
+    "jwt-decode": "^2.2.0",
+    "react": "16.8.3",
+    "react-apollo": "3.1.3",
+    "react-dom": "16.8.3",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.0.tar.gz",
+    "react-native-animatable": "^1.3.3",
+    "react-native-appearance": "~0.3.3",
+    "react-native-chart-kit": "^6.4.1",
+    "react-native-gesture-handler": "~1.6.0",
+    "react-native-safe-area-context": "~3.0.7",
+    "react-native-safe-area-view": "^1.1.1",
+    "react-native-screens": "~2.9.0",
+    "react-native-svg": "12.1.0",
+    "react-native-web": "^0.11.7",
+    "react-native-webview": "9.4.0",
+    "react-navigation": "^3.12.0",
+    "react-redux": "6.0.0",
+    "redux": "4.0.1",
+    "redux-devtools-extension": "2.13.8",
+    "redux-persist": "5.10.0",
+    "redux-thunk": "2.3.0",
+    "sentry-expo": "^2.1.2"
+  },
+  "devDependencies": {
+    "@puncsky/eslint-config-onefx": "^2.3.0",
+    "@puncsky/eslint-config-onefx-react": "^2.3.0",
+    "@types/jest": "23.3.13",
+    "@types/jwt-decode": "^2.2.1",
+    "@types/react": "^16.8.23",
+    "@types/react-native": "^0.57.65",
+    "@types/react-test-renderer": "16.8.3",
+    "@typescript-eslint/eslint-plugin": "3.4.0",
+    "@typescript-eslint/parser": "3.4.0",
+    "apollo": "^2.30.2",
+    "babel-plugin-import": "1.11.0",
+    "babel-plugin-module-resolver": "^3.0.0",
+    "babel-preset-expo": "^8.0.0",
+    "eslint": "7.2.0",
+    "eslint-config-airbnb-base": "14.2.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-react": "7.20.0",
+    "husky": "3.0.0",
+    "jest": "^26.2.2",
+    "jest-expo": "^38.0.2",
+    "prettier": "^2.0.5",
+    "pretty-quick": "1.11.1",
+    "react-test-renderer": "16.8.3",
+    "ts-jest": "^26.1.4",
+    "tslint": "5.12.1",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-microsoft-contrib": "6.0.0",
+    "tslint-require-connnect-typing": "1.0.1",
+    "typescript": "^3.4.5"
+  },
+  "private": true
+}

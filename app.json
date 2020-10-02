@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "version": "0.5.0",
+    "name": "Beancount",
+    "slug": "beancount",
+    "privacy": "public",
+    "platforms": ["ios", "android"],
+    "orientation": "portrait",
+    "icon": "./src/assets/images/icon.png",
+    "splash": {
+      "image": "./src/assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "io.beancount.ios",
+      "userInterfaceStyle": "automatic"
+    },
+    "android": {
+      "versionCode": 5,
+      "package": "io.beancount.android"
+    },
+    "notification": {
+      "icon": "./src/assets/images/icon96.png"
+    }
+  }
+}
