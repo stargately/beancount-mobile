@@ -67,4 +67,6 @@ export const en = {
   recommend: "Recommend",
   shareError: "Failed to share",
   thanksShare: "Thanks for sharing!!",
+  loading: "loading...",
+  noContactPermission: "Missing contacts permission.",
 };

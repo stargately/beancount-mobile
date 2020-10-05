@@ -67,4 +67,6 @@ export const zh = {
   recommend: "推荐",
   shareError: "分享失败",
   thanksShare: "感谢分享!!",
+  loading: "加载中...",
+  noContactPermission: "没有访问通讯录的权限.",
 };

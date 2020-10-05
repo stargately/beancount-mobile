@@ -146,18 +146,20 @@ export function InviteScreen(props: Props) {
         <View style={styles().bodyContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <CommonMargin />
-          <Text style={styles().loadingOrErrText}>loading...</Text>
+          <Text style={styles().loadingOrErrText}>{i18n.t("loading")}</Text>
         </View>
       );
     }
     if (contacts.error != null) {
+      const errMsg =
+        String(contacts.error.message).indexOf("permission") >= 0
+          ? i18n.t("noContactPermission")
+          : String(contacts.error.message);
       return (
         <View style={styles().bodyContainer}>
           <MaterialIcons name="error" size={48} color={theme.primary} />
           <CommonMargin />
-          <Text style={styles().loadingOrErrText}>
-            {contacts.error.message}
-          </Text>
+          <Text style={styles().loadingOrErrText}>{errMsg}</Text>
         </View>
       );
     }
