@@ -53,4 +53,18 @@ export const en = {
   updating: "updating...",
   updateSuccess: "Updated subscription successful",
   updateFailed: "Update subscription failed",
+  inviteFriends: "Invite Friends",
+  invite: "Invite",
+  inviteSummary: "Share your love of crypto and get $10 of free Bitcoin",
+  referral: "Referral",
+  copy: "Copy",
+  copied: "Copied",
+  inviteFromContacts: "Invite from Contacts",
+  share: "Share",
+  rewardSummary: "Get $10 in Bitcoin",
+  rewardDetail:
+    "You'll both get $10 in free Bitcoin when your friend buys or sells $100 of crypto.",
+  recommend: "Recommend",
+  shareError: "Failed to share",
+  thanksShare: "Thanks for sharing!!",
 };
