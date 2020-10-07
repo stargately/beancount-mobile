@@ -10,7 +10,7 @@ import {
 import { NavigationBar } from "@/common/navigation-bar";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { ReferralGiftIcon } from "@/screens/referral-screen/components/referral-gift-icon";
 import { NavigationScreenProp } from "react-navigation";
 import { theme } from "@/common/theme";
 import { i18n } from "@/translations";
@@ -107,7 +107,7 @@ export function ReferralScreen(props: Props): JSX.Element {
       <View style={styles().body}>
         <CommonMargin />
         <CommonMargin />
-        <FontAwesome5 name="bitcoin" size={80} color={theme.warning} />
+        <ReferralGiftIcon />
         <CommonMargin />
         <Text style={styles().title}>{i18n.t("rewardSummary")}</Text>
         <CommonMargin />

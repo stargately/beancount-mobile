@@ -11,7 +11,7 @@ import { composeAsync } from "expo-mail-composer";
 import { NavigationBar } from "@/common/navigation-bar";
 import { isAvailableAsync, sendSMSAsync } from "expo-sms";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
-import { Button, Toast } from "@ant-design/react-native";
+import { Button, Toast, SearchBar } from "@ant-design/react-native";
 import { contentPadding } from "@/common/screen-util";
 import { theme } from "@/common/theme";
 import { CommonMargin } from "@/common/common-margin";
@@ -25,6 +25,11 @@ type RowItem = {
   name: string;
   phoneNumber?: string;
   email?: string;
+};
+
+type SectionItem = {
+  key: string;
+  data: RowItem[];
 };
 
 type Props = {
@@ -48,10 +53,22 @@ const styles = () =>
     },
     button: { height: 44, backgroundColor: theme.primary },
     buttonText: { fontWeight: "500", fontSize: 16, color: "white" },
-    sectionHeader: {
-      backgroundColor: theme.black60,
+    sectionHeaderContainer: {
+      backgroundColor: theme.white,
       paddingHorizontal: contentPadding,
       paddingVertical: 4,
+      borderBottomColor: theme.black60,
+      borderBottomWidth: 1,
+      borderTopColor: theme.black60,
+      borderTopWidth: 1,
+    },
+    sectionHeaderText: {
+      color: theme.text01,
+    },
+    searchInput: {
+      fontSize: 16,
+      color: theme.text01,
+      backgroundColor: theme.white,
     },
   });
 
@@ -59,6 +76,7 @@ export function InviteScreen(props: Props) {
   const contacts = useContacts();
 
   const [selectedContacts, setSelectedContacts] = React.useState<RowItem[]>([]);
+  const [keyword, setKeyword] = React.useState("");
 
   const sections = React.useMemo(() => {
     // @ts-ignore
@@ -102,6 +120,25 @@ export function InviteScreen(props: Props) {
         a.key < b.key ? -1 : 1
       );
   }, [contacts.data]);
+
+  const filteredSection = React.useMemo(() => {
+    if (keyword.length > 0) {
+      const filteredSections = new Array<SectionItem>();
+      for (const s of sections) {
+        const filteredData = s.data.filter(
+          (d) =>
+            d.name.indexOf(keyword) >= 0 ||
+            (d.email && d.email.indexOf(keyword) >= 0) ||
+            (d.phoneNumber && d.phoneNumber.indexOf(keyword) >= 0)
+        );
+        if (filteredData.length > 0) {
+          filteredSections.push({ key: s.key, data: filteredData });
+        }
+      }
+      return filteredSections;
+    }
+    return sections;
+  }, [sections, keyword]);
 
   const onInvitePress = async () => {
     const shareLink = String(props.navigation.getParam("shareLink") || "");
@@ -163,16 +200,35 @@ export function InviteScreen(props: Props) {
         </View>
       );
     }
+
     return (
       <View style={styles().flex1}>
+        <SearchBar
+          styles={{
+            wrapper: {
+              backgroundColor: theme.white,
+            },
+          }}
+          style={styles().searchInput}
+          placeholder={i18n.t("inputKeyword")}
+          value={keyword}
+          onCancel={() => {
+            setKeyword("");
+          }}
+          onChange={(val) => {
+            setKeyword(val);
+          }}
+        />
         <SectionList
           showsVerticalScrollIndicator={false}
           bounces={false}
-          sections={sections}
+          sections={filteredSection}
           renderSectionHeader={({ section }) => (
-            <Text style={styles().sectionHeader}>
-              {section.key!.toUpperCase()}
-            </Text>
+            <View style={styles().sectionHeaderContainer}>
+              <Text style={styles().sectionHeaderText}>
+                {section.key!.toUpperCase()}
+              </Text>
+            </View>
           )}
           renderItem={({ item }: { item: RowItem }) => {
             const selectedIndex = selectedContacts.findIndex(
@@ -221,6 +277,7 @@ export function InviteScreen(props: Props) {
         showBack
         navigation={props.navigation}
       />
+
       {renderBody()}
     </View>
   );

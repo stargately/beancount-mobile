@@ -2,6 +2,8 @@ import * as React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { contentPadding } from "@/common/screen-util";
 import { theme } from "@/common/theme";
+import { MaterialIcons } from "@expo/vector-icons";
+import { CommonMargin } from "@/common/common-margin";
 
 type ContactRowProps = {
   name: string;
@@ -31,9 +33,12 @@ export function ContactRow({
   return (
     <TouchableOpacity activeOpacity={0.9} onPress={onPress}>
       <View style={styles().rowContainer}>
-        <Text style={{ marginRight: contentPadding }}>
-          {selected ? "✅" : "⭕️"}
-        </Text>
+        <MaterialIcons
+          name={`radio-button-${selected ? "" : "un"}checked`}
+          size={24}
+          color={theme.primary}
+        />
+        <CommonMargin />
         <View style={{ flex: 1 }}>
           <Text style={styles().name}>{name || emailOrNumber}</Text>
           {name.length > 0 && (

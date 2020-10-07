@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { theme } from "@/common/theme";
 import { contentPadding, ScreenWidth, onePx } from "@/common/screen-util";
 import { NavigationScreenProp } from "react-navigation";
-import { AntDesign } from "@expo/vector-icons";
 import { i18n } from "@/translations";
+import { GiftIcon } from "@/screens/referral-screen/components/gift-icon";
 
 type Props = {
   navigation: NavigationScreenProp<string>;
@@ -63,7 +63,7 @@ export function InviteSection(props: Props): JSX.Element {
           <Text style={styles().summary}>{i18n.t("inviteSummary")}</Text>
         </View>
         <View style={styles().imageContainer}>
-          <AntDesign name="gift" size={56} color={theme.primary} />
+          <GiftIcon />
         </View>
       </TouchableOpacity>
     </View>

@@ -69,4 +69,5 @@ export const zh = {
   thanksShare: "感谢分享!!",
   loading: "加载中...",
   noContactPermission: "没有访问通讯录的权限.",
+  inputKeyword: "请输入关键字",
 };

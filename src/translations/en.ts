@@ -69,4 +69,5 @@ export const en = {
   thanksShare: "Thanks for sharing!!",
   loading: "loading...",
   noContactPermission: "Missing contacts permission.",
+  inputKeyword: "Please enter a keyword",
 };
