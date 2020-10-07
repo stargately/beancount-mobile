@@ -26,6 +26,7 @@ export function MineScreen(props: Props): JSX.Element {
       <About
         screenProps={props.screenProps}
         fromAnnouncement={fromAnnouncement}
+        navigation={props.navigation}
       />
     </View>
   );

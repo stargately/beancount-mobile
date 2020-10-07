@@ -13,11 +13,13 @@ import { AppState } from "@/common/store";
 import { setTheme, theme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { ScreenProps } from "@/types/screen-props";
-import { AccountHeader } from "@/screens/mine-screen/account-header";
 import { actionLogout } from "@/screens/mine-screen/account-reducer";
 import { useUserProfile } from "@/screens/mine-screen/hooks/use-user-profile";
 import { useUpdateReportSubscribeToRemote } from "@/screens/mine-screen/hooks/use-update-report-subscribe";
 import { useFeatureFlags } from "@/common/feature-flags/use-feature-flags";
+import { AccountHeader } from "@/screens/mine-screen/account-header";
+import { InviteSection } from "@/screens/referral-screen/components/invite-section";
+import { NavigationScreenProp } from "react-navigation";
 import { ReportStatus } from "../../../__generated__/globalTypes";
 
 const { Item } = List;
@@ -34,6 +36,7 @@ type Props = {
   currentTheme: "dark" | "light";
   userId: string;
   fromAnnouncement: boolean;
+  navigation: NavigationScreenProp<string>;
 };
 
 export const About = connect(
@@ -61,6 +64,7 @@ export const About = connect(
     currentTheme,
     userId,
     fromAnnouncement,
+    navigation,
   }: Props) => {
     const pickerSource = [
       { value: ReportStatus.WEEKLY, label: i18n.t("weekly") },
@@ -287,6 +291,7 @@ export const About = connect(
     return (
       <ScrollView style={{ backgroundColor: theme.white }}>
         <AccountHeader />
+        <InviteSection navigation={navigation} />
         {renderAppSection()}
       </ScrollView>
     );
