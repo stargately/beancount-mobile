@@ -67,7 +67,7 @@ const styles = () =>
   });
 
 export function Announcement(props: Props): JSX.Element {
-  const [hide, setHide] = React.useState(false);
+  const [hide, setHide] = React.useState(true);
 
   React.useEffect(() => {
     async function init() {
