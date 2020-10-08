@@ -74,7 +74,6 @@ export const About = connect(
 
     useEffect(() => {
       async function init() {
-        await analytics.track("page_view_mine", {});
         await registerForPushNotificationAsync();
       }
       init();

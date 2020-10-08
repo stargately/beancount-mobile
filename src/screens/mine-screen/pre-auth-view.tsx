@@ -4,6 +4,7 @@ import { Button } from "@ant-design/react-native";
 import { theme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { LoginOrSignUp } from "@/screens/mine-screen/account-header";
+import { analytics } from "@/common/analytics";
 
 const { width, height } = Dimensions.get("window");
 const buttonWidth = (width - 20 * 3) / 2;
@@ -46,6 +47,12 @@ const getStyles = () =>
   });
 
 export function PreAuthView(): JSX.Element {
+  React.useEffect(() => {
+    async function init() {
+      await analytics.track("page_view_pre_auth", {});
+    }
+    init();
+  }, []);
   const styles = getStyles();
   return (
     <View style={styles.container}>

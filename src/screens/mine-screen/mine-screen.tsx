@@ -7,6 +7,7 @@ import { i18n } from "@/translations";
 import { ScreenProps } from "@/types/screen-props";
 import { About } from "@/screens/mine-screen/about";
 import { NavigationScreenProp } from "react-navigation";
+import { analytics } from "@/common/analytics";
 
 type Props = {
   navigation: NavigationScreenProp<string>;
@@ -14,6 +15,12 @@ type Props = {
 };
 
 export function MineScreen(props: Props): JSX.Element {
+  React.useEffect(() => {
+    async function init() {
+      await analytics.track("page_view_mine", {});
+    }
+    init();
+  }, []);
   const fromAnnouncement = props.navigation.getParam("fromAnnouncement");
   return (
     <View
