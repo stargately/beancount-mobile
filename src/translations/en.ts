@@ -46,7 +46,7 @@ export const en = {
   save: "Save",
   pleaseInput: "Please input...",
   monthlyNetWorth: "Monthly Net Worth",
-  subscribe: "Subscribe",
+  subscribe: "Subscribe to Email Report",
   off: "Off",
   weekly: "Weekly",
   monthly: "Monthly",
