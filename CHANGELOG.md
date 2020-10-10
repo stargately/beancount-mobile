@@ -1,6 +1,18 @@
 # Changelog
 
-## [0.5.0](https://github.com/puncsky/mobile-beancount/compare/v0.4.0...v0.5.0) (2020-09-26)
+## [0.6.0](https://github.com/puncsky/beancount-mobile/compare/v0.5.0...v0.6.0) (2020-10-09)
+
+We update the Beancount app as often as possible to make it faster and more reliable for you. Here are a couple of the enhancements you'll find in the latest update:
+
+- Fix minor bugs
+
+- Add friend invitation
+
+Love the app? Rate us! Your feedback keeps the Beancount devs coding.
+
+Have a question? Visit https://t.me/beancount.
+
+## [0.5.0](https://github.com/puncsky/beancount-mobile/compare/v0.4.0...v0.5.0) (2020-09-26)
 
 We update the Beancount app as often as possible to make it faster and more reliable for you. Here are a couple of the enhancements you'll find in the latest update:
 
@@ -12,7 +24,7 @@ Love the app? Rate us! Your feedback keeps the Beancount devs coding.
 
 Have a question? Visit https://t.me/beancount.
 
-## [0.4.0](https://github.com/puncsky/mobile-beancount/compare/v0.4.0...v0.3.0) (2020-09-15)
+## [0.4.0](https://github.com/puncsky/beancount-mobile/compare/v0.4.0...v0.3.0) (2020-09-15)
 
 We update the Beancount app as often as possible to make it faster and more reliable for you. Here are a couple of the enhancements you'll find in the latest update:
 
