@@ -143,7 +143,7 @@ export function InviteScreen(props: Props) {
   const onInvitePress = async () => {
     const shareLink = String(props.navigation.getParam("shareLink") || "");
     let didShare = false;
-    const message = `${i18n.t("recommend")}【beancount.io】${shareLink}`;
+    const message = `${i18n.t("recommend")} ${shareLink}`;
     const emails = selectedContacts
       .filter((c) => c.email != null)
       .map((c) => c.email) as string[];

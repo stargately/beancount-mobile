@@ -33,7 +33,7 @@ export function ReferralGiftIcon(): JSX.Element {
           <G
             id="Group-2"
             transform="translate(135.000000, 294.234000)"
-            stroke={theme.warning}
+            stroke={theme.success}
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"

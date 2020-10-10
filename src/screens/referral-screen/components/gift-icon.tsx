@@ -27,7 +27,7 @@ export function GiftIcon(): JSX.Element {
           <G
             id="Group"
             transform="translate(45.000000, 116.000000)"
-            stroke={theme.primary}
+            stroke={theme.success}
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"

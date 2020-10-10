@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Clipboard,
   Share,
+  Platform,
 } from "react-native";
 import { NavigationBar } from "@/common/navigation-bar";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
@@ -15,9 +16,11 @@ import { NavigationScreenProp } from "react-navigation";
 import { theme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { Button, Toast } from "@ant-design/react-native";
+import { connect } from "react-redux";
 
 type Props = {
   navigation: NavigationScreenProp<string>;
+  userId: string;
 };
 
 const styles = () =>
@@ -94,8 +97,11 @@ const styles = () =>
     },
   });
 
-export function ReferralScreen(props: Props): JSX.Element {
-  const shareLink = "https://www.beancount.io/join/pan_21?src=ios-link";
+export const ReferralScreen = connect(
+  (state: { base: { userId: string } }) => ({ userId: state.base.userId })
+)(function ReferralScreen(props: Props): JSX.Element {
+  const { userId } = props;
+  const shareLink = `beancount.io/sign-up/?src=${Platform.OS}&by=${userId}`;
 
   return (
     <View style={styles().container}>
@@ -116,7 +122,7 @@ export function ReferralScreen(props: Props): JSX.Element {
         <CommonMargin />
         <View style={styles().shareLinkContainer}>
           <Text numberOfLines={1} style={styles().shareLink}>
-            beancount.io/join/pan_21
+            {shareLink}
           </Text>
           <TouchableOpacity
             style={styles().copyBtn}
@@ -142,7 +148,7 @@ export function ReferralScreen(props: Props): JSX.Element {
           style={styles().shareBtn}
           onPress={() => {
             Share.share({
-              message: `${i18n.t("recommend")}【beancount.io】 ${shareLink}`,
+              message: `${i18n.t("recommend")} ${shareLink}`,
             })
               .then((result) => {
                 if (result.action === Share.sharedAction) {
@@ -166,4 +172,4 @@ export function ReferralScreen(props: Props): JSX.Element {
       </View>
     </View>
   );
-}
+});
