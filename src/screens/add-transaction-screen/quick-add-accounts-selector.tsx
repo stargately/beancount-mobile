@@ -17,6 +17,10 @@ import { LoadingTile } from "@/common/loading-tile";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { ListItemStyled } from "@/screens/add-transaction-screen/components/list-item-styled";
 import { analytics } from "@/common/analytics";
+import { i18n } from "@/translations";
+
+const { Item } = List;
+const { Brief } = Item;
 
 const LoadingList = () => (
   <List>
@@ -161,6 +165,7 @@ export const QuickAddAccountsSelector = connect(
               });
             }}
           >
+            <Brief>{i18n.t("from").toUpperCase()}</Brief>
             <TextStyled>{selectedAssets}</TextStyled>
           </ListItemStyled>
           <ListItemStyled
@@ -177,6 +182,7 @@ export const QuickAddAccountsSelector = connect(
               });
             }}
           >
+            <Brief>{i18n.t("to").toUpperCase()}</Brief>
             <TextStyled>{selectedExpenses}</TextStyled>
           </ListItemStyled>
         </List>
