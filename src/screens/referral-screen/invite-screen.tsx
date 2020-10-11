@@ -19,6 +19,7 @@ import { groupBy } from "lodash";
 import { useContacts } from "@/screens/referral-screen/hooks/use-contacts";
 import { ContactRow } from "@/screens/referral-screen/components/contact-row";
 import { i18n } from "@/translations";
+import { analytics } from "@/common/analytics";
 
 type RowItem = {
   id: string;
@@ -73,6 +74,13 @@ const styles = () =>
   });
 
 export function InviteScreen(props: Props) {
+  React.useEffect(() => {
+    async function init() {
+      await analytics.track("page_view_invite", {});
+    }
+    init();
+  }, []);
+
   const contacts = useContacts();
 
   const [selectedContacts, setSelectedContacts] = React.useState<RowItem[]>([]);
@@ -174,6 +182,7 @@ export function InviteScreen(props: Props) {
 
     if (didShare) {
       Toast.show(i18n.t("thanksShare"));
+      await analytics.track("tap_invite", { shareLink, selectedContacts });
     }
   };
 

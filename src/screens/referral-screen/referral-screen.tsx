@@ -17,6 +17,7 @@ import { theme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { Button, Toast } from "@ant-design/react-native";
 import { connect } from "react-redux";
+import { analytics } from "@/common/analytics";
 
 type Props = {
   navigation: NavigationScreenProp<string>;
@@ -100,6 +101,13 @@ const styles = () =>
 export const ReferralScreen = connect(
   (state: { base: { userId: string } }) => ({ userId: state.base.userId })
 )(function ReferralScreen(props: Props): JSX.Element {
+  React.useEffect(() => {
+    async function init() {
+      await analytics.track("page_view_referral", {});
+    }
+    init();
+  }, []);
+
   const { userId } = props;
   const shareLink = `beancount.io/sign-up/?src=${Platform.OS}&by=${userId}`;
 
@@ -126,9 +134,10 @@ export const ReferralScreen = connect(
           </Text>
           <TouchableOpacity
             style={styles().copyBtn}
-            onPress={() => {
+            onPress={async () => {
               Clipboard.setString(shareLink);
               Toast.show(i18n.t("copied"), 1);
+              await analytics.track("tap_share_link_copy", { shareLink });
             }}
           >
             <Text style={styles().copy}>{i18n.t("copy")}</Text>
@@ -137,7 +146,8 @@ export const ReferralScreen = connect(
         <View style={{ flex: 1 }}></View>
         <Button
           style={styles().inviteBtn}
-          onPress={() => {
+          onPress={async () => {
+            await analytics.track("tap_navigate_to_invite", { shareLink });
             props.navigation.navigate("Invite", { shareLink });
           }}
         >
@@ -146,7 +156,8 @@ export const ReferralScreen = connect(
         <CommonMargin />
         <Button
           style={styles().shareBtn}
-          onPress={() => {
+          onPress={async () => {
+            await analytics.track("tap_share_link_share", { shareLink });
             Share.share({
               message: `${i18n.t("recommend")} ${shareLink}`,
             })
