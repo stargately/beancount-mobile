@@ -5,6 +5,7 @@ import { contentPadding, ScreenWidth, onePx } from "@/common/screen-util";
 import { NavigationScreenProp } from "react-navigation";
 import { i18n } from "@/translations";
 import { GiftIcon } from "@/screens/referral-screen/components/gift-icon";
+import { analytics } from "@/common/analytics";
 
 type Props = {
   navigation: NavigationScreenProp<string>;
@@ -55,7 +56,8 @@ export function InviteSection(props: Props): JSX.Element {
       <TouchableOpacity
         style={styles().section}
         activeOpacity={0.9}
-        onPress={() => {
+        onPress={async () => {
+          await analytics.track("tap_navigate_to_referral", {});
           props.navigation.navigate("Referral");
         }}
       >
