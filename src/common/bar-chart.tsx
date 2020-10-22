@@ -205,6 +205,7 @@ class BarChart extends AbstractChart<BarChartProps, {}> {
                   ...config,
                   count: segments,
                   paddingTop,
+                  paddingRight,
                 })
               : null}
           </G>
