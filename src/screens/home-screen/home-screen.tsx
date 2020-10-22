@@ -124,8 +124,8 @@ export const HomeScreen = connect(
           {spendingReportSubscription && (
             <Announcement
               navigation={props.navigation}
-              title={"Never miss your financial report - set up now"}
-              subtitle={"Weekly or Monthly Report"}
+              title="Never miss your financial report - set up now"
+              subtitle="Weekly or Monthly Report"
               icon={<EmailIcon />}
             />
           )}

@@ -5,8 +5,8 @@ import { G, Rect, Svg, Text } from "react-native-svg";
 import AbstractChart, {
   AbstractChartConfig,
   AbstractChartProps,
-} from "react-native-chart-kit/dist/AbstractChart";
-import { ChartData } from "react-native-chart-kit/dist/HelperTypes";
+} from "@yuyongmao/react-native-chart-kit/dist/AbstractChart";
+import { ChartData } from "@yuyongmao/react-native-chart-kit/dist/HelperTypes";
 
 const barWidth = 16;
 

@@ -57,13 +57,13 @@ export function AccountsStyled({
       <AccountsRow
         title={i18n.t("assets")}
         value={assets}
-        circleColor={"#07A35A"}
+        circleColor="#07A35A"
       />
       <CommonLine />
       <AccountsRow
         title={i18n.t("liabilities")}
         value={liabilities}
-        circleColor={"#5AAAFA"}
+        circleColor="#5AAAFA"
       />
       <CommonLine />
     </View>
