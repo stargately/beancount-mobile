@@ -2,6 +2,7 @@ import React from "react";
 import { BarChart } from "@/common/bar-chart";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { theme } from "@/common/theme";
+import { i18n } from "@/translations";
 
 export function BarChartStyled({
   labels,
@@ -42,6 +43,7 @@ export function BarChartStyled({
           strokeDasharray: "",
           strokeWidth: 1,
         },
+        formatXLabel: (x) => i18n.t(x),
       }}
       fromZero
       verticalLabelRotation={0}

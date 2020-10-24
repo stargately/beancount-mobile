@@ -1,8 +1,9 @@
 import React from "react";
 
-import { LineChart } from "react-native-chart-kit";
+import { LineChart } from "@yuyongmao/react-native-chart-kit";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { theme } from "@/common/theme";
+import { i18n } from "@/translations";
 
 export function LineChartStyled({
   labels,
@@ -50,9 +51,11 @@ export function LineChartStyled({
           strokeWidth: 1,
         },
       }}
+      formatXLabel={(x) => i18n.t(x)}
       style={{
         borderRadius: 8,
       }}
+      horizontalOffset={16}
       verticalLabelRotation={0}
     />
   );
