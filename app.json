@@ -1,6 +1,6 @@
 {
   "expo": {
-    "version": "0.6.0",
+    "version": "0.7.0",
     "name": "Beancount",
     "slug": "beancount",
     "privacy": "public",
@@ -22,7 +22,7 @@
       "userInterfaceStyle": "automatic"
     },
     "android": {
-      "versionCode": 6,
+      "versionCode": 7,
       "package": "io.beancount.android"
     },
     "notification": {
