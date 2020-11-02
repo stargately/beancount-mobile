@@ -1,4 +1,4 @@
-import { Notifications } from "expo";
+import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 import { useAddPushTokenToRemote } from "@/common/push-token/use-push-token-to-remote";
 
@@ -14,12 +14,12 @@ export const registerForPushNotificationAsync = async (): Promise<string> => {
   if (finalStatus !== "granted") {
     return finalStatus;
   }
-  const pushToken = await Notifications.getExpoPushTokenAsync();
+  const pushToken: Notifications.ExpoPushToken = await Notifications.getExpoPushTokenAsync();
 
   if (pushToken) {
     try {
       const { mutate, error } = useAddPushTokenToRemote();
-      await mutate({ variables: { pushToken } });
+      await mutate({ variables: { pushToken: pushToken.data } });
       if (error) {
         // tslint:disable-next-line
         console.log(`add push token fail ${error}`);
