@@ -1,4 +1,4 @@
-import { Notifications } from "expo";
+import * as Notifications from "expo-notifications";
 import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
@@ -28,7 +28,7 @@ export function App() {
       // tslint:disable-next-line
       console.log(notification, "notification");
     }
-    const notificationSubscription = Notifications.addListener(
+    const notificationSubscription = Notifications.addNotificationReceivedListener(
       handleNotification
     );
     return function cleanup() {
