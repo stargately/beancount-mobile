@@ -10,7 +10,6 @@ import {
 import { NavigationScreenProp } from "react-navigation";
 import { theme } from "@/common/theme";
 import { i18n } from "@/translations";
-import { NavigationBar } from "@/common/navigation-bar";
 import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
 import { useHomeCharts } from "@/screens/home-screen/hooks/use-home-charts";
 import { useAccountHierarchy } from "@/screens/home-screen/hooks/use-account-hierarchy";
@@ -18,7 +17,11 @@ import { HeaderText, SmallHeaderText } from "@/common/text-styled";
 import { BarChartStyled } from "@/common/bar-chart-styled";
 import { useState } from "react";
 import { connect } from "react-redux";
-import { contentPadding, ScreenWidth } from "@/common/screen-util";
+import {
+  contentPadding,
+  ScreenWidth,
+  statusBarHeight,
+} from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
 import { LoadingTile } from "@/common/loading-tile";
 import { AccountsStyled } from "@/screens/home-screen/components/accounts-styled";
@@ -34,6 +37,7 @@ const styles = () =>
   StyleSheet.create({
     container: {
       flex: 1,
+      marginTop: statusBarHeight,
       backgroundColor: theme.white,
       paddingLeft: 16,
       paddingRight: 16,
@@ -98,7 +102,6 @@ export const HomeScreen = connect(
   const { spendingReportSubscription } = useFeatureFlags(props.userId);
   return (
     <>
-      <NavigationBar title={i18n.t("home")} showBack={false} />
       <View style={styles().container}>
         <ScrollView
           indicatorStyle={props.theme === "dark" ? "white" : "default"}

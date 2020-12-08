@@ -1,9 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
-import { NavigationBar } from "@/common/navigation-bar";
-import { ScreenHeight } from "@/common/screen-util";
+import { statusBarHeight } from "@/common/screen-util";
 import { theme } from "@/common/theme";
-import { i18n } from "@/translations";
 import { ScreenProps } from "@/types/screen-props";
 import { About } from "@/screens/mine-screen/about";
 import { NavigationScreenProp } from "react-navigation";
@@ -26,10 +24,10 @@ export function MineScreen(props: Props): JSX.Element {
     <View
       style={{
         backgroundColor: theme.white,
-        height: ScreenHeight,
+        flex: 1,
+        marginTop: statusBarHeight,
       }}
     >
-      <NavigationBar title={i18n.t("mine")} showBack={false} />
       <About
         screenProps={props.screenProps}
         fromAnnouncement={fromAnnouncement}
