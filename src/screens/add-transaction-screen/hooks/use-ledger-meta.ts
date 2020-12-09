@@ -1,12 +1,18 @@
 import { useQuery } from "react-apollo";
 import { getLedgerMeta } from "@/screens/add-transaction-screen/data/queries";
-
+import * as lodash from "lodash";
 import {
   ledgerMeta,
   ledgerMetaVariables,
   // eslint-disable-next-line camelcase
   ledgerMeta_ledgerMeta_data,
 } from "@/screens/add-transaction-screen/data/__generated__/ledgerMeta";
+
+export interface optionTab {
+  title: string;
+  options: Array<string>;
+}
+
 // eslint-disable-next-line camelcase
 function getAccountsAndCurrency(data: ledgerMeta_ledgerMeta_data | undefined) {
   let assets: Array<string> = [];
@@ -74,6 +80,23 @@ function getAccountsAndCurrency(data: ledgerMeta_ledgerMeta_data | undefined) {
   return { assets, expenses, currencies };
 }
 
+function handleOptions(options: Array<string>) {
+  let optionTabs: Array<optionTab> = [];
+  options.forEach((val) => {
+    const prefix = val.split(":")[0];
+    const retIndex = lodash.findIndex(
+      optionTabs,
+      (opts) => opts.title === prefix
+    );
+    if (retIndex === -1) {
+      optionTabs.push({ title: prefix, options: [val] });
+    } else {
+      optionTabs[retIndex].options.push(val);
+    }
+  });
+  return optionTabs;
+}
+
 export const useLedgerMeta = (userId: string) => {
   const { data, error, loading, refetch } = useQuery<
     ledgerMeta,
@@ -84,10 +107,15 @@ export const useLedgerMeta = (userId: string) => {
     data?.ledgerMeta.data
   );
 
+  const assetsOptionTabs = handleOptions(assets);
+  const expensesOptionTabs = handleOptions(assets);
+
   return {
     data: data?.ledgerMeta.data,
     assets,
     expenses,
+    assetsOptionTabs,
+    expensesOptionTabs,
     currencies,
     error,
     loading,

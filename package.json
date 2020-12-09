@@ -111,6 +111,7 @@
     "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "~2.10.1",
     "react-native-svg": "12.1.0",
+    "react-native-tab-view": "^2.15.2",
     "react-native-web": "~0.13.7",
     "react-native-webview": "10.7.0",
     "react-navigation": "^3.12.0",
