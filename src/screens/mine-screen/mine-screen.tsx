@@ -25,7 +25,7 @@ export function MineScreen(props: Props): JSX.Element {
       style={{
         backgroundColor: theme.white,
         flex: 1,
-        marginTop: statusBarHeight,
+        paddingTop: statusBarHeight,
       }}
     >
       <About

@@ -81,7 +81,7 @@ function getAccountsAndCurrency(data: ledgerMeta_ledgerMeta_data | undefined) {
 }
 
 function handleOptions(options: Array<string>) {
-  let optionTabs: Array<OptionTab> = [];
+  const optionTabs: Array<OptionTab> = [{ title: "ALL", options }];
   options.forEach((val) => {
     const prefix = val.split(":")[0];
     const retIndex = lodash.findIndex(
@@ -108,7 +108,7 @@ export const useLedgerMeta = (userId: string) => {
   );
 
   const assetsOptionTabs = handleOptions(assets);
-  const expensesOptionTabs = handleOptions(assets);
+  const expensesOptionTabs = handleOptions(expenses);
 
   return {
     data: data?.ledgerMeta.data,

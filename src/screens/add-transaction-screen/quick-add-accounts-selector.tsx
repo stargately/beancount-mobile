@@ -71,8 +71,6 @@ export const QuickAddAccountsSelector = connect(
   const { userId, onChange, navigation } = props;
   const [refreshing, setRefreshing] = useState(false);
   const {
-    //assets,
-    //expenses,
     assetsOptionTabs,
     expensesOptionTabs,
     currencies,

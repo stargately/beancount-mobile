@@ -37,7 +37,7 @@ const styles = () =>
   StyleSheet.create({
     container: {
       flex: 1,
-      marginTop: statusBarHeight,
+      paddingTop: statusBarHeight,
       backgroundColor: theme.white,
       paddingLeft: 16,
       paddingRight: 16,
