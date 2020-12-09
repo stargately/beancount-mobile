@@ -7,6 +7,13 @@ import { theme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { ScreenWidth } from "@/common/screen-util";
 import { analytics } from "@/common/analytics";
+import { OptionTab } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
+import { TabView, SceneMap } from "react-native-tab-view";
+
+interface Route {
+  key: string;
+  title: string;
+}
 
 const buttonWidth = (ScreenWidth - 20 * 3) / 2;
 
@@ -58,7 +65,48 @@ export function AccountPickerScreen(props: Props): JSX.Element {
   }, []);
 
   const { navigation } = props;
-  const options: Array<string> = navigation.getParam("options");
+
+  //const options: Array<string> = navigation.getParam("options");
+  const optionTabs: Array<OptionTab> = navigation.getParam("optionTabs");
+  const [index, setIndex] = React.useState(0);
+  const routes: Array<Route> = optionTabs.map((opt) => {
+    return { key: opt.title, title: opt.title };
+  });
+  let scene: any = {};
+  optionTabs.forEach((val) => {
+    scene[val.title] = () => (
+      <ScrollView style={{ flex: 1 }}>
+        <List>
+          {val.options.map((op, index) => {
+            return (
+              <List.Item
+                key={index}
+                arrow="horizontal"
+                style={{
+                  backgroundColor:
+                    op === selectedItem ? theme.primary : theme.white,
+                }}
+                onPress={() => {
+                  setSelectedItem(op);
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: op === selectedItem ? theme.white : theme.black,
+                  }}
+                >
+                  {op}
+                </Text>
+              </List.Item>
+            );
+          })}
+        </List>
+      </ScrollView>
+    );
+  });
+  const renderScene = SceneMap(scene);
+  const initialLayout = { width: ScreenWidth };
   const onSelected: (item: string) => void = navigation.getParam("onSelected");
 
   return (
@@ -69,36 +117,14 @@ export function AccountPickerScreen(props: Props): JSX.Element {
         navigation={navigation}
       />
       <View style={styles().container}>
-        <ScrollView style={{ marginBottom: 144 }}>
-          <List>
-            {options.map((op, index) => {
-              return (
-                <List.Item
-                  key={index}
-                  arrow="horizontal"
-                  style={{
-                    backgroundColor:
-                      op === selectedItem ? theme.primary : theme.white,
-                  }}
-                  onPress={() => {
-                    setSelectedItem(op);
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      color: op === selectedItem ? theme.white : theme.black,
-                    }}
-                  >
-                    {op}
-                  </Text>
-                </List.Item>
-              );
-            })}
-          </List>
-        </ScrollView>
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          initialLayout={initialLayout}
+        />
 
-        <View style={styles().buttonContainer}>
+        {/* <View style={styles().buttonContainer}>
           <Button
             style={styles().button}
             onPress={async () => {
@@ -125,7 +151,7 @@ export function AccountPickerScreen(props: Props): JSX.Element {
               {i18n.t("confirm")}
             </Text>
           </Button>
-        </View>
+        </View> */}
       </View>
     </View>
   );

@@ -71,18 +71,20 @@ export const QuickAddAccountsSelector = connect(
   const { userId, onChange, navigation } = props;
   const [refreshing, setRefreshing] = useState(false);
   const {
-    assets,
-    expenses,
+    //assets,
+    //expenses,
+    assetsOptionTabs,
+    expensesOptionTabs,
     currencies,
     error,
     loading,
     refetch,
   } = useLedgerMeta(userId);
   const [selectedAssets, setSelectedAssets] = useState(
-    assets.length > 0 ? assets[0] : ""
+    assetsOptionTabs.length > 0 ? assetsOptionTabs[0].options[0] : ""
   );
   const [selectedExpenses, setSelectedExpenses] = useState(
-    expenses.length > 0 ? expenses[0] : ""
+    expensesOptionTabs.length > 0 ? expensesOptionTabs[0].options[0] : ""
   );
 
   useEffect(() => {
@@ -157,7 +159,7 @@ export const QuickAddAccountsSelector = connect(
                 originalOption: selectedAssets,
               });
               navigation.navigate("AccountPicker", {
-                options: assets,
+                optionTabs: assetsOptionTabs,
                 selectedItem: selectedAssets,
                 onSelected: (item: string) => {
                   setSelectedAssets(item);
@@ -174,7 +176,7 @@ export const QuickAddAccountsSelector = connect(
                 originalOption: selectedAssets,
               });
               navigation.navigate("AccountPicker", {
-                options: expenses,
+                optionTabs: expensesOptionTabs,
                 selectedItem: selectedExpenses,
                 onSelected: (item: string) => {
                   setSelectedExpenses(item);

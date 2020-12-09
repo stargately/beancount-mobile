@@ -8,7 +8,7 @@ import {
   ledgerMeta_ledgerMeta_data,
 } from "@/screens/add-transaction-screen/data/__generated__/ledgerMeta";
 
-export interface optionTab {
+export interface OptionTab {
   title: string;
   options: Array<string>;
 }
@@ -81,7 +81,7 @@ function getAccountsAndCurrency(data: ledgerMeta_ledgerMeta_data | undefined) {
 }
 
 function handleOptions(options: Array<string>) {
-  let optionTabs: Array<optionTab> = [];
+  let optionTabs: Array<OptionTab> = [];
   options.forEach((val) => {
     const prefix = val.split(":")[0];
     const retIndex = lodash.findIndex(
