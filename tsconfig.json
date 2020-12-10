@@ -17,6 +17,7 @@
     "preserveConstEnums": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
+    "skipLib": true,
     "sourceMap": true,
     "strictNullChecks": true,
     "target": "es2017",
