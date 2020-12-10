@@ -1,27 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, SafeAreaView } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import { List } from "@ant-design/react-native";
+import { List, Tabs } from "@ant-design/react-native";
 import { NavigationBar } from "@/common/navigation-bar";
 import { theme } from "@/common/theme";
 import { i18n } from "@/translations";
-import { ScreenWidth } from "@/common/screen-util";
 import { analytics } from "@/common/analytics";
 import { OptionTab } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
-import {
-  TabView,
-  TabBar,
-  SceneMap,
-  NavigationState,
-  SceneRendererProps,
-} from "react-native-tab-view";
-
-interface Route {
-  key: string;
-  title: string;
-}
-
-type NaviRouteState = NavigationState<Route>;
 
 type Props = {
   navigation: NavigationScreenProp<string>;
@@ -32,19 +17,6 @@ const styles = () =>
     container: {
       flex: 1,
       backgroundColor: theme.white,
-    },
-    tabbar: {
-      backgroundColor: theme.primary,
-    },
-    tab: {
-      width: 120,
-    },
-    indicator: {
-      backgroundColor: theme.warning,
-    },
-    label: {
-      fontSize: 16,
-      fontWeight: "400",
     },
   });
 
@@ -59,14 +31,13 @@ export function AccountPickerScreen(pickerProps: Props): JSX.Element {
   const { navigation } = pickerProps;
   const onSelected: (item: string) => void = navigation.getParam("onSelected");
   const optionTabs: Array<OptionTab> = navigation.getParam("optionTabs");
-  const [index, setIndex] = useState(0);
-  const routes: Array<Route> = optionTabs.map((opt) => {
-    return { key: opt.title, title: opt.title };
+  const tabs = optionTabs.map((opt) => {
+    return { title: opt.title };
   });
-  const scene: any = {};
-  optionTabs.forEach((val) => {
-    const OptionsTab = () => (
-      <SafeAreaView style={{ flex: 1 }}>
+
+  const renderOptionTabs = optionTabs.map((val, index) => {
+    return (
+      <SafeAreaView style={{ flex: 1 }} key={index}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
           <List>
             {val.options.map((op, idx) => {
@@ -87,7 +58,7 @@ export function AccountPickerScreen(pickerProps: Props): JSX.Element {
                 >
                   <Text
                     style={{
-                      fontSize: 20,
+                      fontSize: 18,
                       color: theme.black,
                     }}
                   >
@@ -100,22 +71,7 @@ export function AccountPickerScreen(pickerProps: Props): JSX.Element {
         </ScrollView>
       </SafeAreaView>
     );
-    scene[val.title] = OptionsTab;
   });
-
-  const renderScene = SceneMap(scene);
-  const renderTabBar = (
-    props: SceneRendererProps & { navigationState: NaviRouteState }
-  ) => (
-    <TabBar
-      {...props}
-      scrollEnabled
-      indicatorStyle={styles().indicator}
-      style={styles().tabbar}
-      tabStyle={styles().tab}
-      labelStyle={styles().label}
-    />
-  );
 
   return (
     <View style={styles().container}>
@@ -125,12 +81,17 @@ export function AccountPickerScreen(pickerProps: Props): JSX.Element {
         navigation={navigation}
       />
       <View style={styles().container}>
-        <TabView
-          navigationState={{ index, routes }}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          renderTabBar={renderTabBar}
-        />
+        <Tabs
+          tabs={tabs}
+          initialPage={0}
+          tabBarPosition="top"
+          tabBarBackgroundColor={theme.white}
+          tabBarInactiveTextColor={theme.black}
+          tabBarActiveTextColor={theme.primary}
+          tabBarTextStyle={{ fontSize: 18 }}
+        >
+          {renderOptionTabs}
+        </Tabs>
       </View>
     </View>
   );

@@ -81,7 +81,7 @@ function getAccountsAndCurrency(data: ledgerMeta_ledgerMeta_data | undefined) {
 }
 
 function handleOptions(options: Array<string>) {
-  const optionTabs: Array<OptionTab> = [{ title: "ALL", options }];
+  const optionTabs: Array<OptionTab> = [{ title: "All", options }];
   options.forEach((val) => {
     const prefix = val.split(":")[0];
     const retIndex = lodash.findIndex(
