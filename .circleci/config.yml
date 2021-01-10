@@ -3,7 +3,7 @@ version: 3
 jobs:
   build:
     docker:
-      - image: "circleci/node:10.15.3-browsers"
+      - image: "circleci/node:14.15.0-browsers"
     steps:
       - checkout
       # Download and cache dependencies

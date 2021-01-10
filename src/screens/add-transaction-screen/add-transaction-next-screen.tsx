@@ -71,9 +71,7 @@ export const AddTransactionNextScreen = connect(
     init();
   }, []);
 
-  const { assets: assetsOptions, expenses: expensesOptions } = useLedgerMeta(
-    props.userId
-  );
+  const { assetsOptionTabs, expensesOptionTabs } = useLedgerMeta(props.userId);
   const [assets, setAssets] = useState<string>(
     props.navigation.getParam("currentAsset")
   );
@@ -167,7 +165,7 @@ export const AddTransactionNextScreen = connect(
                 originalOption: assets,
               });
               props.navigation.navigate("AccountPicker", {
-                options: assetsOptions,
+                optionTabs: assetsOptionTabs,
                 selectedItem: assets,
                 onSelected: (item: string) => {
                   setAssets(item);
@@ -184,7 +182,7 @@ export const AddTransactionNextScreen = connect(
                 originalOption: expenses,
               });
               props.navigation.navigate("AccountPicker", {
-                options: expensesOptions,
+                optionTabs: expensesOptionTabs,
                 selectedItem: expenses,
                 onSelected: (item: string) => {
                   setExpenses(item);

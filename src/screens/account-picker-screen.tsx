@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView, SafeAreaView } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import { Button, List } from "@ant-design/react-native";
+import { List, Tabs } from "@ant-design/react-native";
 import { NavigationBar } from "@/common/navigation-bar";
 import { theme } from "@/common/theme";
 import { i18n } from "@/translations";
-import { ScreenWidth } from "@/common/screen-util";
 import { analytics } from "@/common/analytics";
-
-const buttonWidth = (ScreenWidth - 20 * 3) / 2;
+import { OptionTab } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
 
 type Props = {
   navigation: NavigationScreenProp<string>;
@@ -20,74 +18,48 @@ const styles = () =>
       flex: 1,
       backgroundColor: theme.white,
     },
-    buttonContainer: {
-      position: "absolute",
-      left: 0,
-      right: 0,
-      bottom: 80,
-      height: 44,
-      flexDirection: "row",
-      justifyContent: "space-around",
-    },
-    button: {
-      height: 44,
-      width: buttonWidth,
-      justifyContent: "center",
-      alignItems: "center",
-      borderRadius: 5,
-      borderColor: theme.black60,
-      borderWidth: 1,
-      backgroundColor: theme.white,
-    },
-    btnTitle: {
-      fontSize: 20,
-      color: theme.text01,
-    },
   });
 
-export function AccountPickerScreen(props: Props): JSX.Element {
-  const [selectedItem, setSelectedItem] = useState("");
-
+export function AccountPickerScreen(pickerProps: Props): JSX.Element {
   useEffect(() => {
     async function init() {
       await analytics.track("page_view_account_picker", {});
     }
     init();
-    const sItem = props.navigation.getParam("selectedItem") as string;
-    setSelectedItem(sItem);
   }, []);
 
-  const { navigation } = props;
-  const options: Array<string> = navigation.getParam("options");
+  const { navigation } = pickerProps;
   const onSelected: (item: string) => void = navigation.getParam("onSelected");
+  const optionTabs: Array<OptionTab> = navigation.getParam("optionTabs");
+  const tabs = optionTabs.map((opt) => {
+    return { title: opt.title };
+  });
 
-  return (
-    <View style={styles().container}>
-      <NavigationBar
-        title={i18n.t("accountPicker")}
-        showBack
-        navigation={navigation}
-      />
-      <View style={styles().container}>
-        <ScrollView style={{ marginBottom: 144 }}>
+  const renderOptionTabs = optionTabs.map((val, index) => {
+    return (
+      <SafeAreaView style={{ flex: 1 }} key={index}>
+        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
           <List>
-            {options.map((op, index) => {
+            {val.options.map((op, idx) => {
               return (
                 <List.Item
-                  key={index}
+                  key={idx}
                   arrow="horizontal"
                   style={{
-                    backgroundColor:
-                      op === selectedItem ? theme.primary : theme.white,
+                    backgroundColor: theme.white,
                   }}
-                  onPress={() => {
-                    setSelectedItem(op);
+                  onPress={async () => {
+                    await analytics.track("tap_account_picker_confirm", {
+                      selectedAccount: op,
+                    });
+                    onSelected(op);
+                    navigation.pop();
                   }}
                 >
                   <Text
                     style={{
-                      fontSize: 20,
-                      color: op === selectedItem ? theme.white : theme.black,
+                      fontSize: 18,
+                      color: theme.black,
                     }}
                   >
                     {op}
@@ -97,35 +69,29 @@ export function AccountPickerScreen(props: Props): JSX.Element {
             })}
           </List>
         </ScrollView>
+      </SafeAreaView>
+    );
+  });
 
-        <View style={styles().buttonContainer}>
-          <Button
-            style={styles().button}
-            onPress={async () => {
-              await analytics.track("tap_account_picker_cancel", {});
-              navigation.pop();
-            }}
-          >
-            <Text style={styles().btnTitle}>{i18n.t("cancel")}</Text>
-          </Button>
-          <Button
-            style={[
-              styles().button,
-              { backgroundColor: theme.primary, borderColor: theme.primary },
-            ]}
-            onPress={async () => {
-              await analytics.track("tap_account_picker_confirm", {
-                selectedAccount: selectedItem,
-              });
-              onSelected(selectedItem);
-              navigation.pop();
-            }}
-          >
-            <Text style={[styles().btnTitle, { color: theme.white }]}>
-              {i18n.t("confirm")}
-            </Text>
-          </Button>
-        </View>
+  return (
+    <View style={styles().container}>
+      <NavigationBar
+        title={i18n.t("accountPicker")}
+        showBack
+        navigation={navigation}
+      />
+      <View style={styles().container}>
+        <Tabs
+          tabs={tabs}
+          initialPage={0}
+          tabBarPosition="top"
+          tabBarBackgroundColor={theme.white}
+          tabBarInactiveTextColor={theme.black}
+          tabBarActiveTextColor={theme.primary}
+          tabBarTextStyle={{ fontSize: 18 }}
+        >
+          {renderOptionTabs}
+        </Tabs>
       </View>
     </View>
   );
