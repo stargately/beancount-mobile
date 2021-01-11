@@ -5,21 +5,22 @@ import {
   StyleSheet,
   SectionList,
   ActivityIndicator,
+  SafeAreaView,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { composeAsync } from "expo-mail-composer";
 import { NavigationBar } from "@/common/navigation-bar";
 import { isAvailableAsync, sendSMSAsync } from "expo-sms";
-import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import { Button, Toast, SearchBar } from "@ant-design/react-native";
 import { contentPadding } from "@/common/screen-util";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { CommonMargin } from "@/common/common-margin";
 import { groupBy } from "lodash";
 import { useContacts } from "@/screens/referral-screen/hooks/use-contacts";
 import { ContactRow } from "@/screens/referral-screen/components/contact-row";
 import { i18n } from "@/translations";
 import { analytics } from "@/common/analytics";
+import { ColorTheme } from "@/types/theme-props";
 
 type RowItem = {
   id: string;
@@ -34,10 +35,11 @@ type SectionItem = {
 };
 
 type Props = {
-  navigation: NavigationScreenProp<string>;
+  navigation: any;
+  route: any;
 };
 
-const styles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: { flex: 1, backgroundColor: theme.white },
     bodyContainer: { flex: 1, alignItems: "center", justifyContent: "center" },
@@ -80,6 +82,9 @@ export function InviteScreen(props: Props) {
     }
     init();
   }, []);
+
+  const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
 
   const contacts = useContacts();
 
@@ -149,7 +154,7 @@ export function InviteScreen(props: Props) {
   }, [sections, keyword]);
 
   const onInvitePress = async () => {
-    const shareLink = String(props.navigation.getParam("shareLink") || "");
+    const { shareLink } = props.route.params;
     let didShare = false;
     const message = `${i18n.t("recommend")} ${shareLink}`;
     const emails = selectedContacts
@@ -189,10 +194,10 @@ export function InviteScreen(props: Props) {
   const renderBody = () => {
     if (contacts.loading) {
       return (
-        <View style={styles().bodyContainer}>
+        <View style={styles.bodyContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <CommonMargin />
-          <Text style={styles().loadingOrErrText}>{i18n.t("loading")}</Text>
+          <Text style={styles.loadingOrErrText}>{i18n.t("loading")}</Text>
         </View>
       );
     }
@@ -202,23 +207,23 @@ export function InviteScreen(props: Props) {
           ? i18n.t("noContactPermission")
           : String(contacts.error.message);
       return (
-        <View style={styles().bodyContainer}>
+        <View style={styles.bodyContainer}>
           <MaterialIcons name="error" size={48} color={theme.primary} />
           <CommonMargin />
-          <Text style={styles().loadingOrErrText}>{errMsg}</Text>
+          <Text style={styles.loadingOrErrText}>{errMsg}</Text>
         </View>
       );
     }
 
     return (
-      <View style={styles().flex1}>
+      <View style={styles.flex1}>
         <SearchBar
           styles={{
             wrapper: {
               backgroundColor: theme.white,
             },
           }}
-          style={styles().searchInput}
+          style={styles.searchInput}
           placeholder={i18n.t("inputKeyword")}
           value={keyword}
           onCancel={() => {
@@ -233,8 +238,8 @@ export function InviteScreen(props: Props) {
           bounces={false}
           sections={filteredSection}
           renderSectionHeader={({ section }) => (
-            <View style={styles().sectionHeaderContainer}>
-              <Text style={styles().sectionHeaderText}>
+            <View style={styles.sectionHeaderContainer}>
+              <Text style={styles.sectionHeaderText}>
                 {section.key!.toUpperCase()}
               </Text>
             </View>
@@ -262,15 +267,15 @@ export function InviteScreen(props: Props) {
             );
           }}
           extraData={selectedContacts}
-          contentContainerStyle={styles().contentContainerStyle}
+          contentContainerStyle={styles.contentContainerStyle}
         />
-        <SafeAreaView style={styles().bottomButtonContainer}>
+        <SafeAreaView style={styles.bottomButtonContainer}>
           <Button
-            style={styles().button}
+            style={styles.button}
             onPress={onInvitePress}
             disabled={selectedContacts.length === 0}
           >
-            <Text style={styles().buttonText}>{`${i18n.t("invite")} (${
+            <Text style={styles.buttonText}>{`${i18n.t("invite")} (${
               selectedContacts.length
             })`}</Text>
           </Button>
@@ -280,7 +285,7 @@ export function InviteScreen(props: Props) {
   };
 
   return (
-    <View style={styles().container}>
+    <View style={styles.container}>
       <NavigationBar
         title={i18n.t("inviteFriends")}
         showBack

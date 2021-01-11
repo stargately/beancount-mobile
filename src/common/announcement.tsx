@@ -6,18 +6,18 @@ import {
   TouchableOpacity,
   AsyncStorage,
 } from "react-native";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
+import { ColorTheme } from "@/types/theme-props";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
-import { NavigationScreenProp } from "react-navigation";
 
 type Props = {
-  navigation: NavigationScreenProp<string>;
+  navigation: any;
   title: string;
   subtitle: string;
   icon: JSX.Element;
 };
 
-const styles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       height: 120,
@@ -87,28 +87,32 @@ export function Announcement(props: Props): JSX.Element {
 
   const { title, subtitle, icon } = props;
 
+  const theme = useTheme();
+
+  const styles = getStyles(theme.colorTheme);
+
   if (hide) {
     return <View />;
   }
 
   return (
     <TouchableOpacity
-      style={styles().container}
+      style={styles.container}
       onPress={() => {
         props.navigation.navigate("Mine", { fromAnnouncement: true });
       }}
     >
-      <View style={styles().titleContainer}>
-        <Text style={styles().subtitle}>{subtitle}</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.subtitle}>{subtitle}</Text>
 
-        <Text numberOfLines={2} style={styles().title}>
+        <Text numberOfLines={2} style={styles.title}>
           {title}
         </Text>
       </View>
 
       <View>{icon}</View>
       <TouchableOpacity
-        style={styles().closeButton}
+        style={styles.closeButton}
         activeOpacity={0.9}
         onPress={async () => {
           setHide(true);
@@ -119,7 +123,7 @@ export function Announcement(props: Props): JSX.Element {
           }
         }}
       >
-        <Text style={styles().closeText}>✕</Text>
+        <Text style={styles.closeText}>✕</Text>
       </TouchableOpacity>
     </TouchableOpacity>
   );

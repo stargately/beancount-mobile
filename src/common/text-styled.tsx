@@ -1,8 +1,9 @@
 import React from "react";
 import { Text } from "react-native";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
+import { ColorTheme } from "@/types/theme-props";
 
-const getStyles = () => {
+const getStyles = (theme: ColorTheme) => {
   return { fontSize: 20, color: theme.text01 };
 };
 
@@ -12,8 +13,9 @@ export function TextStyled({
 }: {
   children: React.ReactNode;
 }): JSX.Element {
+  const theme = useTheme().colorTheme;
   return (
-    <Text {...otherProps} style={getStyles()}>
+    <Text {...otherProps} style={getStyles(theme)}>
       {children}
     </Text>
   );
@@ -25,6 +27,7 @@ export function HeaderText({
 }: {
   children: React.ReactNode;
 }): JSX.Element {
+  const theme = useTheme().colorTheme;
   return (
     <Text
       {...otherProps}
@@ -41,6 +44,7 @@ export function SmallHeaderText({
 }: {
   children: React.ReactNode;
 }): JSX.Element {
+  const theme = useTheme().colorTheme;
   return (
     <Text
       {...otherProps}

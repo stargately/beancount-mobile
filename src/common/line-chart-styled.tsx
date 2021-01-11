@@ -2,7 +2,7 @@ import React from "react";
 
 import { LineChart } from "@yuyongmao/react-native-chart-kit";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 
 export function LineChartStyled({
@@ -14,6 +14,7 @@ export function LineChartStyled({
   numbers: Array<number>;
   currencySymbol: string;
 }): JSX.Element {
+  const theme = useTheme().colorTheme;
   return (
     <LineChart
       data={{

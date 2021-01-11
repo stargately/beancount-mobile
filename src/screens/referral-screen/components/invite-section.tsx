@@ -1,17 +1,17 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { contentPadding, ScreenWidth, onePx } from "@/common/screen-util";
-import { NavigationScreenProp } from "react-navigation";
 import { i18n } from "@/translations";
 import { GiftIcon } from "@/screens/referral-screen/components/gift-icon";
 import { analytics } from "@/common/analytics";
+import { ColorTheme } from "@/types/theme-props";
 
 type Props = {
-  navigation: NavigationScreenProp<string>;
+  navigation: any;
 };
 
-const styles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       paddingHorizontal: contentPadding,
@@ -50,21 +50,23 @@ const styles = () =>
   });
 
 export function InviteSection(props: Props): JSX.Element {
+  const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
   return (
-    <View style={styles().container}>
-      <Text style={styles().title}>{i18n.t("inviteFriends")}</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>{i18n.t("inviteFriends")}</Text>
       <TouchableOpacity
-        style={styles().section}
+        style={styles.section}
         activeOpacity={0.9}
         onPress={async () => {
           await analytics.track("tap_navigate_to_referral", {});
           props.navigation.navigate("Referral");
         }}
       >
-        <View style={styles().summaryContainer}>
-          <Text style={styles().summary}>{i18n.t("inviteSummary")}</Text>
+        <View style={styles.summaryContainer}>
+          <Text style={styles.summary}>{i18n.t("inviteSummary")}</Text>
         </View>
-        <View style={styles().imageContainer}>
+        <View style={styles.imageContainer}>
           <GiftIcon />
         </View>
       </TouchableOpacity>

@@ -1,8 +1,9 @@
 import * as React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
+import { ColorTheme } from "@/types/theme-props";
 
-const getStyles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     text: {
       fontSize: 28,
@@ -20,9 +21,11 @@ export function NetAssetsStyled({
 }: {
   netAssets: string;
 }): JSX.Element {
+  const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
   return (
-    <View style={getStyles().container}>
-      <Text style={getStyles().text}>{netAssets}</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>{netAssets}</Text>
     </View>
   );
 }

@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import { NavigationBar } from "@/common/navigation-bar";
 import { contentPadding } from "@/common/screen-util";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
-import { NavigationScreenProp } from "react-navigation";
 import { analytics } from "@/common/analytics";
+import { ColorTheme } from "@/types/theme-props";
 
 type Props = {
-  navigation: NavigationScreenProp<string>;
+  navigation: any;
+  route: any;
 };
 
-const styles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       backgroundColor: theme.white,
@@ -37,22 +38,21 @@ export function PayeeInputScreen(props: Props): JSX.Element {
     }
     init();
   }, []);
-
-  const [payee, setPayee] = useState<string>(
-    props.navigation.getParam("payee") || ""
-  );
+  const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
+  const { payee, onSaved } = props.route.params;
+  const [newPayee, setPayee] = useState<string>(payee || "");
 
   const onRightClick = async () => {
-    const onSaved = props.navigation.getParam("onSaved");
     if (onSaved) {
-      onSaved(payee);
+      onSaved(newPayee);
     }
-    await analytics.track("tap_payee_input_save", { payee });
+    await analytics.track("tap_payee_input_save", { payee: newPayee });
     props.navigation.pop();
   };
 
   return (
-    <View style={styles().container}>
+    <View style={styles.container}>
       <NavigationBar
         title={i18n.t("payee")}
         showBack
@@ -61,10 +61,10 @@ export function PayeeInputScreen(props: Props): JSX.Element {
         onRightClick={onRightClick}
       />
 
-      <View style={styles().inputContainer}>
+      <View style={styles.inputContainer}>
         <TextInput
-          style={styles().input}
-          value={payee}
+          style={styles.input}
+          value={newPayee}
           autoFocus
           placeholder={i18n.t("pleaseInput")}
           underlineColorAndroid="transparent"

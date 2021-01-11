@@ -1,10 +1,11 @@
 import React from "react";
 import { List } from "@ant-design/react-native";
 import { StyleSheet } from "react-native";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { onePx } from "@/common/screen-util";
+import { ColorTheme } from "@/types/theme-props";
 
-const styles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       backgroundColor: theme.white,
@@ -18,9 +19,11 @@ export function ListItemStyled({
   children: React.ReactNode;
   onPress?: () => void;
 }): JSX.Element {
+  const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
   return (
     <List.Item
-      style={styles().container}
+      style={styles.container}
       arrow="horizontal"
       onPress={onPress}
       styles={{ Item: { marginTop: onePx } }}

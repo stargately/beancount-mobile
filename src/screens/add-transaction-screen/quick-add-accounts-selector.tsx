@@ -9,15 +9,15 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { List } from "@ant-design/react-native";
-import { NavigationScreenProp } from "react-navigation";
 import { TextStyled } from "@/common/text-styled";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
 import { LoadingTile } from "@/common/loading-tile";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { ListItemStyled } from "@/screens/add-transaction-screen/components/list-item-styled";
 import { analytics } from "@/common/analytics";
 import { i18n } from "@/translations";
+import { ColorTheme } from "@/types/theme-props";
 
 const { Item } = List;
 const { Brief } = Item;
@@ -48,10 +48,10 @@ type Props = {
     expense: string;
     currency: string;
   }) => void;
-  navigation: NavigationScreenProp<string>;
+  navigation: any;
 };
 
-const styles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       minHeight: 80,
@@ -68,6 +68,8 @@ export const QuickAddAccountsSelector = connect(
     userId: state.base.userId,
   })
 )(function AssetsExpensesSelectorInner(props: Props): JSX.Element {
+  const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
   const { userId, onChange, navigation } = props;
   const [refreshing, setRefreshing] = useState(false);
   const {
@@ -97,7 +99,7 @@ export const QuickAddAccountsSelector = connect(
   if (loading) {
     return (
       <ScrollView
-        style={styles().container}
+        style={styles.container}
         refreshControl={
           <RefreshControl
             refreshing={isLoading}
@@ -118,7 +120,7 @@ export const QuickAddAccountsSelector = connect(
   }
   if (error) {
     return (
-      <View style={[styles().container, styles().center]}>
+      <View style={[styles.container, styles.center]}>
         <Text
           onPress={async () => {
             await refetch();
@@ -132,7 +134,7 @@ export const QuickAddAccountsSelector = connect(
 
   return (
     <ScrollView
-      style={styles().container}
+      style={styles.container}
       refreshControl={
         <RefreshControl
           refreshing={isLoading}

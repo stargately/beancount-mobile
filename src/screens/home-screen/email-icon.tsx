@@ -1,8 +1,9 @@
 import { G, Path, Svg } from "react-native-svg";
 import * as React from "react";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 
 export function EmailIcon(): JSX.Element {
+  const theme = useTheme().colorTheme;
   return (
     <Svg width="64px" height="64px" viewBox="0 0 64 64">
       <G

@@ -10,16 +10,14 @@ import { ListHeader } from "@/common/list-header";
 import { registerForPushNotificationAsync } from "@/common/register-push-token";
 import { actionUpdateReduxState } from "@/common/root-reducer";
 import { AppState } from "@/common/store";
-import { setTheme, theme } from "@/common/theme";
-import { i18n } from "@/translations";
-import { ScreenProps } from "@/types/screen-props";
+import { useTheme } from "@/common/theme";
+import { i18n, LocalizationContext } from "@/translations";
 import { actionLogout } from "@/screens/mine-screen/account-reducer";
 import { useUserProfile } from "@/screens/mine-screen/hooks/use-user-profile";
 import { useUpdateReportSubscribeToRemote } from "@/screens/mine-screen/hooks/use-update-report-subscribe";
 import { useFeatureFlags } from "@/common/feature-flags/use-feature-flags";
 import { AccountHeader } from "@/screens/mine-screen/account-header";
 import { InviteSection } from "@/screens/referral-screen/components/invite-section";
-import { NavigationScreenProp } from "react-navigation";
 import { ReportStatus } from "../../../__generated__/globalTypes";
 
 const { Item } = List;
@@ -32,11 +30,10 @@ type Props = {
   updateReduxState: (state: {
     base: { locale?: string; currentTheme?: string };
   }) => void;
-  screenProps: ScreenProps;
   currentTheme: "dark" | "light";
   userId: string;
   fromAnnouncement: boolean;
-  navigation: NavigationScreenProp<string>;
+  navigation: any;
 };
 
 export const About = connect(
@@ -60,12 +57,13 @@ export const About = connect(
     locale,
     logout,
     updateReduxState,
-    screenProps,
     currentTheme,
     userId,
     fromAnnouncement,
     navigation,
   }: Props) => {
+    const theme = useTheme().colorTheme;
+    const { setLocale } = React.useContext(LocalizationContext);
     const pickerSource = [
       { value: ReportStatus.WEEKLY, label: i18n.t("weekly") },
       { value: ReportStatus.MONTHLY, label: i18n.t("monthly") },
@@ -216,7 +214,7 @@ export const About = connect(
                     base: { locale: changeTo },
                   });
                   i18n.locale = changeTo;
-                  screenProps.setLocale(changeTo);
+                  setLocale(changeTo);
                   await analytics.track("tap_switch_language", { changeTo });
                 }}
               />
@@ -238,7 +236,6 @@ export const About = connect(
                 value={currentTheme === "dark"}
                 onValueChange={async (value) => {
                   const mode = value ? "dark" : "light";
-                  setTheme(mode);
                   updateReduxState({
                     base: { currentTheme: mode },
                   });

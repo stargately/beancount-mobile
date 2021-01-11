@@ -1,8 +1,9 @@
 import { G, Path, Svg, Polygon } from "react-native-svg";
 import * as React from "react";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 
 export function GiftIcon(): JSX.Element {
+  const theme = useTheme().colorTheme;
   return (
     <Svg width="50px" height="52px" viewBox="0 0 50 52">
       <G id="Page-1" stroke="none" stroke-width="1" fill-rule="evenodd">

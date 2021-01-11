@@ -1,8 +1,9 @@
 import { G, Path, Svg, Polygon } from "react-native-svg";
 import * as React from "react";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 
 export function ReferralGiftIcon(): JSX.Element {
+  const theme = useTheme().colorTheme;
   return (
     <Svg width="51px" height="56px" viewBox="0 0 51 56">
       <G

@@ -1,8 +1,9 @@
 import React from "react";
 import { Text } from "react-native";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 
 export function ListHeader({ children }: { children: string }): JSX.Element {
+  const theme = useTheme().colorTheme;
   return (
     <Text
       style={{

@@ -1,24 +1,25 @@
 import * as React from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
 import { Button, Toast } from "@ant-design/react-native";
 import { Feather } from "@expo/vector-icons";
 import { NavigationBar } from "@/common/navigation-bar";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { ScreenWidth } from "@/common/screen-util";
 import { QuickAddAccountsSelector } from "@/screens/add-transaction-screen/quick-add-accounts-selector";
 import { getCurrencySymbol } from "@/common/currency-util";
 import { analytics } from "@/common/analytics";
+import { ColorTheme } from "@/types/theme-props";
 
 const KeyWidth = ScreenWidth / 3;
 const KeyHeight = 50;
 
 type Props = {
-  navigation: NavigationScreenProp<string>;
+  navigation: any;
+  route: any;
 };
 
-const styles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -71,7 +72,8 @@ export function AddTransactionScreen(props: Props): JSX.Element {
     }
     init();
   }, []);
-
+  const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
   const [currentMoney, setCurrentMoney] = React.useState("0.00");
   const [keyValues, setKeyValues] = React.useState<Array<number>>([]);
 
@@ -109,20 +111,20 @@ export function AddTransactionScreen(props: Props): JSX.Element {
     }
     return money;
   };
-  const onRefresh = props.navigation.getParam("onRefresh");
+  const { onRefresh } = props.route.params;
 
   const currencySymbol = getCurrencySymbol(currentCurrency);
   return (
-    <View style={styles().container}>
+    <View style={styles.container}>
       <NavigationBar
         title={i18n.t("addTransaction")}
         showBack
         navigation={props.navigation}
       />
-      <SafeAreaView style={styles().container}>
-        <View style={styles().containerCenter}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.containerCenter}>
           <Text
-            style={styles().txtMoney}
+            style={styles.txtMoney}
           >{`${currencySymbol}${currentMoney}`}</Text>
         </View>
         <QuickAddAccountsSelector
@@ -135,7 +137,7 @@ export function AddTransactionScreen(props: Props): JSX.Element {
               <Button
                 key={key.value}
                 style={[
-                  styles().keyButton,
+                  styles.keyButton,
                   {
                     backgroundColor:
                       key.display === i18n.t("next")
@@ -179,7 +181,7 @@ export function AddTransactionScreen(props: Props): JSX.Element {
                 ) : (
                   <Text
                     style={[
-                      styles().keyLabel,
+                      styles.keyLabel,
                       {
                         color:
                           key.display === i18n.t("next")

@@ -1,7 +1,7 @@
 import React from "react";
 import { BarChart } from "@/common/bar-chart";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 
 export function BarChartStyled({
@@ -13,6 +13,7 @@ export function BarChartStyled({
   numbers: Array<number>;
   currencySymbol: string;
 }): JSX.Element {
+  const theme = useTheme().colorTheme;
   return (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

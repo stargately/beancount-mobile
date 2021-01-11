@@ -1,25 +1,24 @@
 import * as React from "react";
 import { View } from "react-native";
 import { statusBarHeight } from "@/common/screen-util";
-import { theme } from "@/common/theme";
-import { ScreenProps } from "@/types/screen-props";
+import { useTheme } from "@/common/theme";
 import { About } from "@/screens/mine-screen/about";
-import { NavigationScreenProp } from "react-navigation";
 import { analytics } from "@/common/analytics";
 
 type Props = {
-  navigation: NavigationScreenProp<string>;
-  screenProps: ScreenProps;
+  navigation: any;
+  route: any;
 };
 
 export function MineScreen(props: Props): JSX.Element {
+  const theme = useTheme().colorTheme;
   React.useEffect(() => {
     async function init() {
       await analytics.track("page_view_mine", {});
     }
     init();
   }, []);
-  const fromAnnouncement = props.navigation.getParam("fromAnnouncement");
+  const { fromAnnouncement } = props.route.params;
   return (
     <View
       style={{
@@ -29,7 +28,6 @@ export function MineScreen(props: Props): JSX.Element {
       }}
     >
       <About
-        screenProps={props.screenProps}
         fromAnnouncement={fromAnnouncement}
         navigation={props.navigation}
       />

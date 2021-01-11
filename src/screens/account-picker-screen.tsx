@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, SafeAreaView } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
 import { List, Tabs } from "@ant-design/react-native";
 import { NavigationBar } from "@/common/navigation-bar";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { analytics } from "@/common/analytics";
 import { OptionTab } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
+import { ColorTheme } from "@/types/theme-props";
 
 type Props = {
-  navigation: NavigationScreenProp<string>;
+  navigation: any;
+  route: any;
 };
 
-const styles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -28,12 +29,20 @@ export function AccountPickerScreen(pickerProps: Props): JSX.Element {
     init();
   }, []);
 
-  const { navigation } = pickerProps;
-  const onSelected: (item: string) => void = navigation.getParam("onSelected");
-  const optionTabs: Array<OptionTab> = navigation.getParam("optionTabs");
+  const { navigation, route } = pickerProps;
+
+  const {
+    onSelected,
+    optionTabs,
+  }: {
+    onSelected: (item: string) => void;
+    optionTabs: Array<OptionTab>;
+  } = route.params;
+
   const tabs = optionTabs.map((opt) => {
     return { title: opt.title };
   });
+  const theme = useTheme().colorTheme;
 
   const renderOptionTabs = optionTabs.map((val, index) => {
     return (
@@ -73,14 +82,15 @@ export function AccountPickerScreen(pickerProps: Props): JSX.Element {
     );
   });
 
+  const styles = getStyles(theme);
   return (
-    <View style={styles().container}>
+    <View style={styles.container}>
       <NavigationBar
         title={i18n.t("accountPicker")}
         showBack
         navigation={navigation}
       />
-      <View style={styles().container}>
+      <View style={styles.container}>
         <Tabs
           tabs={tabs}
           initialPage={0}
