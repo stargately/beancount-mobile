@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
+  AsyncStorage,
 } from "react-native";
 import { connect } from "react-redux";
 import { List } from "@ant-design/react-native";
@@ -80,12 +81,39 @@ export const QuickAddAccountsSelector = connect(
     loading,
     refetch,
   } = useLedgerMeta(userId);
+
   const [selectedAssets, setSelectedAssets] = useState(
     assetsOptionTabs.length > 0 ? assetsOptionTabs[0].options[0] : ""
   );
   const [selectedExpenses, setSelectedExpenses] = useState(
     expensesOptionTabs.length > 0 ? expensesOptionTabs[0].options[0] : ""
   );
+
+  React.useEffect(() => {
+    async function init() {
+      try {
+        const lastSelectedAssets = await AsyncStorage.getItem(
+          "@LastSelectedAssets:key"
+        );
+        if (lastSelectedAssets !== null) {
+          setSelectedAssets(lastSelectedAssets);
+        }
+        const lastSelectedExpenses = await AsyncStorage.getItem(
+          "@LastSelectedExpenses:key"
+        );
+        if (lastSelectedExpenses !== null) {
+          setSelectedExpenses(lastSelectedExpenses);
+        }
+      } catch (aserror) {
+        console.error(
+          `failed to get get last selected assets or expenses value: ${aserror}`
+        );
+      }
+    }
+    if (!loading) {
+      init();
+    }
+  }, [loading]);
 
   useEffect(() => {
     const currency = currencies.length > 0 ? currencies[0] : "";

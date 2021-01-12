@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, StyleSheet, Text, View, Platform } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+  AsyncStorage,
+} from "react-native";
 import { Portal, Toast, List, DatePicker } from "@ant-design/react-native";
 import { connect } from "react-redux";
 import { NavigationBar } from "@/common/navigation-bar";
@@ -120,7 +127,15 @@ export const AddTransactionNextScreen = connect(
       Portal.remove(loadingKey);
 
       if (!error) {
-        Toast.success(i18n.t("saveSuccess"), 2, () => {
+        Toast.success(i18n.t("saveSuccess"), 2, async () => {
+          try {
+            await AsyncStorage.setItem("@LastSelectedAssets:key", assets);
+            await AsyncStorage.setItem("@LastSelectedExpenses:key", expenses);
+          } catch (aserror) {
+            console.error(
+              `failed to set last selected assets or expenses value: ${aserror}`
+            );
+          }
           props.navigation.pop();
           if (onRefresh) {
             onRefresh();
