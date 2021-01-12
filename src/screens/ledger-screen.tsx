@@ -10,10 +10,11 @@ import { headers } from "@/common/headers";
 import { getEndpoint } from "@/common/request";
 import { statusBarHeight } from "@/common/screen-util";
 import { AppState } from "@/common/store";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { ProgressBar } from "@/common/progress-bar";
+import { ColorTheme } from "@/types/theme-props";
 
-const getStyles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -49,7 +50,8 @@ export const LedgerScreen = connect((state: AppState) => {
   return { authToken: state.base.authToken };
 })(function BbsScreenInner(props: Props): JSX.Element {
   let webViewRef: WebView | null;
-
+  const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -65,7 +67,7 @@ export const LedgerScreen = connect((state: AppState) => {
       webViewRef.reload();
     }
   };
-  const styles = getStyles();
+
   const { authToken } = props;
   const [uri, setUri] = useState(getEndpoint("ledger/editor/"));
   return (

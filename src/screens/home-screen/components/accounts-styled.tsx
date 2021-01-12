@@ -1,11 +1,12 @@
 import * as React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { contentPadding } from "@/common/screen-util";
 import { CommonLine } from "@/common/common-line";
 import { i18n } from "@/translations";
+import { ColorTheme } from "@/types/theme-props";
 
-const getStyles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     text: {
       fontSize: 20,
@@ -34,12 +35,14 @@ export function AccountsRow({
   value: string;
   circleColor: string;
 }): JSX.Element {
+  const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
   return (
-    <View style={getStyles().rowContainer}>
-      <View style={[getStyles().circle, { backgroundColor: circleColor }]} />
-      <Text style={getStyles().text}>{title}</Text>
+    <View style={styles.rowContainer}>
+      <View style={[styles.circle, { backgroundColor: circleColor }]} />
+      <Text style={styles.text}>{title}</Text>
       <View style={{ flex: 1 }} />
-      <Text style={getStyles().text}>{value}</Text>
+      <Text style={styles.text}>{value}</Text>
     </View>
   );
 }

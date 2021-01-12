@@ -4,7 +4,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { persistStore } from "redux-persist";
 import thunk from "redux-thunk";
 import { persistedReducer } from "@/common/root-reducer";
-import { theme } from "@/common/theme";
+import { colorMode } from "@/common/theme";
 
 export interface AppState {
   base: {
@@ -21,7 +21,7 @@ type Mode = "dark" | "light";
 const preloadedState: DeepPartial<AppState> = {
   base: {
     locale: Locatization.locale,
-    currentTheme: theme.name as Mode,
+    currentTheme: colorMode as Mode,
   },
 };
 

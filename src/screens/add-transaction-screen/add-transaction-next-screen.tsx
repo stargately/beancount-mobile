@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet, Text, View, Platform } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
 import { Portal, Toast, List, DatePicker } from "@ant-design/react-native";
 import { connect } from "react-redux";
 import { NavigationBar } from "@/common/navigation-bar";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { getFormatDate } from "@/common/time-util";
 import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
@@ -13,16 +12,18 @@ import { ListItemStyled } from "@/screens/add-transaction-screen/components/list
 import { TextStyled } from "@/common/text-styled";
 import { getCurrencySymbol } from "@/common/currency-util";
 import { analytics } from "@/common/analytics";
+import { ColorTheme } from "@/types/theme-props";
 
 const { Item } = List;
 const { Brief } = Item;
 
 type Props = {
-  navigation: NavigationScreenProp<string>;
+  navigation: any;
   userId: string;
+  route: any;
 };
 
-const styles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -70,22 +71,23 @@ export const AddTransactionNextScreen = connect(
     }
     init();
   }, []);
-
+  const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
   const { assetsOptionTabs, expensesOptionTabs } = useLedgerMeta(props.userId);
-  const [assets, setAssets] = useState<string>(
-    props.navigation.getParam("currentAsset")
-  );
-  const [expenses, setExpenses] = useState<string>(
-    props.navigation.getParam("currentExpense")
-  );
+  const {
+    currentAsset,
+    currentExpense,
+    currentMoney,
+    currentCurrency,
+    onRefresh,
+  } = props.route.params;
+  const [assets, setAssets] = useState<string>(currentAsset);
+  const [expenses, setExpenses] = useState<string>(currentExpense);
   const [payee, setPayee] = useState<string>("");
   const [date, setDate] = useState<string>(getFormatDate(new Date()));
   const [narration, setNarration] = useState<string>("");
   const { mutate, error } = useAddEntriesToRemote();
 
-  const currentMoney = props.navigation.getParam("currentMoney");
-  const currentCurrency = props.navigation.getParam("currentCurrency");
-  const onRefresh = props.navigation.getParam("onRefresh");
   const currencySymbol = getCurrencySymbol(currentCurrency);
 
   const addEntries = async () => {
@@ -136,7 +138,7 @@ export const AddTransactionNextScreen = connect(
   };
 
   return (
-    <View style={styles().container}>
+    <View style={styles.container}>
       <NavigationBar
         title={i18n.t("addTransaction")}
         showBack
@@ -146,17 +148,17 @@ export const AddTransactionNextScreen = connect(
       />
 
       <ScrollView>
-        <View style={styles().topContainer}>
-          <View style={styles().moneyContainer}>
-            <Text style={styles().txtMoney}>
+        <View style={styles.topContainer}>
+          <View style={styles.moneyContainer}>
+            <Text style={styles.txtMoney}>
               {`${currencySymbol}${currentMoney.split(".")[0]}`}
             </Text>
-            <Text style={styles().txtSmallMoney}>
+            <Text style={styles.txtSmallMoney}>
               {`${currentMoney.split(".")[1]}`}
             </Text>
           </View>
-          <Text style={styles().payee}>{payee}</Text>
-          <Text style={styles().date}>{date}</Text>
+          <Text style={styles.payee}>{payee}</Text>
+          <Text style={styles.date}>{date}</Text>
         </View>
         <List>
           <ListItemStyled

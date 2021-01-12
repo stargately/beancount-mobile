@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as React from "react";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 
 interface Props {
   name: string;
@@ -9,9 +9,12 @@ interface Props {
 
 export function TabBarIcon(props: Props): JSX.Element {
   const { focused, name } = props;
+  const theme = useTheme().colorTheme;
   const color = focused ? theme.tabIconSelected : theme.tabIconDefault;
   return (
     <Ionicons
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       name={name}
       size={26}
       style={{ marginBottom: -3 }}

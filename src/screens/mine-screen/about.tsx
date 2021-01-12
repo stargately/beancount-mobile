@@ -3,24 +3,30 @@ import { List, Picker, Toast, Portal } from "@ant-design/react-native";
 import Constants from "expo-constants";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
-import { Alert, Platform, ScrollView, Switch, View } from "react-native";
+import {
+  Alert,
+  Platform,
+  ScrollView,
+  Switch,
+  View,
+  AsyncStorage,
+} from "react-native";
 import { connect } from "react-redux";
 import { analytics } from "@/common/analytics";
 import { ListHeader } from "@/common/list-header";
 import { registerForPushNotificationAsync } from "@/common/register-push-token";
 import { actionUpdateReduxState } from "@/common/root-reducer";
 import { AppState } from "@/common/store";
-import { setTheme, theme } from "@/common/theme";
-import { i18n } from "@/translations";
-import { ScreenProps } from "@/types/screen-props";
+import { useTheme } from "@/common/theme";
+import { i18n, LocalizationContext } from "@/translations";
 import { actionLogout } from "@/screens/mine-screen/account-reducer";
 import { useUserProfile } from "@/screens/mine-screen/hooks/use-user-profile";
 import { useUpdateReportSubscribeToRemote } from "@/screens/mine-screen/hooks/use-update-report-subscribe";
 import { useFeatureFlags } from "@/common/feature-flags/use-feature-flags";
 import { AccountHeader } from "@/screens/mine-screen/account-header";
 import { InviteSection } from "@/screens/referral-screen/components/invite-section";
-import { NavigationScreenProp } from "react-navigation";
 import { ReportStatus } from "../../../__generated__/globalTypes";
+import { useIsFocused } from "@react-navigation/native";
 
 const { Item } = List;
 const { Brief } = Item;
@@ -32,11 +38,9 @@ type Props = {
   updateReduxState: (state: {
     base: { locale?: string; currentTheme?: string };
   }) => void;
-  screenProps: ScreenProps;
   currentTheme: "dark" | "light";
   userId: string;
-  fromAnnouncement: boolean;
-  navigation: NavigationScreenProp<string>;
+  navigation: any;
 };
 
 export const About = connect(
@@ -60,12 +64,12 @@ export const About = connect(
     locale,
     logout,
     updateReduxState,
-    screenProps,
     currentTheme,
     userId,
-    fromAnnouncement,
     navigation,
   }: Props) => {
+    const theme = useTheme().colorTheme;
+    const { setLocale } = React.useContext(LocalizationContext);
     const pickerSource = [
       { value: ReportStatus.WEEKLY, label: i18n.t("weekly") },
       { value: ReportStatus.MONTHLY, label: i18n.t("monthly") },
@@ -80,8 +84,28 @@ export const About = connect(
     }, []);
 
     const [reportAnimateCount, setReportAnimateCount] = useState(0);
+    const [subscriptionFlash, setSubscriptionFlash] = useState(false);
+    const isFocused = useIsFocused();
+
+    React.useEffect(() => {
+      async function init() {
+        try {
+          const value = await AsyncStorage.getItem("@SubscriptionFlash:key");
+          if (value !== null) {
+            setSubscriptionFlash(value === "true");
+          } else {
+            setSubscriptionFlash(false);
+          }
+          await AsyncStorage.setItem("@SubscriptionFlash:key", "false");
+        } catch (error) {
+          console.error(`failed to get subscription flash value: ${error}`);
+        }
+      }
+      init();
+    }, [isFocused]);
+
     useEffect(() => {
-      if (fromAnnouncement) {
+      if (subscriptionFlash) {
         const interval = setInterval(() => {
           if (reportAnimateCount < 5) {
             setReportAnimateCount(reportAnimateCount + 1);
@@ -91,7 +115,7 @@ export const About = connect(
       }
       setReportAnimateCount(0);
       return undefined;
-    }, [fromAnnouncement, reportAnimateCount]);
+    }, [subscriptionFlash, reportAnimateCount]);
 
     const { emailReportStatus } = useUserProfile(userId);
     const [reportStatus, setReportStatue] = useState<string>(
@@ -216,7 +240,7 @@ export const About = connect(
                     base: { locale: changeTo },
                   });
                   i18n.locale = changeTo;
-                  screenProps.setLocale(changeTo);
+                  setLocale(changeTo);
                   await analytics.track("tap_switch_language", { changeTo });
                 }}
               />
@@ -238,7 +262,6 @@ export const About = connect(
                 value={currentTheme === "dark"}
                 onValueChange={async (value) => {
                   const mode = value ? "dark" : "light";
-                  setTheme(mode);
                   updateReduxState({
                     base: { currentTheme: mode },
                   });

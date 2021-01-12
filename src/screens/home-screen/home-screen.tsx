@@ -7,8 +7,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
 import { useHomeCharts } from "@/screens/home-screen/hooks/use-home-charts";
@@ -32,8 +31,9 @@ import { analytics } from "@/common/analytics";
 import { Announcement } from "@/common/announcement";
 import { EmailIcon } from "@/screens/home-screen/email-icon";
 import { useFeatureFlags } from "@/common/feature-flags/use-feature-flags";
+import { ColorTheme } from "@/types/theme-props";
 
-const styles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -49,7 +49,7 @@ const styles = () =>
   });
 
 type Props = {
-  navigation: NavigationScreenProp<string>;
+  navigation: any;
   userId: string;
   theme: string;
 };
@@ -66,7 +66,8 @@ export const HomeScreen = connect(
     }
     init();
   }, []);
-
+  const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
   const { currencies, refetch: ledgerMetaRefetch } = useLedgerMeta(
     props.userId
   );
@@ -102,7 +103,7 @@ export const HomeScreen = connect(
   const { spendingReportSubscription } = useFeatureFlags(props.userId);
   return (
     <>
-      <View style={styles().container}>
+      <View style={styles.container}>
         <ScrollView
           indicatorStyle={props.theme === "dark" ? "white" : "default"}
           refreshControl={
@@ -155,7 +156,7 @@ export const HomeScreen = connect(
               props.navigation.navigate("AddTransaction", { onRefresh });
             }}
           >
-            <Text style={styles().quickAddLabel}>{i18n.t("quickAdd")}</Text>
+            <Text style={styles.quickAddLabel}>{i18n.t("quickAdd")}</Text>
           </Button>
           <CommonMargin />
           <HeaderText>{i18n.t("monthlyNetIncome")}</HeaderText>

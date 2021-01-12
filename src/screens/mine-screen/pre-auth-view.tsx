@@ -1,15 +1,16 @@
 import * as React from "react";
 import { Dimensions, View, StyleSheet, Image, Text } from "react-native";
 import { Button } from "@ant-design/react-native";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { LoginOrSignUp } from "@/screens/mine-screen/account-header";
 import { analytics } from "@/common/analytics";
+import { ColorTheme } from "@/types/theme-props";
 
 const { width, height } = Dimensions.get("window");
 const buttonWidth = (width - 20 * 3) / 2;
 
-const getStyles = () =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       height,
@@ -53,7 +54,8 @@ export function PreAuthView(): JSX.Element {
     }
     init();
   }, []);
-  const styles = getStyles();
+  const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
   return (
     <View style={styles.container}>
       <Image source={require("@/assets/images/icon.png")} style={styles.icon} />

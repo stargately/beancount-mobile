@@ -5,7 +5,7 @@ import {
   View,
 } from "react-native";
 import * as React from "react";
-import { theme } from "@/common/theme";
+import { useTheme } from "@/common/theme";
 
 type Props = {
   progress: number;
@@ -13,7 +13,7 @@ type Props = {
 
 export function ProgressBar(props: Props): JSX.Element {
   const { progress } = props;
-
+  const theme = useTheme().colorTheme;
   if (progress === 1) {
     return <View />;
   }

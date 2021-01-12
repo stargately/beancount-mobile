@@ -1,13 +1,16 @@
 import * as React from "react";
-import { BottomTabBar } from "react-navigation";
-import { ThemeProps } from "@/types/theme-props";
-import { theme } from "@/common/theme";
+import {
+  BottomTabBar,
+  BottomTabBarOptions,
+  BottomTabBarProps,
+} from "@react-navigation/bottom-tabs";
 
-type Props = {
-  currentTheme: ThemeProps;
-};
+import { useTheme } from "@/common/theme";
 
-export function ThemedBottomTabBar(props: Props): JSX.Element {
+export function ThemedBottomTabBar(
+  props: BottomTabBarProps<BottomTabBarOptions>
+): JSX.Element {
+  const theme = useTheme().colorTheme;
   return (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

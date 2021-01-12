@@ -1,11 +1,11 @@
 import { Appearance } from "react-native-appearance";
+import { createTheming, ThemingType } from "@callstack/react-theme-provider";
+import { ThemeProps, ColorTheme, AntdTheme } from "@/types/theme-props";
 
 const colorScheme = Appearance.getColorScheme();
 const colorMode = colorScheme === "dark" ? "dark" : "light";
 
-const lightTheme = {
-  name: "light",
-
+const lightTheme: ColorTheme = {
   primary: "#6161e8",
   secondary: "#0C8DE4",
   white: "#fff",
@@ -38,9 +38,7 @@ const lightTheme = {
   navText: "#000",
 };
 
-const darkTheme = {
-  name: "dark",
-
+const darkTheme: ColorTheme = {
   primary: "#6161e8",
   secondary: "#0C8DE4",
   white: "#000",
@@ -74,13 +72,13 @@ const darkTheme = {
 };
 
 // eslint-disable-next-line import/no-mutable-exports
-export let theme = colorMode === "dark" ? darkTheme : lightTheme;
+// export let theme = colorMode === "dark" ? darkTheme : lightTheme;
 
-export function setTheme(mode: "dark" | "light" | undefined): void {
-  theme = mode === "dark" ? darkTheme : lightTheme;
-}
+// export function setTheme(mode: "dark" | "light" | undefined): void {
+//   theme = mode === "dark" ? darkTheme : lightTheme;
+// }
 
-export const antdLightTheme = {
+export const antdLightTheme: AntdTheme = {
   color_text_base: lightTheme.text01,
   brand_primary: lightTheme.primary,
   color_link: lightTheme.primary,
@@ -88,11 +86,33 @@ export const antdLightTheme = {
   primary_button_fill_tap: lightTheme.primary,
 };
 
-export const antdDarkTheme = {
+export const antdDarkTheme: AntdTheme = {
   color_text_base: darkTheme.text01,
   brand_primary: darkTheme.primary,
   color_link: darkTheme.primary,
   primary_button_fill: darkTheme.primary,
   primary_button_fill_tap: darkTheme.primary,
-  border_color_base: darkTheme.black20,
 };
+
+export const themes: { [key: string]: ThemeProps } = {
+  light: {
+    name: "light",
+    colorTheme: lightTheme,
+    antdTheme: antdLightTheme,
+    sizing: [2, 6, 8, 10, 16, 24, 32],
+  },
+  dark: {
+    name: "dark",
+    colorTheme: darkTheme,
+    antdTheme: antdDarkTheme,
+    sizing: [2, 6, 8, 10, 16, 24, 32],
+  },
+};
+
+const {
+  ThemeProvider,
+  withTheme,
+  useTheme,
+}: ThemingType<ThemeProps> = createTheming(themes[colorMode]);
+
+export { ThemeProvider, withTheme, useTheme, colorMode };
