@@ -7,18 +7,18 @@ import { analytics } from "@/common/analytics";
 
 type Props = {
   navigation: any;
-  route: any;
 };
 
 export function MineScreen(props: Props): JSX.Element {
   const theme = useTheme().colorTheme;
+  const { navigation } = props;
   React.useEffect(() => {
     async function init() {
       await analytics.track("page_view_mine", {});
     }
     init();
   }, []);
-  const { fromAnnouncement } = props.route.params;
+
   return (
     <View
       style={{
@@ -27,10 +27,7 @@ export function MineScreen(props: Props): JSX.Element {
         paddingTop: statusBarHeight,
       }}
     >
-      <About
-        fromAnnouncement={fromAnnouncement}
-        navigation={props.navigation}
-      />
+      <About navigation={navigation} />
     </View>
   );
 }

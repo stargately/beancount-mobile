@@ -85,7 +85,7 @@ export function Announcement(props: Props): JSX.Element {
     init();
   }, []);
 
-  const { title, subtitle, icon } = props;
+  const { title, subtitle, icon, navigation } = props;
 
   const theme = useTheme();
 
@@ -98,13 +98,17 @@ export function Announcement(props: Props): JSX.Element {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => {
-        props.navigation.navigate("Mine", { fromAnnouncement: true });
+      onPress={async () => {
+        try {
+          await AsyncStorage.setItem("@SubscriptionFlash:key", "true");
+        } catch (error) {
+          console.error(`failed to set subscription flash value: ${error}`);
+        }
+        navigation.navigate("Mine");
       }}
     >
       <View style={styles.titleContainer}>
         <Text style={styles.subtitle}>{subtitle}</Text>
-
         <Text numberOfLines={2} style={styles.title}>
           {title}
         </Text>

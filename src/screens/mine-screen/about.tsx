@@ -3,7 +3,14 @@ import { List, Picker, Toast, Portal } from "@ant-design/react-native";
 import Constants from "expo-constants";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
-import { Alert, Platform, ScrollView, Switch, View } from "react-native";
+import {
+  Alert,
+  Platform,
+  ScrollView,
+  Switch,
+  View,
+  AsyncStorage,
+} from "react-native";
 import { connect } from "react-redux";
 import { analytics } from "@/common/analytics";
 import { ListHeader } from "@/common/list-header";
@@ -19,6 +26,7 @@ import { useFeatureFlags } from "@/common/feature-flags/use-feature-flags";
 import { AccountHeader } from "@/screens/mine-screen/account-header";
 import { InviteSection } from "@/screens/referral-screen/components/invite-section";
 import { ReportStatus } from "../../../__generated__/globalTypes";
+import { useIsFocused } from "@react-navigation/native";
 
 const { Item } = List;
 const { Brief } = Item;
@@ -32,7 +40,6 @@ type Props = {
   }) => void;
   currentTheme: "dark" | "light";
   userId: string;
-  fromAnnouncement: boolean;
   navigation: any;
 };
 
@@ -59,7 +66,6 @@ export const About = connect(
     updateReduxState,
     currentTheme,
     userId,
-    fromAnnouncement,
     navigation,
   }: Props) => {
     const theme = useTheme().colorTheme;
@@ -78,8 +84,28 @@ export const About = connect(
     }, []);
 
     const [reportAnimateCount, setReportAnimateCount] = useState(0);
+    const [subscriptionFlash, setSubscriptionFlash] = useState(false);
+    const isFocused = useIsFocused();
+
+    React.useEffect(() => {
+      async function init() {
+        try {
+          const value = await AsyncStorage.getItem("@SubscriptionFlash:key");
+          if (value !== null) {
+            setSubscriptionFlash(value === "true");
+          } else {
+            setSubscriptionFlash(false);
+          }
+          await AsyncStorage.setItem("@SubscriptionFlash:key", "false");
+        } catch (error) {
+          console.error(`failed to get subscription flash value: ${error}`);
+        }
+      }
+      init();
+    }, [isFocused]);
+
     useEffect(() => {
-      if (fromAnnouncement) {
+      if (subscriptionFlash) {
         const interval = setInterval(() => {
           if (reportAnimateCount < 5) {
             setReportAnimateCount(reportAnimateCount + 1);
@@ -89,7 +115,7 @@ export const About = connect(
       }
       setReportAnimateCount(0);
       return undefined;
-    }, [fromAnnouncement, reportAnimateCount]);
+    }, [subscriptionFlash, reportAnimateCount]);
 
     const { emailReportStatus } = useUserProfile(userId);
     const [reportStatus, setReportStatue] = useState<string>(
