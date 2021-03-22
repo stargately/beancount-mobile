@@ -25,8 +25,8 @@ import { useUpdateReportSubscribeToRemote } from "@/screens/mine-screen/hooks/us
 import { useFeatureFlags } from "@/common/feature-flags/use-feature-flags";
 import { AccountHeader } from "@/screens/mine-screen/account-header";
 import { InviteSection } from "@/screens/referral-screen/components/invite-section";
-import { ReportStatus } from "../../../__generated__/globalTypes";
 import { useIsFocused } from "@react-navigation/native";
+import { ReportStatus } from "../../../__generated__/globalTypes";
 
 const { Item } = List;
 const { Brief } = Item;

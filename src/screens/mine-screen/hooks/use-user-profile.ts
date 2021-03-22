@@ -1,4 +1,4 @@
-import { useQuery } from "react-apollo";
+import { useQuery } from "@apollo/client";
 import { userProfile } from "@/screens/mine-screen/data/query";
 import { UserProfile } from "@/screens/mine-screen/data/__generated__/UserProfile";
 

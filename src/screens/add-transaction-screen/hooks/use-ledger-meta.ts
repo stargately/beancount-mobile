@@ -1,4 +1,4 @@
-import { useQuery } from "react-apollo";
+import { useQuery } from "@apollo/client";
 import { getLedgerMeta } from "@/screens/add-transaction-screen/data/queries";
 import * as lodash from "lodash";
 import {

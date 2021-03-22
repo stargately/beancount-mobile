@@ -1,4 +1,4 @@
-import { useQuery } from "react-apollo";
+import { useQuery } from "@apollo/client";
 import { accountHierarchy } from "@/screens/home-screen/data/account-hierarchy";
 import { AccountHierarchy } from "@/screens/home-screen/data/__generated__/AccountHierarchy";
 
