@@ -1,4 +1,4 @@
-import { useQuery } from "react-apollo";
+import { useQuery } from "@apollo/client";
 import { homeCharts } from "@/screens/home-screen/data/home-charts";
 import { HomeCharts } from "@/screens/home-screen/data/__generated__/HomeCharts";
 import { i18n } from "@/translations";
