@@ -1,5 +1,5 @@
 import React from "react";
-
+import { getShortCurrencyNumber } from "@/common/currency-util";
 import { LineChart } from "@yuyongmao/react-native-chart-kit";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
@@ -30,14 +30,12 @@ export function LineChartStyled({
       withVerticalLines={false}
       withShadow={false}
       yAxisLabel={currencySymbol}
-      yAxisSuffix="k"
       fromZero
       segments={4}
       chartConfig={{
         backgroundColor: theme.white,
         backgroundGradientFrom: theme.white,
         backgroundGradientTo: theme.white,
-        decimalPlaces: 2,
         color: () => theme.primary,
         labelColor: () => theme.text01,
         propsForDots: {
@@ -53,6 +51,7 @@ export function LineChartStyled({
         },
       }}
       formatXLabel={(x) => i18n.t(x)}
+      formatYLabel={(y) => getShortCurrencyNumber(y)}
       style={{
         borderRadius: 8,
       }}

@@ -20,7 +20,7 @@ export function selectNetWorthArray(currency: string, data?: HomeCharts) {
   }
 
   let labels = last?.map((l) => l.date.slice(5, 7)) || [];
-  let numbers = last?.map((l) => Number(l.balance[currency] / 1000 || 0)) || [];
+  let numbers = last?.map((l) => Number(l.balance[currency] || 0)) || [];
   if (labels.length === 0) {
     labels = [i18n.t("noDataCharts")];
   }

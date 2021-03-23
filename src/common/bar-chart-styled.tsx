@@ -3,6 +3,7 @@ import { BarChart } from "@/common/bar-chart";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
+import { getShortCurrencyNumber } from "@/common/currency-util";
 
 export function BarChartStyled({
   labels,
@@ -45,6 +46,7 @@ export function BarChartStyled({
           strokeWidth: 1,
         },
         formatXLabel: (x) => i18n.t(x),
+        formatYLabel: (y) => getShortCurrencyNumber(y),
       }}
       fromZero
       verticalLabelRotation={0}

@@ -55,9 +55,12 @@ type Props = {
 };
 
 export const HomeScreen = connect(
-  (state: { base: { userId: string; currentTheme: string } }) => ({
+  (state: {
+    base: { userId: string; currentTheme: string; locale: string };
+  }) => ({
     userId: state.base.userId,
     theme: state.base.currentTheme,
+    locale: state.base.locale,
   })
 )(function HomeScreenInner(props: Props): JSX.Element {
   React.useEffect(() => {
