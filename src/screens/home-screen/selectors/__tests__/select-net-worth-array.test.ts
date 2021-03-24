@@ -43,6 +43,6 @@ describe("selectNetWorthArray", () => {
     };
 
     const resp = selectNetWorthArray("USD", data);
-    expect(resp).toEqual({ labels: ["02", "03"], numbers: [0.1, 0.3] });
+    expect(resp).toEqual({ labels: ["02", "03"], numbers: [100, 300] });
   });
 });
