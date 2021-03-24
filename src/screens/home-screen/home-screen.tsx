@@ -79,7 +79,7 @@ export const HomeScreen = connect(
   const currencySymbol = getCurrencySymbol(currency);
   const {
     netWorth,
-    lastSixMonthData,
+    lastSixProfitData,
     lastSixWorthData,
     loading: netWorthLoading,
     refetch: netWorthRefetch,
@@ -172,8 +172,8 @@ export const HomeScreen = connect(
             ) : (
               <BarChartStyled
                 currencySymbol={currencySymbol}
-                labels={lastSixMonthData.labels}
-                numbers={lastSixMonthData.numbers}
+                labels={lastSixProfitData.labels}
+                numbers={lastSixProfitData.numbers}
               />
             )}
           </View>
