@@ -3,7 +3,9 @@ import { BarChart } from "@/common/bar-chart";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
-import { getShortCurrencyNumber } from "@/common/currency-util";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import shortNumber from "short-number";
 
 export function BarChartStyled({
   labels,
@@ -34,7 +36,6 @@ export function BarChartStyled({
         backgroundColor: theme.white,
         backgroundGradientFrom: theme.white,
         backgroundGradientTo: theme.white,
-        decimalPlaces: 0,
         color: () => theme.primary,
         labelColor: () => theme.text01,
         style: {
@@ -46,7 +47,7 @@ export function BarChartStyled({
           strokeWidth: 1,
         },
         formatXLabel: (x) => i18n.t(x),
-        formatYLabel: (y) => getShortCurrencyNumber(y),
+        formatYLabel: (y) => shortNumber(Number(y)),
       }}
       fromZero
       verticalLabelRotation={0}

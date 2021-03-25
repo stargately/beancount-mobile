@@ -1,9 +1,11 @@
 import React from "react";
-import { getShortCurrencyNumber } from "@/common/currency-util";
 import { LineChart } from "@yuyongmao/react-native-chart-kit";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import shortNumber from "short-number";
 
 export function LineChartStyled({
   labels,
@@ -51,12 +53,13 @@ export function LineChartStyled({
         },
       }}
       formatXLabel={(x) => i18n.t(x)}
-      formatYLabel={(y) => getShortCurrencyNumber(y)}
+      formatYLabel={(y) => shortNumber(Number(y))}
       style={{
         borderRadius: 8,
       }}
       horizontalOffset={16}
       verticalLabelRotation={0}
+      horizontalLabelRotation={0}
     />
   );
 }

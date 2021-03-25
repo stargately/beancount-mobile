@@ -170,6 +170,7 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "2.3.0",
     "sentry-expo": "^2.1.2",
+    "short-number": "^1.0.7",
     "ts-invariant": "^0.7.0"
   },
   "devDependencies": {
