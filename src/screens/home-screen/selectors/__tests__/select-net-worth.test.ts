@@ -1,6 +1,6 @@
-import { selectNetWorthArray } from "@/screens/home-screen/selectors/select-net-worth-array";
+import { getNetWorth } from "@/screens/home-screen/selectors/select-net-worth";
 
-describe("selectNetWorthArray", () => {
+describe("getNetWorth", () => {
   it("", async () => {
     const data = {
       homeCharts: {
@@ -12,26 +12,26 @@ describe("selectNetWorthArray", () => {
               {
                 date: "2021-02-01",
                 balance: {
-                  USD: 100.0,
+                  USD: -378860.26306,
+                  VACHR: -26,
                 },
                 budgets: null,
-                __typename: "ChartItemV2",
               },
               {
                 date: "2021-03-01",
                 balance: {
-                  USD: 200.0,
+                  USD: -378860.26306,
+                  VACHR: -26,
                 },
                 budgets: null,
-                __typename: "ChartItemV2",
               },
               {
-                date: "2021-03-16",
+                date: "2021-03-23",
                 balance: {
-                  USD: 300.0,
+                  USD: -378860.35306,
+                  VACHR: -26,
                 },
                 budgets: null,
-                __typename: "ChartItemV2",
               },
             ],
             __typename: "LabeledChartItem",
@@ -42,7 +42,7 @@ describe("selectNetWorthArray", () => {
       },
     };
 
-    const resp = selectNetWorthArray("USD", data);
-    expect(resp).toEqual({ labels: ["02", "03"], numbers: [100, 300] });
+    const resp = getNetWorth("USD", data);
+    expect(resp).toEqual({ netAssets: "-378860.35" });
   });
 });

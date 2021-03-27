@@ -1,15 +1,14 @@
 import { HomeCharts } from "@/screens/home-screen/data/__generated__/HomeCharts";
 import { i18n } from "@/translations";
+import { isSameMonth } from "@/screens/home-screen/selectors/select-net-worth-array";
 
-export function isSameMonth(date1?: string, date2?: string): boolean {
-  return date1?.slice(5, 7) === date2?.slice(5, 7);
-}
-
-export function selectNetWorthArray(currency: string, data?: HomeCharts) {
-  const netWorth = data?.homeCharts?.data.find((n) => n.label === "Net Worth");
-  const last = netWorth?.data.slice(
-    netWorth?.data.length - 7,
-    netWorth?.data.length
+export function selectNetProfitArray(currency: string, data?: HomeCharts) {
+  const netProfit = data?.homeCharts?.data.find(
+    (n) => n.label === "Net Profit"
+  );
+  const last = netProfit?.data.slice(
+    netProfit?.data.length - 7,
+    netProfit?.data.length
   );
   if (
     last &&
