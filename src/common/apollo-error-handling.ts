@@ -1,4 +1,4 @@
-import { onError } from "apollo-link-error";
+import { onError } from "@apollo/client/link/error";
 import { store } from "@/common/store";
 
 export const onErrorLink = onError(({ graphQLErrors, networkError }) => {

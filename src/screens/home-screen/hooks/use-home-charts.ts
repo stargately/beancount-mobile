@@ -1,7 +1,8 @@
-import { useQuery } from "react-apollo";
+import { useQuery } from "@apollo/client";
 import { homeCharts } from "@/screens/home-screen/data/home-charts";
 import { HomeCharts } from "@/screens/home-screen/data/__generated__/HomeCharts";
 import { i18n } from "@/translations";
+import { selectNetWorthArray } from "@/screens/home-screen/selectors/select-net-worth-array";
 
 function getNetWorth(currency: string, data?: HomeCharts) {
   if (!currency) {
@@ -33,30 +34,13 @@ function getLastSixMonth(currency: string, data?: HomeCharts) {
   return { labels, numbers };
 }
 
-function getNetWorthDataArray(currency: string, data?: HomeCharts) {
-  const netWorth = data?.homeCharts?.data.find((n) => n.label === "Net Worth");
-  const last = netWorth?.data.slice(
-    netWorth?.data.length - 7,
-    netWorth?.data.length - 1
-  );
-  let labels = last?.map((l) => l.date.slice(5, 7)) || [];
-  let numbers = last?.map((l) => Number(l.balance[currency] / 1000 || 0)) || [];
-  if (labels.length === 0) {
-    labels = [i18n.t("noDataCharts")];
-  }
-  if (numbers.length === 0) {
-    numbers = [0];
-  }
-  return { labels, numbers };
-}
-
 export const useHomeCharts = (userId: string, currency: string) => {
   const { loading, data, error, refetch } = useQuery<HomeCharts>(homeCharts, {
     variables: { userId },
   });
   const netWorth = getNetWorth(currency, data);
   const lastSixMonthData = getLastSixMonth(currency, data);
-  const lastSixWorthData = getNetWorthDataArray(currency, data);
+  const lastSixWorthData = selectNetWorthArray(currency, data);
   return {
     loading,
     data,

@@ -1,6 +1,6 @@
 import AntdProvider from "@ant-design/react-native/lib/provider";
 import React from "react";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider } from "@apollo/client";
 import { connect, Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { apolloClient } from "@/common/apollo-client";
