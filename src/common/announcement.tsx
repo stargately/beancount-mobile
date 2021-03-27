@@ -67,8 +67,8 @@ export function Announcement(props: Props): JSX.Element {
     "@HideAnnouncement:key",
     ""
   );
-  /* tslint:disable:no-unused-variable */
-  const [subFlash, setSubFlash] = useAsyncStorage("@SubscriptionFlash:key", "");
+
+  const [, setSubFlash] = useAsyncStorage("@SubscriptionFlash:key", "");
 
   React.useEffect(() => {
     if (synced) {
