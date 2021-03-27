@@ -80,17 +80,11 @@ const AppContent = connect(
     locale: string;
     updateReduxState: (state: { base: { currentTheme: string } }) => void;
   }) => {
-    const { locale, currentTheme, updateReduxState } = props;
+    const { locale } = props;
     const { setLocale } = React.useContext(LocalizationContext);
     const theme = useTheme();
     if (locale && i18n) {
       i18n.locale = locale;
-    }
-
-    if (currentTheme !== theme.name) {
-      updateReduxState({
-        base: { currentTheme },
-      });
     }
 
     React.useEffect(() => {

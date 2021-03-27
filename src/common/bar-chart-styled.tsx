@@ -4,6 +4,8 @@ import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 
+const shortNumber = require("short-number");
+
 export function BarChartStyled({
   labels,
   numbers,
@@ -33,7 +35,6 @@ export function BarChartStyled({
         backgroundColor: theme.white,
         backgroundGradientFrom: theme.white,
         backgroundGradientTo: theme.white,
-        decimalPlaces: 0,
         color: () => theme.primary,
         labelColor: () => theme.text01,
         style: {
@@ -45,6 +46,7 @@ export function BarChartStyled({
           strokeWidth: 1,
         },
         formatXLabel: (x) => i18n.t(x),
+        formatYLabel: (y) => shortNumber(Number(y)),
       }}
       fromZero
       verticalLabelRotation={0}
