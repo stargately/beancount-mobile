@@ -3,9 +3,8 @@ import { BarChart } from "@/common/bar-chart";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import shortNumber from "short-number";
+
+const shortNumber = require("short-number");
 
 export function BarChartStyled({
   labels,
