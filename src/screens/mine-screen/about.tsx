@@ -3,14 +3,7 @@ import { List, Picker, Toast, Portal } from "@ant-design/react-native";
 import Constants from "expo-constants";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  Platform,
-  ScrollView,
-  Switch,
-  View,
-  AsyncStorage,
-} from "react-native";
+import { Alert, Platform, ScrollView, Switch, View } from "react-native";
 import { connect } from "react-redux";
 import { analytics } from "@/common/analytics";
 import { ListHeader } from "@/common/list-header";
@@ -27,6 +20,7 @@ import { AccountHeader } from "@/screens/mine-screen/account-header";
 import { InviteSection } from "@/screens/referral-screen/components/invite-section";
 import { useIsFocused } from "@react-navigation/native";
 import { ReportStatus } from "../../../__generated__/globalTypes";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 const { Item } = List;
 const { Brief } = Item;
@@ -85,18 +79,20 @@ export const About = connect(
 
     const [reportAnimateCount, setReportAnimateCount] = useState(0);
     const [subscriptionFlash, setSubscriptionFlash] = useState(false);
+
+    const { getItem, setItem } = useAsyncStorage("@SubscriptionFlash:key");
     const isFocused = useIsFocused();
 
     React.useEffect(() => {
       async function init() {
         try {
-          const value = await AsyncStorage.getItem("@SubscriptionFlash:key");
+          const value = await getItem();
           if (value !== null) {
             setSubscriptionFlash(value === "true");
           } else {
             setSubscriptionFlash(false);
           }
-          await AsyncStorage.setItem("@SubscriptionFlash:key", "false");
+          await setItem("false");
         } catch (error) {
           console.error(`failed to get subscription flash value: ${error}`);
         }

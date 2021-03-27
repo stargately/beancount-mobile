@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Text,
   View,
-  AsyncStorage,
 } from "react-native";
 import { connect } from "react-redux";
 import { List } from "@ant-design/react-native";
@@ -19,6 +18,7 @@ import { ListItemStyled } from "@/screens/add-transaction-screen/components/list
 import { analytics } from "@/common/analytics";
 import { i18n } from "@/translations";
 import { ColorTheme } from "@/types/theme-props";
+import { useAsyncStorage } from "@/common/hooks/use-async-storage";
 
 const { Item } = List;
 const { Brief } = Item;
@@ -89,31 +89,22 @@ export const QuickAddAccountsSelector = connect(
     expensesOptionTabs.length > 0 ? expensesOptionTabs[0].options[0] : ""
   );
 
+  const [lastAssets] = useAsyncStorage("@LastSelectedAssets:key", "");
+  const [lastExpenses] = useAsyncStorage("@LastSelectedExpenses:key", "");
+
   React.useEffect(() => {
-    async function init() {
-      try {
-        const lastSelectedAssets = await AsyncStorage.getItem(
-          "@LastSelectedAssets:key"
-        );
-        if (lastSelectedAssets !== null) {
-          setSelectedAssets(lastSelectedAssets);
-        }
-        const lastSelectedExpenses = await AsyncStorage.getItem(
-          "@LastSelectedExpenses:key"
-        );
-        if (lastSelectedExpenses !== null) {
-          setSelectedExpenses(lastSelectedExpenses);
-        }
-      } catch (aserror) {
-        console.error(
-          `failed to get get last selected assets or expenses value: ${aserror}`
-        );
+    function init() {
+      if (lastAssets !== "") {
+        setSelectedAssets(lastAssets);
+      }
+      if (lastExpenses !== "") {
+        setSelectedExpenses(lastExpenses);
       }
     }
     if (!loading) {
       init();
     }
-  }, [loading]);
+  }, [loading, lastExpenses, lastAssets]);
 
   useEffect(() => {
     const currency = currencies.length > 0 ? currencies[0] : "";

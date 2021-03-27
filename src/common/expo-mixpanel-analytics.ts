@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
-import { Platform, Dimensions, AsyncStorage } from "react-native";
+import { Platform, Dimensions } from "react-native";
 import Constants from "expo-constants";
 import { Buffer } from "buffer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get("window");
 

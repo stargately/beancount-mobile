@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Platform,
-  AsyncStorage,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View, Platform } from "react-native";
 import { Portal, Toast, List, DatePicker } from "@ant-design/react-native";
 import { connect } from "react-redux";
 import { NavigationBar } from "@/common/navigation-bar";
@@ -20,6 +13,7 @@ import { TextStyled } from "@/common/text-styled";
 import { getCurrencySymbol } from "@/common/currency-util";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
+import { useAsyncStorage } from "@/common/hooks/use-async-storage";
 
 const { Item } = List;
 const { Brief } = Item;
@@ -94,6 +88,14 @@ export const AddTransactionNextScreen = connect(
   const [date, setDate] = useState<string>(getFormatDate(new Date()));
   const [narration, setNarration] = useState<string>("");
   const { mutate, error } = useAddEntriesToRemote();
+  const [lastAssets, setLastAssets] = useAsyncStorage(
+    "@LastSelectedAssets:key",
+    ""
+  );
+  const [lastExpenses, setLastExpenses] = useAsyncStorage(
+    "@LastSelectedExpenses:key",
+    ""
+  );
 
   const currencySymbol = getCurrencySymbol(currentCurrency);
 
@@ -127,10 +129,14 @@ export const AddTransactionNextScreen = connect(
       Portal.remove(loadingKey);
 
       if (!error) {
-        Toast.success(i18n.t("saveSuccess"), 2, async () => {
+        Toast.success(i18n.t("saveSuccess"), 2, () => {
           try {
-            await AsyncStorage.setItem("@LastSelectedAssets:key", assets);
-            await AsyncStorage.setItem("@LastSelectedExpenses:key", expenses);
+            if (lastAssets !== assets) {
+              setLastAssets(assets);
+            }
+            if (lastExpenses !== expenses) {
+              setLastExpenses(expenses);
+            }
           } catch (aserror) {
             console.error(
               `failed to set last selected assets or expenses value: ${aserror}`

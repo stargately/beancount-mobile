@@ -1,14 +1,9 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  AsyncStorage,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "@/common/theme";
 import { ColorTheme } from "@/types/theme-props";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
+import { useAsyncStorage } from "@/common/hooks/use-async-storage";
 
 type Props = {
   navigation: any;
@@ -68,22 +63,17 @@ const getStyles = (theme: ColorTheme) =>
 
 export function Announcement(props: Props): JSX.Element {
   const [hide, setHide] = React.useState(true);
+  const [hideAnnouncement, setHideAnnouncement, synced] = useAsyncStorage(
+    "@HideAnnouncement:key",
+    ""
+  );
+  const [_, setSubFlash] = useAsyncStorage("@SubscriptionFlash:key", "");
 
   React.useEffect(() => {
-    async function init() {
-      try {
-        const value = await AsyncStorage.getItem("@HideAnnouncement:key");
-        if (value !== null) {
-          setHide(value === "true");
-        } else {
-          setHide(false);
-        }
-      } catch (error) {
-        console.error(`failed to get hide announcement value: ${error}`);
-      }
+    if (synced) {
+      setHide(hideAnnouncement === "true");
     }
-    init();
-  }, []);
+  }, [synced]);
 
   const { title, subtitle, icon, navigation } = props;
 
@@ -99,11 +89,7 @@ export function Announcement(props: Props): JSX.Element {
     <TouchableOpacity
       style={styles.container}
       onPress={async () => {
-        try {
-          await AsyncStorage.setItem("@SubscriptionFlash:key", "true");
-        } catch (error) {
-          console.error(`failed to set subscription flash value: ${error}`);
-        }
+        await setSubFlash("true");
         navigation.navigate("Mine");
       }}
     >
@@ -120,11 +106,7 @@ export function Announcement(props: Props): JSX.Element {
         activeOpacity={0.9}
         onPress={async () => {
           setHide(true);
-          try {
-            await AsyncStorage.setItem("@HideAnnouncement:key", "true");
-          } catch (error) {
-            console.error(`failed to set hide announcement value: ${error}`);
-          }
+          await setHideAnnouncement("true");
         }}
       >
         <Text style={styles.closeText}>✕</Text>
