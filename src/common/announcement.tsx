@@ -68,7 +68,7 @@ export function Announcement(props: Props): JSX.Element {
     ""
   );
 
-  const [, setSubFlash] = useAsyncStorage("@SubscriptionFlash:key", "");
+  const [, setSubFlash] = useAsyncStorage("@SubscriptionFlashCard:key", "");
 
   React.useEffect(() => {
     if (synced) {

@@ -80,7 +80,7 @@ export const About = connect(
     const [reportAnimateCount, setReportAnimateCount] = useState(0);
     const [subscriptionFlash, setSubscriptionFlash] = useState(false);
 
-    const { getItem, setItem } = useAsyncStorage("@SubscriptionFlash:key");
+    const { getItem, setItem } = useAsyncStorage("@SubscriptionFlashCard:key");
     const isFocused = useIsFocused();
 
     React.useEffect(() => {
