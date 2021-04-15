@@ -1,5 +1,7 @@
 import { onError } from "@apollo/client/link/error";
 import { store } from "@/common/store";
+import { Toast } from "@ant-design/react-native";
+import { i18n } from "@/translations";
 
 export const onErrorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -18,7 +20,12 @@ export const onErrorLink = onError(({ graphQLErrors, networkError }) => {
     }
   }
   if (networkError) {
-    // eslint-disable-next-line no-console
-    console.log(`[Network error]: ${networkError}`);
+    if (networkError.message.indexOf("Network request failed") >= 0) {
+      Toast.info(i18n.t("netError"));
+    } else if (networkError.message.indexOf("Timeout") >= 0) {
+      Toast.info(i18n.t("netTimeout"));
+    } else {
+      Toast.info(i18n.t("serverError"));
+    }
   }
 });

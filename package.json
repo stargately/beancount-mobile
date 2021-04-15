@@ -123,6 +123,7 @@
     "@types/react-redux": "7.0.0",
     "@types/use-subscription": "^1.0.0",
     "@yuyongmao/react-native-chart-kit": "^1.0.0",
+    "apollo-link-timeout": "^4.0.0",
     "axios": "^0.21.1",
     "buffer": "^6.0.3",
     "currency-icons": "^1.0.14",
@@ -170,8 +171,7 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "2.3.0",
     "sentry-expo": "^2.1.2",
-    "short-number": "^1.0.7",
-    "ts-invariant": "^0.7.0"
+    "short-number": "^1.0.7"
   },
   "devDependencies": {
     "@puncsky/eslint-config-onefx": "^2.3.0",

@@ -84,4 +84,7 @@ export const en = {
   "10": "OCT",
   "11": "NOV",
   "12": "DEC",
+  netTimeout: "Network request timeout",
+  netError: "Network request failed",
+  serverError: "Server error",
 };

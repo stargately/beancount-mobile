@@ -81,4 +81,7 @@ export const zh = {
   "10": "十月",
   "11": "十一月",
   "12": "十二月",
+  netTimeout: "网络请求超时",
+  netError: "网络请求失败",
+  serverError: "服务器错误",
 };

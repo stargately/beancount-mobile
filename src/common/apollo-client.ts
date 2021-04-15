@@ -9,6 +9,9 @@ import fetch from "isomorphic-unfetch";
 import { getEndpoint } from "@/common/request";
 import { store } from "@/common/store";
 import { onErrorLink } from "@/common/apollo-error-handling";
+import ApolloLinkTimeout from "apollo-link-timeout";
+
+const timeoutLink = new ApolloLinkTimeout(10000);
 
 const middlewareLink = new ApolloLink((operation, forward) => {
   operation.setContext({
@@ -21,6 +24,7 @@ const middlewareLink = new ApolloLink((operation, forward) => {
 const link = middlewareLink.concat(
   ApolloLink.from([
     onErrorLink,
+    timeoutLink,
     new HttpLink({
       uri: getEndpoint("api-gateway/"),
       fetch,
