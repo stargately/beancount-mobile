@@ -8,6 +8,7 @@ export const useAccountHierarchy = (userId: string, currency: string) => {
     accountHierarchy,
     {
       variables: { userId },
+      fetchPolicy: "network-only",
     }
   );
   const accounts = getAssetsLiabilities(currency, data);

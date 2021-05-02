@@ -96,9 +96,11 @@ export const HomeScreen = connect(
   const onRefresh = async () => {
     setRefreshing(true);
     try {
-      await ledgerMetaRefetch();
-      await netWorthRefetch();
-      await accountsRefetch();
+      await Promise.all([
+        ledgerMetaRefetch(),
+        netWorthRefetch(),
+        accountsRefetch(),
+      ]);
     } finally {
       setRefreshing(false);
     }

@@ -101,7 +101,7 @@ export const useLedgerMeta = (userId: string) => {
   const { data, error, loading, refetch } = useQuery<
     ledgerMeta,
     ledgerMetaVariables
-  >(getLedgerMeta, { variables: { userId } });
+  >(getLedgerMeta, { variables: { userId }, fetchPolicy: "network-only" });
 
   const { assets, expenses, currencies } = getAccountsAndCurrency(
     data?.ledgerMeta.data
