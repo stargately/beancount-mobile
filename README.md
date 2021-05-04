@@ -15,7 +15,7 @@ Beancount Mobile Community Edition is an iOS and Android App for [Beancount.io -
 Run it locally
 
 ```zsh
-git clone git@github.com:puncsky/beancount-mobile.git
+git clone git@github.com:stargately/beancount-mobile.git
 cd beancount-mobile
 npm install
 npm run start
