@@ -16,6 +16,7 @@ import { LedgerScreen } from "@/screens/ledger-screen";
 import { MineScreen } from "@/screens/mine-screen/mine-screen";
 import { TabBarIcon } from "@/common/tab-bar-icon";
 import { LocalizationContext } from "@/translations";
+import * as Haptics from "expo-haptics";
 
 const HomeStack = createStackNavigator<HomeParamList>();
 
@@ -49,6 +50,12 @@ function MineNavigator() {
 
 const MainTab = createBottomTabNavigator<MainTabParamList>();
 
+const hapticsListener = () => ({
+  tabPress: async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  },
+});
+
 export function MainTabNavigator() {
   const { t } = React.useContext(LocalizationContext);
   return (
@@ -59,36 +66,48 @@ export function MainTabNavigator() {
       <MainTab.Screen
         name="Home"
         component={HomeNavigator}
+        listeners={hapticsListener}
         options={{
           tabBarLabel: t("home"),
-          tabBarIcon: ({ focused }: { focused: boolean }) => {
+          tabBarIcon: function TabBarIconWrapper({
+            focused,
+          }: {
+            focused: boolean;
+          }) {
             const name = Platform.OS === "ios" ? "ios-home" : "md-home";
-            const tabIcon = <TabBarIcon name={name} focused={focused} />;
-            return tabIcon;
+            return <TabBarIcon name={name} focused={focused} />;
           },
         }}
       />
       <MainTab.Screen
         name="Ledger"
         component={LinkNavigator}
+        listeners={hapticsListener}
         options={{
           tabBarLabel: t("ledger"),
-          tabBarIcon: ({ focused }: { focused: boolean }) => {
+          tabBarIcon: function TabBarIconWrapper({
+            focused,
+          }: {
+            focused: boolean;
+          }) {
             const name = Platform.OS === "ios" ? "ios-journal" : "md-journal";
-            const tabIcon = <TabBarIcon name={name} focused={focused} />;
-            return tabIcon;
+            return <TabBarIcon name={name} focused={focused} />;
           },
         }}
       />
       <MainTab.Screen
         name="Mine"
         component={MineNavigator}
+        listeners={hapticsListener}
         options={{
           tabBarLabel: t("mine"),
-          tabBarIcon: ({ focused }: { focused: boolean }) => {
+          tabBarIcon: function TabBarIconWrapper({
+            focused,
+          }: {
+            focused: boolean;
+          }) {
             const name = Platform.OS === "ios" ? "ios-apps" : "md-apps";
-            const tabIcon = <TabBarIcon name={name} focused={focused} />;
-            return tabIcon;
+            return <TabBarIcon name={name} focused={focused} />;
           },
         }}
       />
