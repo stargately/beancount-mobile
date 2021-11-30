@@ -13,6 +13,7 @@ import { TextStyled } from "@/common/text-styled";
 import { getCurrencySymbol } from "@/common/currency-util";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
+import { useAsyncStorage } from "@/common/hooks/use-async-storage";
 
 const { Item } = List;
 const { Brief } = Item;
@@ -87,6 +88,14 @@ export const AddTransactionNextScreen = connect(
   const [date, setDate] = useState<string>(getFormatDate(new Date()));
   const [narration, setNarration] = useState<string>("");
   const { mutate, error } = useAddEntriesToRemote();
+  const [lastAssets, setLastAssets] = useAsyncStorage(
+    "@LastSelectedAssets:key",
+    ""
+  );
+  const [lastExpenses, setLastExpenses] = useAsyncStorage(
+    "@LastSelectedExpenses:key",
+    ""
+  );
 
   const currencySymbol = getCurrencySymbol(currentCurrency);
 
@@ -121,6 +130,18 @@ export const AddTransactionNextScreen = connect(
 
       if (!error) {
         Toast.success(i18n.t("saveSuccess"), 2, () => {
+          try {
+            if (lastAssets !== assets) {
+              setLastAssets(assets);
+            }
+            if (lastExpenses !== expenses) {
+              setLastExpenses(expenses);
+            }
+          } catch (aserror) {
+            console.error(
+              `failed to set last selected assets or expenses value: ${aserror}`
+            );
+          }
           props.navigation.pop();
           if (onRefresh) {
             onRefresh();

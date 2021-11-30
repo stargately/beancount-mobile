@@ -18,6 +18,7 @@ import { ListItemStyled } from "@/screens/add-transaction-screen/components/list
 import { analytics } from "@/common/analytics";
 import { i18n } from "@/translations";
 import { ColorTheme } from "@/types/theme-props";
+import { useAsyncStorage } from "@/common/hooks/use-async-storage";
 
 const { Item } = List;
 const { Brief } = Item;
@@ -80,12 +81,30 @@ export const QuickAddAccountsSelector = connect(
     loading,
     refetch,
   } = useLedgerMeta(userId);
+
   const [selectedAssets, setSelectedAssets] = useState(
     assetsOptionTabs.length > 0 ? assetsOptionTabs[0].options[0] : ""
   );
   const [selectedExpenses, setSelectedExpenses] = useState(
     expensesOptionTabs.length > 0 ? expensesOptionTabs[0].options[0] : ""
   );
+
+  const [lastAssets] = useAsyncStorage("@LastSelectedAssets:key", "");
+  const [lastExpenses] = useAsyncStorage("@LastSelectedExpenses:key", "");
+
+  React.useEffect(() => {
+    function init() {
+      if (lastAssets !== "") {
+        setSelectedAssets(lastAssets);
+      }
+      if (lastExpenses !== "") {
+        setSelectedExpenses(lastExpenses);
+      }
+    }
+    if (!loading) {
+      init();
+    }
+  }, [loading, lastExpenses, lastAssets]);
 
   useEffect(() => {
     const currency = currencies.length > 0 ? currencies[0] : "";

@@ -104,6 +104,7 @@
     "@apollo/client": "3.3.12",
     "@callstack/react-theme-provider": "^2.1.0",
     "@expo/vector-icons": "^12.0.4",
+    "@react-native-async-storage/async-storage": "^1.14.1",
     "@react-native-community/async-storage": "~1.12.0",
     "@react-native-community/cameraroll": "^4.0.0",
     "@react-native-community/masked-view": "0.1.10",
