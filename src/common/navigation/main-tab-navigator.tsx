@@ -1,5 +1,8 @@
 import * as React from "react";
-import { Platform } from "react-native";
+// import { Platform } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import * as Haptics from "expo-haptics";
 import {
   HomeParamList,
   LedgerParamList,
@@ -7,16 +10,13 @@ import {
   MainTabParamList,
 } from "@/types/navigation-param";
 
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
-import { ThemedBottomTabBar } from "@/common/themed-bottom-tab-bar";
+// import { ThemedBottomTabBar } from "@/common/themed-bottom-tab-bar";
 
 import { HomeScreen } from "@/screens/home-screen";
 import { LedgerScreen } from "@/screens/ledger-screen";
 import { MineScreen } from "@/screens/mine-screen/mine-screen";
 import { TabBarIcon } from "@/common/tab-bar-icon";
 import { LocalizationContext } from "@/translations";
-import * as Haptics from "expo-haptics";
 
 const HomeStack = createStackNavigator<HomeParamList>();
 
@@ -60,7 +60,7 @@ export function MainTabNavigator() {
   const { t } = React.useContext(LocalizationContext);
   return (
     <MainTab.Navigator
-      tabBar={(props) => <ThemedBottomTabBar {...props} />}
+      // tabBar={(props) => <ThemedBottomTabBar {...props} />}
       initialRouteName="Home"
     >
       <MainTab.Screen
@@ -74,8 +74,8 @@ export function MainTabNavigator() {
           }: {
             focused: boolean;
           }) {
-            const name = Platform.OS === "ios" ? "ios-home" : "md-home";
-            return <TabBarIcon name={name} focused={focused} />;
+            // const name = Platform.OS === "ios" ? "ios-home" : "md-home";
+            return <TabBarIcon name="home" focused={focused} />;
           },
         }}
       />
@@ -90,8 +90,8 @@ export function MainTabNavigator() {
           }: {
             focused: boolean;
           }) {
-            const name = Platform.OS === "ios" ? "ios-journal" : "md-journal";
-            return <TabBarIcon name={name} focused={focused} />;
+            // const name = Platform.OS === "ios" ? "ios-journal" : "md-journal";
+            return <TabBarIcon name="journal" focused={focused} />;
           },
         }}
       />
@@ -106,8 +106,8 @@ export function MainTabNavigator() {
           }: {
             focused: boolean;
           }) {
-            const name = Platform.OS === "ios" ? "ios-apps" : "md-apps";
-            return <TabBarIcon name={name} focused={focused} />;
+            // const name = Platform.OS === "ios" ? "ios-apps" : "md-apps";
+            return <TabBarIcon name="apps" focused={focused} />;
           },
         }}
       />

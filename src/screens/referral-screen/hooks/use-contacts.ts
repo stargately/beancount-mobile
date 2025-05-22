@@ -1,11 +1,6 @@
 import * as React from "react";
-import * as Permissions from "expo-permissions";
-import {
-  getContactsAsync,
-  Contact,
-  EMAILS,
-  PHONE_NUMBERS,
-} from "expo-contacts";
+import { type Contact } from "expo-contacts";
+import * as Contacts from "expo-contacts";
 
 type ContactsState = {
   loading: boolean;
@@ -13,7 +8,7 @@ type ContactsState = {
   data: Array<Contact>;
 };
 
-export const useContacts = () => {
+export const useContacts = (): ContactsState => {
   const [contacts, setContacts] = React.useState<ContactsState>({
     loading: true,
     error: null,
@@ -22,27 +17,26 @@ export const useContacts = () => {
   React.useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const { status } = await Permissions.getAsync(Permissions.CONTACTS);
-        if (status !== Permissions.PermissionStatus.GRANTED) {
-          await Permissions.askAsync(Permissions.CONTACTS);
+        const { status } = await Contacts.requestPermissionsAsync();
+        if (status !== Contacts.PermissionStatus.GRANTED) {
+          throw new Error("Permission not granted");
         }
-        const data = await getContactsAsync({
-          fields: [EMAILS, PHONE_NUMBERS],
+        const data = await Contacts.getContactsAsync({
+          fields: [Contacts.Fields.PhoneNumbers, Contacts.Fields.Emails],
         });
-        setContacts((state) => ({
-          loading: false,
-          error: null,
-          data: state.data.concat(data.data),
-        }));
-      } catch (ex) {
         setContacts({
           loading: false,
-          error: ex,
+          error: null,
+          data: data.data,
+        });
+      } catch (error) {
+        setContacts({
+          loading: false,
+          error: error as Error,
           data: [],
         });
       }
     };
-
     fetchContacts();
   }, []);
 

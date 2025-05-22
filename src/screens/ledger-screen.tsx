@@ -72,7 +72,7 @@ export const LedgerScreen = connect((state: AppState) => {
   const [uri, setUri] = useState(getEndpoint("ledger/editor/"));
   return (
     <View style={styles.container}>
-      <View style={{ height: statusBarHeight, backgroundColor: theme.white }} />
+      {/* <View style={{ height: statusBarHeight, backgroundColor: theme.white }} /> */}
       <ProgressBar progress={progress} />
       <WebView
         ref={(webView) => {
@@ -88,7 +88,7 @@ export const LedgerScreen = connect((state: AppState) => {
         }}
       />
       <Button style={styles.refreshButton} onPress={onRefresh}>
-        <Ionicons name="md-refresh" size={24} color={theme.white} />
+        <Ionicons name="refresh" size={24} color={theme.white} />
       </Button>
     </View>
   );

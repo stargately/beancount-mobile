@@ -4,6 +4,8 @@
     "@puncsky/eslint-config-onefx"
   ],
   "rules": {
-    "global-require": [0]
+    "global-require": [
+      0
+    ]
   }
 }

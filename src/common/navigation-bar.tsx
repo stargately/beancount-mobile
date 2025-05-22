@@ -53,7 +53,7 @@ export const NavigationBar = connect((state: AppState) => ({
             onPress={() => navigation && navigation.pop()}
           >
             <Ionicons
-              name="ios-arrow-back"
+              name="arrow-back"
               size={29}
               color={theme.navText}
               style={{ paddingHorizontal: 10 }}

@@ -7,6 +7,8 @@ import {
   Text,
   View,
 } from "react-native";
+import { useState } from "react";
+import { connect } from "react-redux";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
@@ -14,8 +16,6 @@ import { useHomeCharts } from "@/screens/home-screen/hooks/use-home-charts";
 import { useAccountHierarchy } from "@/screens/home-screen/hooks/use-account-hierarchy";
 import { HeaderText, SmallHeaderText } from "@/common/text-styled";
 import { BarChartStyled } from "@/common/bar-chart-styled";
-import { useState } from "react";
-import { connect } from "react-redux";
 import {
   contentPadding,
   ScreenWidth,
@@ -37,10 +37,10 @@ const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: statusBarHeight,
+      // paddingTop: statusBarHeight,
       backgroundColor: theme.white,
-      paddingLeft: 16,
-      paddingRight: 16,
+      // paddingLeft: 16,
+      // paddingRight: 16,
     },
     quickAddLabel: {
       color: theme.white,
@@ -110,6 +110,7 @@ export const HomeScreen = connect(
     <>
       <View style={styles.container}>
         <ScrollView
+          contentContainerStyle={{ paddingHorizontal: 16 }}
           indicatorStyle={props.theme === "dark" ? "white" : "default"}
           refreshControl={
             <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />

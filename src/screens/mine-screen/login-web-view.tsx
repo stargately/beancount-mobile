@@ -3,10 +3,10 @@ import * as React from "react";
 import { Dimensions, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { connect } from "react-redux";
+import { useState } from "react";
 import { analytics } from "@/common/analytics";
 import { getEndpoint, headers } from "@/common/request";
 import { actionUpdateReduxState } from "@/common/root-reducer";
-import { useState } from "react";
 import { ProgressBar } from "@/common/progress-bar";
 import { statusBarHeight } from "@/common/screen-util";
 
@@ -53,7 +53,10 @@ export const LoginWebView = connect(
           marginTop: 0,
           height: height - statusBarHeight,
         }}
-        onLoadProgress={({ nativeEvent }) => setProgress(nativeEvent.progress)}
+        onLoadProgress={({ nativeEvent }) => {
+          // console.log("nativeEvent", nativeEvent.progress);
+          setProgress(nativeEvent.progress);
+        }}
         onMessage={async (event) => {
           try {
             const msg = decodeURIComponent(

@@ -1,4 +1,4 @@
-import { Appearance } from "react-native-appearance";
+import { Appearance } from "react-native";
 import { createTheming, ThemingType } from "@callstack/react-theme-provider";
 import { ThemeProps, ColorTheme, AntdTheme } from "@/types/theme-props";
 
@@ -109,10 +109,7 @@ export const themes: { [key: string]: ThemeProps } = {
   },
 };
 
-const {
-  ThemeProvider,
-  withTheme,
-  useTheme,
-}: ThemingType<ThemeProps> = createTheming(themes[colorMode]);
+const { ThemeProvider, withTheme, useTheme }: ThemingType<ThemeProps> =
+  createTheming(themes[colorMode]);
 
 export { ThemeProvider, withTheme, useTheme, colorMode };

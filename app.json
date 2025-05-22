@@ -27,6 +27,19 @@
     },
     "notification": {
       "icon": "./src/assets/images/icon96.png"
-    }
+    },
+    "plugins": [
+      "expo-asset",
+      "expo-localization",
+      "expo-mail-composer",
+      "expo-web-browser",
+      "sentry-expo",
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Allow $(PRODUCT_NAME) to access your contacts."
+        }
+      ]
+    ]
   }
 }

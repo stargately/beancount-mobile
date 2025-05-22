@@ -3,18 +3,13 @@ import { List, Picker, Toast, Portal } from "@ant-design/react-native";
 import Constants from "expo-constants";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  Platform,
-  ScrollView,
-  Switch,
-  View,
-  AsyncStorage,
-} from "react-native";
+import { Alert, Platform, ScrollView, Switch, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { connect } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
 import { analytics } from "@/common/analytics";
 import { ListHeader } from "@/common/list-header";
-import { registerForPushNotificationAsync } from "@/common/register-push-token";
+// import { registerForPushNotificationAsync } from "@/common/register-push-token";
 import { actionUpdateReduxState } from "@/common/root-reducer";
 import { AppState } from "@/common/store";
 import { useTheme } from "@/common/theme";
@@ -25,7 +20,6 @@ import { useUpdateReportSubscribeToRemote } from "@/screens/mine-screen/hooks/us
 import { useFeatureFlags } from "@/common/feature-flags/use-feature-flags";
 import { AccountHeader } from "@/screens/mine-screen/account-header";
 import { InviteSection } from "@/screens/referral-screen/components/invite-section";
-import { useIsFocused } from "@react-navigation/native";
 import { ReportStatus } from "../../../__generated__/globalTypes";
 
 const { Item } = List;
@@ -76,12 +70,12 @@ export const About = connect(
       { value: ReportStatus.OFF, label: i18n.t("off") },
     ];
 
-    useEffect(() => {
-      async function init() {
-        await registerForPushNotificationAsync();
-      }
-      init();
-    }, []);
+    // useEffect(() => {
+    //   async function init() {
+    //     await registerForPushNotificationAsync();
+    //   }
+    //   init();
+    // }, []);
 
     const [reportAnimateCount, setReportAnimateCount] = useState(0);
     const [subscriptionFlash, setSubscriptionFlash] = useState(false);
@@ -169,7 +163,7 @@ export const About = connect(
           renderHeader={<ListHeader>{i18n.t("about")}</ListHeader>}
         >
           <Item
-            disabled
+            // disabled
             extra={Platform.OS === "ios" ? "Apple Store" : "Google Play"}
             arrow="horizontal"
             style={backgroundColor}
@@ -229,7 +223,7 @@ export const About = connect(
           )}
 
           <Item
-            disabled
+            // disabled
             style={backgroundColor}
             extra={
               <Switch
@@ -256,7 +250,7 @@ export const About = connect(
 
           <Item
             style={backgroundColor}
-            disabled
+            // disabled
             extra={
               <Switch
                 value={currentTheme === "dark"}
@@ -283,7 +277,7 @@ export const About = connect(
           {authToken ? (
             <Item
               style={backgroundColor}
-              disabled
+              // disabled
               onPress={() => {
                 Alert.alert(
                   "",

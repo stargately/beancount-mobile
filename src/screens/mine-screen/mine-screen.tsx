@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View } from "react-native";
-import { statusBarHeight } from "@/common/screen-util";
+// import { statusBarHeight } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
 import { About } from "@/screens/mine-screen/about";
 import { analytics } from "@/common/analytics";
@@ -24,7 +24,7 @@ export function MineScreen(props: Props): JSX.Element {
       style={{
         backgroundColor: theme.white,
         flex: 1,
-        paddingTop: statusBarHeight,
+        // paddingTop: statusBarHeight,
       }}
     >
       <About navigation={navigation} />
