@@ -11,7 +11,6 @@ import {
 } from "@/types/navigation-param";
 
 // import { ThemedBottomTabBar } from "@/common/themed-bottom-tab-bar";
-
 import { HomeScreen } from "@/screens/home-screen";
 import { LedgerScreen } from "@/screens/ledger-screen";
 import { MineScreen } from "@/screens/mine-screen/mine-screen";

@@ -1,5 +1,5 @@
 import { Appearance } from "react-native";
-import { createTheming, ThemingType } from "@callstack/react-theme-provider";
+import { createTheming } from "@callstack/react-theme-provider";
 import { ThemeProps, ColorTheme, AntdTheme } from "@/types/theme-props";
 
 const colorScheme = Appearance.getColorScheme();
@@ -109,7 +109,6 @@ export const themes: { [key: string]: ThemeProps } = {
   },
 };
 
-const { ThemeProvider, withTheme, useTheme }: ThemingType<ThemeProps> =
-  createTheming(themes[colorMode]);
+const { ThemeProvider, withTheme, useTheme } = createTheming(themes[colorMode]);
 
 export { ThemeProvider, withTheme, useTheme, colorMode };

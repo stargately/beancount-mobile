@@ -64,7 +64,7 @@ export const LoginWebView = connect(
             );
             const msgObj = JSON.parse(msg);
             if (msgObj.authToken) {
-              const { sub } = jwtDecode(msgObj.authToken);
+              const { sub } = jwtDecode(msgObj.authToken) as { sub: string };
               analytics.identify(sub);
               await analytics.track(isSignUp ? "signed_up" : "logged_in", {});
               updateReduxState({

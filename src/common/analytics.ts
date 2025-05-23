@@ -1,9 +1,9 @@
-import { Analytics, Event, PageHit } from "expo-analytics";
+// import { Analytics, Event, PageHit } from "expo-analytics";
 import { config } from "@/config";
 import { ExpoMixpanelAnalytics } from "@/common/expo-mixpanel-analytics";
 
 class MyAnalytics {
-  ga?: Analytics & { parameters: { uid: string } };
+  // ga?: Analytics & { parameters: { uid: string } };
 
   mixpanel?: ExpoMixpanelAnalytics;
 

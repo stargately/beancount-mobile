@@ -1,9 +1,9 @@
 /* tslint:disable:no-any */
-import { List, Picker, Toast, Portal } from "@ant-design/react-native";
+import { List, Picker, Toast, Portal, Switch } from "@ant-design/react-native";
 import Constants from "expo-constants";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
-import { Alert, Platform, ScrollView, Switch, View } from "react-native";
+import { Alert, Platform, ScrollView, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { connect } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
@@ -227,8 +227,8 @@ export const About = connect(
             style={backgroundColor}
             extra={
               <Switch
-                value={String(locale).startsWith("en")}
-                onValueChange={async (value) => {
+                checked={String(locale).startsWith("en")}
+                onChange={async (value) => {
                   const changeTo = value ? "en" : "zh";
                   updateReduxState({
                     base: { locale: changeTo },
@@ -253,8 +253,8 @@ export const About = connect(
             // disabled
             extra={
               <Switch
-                value={currentTheme === "dark"}
-                onValueChange={async (value) => {
+                checked={currentTheme === "dark"}
+                onChange={async (value) => {
                   const mode = value ? "dark" : "light";
                   updateReduxState({
                     base: { currentTheme: mode },

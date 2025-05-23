@@ -9,13 +9,13 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { composeAsync } from "expo-mail-composer";
-import { NavigationBar } from "@/common/navigation-bar";
 import { isAvailableAsync, sendSMSAsync } from "expo-sms";
 import { Button, Toast, SearchBar } from "@ant-design/react-native";
+import { groupBy } from "lodash";
+import { NavigationBar } from "@/common/navigation-bar";
 import { contentPadding } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
 import { CommonMargin } from "@/common/common-margin";
-import { groupBy } from "lodash";
 import { useContacts } from "@/screens/referral-screen/hooks/use-contacts";
 import { ContactRow } from "@/screens/referral-screen/components/contact-row";
 import { i18n } from "@/translations";
@@ -100,7 +100,7 @@ export function InviteScreen(props: Props) {
           if (cur.phoneNumbers != null) {
             for (const p of cur.phoneNumbers) {
               res.push({
-                id: cur.id + p.number,
+                id: `${cur.id}-${p.number}`,
                 name: cur.name || "",
                 phoneNumber: p.number,
               });
@@ -109,7 +109,7 @@ export function InviteScreen(props: Props) {
           if (cur.emails != null) {
             for (const e of cur.emails) {
               res.push({
-                id: cur.id + e.email,
+                id: `${cur.id}-${e.email}`,
                 name: cur.name || "",
                 email: e.email,
               });

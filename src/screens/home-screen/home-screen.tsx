@@ -16,11 +16,7 @@ import { useHomeCharts } from "@/screens/home-screen/hooks/use-home-charts";
 import { useAccountHierarchy } from "@/screens/home-screen/hooks/use-account-hierarchy";
 import { HeaderText, SmallHeaderText } from "@/common/text-styled";
 import { BarChartStyled } from "@/common/bar-chart-styled";
-import {
-  contentPadding,
-  ScreenWidth,
-  statusBarHeight,
-} from "@/common/screen-util";
+import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
 import { LoadingTile } from "@/common/loading-tile";
 import { AccountsStyled } from "@/screens/home-screen/components/accounts-styled";

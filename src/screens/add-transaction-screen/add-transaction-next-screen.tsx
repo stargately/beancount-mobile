@@ -116,6 +116,7 @@ export const AddTransactionNextScreen = connect(
       ];
 
       await mutate({ variables: { entriesInput: params } });
+      // await new Promise(resolve => setTimeout(resolve, 1000));
 
       Portal.remove(loadingKey);
 

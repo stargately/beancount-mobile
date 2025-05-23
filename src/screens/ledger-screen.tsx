@@ -19,15 +19,7 @@ const getStyles = (theme: ColorTheme) =>
     container: {
       flex: 1,
       backgroundColor: theme.white,
-    },
-    loadingContainer: {
-      position: "absolute",
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      alignItems: "center",
-      justifyContent: "center",
+      flexDirection: "column",
     },
     refreshButton: {
       width: 56,
@@ -72,7 +64,6 @@ export const LedgerScreen = connect((state: AppState) => {
   const [uri, setUri] = useState(getEndpoint("ledger/editor/"));
   return (
     <View style={styles.container}>
-      {/* <View style={{ height: statusBarHeight, backgroundColor: theme.white }} /> */}
       <ProgressBar progress={progress} />
       <WebView
         ref={(webView) => {

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { contentPadding } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
-import { MaterialIcons } from "@expo/vector-icons";
 import { CommonMargin } from "@/common/common-margin";
 import { ColorTheme } from "@/types/theme-props";
 

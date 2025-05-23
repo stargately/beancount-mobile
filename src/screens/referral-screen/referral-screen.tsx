@@ -8,14 +8,14 @@ import {
   Share,
   Platform,
 } from "react-native";
+import { Button, Toast } from "@ant-design/react-native";
+import { connect } from "react-redux";
 import { NavigationBar } from "@/common/navigation-bar";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
 import { ReferralGiftIcon } from "@/screens/referral-screen/components/referral-gift-icon";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
-import { Button, Toast } from "@ant-design/react-native";
-import { connect } from "react-redux";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 

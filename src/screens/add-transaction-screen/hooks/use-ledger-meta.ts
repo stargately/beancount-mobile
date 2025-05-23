@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { getLedgerMeta } from "@/screens/add-transaction-screen/data/queries";
 import * as lodash from "lodash";
+import { getLedgerMeta } from "@/screens/add-transaction-screen/data/queries";
 import {
   ledgerMeta,
   ledgerMetaVariables,
