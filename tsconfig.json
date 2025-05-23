@@ -1,4 +1,5 @@
 {
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
@@ -6,7 +7,7 @@
     "importHelpers": true,
     "jsx": "react-native",
     "lib": ["es2017"],
-    "module": "commonjs",
+    "module": "esnext",
     "noEmit": true,
     "noEmitHelpers": true,
     "noEmitOnError": true,

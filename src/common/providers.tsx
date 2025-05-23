@@ -3,10 +3,10 @@ import React from "react";
 import { ApolloProvider } from "@apollo/client";
 import { connect, Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { apolloClient } from "@/common/apollo-client";
-import { persistor, store } from "@/common/store";
 import enUS from "@ant-design/react-native/lib/locale-provider/en_US";
 import zhCN from "@ant-design/react-native/lib/locale-provider/zh_CN";
+import { apolloClient } from "@/common/apollo-client";
+import { persistor, store } from "@/common/store";
 import { themes, ThemeProvider } from "@/common/theme";
 
 export function Providers({

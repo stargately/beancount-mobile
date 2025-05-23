@@ -3,12 +3,13 @@ import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { connect } from "react-redux";
+import { Scope, TranslateOptions } from "i18n-js";
 import { AppNavigator } from "@/common/navigation/app-navigator";
 import { Providers } from "@/common/providers";
-import "@/common/sentry";
+// import "@/common/sentry";
 import { actionUpdateReduxState } from "@/common/root-reducer";
 import { useTheme } from "@/common/theme";
-import { Scope, TranslateOptions } from "i18n-js";
+
 import { PreAuthView } from "@/screens/mine-screen/pre-auth-view";
 import { useCachedResources } from "@/common/hooks/use-cached-resource";
 import { i18n, LocalizationContext } from "@/translations";
@@ -28,9 +29,8 @@ export function App() {
       // tslint:disable-next-line
       console.log(notification, "notification");
     }
-    const notificationSubscription = Notifications.addNotificationReceivedListener(
-      handleNotification
-    );
+    const notificationSubscription =
+      Notifications.addNotificationReceivedListener(handleNotification);
     return function cleanup() {
       notificationSubscription.remove();
     };

@@ -1,11 +1,8 @@
-import {
-  ProgressViewIOS,
-  ProgressBarAndroid,
-  Platform,
-  View,
-} from "react-native";
+import { View } from "react-native";
+// import { ProgressView } from "@react-native-community/progress-view";
 import * as React from "react";
-import { useTheme } from "@/common/theme";
+import { Progress } from "@ant-design/react-native";
+// import { useTheme } from "@/common/theme";
 
 type Props = {
   progress: number;
@@ -13,26 +10,14 @@ type Props = {
 
 export function ProgressBar(props: Props): JSX.Element {
   const { progress } = props;
-  const theme = useTheme().colorTheme;
+  // const theme = useTheme().colorTheme;
   if (progress === 1) {
     return <View />;
   }
 
-  if (Platform.OS === "ios") {
-    return (
-      <ProgressViewIOS
-        style={{ transform: [{ scaleX: 1.0 }, { scaleY: 3 }] }}
-        progressTintColor={theme.information}
-        progress={progress}
-      />
-    );
-  }
   return (
-    <ProgressBarAndroid
-      progress={progress}
-      color={theme.information}
-      styleAttr="Horizontal"
-      indeterminate={false}
-    />
+    <View style={{ height: 3 }}>
+      <Progress percent={progress * 100} />
+    </View>
   );
 }

@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
-import { Platform, Dimensions, AsyncStorage } from "react-native";
+import { Platform, Dimensions } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 import { Buffer } from "buffer";
 
@@ -59,7 +60,7 @@ export class ExpoMixpanelAnalytics {
       this.deviceName = Constants.deviceName;
       if (isIosPlatform && Constants.platform && Constants.platform.ios) {
         this.platform = Constants.platform.ios.platform;
-        this.model = Constants.platform.ios.model;
+        this.model = Constants.platform.ios.model ?? undefined;
       } else {
         this.platform = "android";
       }

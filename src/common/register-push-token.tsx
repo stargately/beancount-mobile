@@ -1,20 +1,16 @@
 import * as Notifications from "expo-notifications";
-import * as Permissions from "expo-permissions";
 import { useAddPushTokenToRemote } from "@/common/push-token/use-push-token-to-remote";
 
-export const registerForPushNotificationAsync = async (): Promise<string> => {
-  const { status: existingStatus } = await Permissions.getAsync(
-    Permissions.NOTIFICATIONS
-  );
-  let finalStatus = existingStatus;
-  if (existingStatus !== "granted") {
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-    finalStatus = status;
+export const registerForPushNotificationAsync = async () => {
+  const settings = await Notifications.requestPermissionsAsync();
+  const granted =
+    settings.granted ||
+    settings.ios?.status === Notifications.IosAuthorizationStatus.AUTHORIZED;
+  if (!granted) {
+    return;
   }
-  if (finalStatus !== "granted") {
-    return finalStatus;
-  }
-  const pushToken: Notifications.ExpoPushToken = await Notifications.getExpoPushTokenAsync();
+  const pushToken: Notifications.ExpoPushToken =
+    await Notifications.getExpoPushTokenAsync();
 
   if (pushToken) {
     try {
@@ -29,5 +25,4 @@ export const registerForPushNotificationAsync = async (): Promise<string> => {
       console.log(`add push token fail ${e}`);
     }
   }
-  return finalStatus;
 };
