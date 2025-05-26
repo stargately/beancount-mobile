@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "eject": "expo eject",
     "_note": "npm run lint && npm run tsc-test && ",
-    "test": "npm run lint && npm run schema && tsc && jest",
+    "test": "npm run lint && npm run schema && npm run typecheck",
     "jest": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "pretty-quick --staged && eslint src --quiet --fix --ext .js,.tsx,.ts",
