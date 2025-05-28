@@ -5175,11 +5175,6 @@ expo-constants@~17.1.5, expo-constants@~17.1.6:
     "@expo/config" "~11.0.9"
     "@expo/env" "~1.0.5"
 
-expo-contacts@~14.2.4:
-  version "14.2.4"
-  resolved "https://registry.yarnpkg.com/expo-contacts/-/expo-contacts-14.2.4.tgz#c0cc6612e37aba4248ece7a1d3f59f0db1988d25"
-  integrity sha512-iga1K1sTEJEr8A/YOuEQsWEUPYAaSoUZjexhIXLjand83xhWkhI63CklRmT5GwUBiPdN7dId68dWvCp8+uKDJw==
-
 expo-file-system@~18.1.10:
   version "18.1.10"
   resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-18.1.10.tgz#22f3bcc2c9a7edcd6bba5ece3c90a8467fda47be"

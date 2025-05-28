@@ -56,17 +56,16 @@ export const en = {
   inviteFriends: "Invite Friends",
   invite: "Invite",
   inviteSummary:
-    "Share your secret weapon of managing money and help friends grow their wealth!",
+    "Share this professional financial management tool and help others build their financial future.",
   referral: "Referral",
   copy: "Copy",
   copied: "Copied",
-  inviteFromContacts: "Invite from Contacts",
   share: "Share",
   rewardSummary: "Invite Friends",
   rewardDetail:
-    "Share your secret weapon of managing money and help friends grow their wealth!",
+    "Share this professional financial management tool and help others build their financial future.",
   recommend:
-    "Here is my secret weapon of managing money and hope it can help you grow your wealth as well :)",
+    "I'd like to share this professional financial management tool that has helped me organize my finances effectively.",
   shareError: "Failed to share",
   thanksShare: "Thanks for sharing!!",
   loading: "loading...",

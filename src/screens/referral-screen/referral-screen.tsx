@@ -72,18 +72,6 @@ const getStyles = (theme: ColorTheme) =>
       fontWeight: "bold",
       color: theme.primary,
     },
-    inviteBtn: {
-      backgroundColor: theme.primary,
-      width: ScreenWidth - 2 * contentPadding,
-      alignItems: "center",
-      justifyContent: "center",
-      borderColor: theme.primary,
-    },
-    invite: {
-      fontWeight: "bold",
-      color: "white",
-      fontSize: 16,
-    },
     shareBtn: {
       backgroundColor: theme.white,
       width: ScreenWidth - 2 * contentPadding,
@@ -145,15 +133,6 @@ export const ReferralScreen = connect(
           </TouchableOpacity>
         </View>
         <View style={{ flex: 1 }}></View>
-        <Button
-          style={styles.inviteBtn}
-          onPress={async () => {
-            await analytics.track("tap_navigate_to_invite", { shareLink });
-            props.navigation.navigate("Invite", { shareLink });
-          }}
-        >
-          <Text style={styles.invite}>{i18n.t("inviteFromContacts")}</Text>
-        </Button>
         <CommonMargin />
         <Button
           style={styles.shareBtn}
