@@ -63,3 +63,4 @@ package-lock.json
 
 __generated__
 schema.json
+dist/
