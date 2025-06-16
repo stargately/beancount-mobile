@@ -71,12 +71,6 @@ const darkTheme: ColorTheme = {
   navText: "#fff",
 };
 
-// export let theme = colorMode === "dark" ? darkTheme : lightTheme;
-
-// export function setTheme(mode: "dark" | "light" | undefined): void {
-//   theme = mode === "dark" ? darkTheme : lightTheme;
-// }
-
 export const antdLightTheme: AntdTheme = {
   color_text_base: lightTheme.text01,
   brand_primary: lightTheme.primary,

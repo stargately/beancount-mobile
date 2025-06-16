@@ -21,11 +21,11 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "target": "es2017",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "app/**/*.ts", "app/**/*.tsx"],
   "exclude": ["node_modules"]
 }

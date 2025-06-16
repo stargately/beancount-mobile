@@ -1,7 +1,6 @@
 import deepExtend from "deep-extend";
 import { persistReducer } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { accountReducer } from "@/screens/mine-screen/account-reducer";
 
 import { AppState } from "@/common/store";
