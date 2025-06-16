@@ -47,7 +47,7 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-export function PreAuthView(): JSX.Element {
+export function AuthScreen(): JSX.Element {
   React.useEffect(() => {
     async function init() {
       await analytics.track("page_view_pre_auth", {});

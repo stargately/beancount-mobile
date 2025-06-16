@@ -16,7 +16,7 @@ import { HomeScreen } from "@/screens/home-screen";
 import { LedgerScreen } from "@/screens/ledger-screen";
 import { MineScreen } from "@/screens/mine-screen/mine-screen";
 import { TabBarIcon } from "@/common/tab-bar-icon";
-import { LocalizationContext } from "@/translations";
+import { i18n } from "@/translations";
 
 const HomeStack = createStackNavigator<HomeParamList>();
 
@@ -57,7 +57,6 @@ const hapticsListener = () => ({
 });
 
 export function MainTabNavigator() {
-  const { t } = React.useContext(LocalizationContext);
   const theme = useTheme();
 
   return (
@@ -81,7 +80,7 @@ export function MainTabNavigator() {
         component={HomeNavigator}
         listeners={hapticsListener}
         options={{
-          tabBarLabel: t("home"),
+          tabBarLabel: i18n.t("home"),
           tabBarIcon: function TabBarIconWrapper({
             focused,
           }: {
@@ -97,7 +96,7 @@ export function MainTabNavigator() {
         component={LinkNavigator}
         listeners={hapticsListener}
         options={{
-          tabBarLabel: t("ledger"),
+          tabBarLabel: i18n.t("ledger"),
           tabBarIcon: function TabBarIconWrapper({
             focused,
           }: {
@@ -113,7 +112,7 @@ export function MainTabNavigator() {
         component={MineNavigator}
         listeners={hapticsListener}
         options={{
-          tabBarLabel: t("mine"),
+          tabBarLabel: i18n.t("mine"),
           tabBarIcon: function TabBarIconWrapper({
             focused,
           }: {

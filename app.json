@@ -3,6 +3,7 @@
     "version": "0.8.0",
     "name": "Beancount",
     "slug": "beancount",
+    "scheme": "beancount",
     "privacy": "public",
     "platforms": [
       "ios",

@@ -12,7 +12,7 @@ import { ListHeader } from "@/common/list-header";
 import { actionUpdateReduxState } from "@/common/root-reducer";
 import { AppState } from "@/common/store";
 import { useTheme } from "@/common/theme";
-import { i18n, LocalizationContext } from "@/translations";
+import { i18n, setLocale } from "@/translations";
 import { actionLogout } from "@/screens/mine-screen/account-reducer";
 import { useUserProfile } from "@/screens/mine-screen/hooks/use-user-profile";
 import { useUpdateReportSubscribeToRemote } from "@/screens/mine-screen/hooks/use-update-report-subscribe";
@@ -61,7 +61,6 @@ export const About = connect(
   navigation,
 }: Props) => {
   const theme = useTheme().colorTheme;
-  const { setLocale } = React.useContext(LocalizationContext);
   const pickerSource = [
     { value: ReportStatus.WEEKLY, label: i18n.t("weekly") },
     { value: ReportStatus.MONTHLY, label: i18n.t("monthly") },

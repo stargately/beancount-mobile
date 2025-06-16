@@ -9,9 +9,9 @@ export default function NotFoundScreen() {
   return (
     <>
       <Stack.Screen options={{ title: "Oops!" }} />
-      <Flex style={styles.container}>
+      <Flex>
         <Link href="/" style={styles.link}>
-          <Text>Go to home screen!</Text>
+          <Text>Not Found</Text>
         </Link>
       </Flex>
     </>
@@ -19,12 +19,6 @@ export default function NotFoundScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
   link: {
     marginTop: 15,
     paddingVertical: 15,

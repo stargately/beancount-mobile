@@ -15,11 +15,12 @@ export default function AppLayout() {
   const session = useSession();
 
   if (!session) {
-    return <Redirect href="/auth/welcome" />;
+    return <Redirect href="/auth/auth" />;
   }
 
   return (
     <Stack
+      initialRouteName="(tabs)"
       screenOptions={{
         headerTitleStyle: {
           fontWeight: "bold",
