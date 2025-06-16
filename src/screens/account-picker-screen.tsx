@@ -36,7 +36,7 @@ export function AccountPickerScreen(pickerProps: Props): JSX.Element {
     optionTabs,
   }: {
     onSelected: (item: string) => void;
-    optionTabs: Array<OptionTab>;
+    optionTabs: OptionTab[];
   } = route.params;
 
   const tabs = optionTabs.map((opt) => {

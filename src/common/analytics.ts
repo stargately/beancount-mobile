@@ -9,7 +9,6 @@ class MyAnalytics {
 
   constructor() {
     if (config.analytics.googleTid) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       // this.ga = new Analytics(config.analytics.googleTid, undefined, {
       //   debug: __DEV__,

@@ -75,7 +75,7 @@ export function AddTransactionScreen(props: Props): JSX.Element {
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
   const [currentMoney, setCurrentMoney] = React.useState("0.00");
-  const [keyValues, setKeyValues] = React.useState<Array<number>>([]);
+  const [keyValues, setKeyValues] = React.useState<number[]>([]);
 
   let currentAsset = "";
   let currentExpense = "";
@@ -95,7 +95,7 @@ export function AddTransactionScreen(props: Props): JSX.Element {
     setCurrentCurrency(currency);
   };
 
-  const getMoneyByKeyValues = (values: Array<number>) => {
+  const getMoneyByKeyValues = (values: number[]) => {
     let money = "0.00";
     if (values.length > 0) {
       let moneyTmp = values.map((v) => String(v)).join("");

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Platform, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
@@ -69,7 +68,6 @@ export class ExpoMixpanelAnalytics {
         if (result) {
           try {
             this.superProps = JSON.parse(result) || {};
-            // eslint-disable-next-line no-empty
           } catch {}
         }
 
@@ -84,7 +82,6 @@ export class ExpoMixpanelAnalytics {
     this.superProps = props;
     try {
       AsyncStorage.setItem(ASYNC_STORAGE_KEY, JSON.stringify(props));
-      // eslint-disable-next-line no-empty
     } catch {}
   }
 
@@ -104,7 +101,6 @@ export class ExpoMixpanelAnalytics {
     this.identify(this.clientId);
     try {
       AsyncStorage.setItem(ASYNC_STORAGE_KEY, JSON.stringify({}));
-      // eslint-disable-next-line no-empty
     } catch {}
   }
 
@@ -165,7 +161,6 @@ export class ExpoMixpanelAnalytics {
     const data = {
       event: event.name,
       properties: {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         ...(event.props || {}),
         ...this.superProps,

@@ -116,7 +116,7 @@ export function InviteScreen(props: Props) {
             }
           }
           return res;
-        }, [] as Array<RowItem>),
+        }, [] as RowItem[]),
         (c: RowItem) => {
           const firstChar = (c.name.charAt(0) || "#").toLowerCase();
           return firstChar.match(/[a-z]/) ? firstChar : "#";

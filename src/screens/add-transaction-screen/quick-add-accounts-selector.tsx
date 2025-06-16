@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useEffect, useState } from "react";
 import {
   RefreshControl,

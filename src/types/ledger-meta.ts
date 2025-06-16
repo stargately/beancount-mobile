@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 export interface Options {
   name_assets: string;
   name_equity: string;
@@ -8,8 +7,8 @@ export interface Options {
 }
 
 export interface LedgerMeta {
-  accounts: Array<string>;
-  currencies: Array<string>;
+  accounts: string[];
+  currencies: string[];
   errors: number;
   options: Options;
 }

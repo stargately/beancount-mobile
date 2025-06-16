@@ -1,9 +1,8 @@
-/* eslint-disable camelcase */
 export interface ThemeProps {
   name: string;
   antdTheme: AntdTheme;
   colorTheme: ColorTheme;
-  sizing: Array<number>;
+  sizing: number[];
 }
 
 export interface AntdTheme {
