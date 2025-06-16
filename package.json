@@ -16,7 +16,8 @@
     "postinstall": "cp -f patch-jest.js ./node_modules/jest-expo/bin/jest.js && npm run schema",
     "schema": "npm run schema:download && npm run schema:generate",
     "schema:download": "npx apollo@2.30.2 schema:download --endpoint=https://beancount.io/api-gateway/ schema.json",
-    "schema:generate": "npx apollo@2.30.2 client:codegen --no-addTypename --target=typescript --localSchemaFile=./schema.json"
+    "schema:generate": "npx apollo@2.30.2 client:codegen --no-addTypename --target=typescript --localSchemaFile=./schema.json",
+    "prepare": "husky"
   },
   "jest": {
     "preset": "jest-expo",
@@ -132,6 +133,7 @@
     "eslint-config-expo": "~9.2.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.1",
+    "husky": "^9.1.7",
     "jest": "~29.7.0",
     "jest-expo": "~53.0.5",
     "prettier": "^3.5.3",
