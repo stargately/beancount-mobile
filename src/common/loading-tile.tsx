@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 export const LoadingTile = connect(
   (state: { base: { currentTheme: string } }) => ({
     theme: state.base.currentTheme,
-  })
+  }),
 )(({ style, theme }: { style?: ViewStyle; theme: string }) => {
   return (
     <View

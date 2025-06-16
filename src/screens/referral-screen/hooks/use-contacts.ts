@@ -5,7 +5,7 @@ import * as Contacts from "expo-contacts";
 type ContactsState = {
   loading: boolean;
   error: Error | null;
-  data: Array<Contact>;
+  data: Contact[];
 };
 
 export const useContacts = (): ContactsState => {

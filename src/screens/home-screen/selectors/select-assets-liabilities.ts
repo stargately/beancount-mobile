@@ -2,13 +2,13 @@ import { AccountHierarchy } from "@/screens/home-screen/data/__generated__/Accou
 
 export function getAssetsLiabilities(
   currency: string,
-  data?: AccountHierarchy
+  data?: AccountHierarchy,
 ) {
   if (!currency) {
     return { assets: "0.00", liabilities: "0.00" };
   }
   const assetsList = data?.accountHierarchy?.data.filter(
-    (a) => a.label === "Assets"
+    (a) => a.label === "Assets",
   );
   let assets = 0;
   assetsList?.forEach((a) => {
@@ -16,7 +16,7 @@ export function getAssetsLiabilities(
   });
 
   const liabilitiesList = data?.accountHierarchy?.data.filter(
-    (a) => a.label === "Liabilities"
+    (a) => a.label === "Liabilities",
   );
   let liabilities = 0;
   liabilitiesList?.forEach((a) => {

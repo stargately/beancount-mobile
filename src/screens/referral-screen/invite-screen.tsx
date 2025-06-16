@@ -116,21 +116,21 @@ export function InviteScreen(props: Props) {
             }
           }
           return res;
-        }, [] as Array<RowItem>),
+        }, [] as RowItem[]),
         (c: RowItem) => {
           const firstChar = (c.name.charAt(0) || "#").toLowerCase();
           return firstChar.match(/[a-z]/) ? firstChar : "#";
-        }
-      )
+        },
+      ),
     )
       .map(([key, value]: [string, RowItem[]]) => ({
         key,
         data: value.sort((a, b) =>
-          (a.name || a.name || "") < (b.name || b.name || "") ? -1 : 1
+          (a.name || a.name || "") < (b.name || b.name || "") ? -1 : 1,
         ),
       }))
       .sort((a: { key: string }, b: { key: string }) =>
-        a.key < b.key ? -1 : 1
+        a.key < b.key ? -1 : 1,
       );
   }, [contacts.data]);
 
@@ -142,7 +142,7 @@ export function InviteScreen(props: Props) {
           (d) =>
             d.name.indexOf(keyword) >= 0 ||
             (d.email && d.email.indexOf(keyword) >= 0) ||
-            (d.phoneNumber && d.phoneNumber.indexOf(keyword) >= 0)
+            (d.phoneNumber && d.phoneNumber.indexOf(keyword) >= 0),
         );
         if (filteredData.length > 0) {
           filteredSections.push({ key: s.key, data: filteredData });
@@ -246,7 +246,7 @@ export function InviteScreen(props: Props) {
           )}
           renderItem={({ item }: { item: RowItem }) => {
             const selectedIndex = selectedContacts.findIndex(
-              (i) => i.id === item.id
+              (i) => i.id === item.id,
             );
             const onPress = () => {
               const newContacts = [...selectedContacts];

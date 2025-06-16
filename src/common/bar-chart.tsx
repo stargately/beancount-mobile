@@ -38,7 +38,6 @@ export interface BarChartProps extends AbstractChartProps {
   showValuesOnTopOfBars?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 class BarChart extends AbstractChart<BarChartProps, {}> {
   getBarPercentage = () => {
     const { barPercentage = 1 } = this.props.chartConfig;

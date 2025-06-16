@@ -44,7 +44,7 @@ export function App() {
       locale,
       setLocale,
     }),
-    [locale]
+    [locale],
   );
 
   if (!isLoadingComplete) {
@@ -72,33 +72,31 @@ const AppContent = connect(
     updateReduxState(payload: { base: { currentTheme: string } }): void {
       dispatch(actionUpdateReduxState(payload));
     },
-  })
-)(
-  (props: {
-    authToken: string;
-    currentTheme: "dark" | "light";
-    locale: string;
-    updateReduxState: (state: { base: { currentTheme: string } }) => void;
-  }) => {
-    const { locale } = props;
-    const { setLocale } = React.useContext(LocalizationContext);
-    const theme = useTheme();
-    if (locale && i18n) {
-      i18n.locale = locale;
-    }
-
-    React.useEffect(() => {
-      setLocale(locale);
-    }, []);
-
-    if (!props.authToken) {
-      return <PreAuthView />;
-    }
-    return (
-      <View style={styles.container}>
-        <StatusBar style={theme.name === "dark" ? "light" : "dark"} />
-        <AppNavigator />
-      </View>
-    );
+  }),
+)((props: {
+  authToken: string;
+  currentTheme: "dark" | "light";
+  locale: string;
+  updateReduxState: (state: { base: { currentTheme: string } }) => void;
+}) => {
+  const { locale } = props;
+  const { setLocale } = React.useContext(LocalizationContext);
+  const theme = useTheme();
+  if (locale && i18n) {
+    i18n.locale = locale;
   }
-);
+
+  React.useEffect(() => {
+    setLocale(locale);
+  }, []);
+
+  if (!props.authToken) {
+    return <PreAuthView />;
+  }
+  return (
+    <View style={styles.container}>
+      <StatusBar style={theme.name === "dark" ? "light" : "dark"} />
+      <AppNavigator />
+    </View>
+  );
+});

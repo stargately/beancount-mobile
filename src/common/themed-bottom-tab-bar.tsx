@@ -6,7 +6,6 @@ import { useTheme } from "@/common/theme";
 export function ThemedBottomTabBar(props: BottomTabBarProps): JSX.Element {
   const theme = useTheme().colorTheme;
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     <BottomTabBar
       {...props}
