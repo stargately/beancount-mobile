@@ -28,7 +28,7 @@ export const LoginWebView = connect(
     }): void {
       dispatch(actionUpdateReduxState(payload));
     },
-  })
+  }),
 )(function LoginWebViewInner(props: Props): JSX.Element {
   const { updateReduxState, isSignUp } = props;
   const [progress, setProgress] = useState(0);
@@ -60,7 +60,7 @@ export const LoginWebView = connect(
         onMessage={async (event) => {
           try {
             const msg = decodeURIComponent(
-              decodeURIComponent(event.nativeEvent.data)
+              decodeURIComponent(event.nativeEvent.data),
             );
             const msgObj = JSON.parse(msg);
             if (msgObj.authToken) {

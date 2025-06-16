@@ -86,7 +86,7 @@ function handleOptions(options: Array<string>) {
     const prefix = val.split(":")[0];
     const retIndex = lodash.findIndex(
       optionTabs,
-      (opts) => opts.title === prefix
+      (opts) => opts.title === prefix,
     );
     if (retIndex === -1) {
       optionTabs.push({ title: prefix, options: [val] });
@@ -104,7 +104,7 @@ export const useLedgerMeta = (userId: string) => {
   >(getLedgerMeta, { variables: { userId }, fetchPolicy: "network-only" });
 
   const { assets, expenses, currencies } = getAccountsAndCurrency(
-    data?.ledgerMeta.data
+    data?.ledgerMeta.data,
   );
 
   const assetsOptionTabs = handleOptions(assets);

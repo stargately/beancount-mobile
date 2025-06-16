@@ -66,7 +66,7 @@ const getStyles = (theme: ColorTheme) =>
 export const QuickAddAccountsSelector = connect(
   (state: { base: { userId: string } }) => ({
     userId: state.base.userId,
-  })
+  }),
 )(function AssetsExpensesSelectorInner(props: Props): JSX.Element {
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
@@ -81,10 +81,10 @@ export const QuickAddAccountsSelector = connect(
     refetch,
   } = useLedgerMeta(userId);
   const [selectedAssets, setSelectedAssets] = useState(
-    assetsOptionTabs.length > 0 ? assetsOptionTabs[0].options[0] : ""
+    assetsOptionTabs.length > 0 ? assetsOptionTabs[0].options[0] : "",
   );
   const [selectedExpenses, setSelectedExpenses] = useState(
-    expensesOptionTabs.length > 0 ? expensesOptionTabs[0].options[0] : ""
+    expensesOptionTabs.length > 0 ? expensesOptionTabs[0].options[0] : "",
   );
 
   useEffect(() => {

@@ -106,7 +106,7 @@ export function AddTransactionScreen(props: Props): JSX.Element {
         moneyTmp = `0${moneyTmp}`;
       }
       money = `${moneyTmp.slice(0, moneyTmp.length - 2)}.${moneyTmp.slice(
-        moneyTmp.length - 2
+        moneyTmp.length - 2,
       )}`;
     }
     return money;

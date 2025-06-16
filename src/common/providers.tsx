@@ -31,7 +31,7 @@ const AntdThemeProviderContainer = connect(
       currentTheme: state.base.currentTheme,
       locale: state.base.locale,
     };
-  }
+  },
 )(function ({
   currentTheme,
   locale,

@@ -200,8 +200,8 @@ export class ExpoMixpanelAnalytics {
   _pushProfile(data: Record<string, string | Record<string, string>>) {
     return fetch(
       `${MIXPANEL_API_URL}/engage/?data=${Buffer.from(
-        JSON.stringify(data)
-      ).toString("base64")}`
+        JSON.stringify(data),
+      ).toString("base64")}`,
     );
   }
 }

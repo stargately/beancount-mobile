@@ -18,7 +18,7 @@ class MyAnalytics {
 
     if (config.analytics.mixpanelProjectToken) {
       this.mixpanel = new ExpoMixpanelAnalytics(
-        config.analytics.mixpanelProjectToken
+        config.analytics.mixpanelProjectToken,
       );
     }
   }

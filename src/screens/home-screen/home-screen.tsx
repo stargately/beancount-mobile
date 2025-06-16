@@ -57,7 +57,7 @@ export const HomeScreen = connect(
     userId: state.base.userId,
     theme: state.base.currentTheme,
     locale: state.base.locale,
-  })
+  }),
 )(function HomeScreenInner(props: Props): JSX.Element {
   React.useEffect(() => {
     async function init() {
@@ -68,7 +68,7 @@ export const HomeScreen = connect(
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
   const { currencies, refetch: ledgerMetaRefetch } = useLedgerMeta(
-    props.userId
+    props.userId,
   );
 
   const currency = currencies.length > 0 ? currencies[0] : "USD";

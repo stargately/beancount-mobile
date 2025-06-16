@@ -25,7 +25,7 @@ const link = middlewareLink.concat(
       uri: getEndpoint("api-gateway/"),
       fetch,
     }),
-  ])
+  ]),
 );
 
 export const apolloClient = new ApolloClient({
