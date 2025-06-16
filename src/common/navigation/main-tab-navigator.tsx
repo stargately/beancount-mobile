@@ -9,6 +9,7 @@ import {
   MineParamList,
   MainTabParamList,
 } from "@/types/navigation-param";
+import { useTheme } from "@/common/theme";
 
 // import { ThemedBottomTabBar } from "@/common/themed-bottom-tab-bar";
 import { HomeScreen } from "@/screens/home-screen";
@@ -57,10 +58,23 @@ const hapticsListener = () => ({
 
 export function MainTabNavigator() {
   const { t } = React.useContext(LocalizationContext);
+  const theme = useTheme();
+
   return (
     <MainTab.Navigator
       // tabBar={(props) => <ThemedBottomTabBar {...props} />}
       initialRouteName="Home"
+      screenOptions={{
+        tabBarActiveTintColor: theme.colorTheme.activeTintColor,
+        tabBarInactiveTintColor: theme.colorTheme.inactiveTintColor,
+        tabBarStyle: {
+          backgroundColor: theme.colorTheme.inactiveBackgroundColor,
+        },
+        headerStyle: {
+          backgroundColor: theme.colorTheme.navBg,
+        },
+        headerTintColor: theme.colorTheme.navText,
+      }}
     >
       <MainTab.Screen
         name="Home"

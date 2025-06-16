@@ -1,7 +1,12 @@
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { RootStackParamList } from "@/types/navigation-param";
+import { useTheme } from "@/common/theme";
 
 import { MainTabNavigator } from "@/common/navigation/main-tab-navigator";
 import { AddTransactionScreen } from "@/screens/add-transaction-screen";
@@ -33,8 +38,11 @@ function RootNavigator() {
 }
 
 export function AppNavigator() {
+  const theme = useTheme();
+  const navigationTheme = theme.name === "dark" ? DarkTheme : DefaultTheme;
+
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navigationTheme}>
       <RootNavigator />
     </NavigationContainer>
   );

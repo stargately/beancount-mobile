@@ -19,11 +19,25 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "io.beancount.ios",
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "infoPlist": {
+        "NSCalendarsUsageDescription": false,
+        "NSCameraUsageDescription": false,
+        "NSContactsUsageDescription": false,
+        "NSLocationWhenInUseUsageDescription": false,
+        "NSLocationAlwaysUsageDescription": false,
+        "NSLocationAlwaysAndWhenInUseUsageDescription": false,
+        "NSMicrophoneUsageDescription": false,
+        "NSMotionUsageDescription": false,
+        "NSPhotoLibraryUsageDescription": false,
+        "NSPhotoLibraryAddUsageDescription": false,
+        "NSFaceIDUsageDescription": false
+      }
     },
     "android": {
       "versionCode": 7,
-      "package": "io.beancount.android"
+      "package": "io.beancount.android",
+      "permissions": []
     },
     "notification": {
       "icon": "./src/assets/images/icon96.png"
@@ -33,13 +47,7 @@
       "expo-localization",
       "expo-mail-composer",
       "expo-web-browser",
-      "sentry-expo",
-      [
-        "expo-contacts",
-        {
-          "contactsPermission": "Allow $(PRODUCT_NAME) to access your contacts."
-        }
-      ]
+      "sentry-expo"
     ]
   }
 }
