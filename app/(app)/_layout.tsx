@@ -15,7 +15,7 @@ export default function AppLayout() {
   const session = useSession();
 
   if (!session) {
-    return <Redirect href="/auth/auth" />;
+    return <Redirect href="/auth" />;
   }
 
   return (

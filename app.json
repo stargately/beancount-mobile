@@ -58,6 +58,14 @@
       "expo-web-browser",
       "sentry-expo",
       "expo-router"
-    ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      }
+    }
   }
 }

@@ -10,7 +10,7 @@ export default function NotFoundScreen() {
     <>
       <Stack.Screen options={{ title: "Oops!" }} />
       <Flex>
-        <Link href="/" style={styles.link}>
+        <Link href="/auth" style={styles.link}>
           <Text>Not Found</Text>
         </Link>
       </Flex>
