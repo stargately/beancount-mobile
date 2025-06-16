@@ -1,17 +1,9 @@
 import * as React from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  SafeAreaView,
-  Share,
-} from "react-native";
+import { Text, View, StyleSheet, TextInput, Share } from "react-native";
 import { Button, Toast } from "@ant-design/react-native";
 import { NavigationBar } from "@/common/navigation-bar";
 import { contentPadding } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
-import { CommonMargin } from "@/common/common-margin";
 import { i18n } from "@/translations";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";

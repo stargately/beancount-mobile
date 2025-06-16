@@ -4,23 +4,20 @@ import { getLedgerMeta } from "@/screens/add-transaction-screen/data/queries";
 import {
   ledgerMeta,
   ledgerMetaVariables,
-  // eslint-disable-next-line camelcase
   ledgerMeta_ledgerMeta_data,
 } from "@/screens/add-transaction-screen/data/__generated__/ledgerMeta";
 
 export interface OptionTab {
   title: string;
-  options: Array<string>;
+  options: string[];
 }
 
-// eslint-disable-next-line camelcase
 function getAccountsAndCurrency(data: ledgerMeta_ledgerMeta_data | undefined) {
-  let assets: Array<string> = [];
-  let expenses: Array<string> = [];
-  let currencies: Array<string> = [];
+  let assets: string[] = [];
+  let expenses: string[] = [];
+  let currencies: string[] = [];
 
   if (data) {
-    // eslint-disable-next-line camelcase
     const assetsName = data.options.name_assets;
     const expensesName = data.options.name_expenses;
     const incomeName = data.options.name_income;
@@ -80,13 +77,13 @@ function getAccountsAndCurrency(data: ledgerMeta_ledgerMeta_data | undefined) {
   return { assets, expenses, currencies };
 }
 
-function handleOptions(options: Array<string>) {
-  const optionTabs: Array<OptionTab> = [{ title: "All", options }];
+function handleOptions(options: string[]) {
+  const optionTabs: OptionTab[] = [{ title: "All", options }];
   options.forEach((val) => {
     const prefix = val.split(":")[0];
     const retIndex = lodash.findIndex(
       optionTabs,
-      (opts) => opts.title === prefix
+      (opts) => opts.title === prefix,
     );
     if (retIndex === -1) {
       optionTabs.push({ title: prefix, options: [val] });
@@ -104,7 +101,7 @@ export const useLedgerMeta = (userId: string) => {
   >(getLedgerMeta, { variables: { userId }, fetchPolicy: "network-only" });
 
   const { assets, expenses, currencies } = getAccountsAndCurrency(
-    data?.ledgerMeta.data
+    data?.ledgerMeta.data,
   );
 
   const assetsOptionTabs = handleOptions(assets);

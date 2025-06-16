@@ -11,8 +11,8 @@ export function LineChartStyled({
   numbers,
   currencySymbol,
 }: {
-  labels: Array<string>;
-  numbers: Array<number>;
+  labels: string[];
+  numbers: number[];
   currencySymbol: string;
 }): JSX.Element {
   const theme = useTheme().colorTheme;

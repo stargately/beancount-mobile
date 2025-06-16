@@ -87,7 +87,7 @@ const getStyles = (theme: ColorTheme) =>
   });
 
 export const ReferralScreen = connect(
-  (state: { base: { userId: string } }) => ({ userId: state.base.userId })
+  (state: { base: { userId: string } }) => ({ userId: state.base.userId }),
 )(function ReferralScreen(props: Props): JSX.Element {
   React.useEffect(() => {
     async function init() {

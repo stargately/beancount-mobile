@@ -9,7 +9,7 @@ export function selectNetWorthArray(currency: string, data?: HomeCharts) {
   const netWorth = data?.homeCharts?.data.find((n) => n.label === "Net Worth");
   const last = netWorth?.data.slice(
     netWorth?.data.length - 7,
-    netWorth?.data.length
+    netWorth?.data.length,
   );
   if (
     last &&

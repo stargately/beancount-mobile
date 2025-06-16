@@ -4,11 +4,11 @@ import { isSameMonth } from "@/screens/home-screen/selectors/select-net-worth-ar
 
 export function selectNetProfitArray(currency: string, data?: HomeCharts) {
   const netProfit = data?.homeCharts?.data.find(
-    (n) => n.label === "Net Profit"
+    (n) => n.label === "Net Profit",
   );
   const last = netProfit?.data.slice(
     netProfit?.data.length - 7,
-    netProfit?.data.length
+    netProfit?.data.length,
   );
   if (
     last &&

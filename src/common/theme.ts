@@ -71,7 +71,6 @@ const darkTheme: ColorTheme = {
   navText: "#fff",
 };
 
-// eslint-disable-next-line import/no-mutable-exports
 // export let theme = colorMode === "dark" ? darkTheme : lightTheme;
 
 // export function setTheme(mode: "dark" | "light" | undefined): void {

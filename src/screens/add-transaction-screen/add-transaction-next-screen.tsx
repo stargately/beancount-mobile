@@ -63,7 +63,7 @@ const getStyles = (theme: ColorTheme) =>
 export const AddTransactionNextScreen = connect(
   (state: { base: { userId: string } }) => ({
     userId: state.base.userId,
-  })
+  }),
 )(function AddTransactionNextScreenInner(props: Props): JSX.Element {
   useEffect(() => {
     async function init() {

@@ -13,7 +13,6 @@ export function TabBarIcon(props: Props): JSX.Element {
   const color = focused ? theme.tabIconSelected : theme.tabIconDefault;
   return (
     <Ionicons
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       name={name}
       size={26}

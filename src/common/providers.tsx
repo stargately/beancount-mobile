@@ -12,7 +12,7 @@ import { themes, ThemeProvider } from "@/common/theme";
 export function Providers({
   children,
 }: {
-  children: JSX.Element | Array<JSX.Element>;
+  children: JSX.Element | JSX.Element[];
 }): JSX.Element {
   return (
     <Provider store={store}>
@@ -31,7 +31,7 @@ const AntdThemeProviderContainer = connect(
       currentTheme: state.base.currentTheme,
       locale: state.base.locale,
     };
-  }
+  },
 )(function ({
   currentTheme,
   locale,
@@ -39,7 +39,7 @@ const AntdThemeProviderContainer = connect(
 }: {
   currentTheme: "dark" | "light";
   locale: string;
-  children: JSX.Element | Array<JSX.Element>;
+  children: JSX.Element | JSX.Element[];
 }): JSX.Element {
   return (
     <ThemeProvider theme={themes[currentTheme]}>
