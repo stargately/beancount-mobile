@@ -49,7 +49,6 @@
     "plugins": [
       "expo-asset",
       "expo-localization",
-      "expo-mail-composer",
       "expo-web-browser",
       "sentry-expo",
       "expo-router"
