@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { getFeatureFlags } from "@/common/feature-flags/data/quries";
+import { getFeatureFlags } from "@/common/feature-flags/data/queries";
 import { FeatureFlags } from "@/common/feature-flags/data/__generated__/FeatureFlags";
 
 type FlagMap = {
