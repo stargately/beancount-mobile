@@ -3,8 +3,12 @@
     "version": "0.8.0",
     "name": "Beancount",
     "slug": "beancount",
+    "scheme": "beancount",
     "privacy": "public",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
     "splash": {
@@ -15,7 +19,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "io.beancount.ios",
@@ -39,6 +45,9 @@
       "package": "io.beancount.android",
       "permissions": []
     },
+    "web": {
+      "bundler": "metro"
+    },
     "notification": {
       "icon": "./src/assets/images/icon96.png"
     },
@@ -47,7 +56,16 @@
       "expo-localization",
       "expo-mail-composer",
       "expo-web-browser",
-      "sentry-expo"
-    ]
+      "sentry-expo",
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      }
+    }
   }
 }

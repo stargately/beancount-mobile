@@ -6,11 +6,9 @@ import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
-
-type Props = {
-  navigation: any;
-  route: any;
-};
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { SelectedPayee } from "@/common/globalFnFactory";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -31,7 +29,7 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-export function PayeeInputScreen(props: Props): JSX.Element {
+export function PayeeInputScreen(): JSX.Element {
   useEffect(() => {
     async function init() {
       await analytics.track("page_view_payee_input", {});
@@ -40,23 +38,24 @@ export function PayeeInputScreen(props: Props): JSX.Element {
   }, []);
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
-  const { payee, onSaved } = props.route.params;
+  const router = useRouter();
+  const { payee } = useLocalSearchParams<{
+    payee: string;
+  }>();
   const [newPayee, setPayee] = useState<string>(payee || "");
+  const onSaved = SelectedPayee.getFn();
 
   const onRightClick = async () => {
-    if (onSaved) {
-      onSaved(newPayee);
-    }
+    onSaved?.(newPayee);
     await analytics.track("tap_payee_input_save", { payee: newPayee });
-    props.navigation.pop();
+    router.back();
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={["top"]} style={styles.container}>
       <NavigationBar
         title={i18n.t("payee")}
         showBack
-        navigation={props.navigation}
         rightText={i18n.t("save")}
         onRightClick={onRightClick}
       />
@@ -74,6 +73,6 @@ export function PayeeInputScreen(props: Props): JSX.Element {
           }}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

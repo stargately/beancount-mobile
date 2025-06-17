@@ -6,22 +6,24 @@ import { NavigationBar } from "@/common/navigation-bar";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { getFormatDate } from "@/common/time-util";
-import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
 import { useAddEntriesToRemote } from "@/screens/add-transaction-screen/hooks/use-add-entries-to-remote";
 import { ListItemStyled } from "@/screens/add-transaction-screen/components/list-item-styled";
 import { TextStyled } from "@/common/text-styled";
 import { getCurrencySymbol } from "@/common/currency-util";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SelectedAssets,
+  SelectedExpenses,
+  SelectedNarration,
+  SelectedPayee,
+  AddTransactionCallback,
+} from "@/common/globalFnFactory";
 
 const { Item } = List;
 const { Brief } = Item;
-
-type Props = {
-  navigation: any;
-  userId: string;
-  route: any;
-};
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -64,7 +66,7 @@ export const AddTransactionNextScreen = connect(
   (state: { base: { userId: string } }) => ({
     userId: state.base.userId,
   }),
-)(function AddTransactionNextScreenInner(props: Props): JSX.Element {
+)(function AddTransactionNextScreenInner(): JSX.Element {
   useEffect(() => {
     async function init() {
       await analytics.track("page_view_add_transaction_next", {});
@@ -72,15 +74,15 @@ export const AddTransactionNextScreen = connect(
     init();
   }, []);
   const theme = useTheme().colorTheme;
+  const { currentMoney, currentAsset, currentExpense, currentCurrency } =
+    useLocalSearchParams<{
+      currentMoney: string;
+      currentAsset: string;
+      currentExpense: string;
+      currentCurrency: string;
+    }>();
   const styles = getStyles(theme);
-  const { assetsOptionTabs, expensesOptionTabs } = useLedgerMeta(props.userId);
-  const {
-    currentAsset,
-    currentExpense,
-    currentMoney,
-    currentCurrency,
-    onRefresh,
-  } = props.route.params;
+  const router = useRouter();
   const [assets, setAssets] = useState<string>(currentAsset);
   const [expenses, setExpenses] = useState<string>(currentExpense);
   const [payee, setPayee] = useState<string>("");
@@ -121,11 +123,13 @@ export const AddTransactionNextScreen = connect(
       Portal.remove(loadingKey);
 
       if (!error) {
-        Toast.success(i18n.t("saveSuccess"), 2, () => {
-          props.navigation.pop();
-          if (onRefresh) {
-            onRefresh();
+        Toast.success(i18n.t("saveSuccess"), 2, async () => {
+          const callback = AddTransactionCallback.getFn();
+          if (callback) {
+            await callback();
+            AddTransactionCallback.deleteFn();
           }
+          router.back();
         });
       } else {
         console.error("failed to add transaction", error);
@@ -139,15 +143,13 @@ export const AddTransactionNextScreen = connect(
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <NavigationBar
         title={i18n.t("addTransaction")}
         showBack
-        navigation={props.navigation}
         rightText={i18n.t("done")}
         onRightClick={addEntries}
       />
-
       <ScrollView>
         <View style={styles.topContainer}>
           <View style={styles.moneyContainer}>
@@ -167,11 +169,17 @@ export const AddTransactionNextScreen = connect(
               await analytics.track("tap_assets_picker", {
                 originalOption: assets,
               });
-              props.navigation.navigate("AccountPicker", {
-                optionTabs: assetsOptionTabs,
-                selectedItem: assets,
-                onSelected: (item: string) => {
-                  setAssets(item);
+              SelectedAssets.setFn((value: string) => {
+                setAssets(value);
+              });
+              router.push({
+                pathname: "/(app)/account-picker",
+                params: {
+                  type: "assets",
+                  selectedItem: assets,
+                  // onSelected: (item: string) => {
+                  //   setAssets(item);
+                  // },
                 },
               });
             }}
@@ -181,16 +189,26 @@ export const AddTransactionNextScreen = connect(
           </ListItemStyled>
           <ListItemStyled
             onPress={async () => {
-              await analytics.track("tap_expenses_picker", {
+              analytics.track("tap_expenses_picker", {
                 originalOption: expenses,
               });
-              props.navigation.navigate("AccountPicker", {
-                optionTabs: expensesOptionTabs,
-                selectedItem: expenses,
-                onSelected: (item: string) => {
-                  setExpenses(item);
+              SelectedExpenses.setFn((value: string) => {
+                setExpenses(value);
+              });
+              router.push({
+                pathname: "/(app)/account-picker",
+                params: {
+                  type: "expenses",
+                  selectedItem: expenses,
                 },
               });
+              // router.navigate("/(app)/account-picker", {
+              //   optionTabs: expensesOptionTabs,
+              //   selectedItem: expenses,
+              //   onSelected: (item: string) => {
+              //     setExpenses(item);
+              //   },
+              // });
             }}
           >
             <Brief>{i18n.t("to").toUpperCase()}</Brief>
@@ -216,10 +234,13 @@ export const AddTransactionNextScreen = connect(
           </DatePicker>
           <ListItemStyled
             onPress={() => {
-              props.navigation.navigate("PayeeInput", {
-                payee,
-                onSaved: (txt: string) => {
-                  setPayee(txt);
+              SelectedPayee.setFn((value: string) => {
+                setPayee(value);
+              });
+              router.navigate({
+                pathname: "/(app)/payee-input",
+                params: {
+                  payee,
                 },
               });
             }}
@@ -229,10 +250,13 @@ export const AddTransactionNextScreen = connect(
           </ListItemStyled>
           <ListItemStyled
             onPress={() => {
-              props.navigation.navigate("NarrationInput", {
-                narration,
-                onSaved: (txt: string) => {
-                  setNarration(txt);
+              SelectedNarration.setFn((value: string) => {
+                setNarration(value);
+              });
+              router.navigate({
+                pathname: "/(app)/narration-input",
+                params: {
+                  narration,
                 },
               });
             }}
@@ -242,6 +266,6 @@ export const AddTransactionNextScreen = connect(
           </ListItemStyled>
         </List>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 });

@@ -13,6 +13,7 @@ import { AppState } from "@/common/store";
 import { useTheme } from "@/common/theme";
 import { ProgressBar } from "@/common/progress-bar";
 import { ColorTheme } from "@/types/theme-props";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -31,6 +32,9 @@ const getStyles = (theme: ColorTheme) =>
       right: 10,
       alignItems: "center",
       justifyContent: "center",
+    },
+    webViewContainer: {
+      flex: 1,
     },
   });
 
@@ -63,24 +67,28 @@ export const LedgerScreen = connect((state: AppState) => {
   const { authToken } = props;
   const [uri, setUri] = useState(getEndpoint("ledger/editor/"));
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={["top"]} style={styles.container}>
       <ProgressBar progress={progress} />
-      <WebView
-        ref={(webView) => {
-          webViewRef = webView;
-        }}
-        onLoadProgress={({ nativeEvent }) => setProgress(nativeEvent.progress)}
-        source={{
-          uri,
-          headers: { Authorization: `Bearer ${authToken}`, ...headers },
-        }}
-        onLoadStart={(navState) => {
-          setUri(navState.nativeEvent.url);
-        }}
-      />
-      <Button style={styles.refreshButton} onPress={onRefresh}>
-        <Ionicons name="refresh" size={24} color={theme.white} />
-      </Button>
-    </View>
+      <View style={styles.webViewContainer}>
+        <WebView
+          ref={(webView) => {
+            webViewRef = webView;
+          }}
+          onLoadProgress={({ nativeEvent }) =>
+            setProgress(nativeEvent.progress)
+          }
+          source={{
+            uri,
+            headers: { Authorization: `Bearer ${authToken}`, ...headers },
+          }}
+          onLoadStart={(navState) => {
+            setUri(navState.nativeEvent.url);
+          }}
+        />
+        <Button style={styles.refreshButton} onPress={onRefresh}>
+          <Ionicons name="refresh" size={24} color={theme.white} />
+        </Button>
+      </View>
+    </SafeAreaView>
   );
 });

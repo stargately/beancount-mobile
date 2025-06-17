@@ -1,7 +1,5 @@
-import deepExtend from "deep-extend";
 import { persistReducer } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { accountReducer } from "@/screens/mine-screen/account-reducer";
 
 import { AppState } from "@/common/store";
@@ -19,7 +17,15 @@ export interface Action {
 
 export const reducer = (state = INITIAL_STATE, action: Action) => {
   if (action.type === UPDATE_REDUX_STATE) {
-    return deepExtend({}, state, action.payload);
+    const newState = {
+      ...state,
+      ...action.payload,
+      base: {
+        ...state.base,
+        ...action.payload.base,
+      },
+    };
+    return newState;
   }
   return accountReducer(state, action);
 };

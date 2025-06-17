@@ -1,8 +1,7 @@
 import * as React from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Button, Toast } from "@ant-design/react-native";
 import { Feather } from "@expo/vector-icons";
-import { NavigationBar } from "@/common/navigation-bar";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { ScreenWidth } from "@/common/screen-util";
@@ -10,14 +9,11 @@ import { QuickAddAccountsSelector } from "@/screens/add-transaction-screen/quick
 import { getCurrencySymbol } from "@/common/currency-util";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
+import { useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const KeyWidth = ScreenWidth / 3;
 const KeyHeight = 50;
-
-type Props = {
-  navigation: any;
-  route: any;
-};
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -50,7 +46,7 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-export function AddTransactionScreen(props: Props): JSX.Element {
+export function AddTransactionScreen(): JSX.Element {
   const Keys = [
     { display: "1", value: 1 },
     { display: "2", value: 2 },
@@ -76,6 +72,7 @@ export function AddTransactionScreen(props: Props): JSX.Element {
   const styles = getStyles(theme);
   const [currentMoney, setCurrentMoney] = React.useState("0.00");
   const [keyValues, setKeyValues] = React.useState<number[]>([]);
+  const router = useRouter();
 
   let currentAsset = "";
   let currentExpense = "";
@@ -111,93 +108,85 @@ export function AddTransactionScreen(props: Props): JSX.Element {
     }
     return money;
   };
-  const { onRefresh } = props.route.params;
 
   const currencySymbol = getCurrencySymbol(currentCurrency);
   return (
-    <View style={styles.container}>
-      <NavigationBar
-        title={i18n.t("addTransaction")}
-        showBack
-        navigation={props.navigation}
-      />
-      <SafeAreaView style={styles.container}>
-        <View style={styles.containerCenter}>
-          <Text
-            style={styles.txtMoney}
-          >{`${currencySymbol}${currentMoney}`}</Text>
-        </View>
-        <QuickAddAccountsSelector
-          navigation={props.navigation}
-          onChange={onChange}
-        />
-        <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-          {Keys.map((key) => {
-            return (
-              <Button
-                key={key.value}
-                style={[
-                  styles.keyButton,
-                  {
-                    backgroundColor:
-                      key.display === i18n.t("next")
-                        ? theme.primary
-                        : theme.black10,
-                  },
-                ]}
-                onPress={async () => {
-                  if (key.display === "Del" && keyValues.length > 0) {
-                    keyValues.pop();
-                  } else if (key.value < 10) {
-                    if (key.display === "0" && keyValues.length > 0) {
-                      keyValues.push(0);
-                    } else if (key.value > 0) {
-                      keyValues.push(key.value);
-                    }
+    <SafeAreaView edges={["bottom"]} style={styles.container}>
+      <View style={styles.containerCenter}>
+        <Text
+          style={styles.txtMoney}
+        >{`${currencySymbol}${currentMoney}`}</Text>
+      </View>
+      <QuickAddAccountsSelector onChange={onChange} />
+      <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+        {Keys.map((key) => {
+          return (
+            <Button
+              key={key.value}
+              style={[
+                styles.keyButton,
+                {
+                  backgroundColor:
+                    key.display === i18n.t("next")
+                      ? theme.primary
+                      : theme.black10,
+                },
+              ]}
+              onPress={async () => {
+                if (key.display === "Del" && keyValues.length > 0) {
+                  keyValues.pop();
+                } else if (key.value < 10) {
+                  if (key.display === "0" && keyValues.length > 0) {
+                    keyValues.push(0);
+                  } else if (key.value > 0) {
+                    keyValues.push(key.value);
                   }
-                  setCurrentMoney(getMoneyByKeyValues(keyValues));
-                  setKeyValues(keyValues);
+                }
+                setCurrentMoney(getMoneyByKeyValues(keyValues));
+                setKeyValues(keyValues);
 
-                  if (key.display === i18n.t("next")) {
-                    if (currentMoney === "0.00") {
-                      Toast.show(i18n.t("amountEmptyError"));
-                      return;
-                    }
-                    await analytics.track("tap_add_transaction_next", {
-                      money: currentMoney,
-                    });
-                    props.navigation.replace("AddTransactionNext", {
+                if (key.display === i18n.t("next")) {
+                  if (currentMoney === "0.00") {
+                    Toast.show(i18n.t("amountEmptyError"));
+                    return;
+                  }
+                  await analytics.track("tap_add_transaction_next", {
+                    money: currentMoney,
+                  });
+                  router.replace({
+                    pathname: "/add-transaction-next",
+                    params: {
                       currentMoney,
                       currentAsset,
                       currentExpense,
                       currentCurrency,
-                      onRefresh,
-                    });
-                  }
-                }}
-              >
-                {key.display === "Del" ? (
-                  <Feather name="delete" size={20} color={theme.black} />
-                ) : (
-                  <Text
-                    style={[
-                      styles.keyLabel,
-                      {
-                        color:
-                          key.display === i18n.t("next")
-                            ? theme.white
-                            : theme.black,
-                      },
-                    ]}
-                  >
-                    {key.display}
-                  </Text>
-                )}
-              </Button>
-            );
-          })}
-        </View>
-      </SafeAreaView>
-    </View>
+                      // onRefresh,
+                    },
+                  });
+                }
+              }}
+            >
+              {key.display === "Del" ? (
+                <Feather name="delete" size={20} color={theme.black} />
+              ) : (
+                <Text
+                  style={[
+                    styles.keyLabel,
+                    {
+                      color:
+                        key.display === i18n.t("next")
+                          ? theme.white
+                          : theme.black,
+                    },
+                  ]}
+                >
+                  {key.display}
+                </Text>
+              )}
+            </Button>
+          );
+        })}
+      </View>
+    </SafeAreaView>
   );
 }

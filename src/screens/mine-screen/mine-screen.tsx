@@ -1,17 +1,11 @@
 import * as React from "react";
-import { View } from "react-native";
-// import { statusBarHeight } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
 import { About } from "@/screens/mine-screen/about";
 import { analytics } from "@/common/analytics";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-type Props = {
-  navigation: any;
-};
-
-export function MineScreen(props: Props): JSX.Element {
+export function MineScreen(): JSX.Element {
   const theme = useTheme().colorTheme;
-  const { navigation } = props;
   React.useEffect(() => {
     async function init() {
       await analytics.track("page_view_mine", {});
@@ -20,14 +14,14 @@ export function MineScreen(props: Props): JSX.Element {
   }, []);
 
   return (
-    <View
+    <SafeAreaView
+      edges={[]}
       style={{
         backgroundColor: theme.white,
         flex: 1,
-        // paddingTop: statusBarHeight,
       }}
     >
-      <About navigation={navigation} />
-    </View>
+      <About />
+    </SafeAreaView>
   );
 }

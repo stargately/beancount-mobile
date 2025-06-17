@@ -1,0 +1,7 @@
+
+package-lock.json
+package.json
+.github
+.vscode
+.prettierignore
+.prettierrc

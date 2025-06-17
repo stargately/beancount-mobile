@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, SafeAreaView } from "react-native";
 import { List, Tabs } from "@ant-design/react-native";
-import { NavigationBar } from "@/common/navigation-bar";
 import { useTheme } from "@/common/theme";
-import { i18n } from "@/translations";
 import { analytics } from "@/common/analytics";
-import { OptionTab } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
+import {
+  OptionTab,
+  useLedgerMeta,
+} from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
 import { ColorTheme } from "@/types/theme-props";
-
-type Props = {
-  navigation: any;
-  route: any;
-};
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useSelector } from "react-redux";
+import { AppState } from "@/common/store";
+import { SelectedAssets, SelectedExpenses } from "@/common/globalFnFactory";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -21,23 +21,24 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-export function AccountPickerScreen(pickerProps: Props): JSX.Element {
+export function AccountPickerScreen(): JSX.Element {
+  const router = useRouter();
+  const userId = useSelector((state: AppState) => state.base.userId);
+
   useEffect(() => {
     async function init() {
       await analytics.track("page_view_account_picker", {});
     }
     init();
   }, []);
+  const { type } = useLocalSearchParams<{ type: string }>();
+  const { assetsOptionTabs, expensesOptionTabs } = useLedgerMeta(userId ?? "");
 
-  const { navigation, route } = pickerProps;
+  const onSelected =
+    type === "assets" ? SelectedAssets.getFn() : SelectedExpenses.getFn();
 
-  const {
-    onSelected,
-    optionTabs,
-  }: {
-    onSelected: (item: string) => void;
-    optionTabs: OptionTab[];
-  } = route.params;
+  const optionTabs: OptionTab[] =
+    type === "assets" ? assetsOptionTabs : expensesOptionTabs;
 
   const tabs = optionTabs.map((opt) => {
     return { title: opt.title };
@@ -61,8 +62,8 @@ export function AccountPickerScreen(pickerProps: Props): JSX.Element {
                     await analytics.track("tap_account_picker_confirm", {
                       selectedAccount: op,
                     });
-                    onSelected(op);
-                    navigation.pop();
+                    onSelected?.(op);
+                    router.back();
                   }}
                 >
                   <Text
@@ -85,11 +86,6 @@ export function AccountPickerScreen(pickerProps: Props): JSX.Element {
   const styles = getStyles(theme);
   return (
     <View style={styles.container}>
-      <NavigationBar
-        title={i18n.t("accountPicker")}
-        showBack
-        navigation={navigation}
-      />
       <View style={styles.container}>
         <Tabs
           tabs={tabs}
