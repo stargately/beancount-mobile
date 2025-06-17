@@ -4,9 +4,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "@/common/theme";
 import { ColorTheme } from "@/types/theme-props";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
+import { useRouter } from "expo-router";
 
 type Props = {
-  navigation: any;
   title: string;
   subtitle: string;
   icon: JSX.Element;
@@ -80,7 +80,9 @@ export function Announcement(props: Props): JSX.Element {
     init();
   }, []);
 
-  const { title, subtitle, icon, navigation } = props;
+  const router = useRouter();
+
+  const { title, subtitle, icon } = props;
 
   const theme = useTheme();
 
@@ -99,7 +101,7 @@ export function Announcement(props: Props): JSX.Element {
         } catch (error) {
           console.error(`failed to set subscription flash value: ${error}`);
         }
-        navigation.navigate("Mine");
+        router.navigate("/(app)/(tabs)/setting");
       }}
     >
       <View style={styles.titleContainer}>

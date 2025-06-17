@@ -9,12 +9,12 @@ import {
 } from "@/common/screen-util";
 import { AppState } from "@/common/store";
 import { useTheme } from "@/common/theme";
+import { useRouter } from "expo-router";
 
 type Props = {
   currentTheme?: "light" | "dark";
   title: string;
   showBack?: boolean;
-  navigation?: any;
   rightText?: string;
   onRightClick?: () => void;
 };
@@ -22,8 +22,9 @@ type Props = {
 export const NavigationBar = connect((state: AppState) => ({
   currentTheme: state.base.currentTheme,
 }))(function NavigationBarInner(props: Props): JSX.Element {
-  const { title, showBack, navigation, rightText, onRightClick } = props;
+  const { title, showBack, rightText, onRightClick } = props;
   const theme = useTheme().colorTheme;
+  const router = useRouter();
   return (
     <View
       style={{
@@ -50,7 +51,7 @@ export const NavigationBar = connect((state: AppState) => ({
               paddingVertical: 6,
               left: 0,
             }}
-            onPress={() => navigation && navigation.pop()}
+            onPress={() => router && router.back()}
           >
             <Ionicons
               name="arrow-back"

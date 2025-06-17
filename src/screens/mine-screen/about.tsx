@@ -33,7 +33,6 @@ type Props = {
   }) => void;
   currentTheme: "dark" | "light";
   userId: string;
-  navigation: any;
 };
 
 export const About = connect(
@@ -58,7 +57,6 @@ export const About = connect(
   updateReduxState,
   currentTheme,
   userId,
-  navigation,
 }: Props) => {
   const theme = useTheme().colorTheme;
   const pickerSource = [
@@ -295,7 +293,7 @@ export const About = connect(
   return (
     <ScrollView style={{ backgroundColor: theme.white }}>
       <AccountHeader />
-      <InviteSection navigation={navigation} />
+      <InviteSection />
       {renderAppSection()}
     </ScrollView>
   );

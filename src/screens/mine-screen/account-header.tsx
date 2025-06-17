@@ -12,6 +12,7 @@ import { useUserProfile } from "@/screens/mine-screen/hooks/use-user-profile";
 import { LoadingTile } from "@/common/loading-tile";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -73,7 +74,10 @@ export const AccountHeader = connect((state: AppState) => ({
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
   return (
-    <View style={[styles.titleContainer, { backgroundColor: theme.primary }]}>
+    <SafeAreaView
+      edges={["top"]}
+      style={[styles.titleContainer, { backgroundColor: theme.primary }]}
+    >
       {userId && authToken ? (
         <EmailHeader userId={userId} />
       ) : (
@@ -81,7 +85,7 @@ export const AccountHeader = connect((state: AppState) => ({
           <Text style={styles.loginSignUpText}>{i18n.t("login")}</Text>
         </LoginOrSignUp>
       )}
-    </View>
+    </SafeAreaView>
   );
 });
 

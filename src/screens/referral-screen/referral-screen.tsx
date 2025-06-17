@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { Button, Toast } from "@ant-design/react-native";
 import { connect } from "react-redux";
-import { NavigationBar } from "@/common/navigation-bar";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
 import { ReferralGiftIcon } from "@/screens/referral-screen/components/referral-gift-icon";
@@ -18,9 +17,9 @@ import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type Props = {
-  navigation: any;
   userId: string;
 };
 
@@ -101,12 +100,7 @@ export const ReferralScreen = connect(
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
   return (
-    <View style={styles.container}>
-      <NavigationBar
-        title={i18n.t("referral")}
-        showBack
-        navigation={props.navigation}
-      />
+    <SafeAreaView style={styles.container}>
       <View style={styles.body}>
         <CommonMargin />
         <CommonMargin />
@@ -161,6 +155,6 @@ export const ReferralScreen = connect(
         </Button>
         <CommonMargin />
       </View>
-    </View>
+    </SafeAreaView>
   );
 });

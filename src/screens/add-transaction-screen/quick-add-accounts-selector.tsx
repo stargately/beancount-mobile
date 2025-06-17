@@ -17,6 +17,8 @@ import { ListItemStyled } from "@/screens/add-transaction-screen/components/list
 import { analytics } from "@/common/analytics";
 import { i18n } from "@/translations";
 import { ColorTheme } from "@/types/theme-props";
+import { useRouter } from "expo-router";
+import { SelectedAssets, SelectedExpenses } from "@/common/globalFnFactory";
 
 const { Item } = List;
 const { Brief } = Item;
@@ -47,7 +49,6 @@ type Props = {
     expense: string;
     currency: string;
   }) => void;
-  navigation: any;
 };
 
 const getStyles = (theme: ColorTheme) =>
@@ -67,9 +68,10 @@ export const QuickAddAccountsSelector = connect(
     userId: state.base.userId,
   }),
 )(function AssetsExpensesSelectorInner(props: Props): JSX.Element {
+  const router = useRouter();
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
-  const { userId, onChange, navigation } = props;
+  const { userId, onChange } = props;
   const [refreshing, setRefreshing] = useState(false);
   const {
     assetsOptionTabs,
@@ -79,10 +81,10 @@ export const QuickAddAccountsSelector = connect(
     loading,
     refetch,
   } = useLedgerMeta(userId);
-  const [selectedAssets, setSelectedAssets] = useState(
+  const [selectedAssets, setSelectedAssets] = useState<string>(
     assetsOptionTabs.length > 0 ? assetsOptionTabs[0].options[0] : "",
   );
-  const [selectedExpenses, setSelectedExpenses] = useState(
+  const [selectedExpenses, setSelectedExpenses] = useState<string>(
     expensesOptionTabs.length > 0 ? expensesOptionTabs[0].options[0] : "",
   );
 
@@ -154,16 +156,26 @@ export const QuickAddAccountsSelector = connect(
         <List>
           <ListItemStyled
             onPress={async () => {
-              await analytics.track("tap_assets_picker", {
+              analytics.track("tap_assets_picker", {
                 originalOption: selectedAssets,
               });
-              navigation.navigate("AccountPicker", {
-                optionTabs: assetsOptionTabs,
-                selectedItem: selectedAssets,
-                onSelected: (item: string) => {
-                  setSelectedAssets(item);
+              SelectedAssets.setFn((value: string) => {
+                setSelectedAssets(value);
+              });
+              router.push({
+                pathname: "/(app)/account-picker",
+                params: {
+                  type: "assets",
+                  selectedItem: selectedAssets,
                 },
               });
+              // router.navigate("/(app)/account-picker", {
+              //   optionTabs: assetsOptionTabs,
+              //   selectedItem: selectedAssets,
+              //   onSelected: (item: string) => {
+              //     setSelectedAssets(item);
+              //   },
+              // });
             }}
           >
             <Brief>{i18n.t("from").toUpperCase()}</Brief>
@@ -171,16 +183,26 @@ export const QuickAddAccountsSelector = connect(
           </ListItemStyled>
           <ListItemStyled
             onPress={async () => {
-              await analytics.track("tap_expenses_picker", {
-                originalOption: selectedAssets,
+              analytics.track("tap_expenses_picker", {
+                originalOption: selectedExpenses,
               });
-              navigation.navigate("AccountPicker", {
-                optionTabs: expensesOptionTabs,
-                selectedItem: selectedExpenses,
-                onSelected: (item: string) => {
-                  setSelectedExpenses(item);
+              SelectedExpenses.setFn((value: string) => {
+                setSelectedExpenses(value);
+              });
+              router.push({
+                pathname: "/(app)/account-picker",
+                params: {
+                  type: "expenses",
+                  selectedItem: selectedExpenses,
                 },
               });
+              // router.navigate("/(app)/account-picker", {
+              //   optionTabs: expensesOptionTabs,
+              //   selectedItem: selectedExpenses,
+              //   onSelected: (item: string) => {
+              //     setSelectedExpenses(item);
+              //   },
+              // });
             }}
           >
             <Brief>{i18n.t("to").toUpperCase()}</Brief>

@@ -1,5 +1,5 @@
-import { View } from "react-native";
+import { MineScreen } from "@/screens/mine-screen/mine-screen";
 
 export default function Home() {
-  return <View>Settings</View>;
+  return <MineScreen />;
 }

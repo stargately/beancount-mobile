@@ -3,17 +3,19 @@ import { useSession } from "@/common/hooks/use-session";
 import { useCallback } from "react";
 
 import { HeaderBackButton } from "@react-navigation/elements";
+import { useTheme } from "@/common/theme";
 
 export const DefaultHeaderLeftBack = () => {
+  const theme = useTheme().colorTheme;
   const handlePress = useCallback(() => {
     router.back();
   }, []);
-  return <HeaderBackButton onPress={handlePress} tintColor="#000" />;
+  return <HeaderBackButton onPress={handlePress} tintColor={theme.black} />;
 };
 
 export default function AppLayout() {
   const session = useSession();
-
+  const theme = useTheme().colorTheme;
   if (!session) {
     return <Redirect href="/auth" />;
   }
@@ -24,6 +26,10 @@ export default function AppLayout() {
       screenOptions={{
         headerTitleStyle: {
           fontWeight: "bold",
+          color: theme.black,
+        },
+        headerStyle: {
+          backgroundColor: theme.white,
         },
         headerLeft: DefaultHeaderLeftBack,
       }}

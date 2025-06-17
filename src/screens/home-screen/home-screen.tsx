@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { useState } from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
@@ -28,6 +28,10 @@ import { Announcement } from "@/common/announcement";
 import { EmailIcon } from "@/screens/home-screen/email-icon";
 import { useFeatureFlags } from "@/common/feature-flags/use-feature-flags";
 import { ColorTheme } from "@/types/theme-props";
+import { AppState } from "@/common/store";
+import { useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { AddTransactionCallback } from "@/common/globalFnFactory";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -44,21 +48,14 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-type Props = {
-  navigation: any;
-  userId: string;
-  theme: string;
-};
-
-export const HomeScreen = connect(
-  (state: {
-    base: { userId: string; currentTheme: string; locale: string };
-  }) => ({
-    userId: state.base.userId,
-    theme: state.base.currentTheme,
-    locale: state.base.locale,
-  }),
-)(function HomeScreenInner(props: Props): JSX.Element {
+export const HomeScreen = (): JSX.Element => {
+  const props = useSelector((state: AppState) => {
+    return {
+      userId: state.base.userId ?? "",
+      theme: state.base.currentTheme ?? "light",
+      locale: state.base.locale ?? "en",
+    };
+  });
   React.useEffect(() => {
     async function init() {
       await analytics.track("page_view_home", {});
@@ -67,6 +64,7 @@ export const HomeScreen = connect(
   }, []);
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
+  const router = useRouter();
   const { currencies, refetch: ledgerMetaRefetch } = useLedgerMeta(
     props.userId,
   );
@@ -104,7 +102,7 @@ export const HomeScreen = connect(
   const { spendingReportSubscription } = useFeatureFlags(props.userId);
   return (
     <>
-      <View style={styles.container}>
+      <SafeAreaView edges={["top"]} style={styles.container}>
         <ScrollView
           contentContainerStyle={{ paddingHorizontal: 16 }}
           indicatorStyle={props.theme === "dark" ? "white" : "default"}
@@ -129,7 +127,6 @@ export const HomeScreen = connect(
 
           {spendingReportSubscription && (
             <Announcement
-              navigation={props.navigation}
               title="Never miss your financial report - set up now"
               subtitle="Weekly or Monthly Report"
               icon={<EmailIcon />}
@@ -154,8 +151,11 @@ export const HomeScreen = connect(
           <Button
             type="primary"
             onPress={async () => {
-              await analytics.track("tap_quick_add", {});
-              props.navigation.navigate("AddTransaction", { onRefresh });
+              analytics.track("tap_quick_add", {});
+              AddTransactionCallback.setFn(onRefresh);
+              router.navigate({
+                pathname: "/add-transaction",
+              });
             }}
           >
             <Text style={styles.quickAddLabel}>{i18n.t("quickAdd")}</Text>
@@ -194,7 +194,7 @@ export const HomeScreen = connect(
           </View>
           <CommonMargin />
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </>
   );
-});
+};

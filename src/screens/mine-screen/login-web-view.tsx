@@ -9,6 +9,7 @@ import { getEndpoint, headers } from "@/common/request";
 import { actionUpdateReduxState } from "@/common/root-reducer";
 import { ProgressBar } from "@/common/progress-bar";
 import { statusBarHeight } from "@/common/screen-util";
+import { router } from "expo-router";
 
 const { height } = Dimensions.get("window");
 
@@ -74,6 +75,7 @@ export const LoginWebView = connect(
                 },
               });
               props.onClose();
+              router.push("/(app)/(tabs)");
             }
           } catch (e) {
             // tslint:disable-next-line:no-console
