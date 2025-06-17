@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-// exports[`App snapshot renders AppLoaderRoot 1`] = `null`;
-
-exports[`App snapshot renders the StatusBar 1`] = `null`;

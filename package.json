@@ -7,47 +7,16 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "eject": "expo eject",
-    "_note": "npm run lint && npm run tsc-test && ",
     "test": "npm run lint && npm run schema && npm run typecheck",
-    "jest": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit && eslint src --quiet --cache --fix --ext .js,.tsx,.ts ",
     "prettier": "prettier . --cache --write",
     "prettier:check": "prettier . --cache --check",
-    "postinstall": "cp -f patch-jest.js ./node_modules/jest-expo/bin/jest.js && npm run schema",
+    "postinstall": "npm run schema",
     "schema": "npm run schema:download && npm run schema:generate",
     "schema:download": "npx apollo@2.30.2 schema:download --endpoint=https://beancount.io/api-gateway/ schema.json",
     "schema:generate": "npx apollo@2.30.2 client:codegen --no-addTypename --target=typescript --localSchemaFile=./schema.json",
     "prepare": "husky"
-  },
-  "jest": {
-    "preset": "jest-expo",
-    "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js",
-      "^.+\\.tsx?$": [
-        "babel-jest",
-        {
-          "configFile": "./babel.config.js"
-        }
-      ]
-    },
-    "testMatch": [
-      "**/__tests__/**/*.ts?(x)",
-      "**/?(*.)+(spec|test).ts?(x)"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "ts",
-      "tsx"
-    ],
-    "globals": {
-      "ts-jest": {
-        "tsConfig": {
-          "jsx": "react"
-        }
-      }
-    }
   },
   "dependencies": {
     "@ant-design/icons-react-native": "^2.3.2",
@@ -128,7 +97,6 @@
     "node": ">=20"
   },
   "devDependencies": {
-    "@types/jest": "23.3.13",
     "@types/jwt-decode": "^2.2.1",
     "@types/react": "~19.0.10",
     "@types/react-native": "~0.63.2",
@@ -138,8 +106,6 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.1",
     "husky": "^9.1.7",
-    "jest": "~29.7.0",
-    "jest-expo": "~53.0.7",
     "prettier": "^3.5.3",
     "react-test-renderer": "16.8.3",
     "typescript": "~5.8.3"
