@@ -21,7 +21,7 @@
   "dependencies": {
     "@ant-design/icons-react-native": "^2.3.2",
     "@ant-design/react-native": "^5.4.1",
-    "@apollo/client": "3.3.12",
+    "@apollo/client": "^3.13.8",
     "@callstack/react-theme-provider": "^3.0.9",
     "@expo/vector-icons": "^14.1.0",
     "@react-native-async-storage/async-storage": "^2.1.2",
@@ -77,11 +77,11 @@
     "node": ">=20"
   },
   "devDependencies": {
+    "@types/i18n-js": "^3.8.0",
     "@types/jwt-decode": "^2.2.1",
+    "@types/lodash": "^4.14.168",
     "@types/react": "~19.0.10",
     "@types/react-native": "~0.63.2",
-    "@types/i18n-js": "^3.8.0",
-    "@types/lodash": "^4.14.168",
     "@types/react-navigation": "^2.13.10",
     "@types/react-redux": "7.1.34",
     "eslint": "^9.0.0",
