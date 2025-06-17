@@ -124,6 +124,9 @@
     "short-number": "^1.0.7",
     "ts-invariant": "^0.7.0"
   },
+  "engines": {
+    "node": ">=20"
+  },
   "devDependencies": {
     "@types/jest": "23.3.13",
     "@types/jwt-decode": "^2.2.1",
