@@ -2,36 +2,22 @@ import jwtDecode from "jwt-decode";
 import * as React from "react";
 import { Dimensions, View } from "react-native";
 import { WebView } from "react-native-webview";
-import { connect } from "react-redux";
 import { useState } from "react";
 import { analytics } from "@/common/analytics";
 import { getEndpoint, headers } from "@/common/request";
-import { actionUpdateReduxState } from "@/common/root-reducer";
 import { ProgressBar } from "@/common/progress-bar";
 import { statusBarHeight } from "@/common/screen-util";
 import { router } from "expo-router";
+import { sessionVar } from "@/common/vars";
 
 const { height } = Dimensions.get("window");
 
 type Props = {
   isSignUp: boolean;
   onClose: () => void;
-  updateReduxState: (payload: {
-    base: { userId: string; authToken: string };
-  }) => void;
 };
 
-export const LoginWebView = connect(
-  () => ({}),
-  (dispatch) => ({
-    updateReduxState(payload: {
-      base: { userId: string; authToken: string };
-    }): void {
-      dispatch(actionUpdateReduxState(payload));
-    },
-  }),
-)(function LoginWebViewInner(props: Props): JSX.Element {
-  const { updateReduxState, isSignUp } = props;
+export const LoginWebView = ({ isSignUp, onClose }: Props) => {
   const [progress, setProgress] = useState(0);
 
   const injectedJavascript = `(function() {
@@ -67,14 +53,12 @@ export const LoginWebView = connect(
             if (msgObj.authToken) {
               const { sub } = jwtDecode(msgObj.authToken) as { sub: string };
               analytics.identify(sub);
-              await analytics.track(isSignUp ? "signed_up" : "logged_in", {});
-              updateReduxState({
-                base: {
-                  userId: sub,
-                  authToken: msgObj.authToken,
-                },
+              analytics.track(isSignUp ? "signed_up" : "logged_in", {});
+              sessionVar({
+                userId: sub,
+                authToken: msgObj.authToken,
               });
-              props.onClose();
+              onClose();
               router.push("/(app)/(tabs)");
             }
           } catch (e) {
@@ -85,4 +69,4 @@ export const LoginWebView = connect(
       />
     </View>
   );
-});
+};

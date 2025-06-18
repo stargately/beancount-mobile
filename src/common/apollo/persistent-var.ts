@@ -38,8 +38,10 @@ export function createPersistentVar<T>(
     }
   };
 
-  varInstance.onNextChange((value) => {
+  varInstance.onNextChange(function onNextChange(value) {
     saveToStorage(value);
+    // https://github.com/apollographql/apollo-client/blob/v3.13.8/src/react/hooks/useReactiveVar.ts#L33
+    varInstance.onNextChange(onNextChange);
   });
 
   // 返回变量实例和手动加载方法（可选）

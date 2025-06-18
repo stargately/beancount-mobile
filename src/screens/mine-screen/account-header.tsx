@@ -1,14 +1,13 @@
 import { Toast } from "@ant-design/react-native";
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { connect } from "react-redux";
-import { AppState } from "@/common/store";
 import { useTheme } from "@/common/theme";
 import { ScreenWidth } from "@/common/screen-util";
 import { useUserProfile } from "@/screens/mine-screen/hooks/use-user-profile";
 import { LoadingTile } from "@/common/loading-tile";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSession } from "@/common/hooks/use-session";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -63,10 +62,8 @@ export const EmailHeader = ({ userId }: { userId: string }) => {
   );
 };
 
-export const AccountHeader = connect((state: AppState) => ({
-  userId: state.base.userId,
-  authToken: state.base.authToken,
-}))(({ userId, authToken }: { userId: string; authToken: string }) => {
+export const AccountHeader = () => {
+  const session = useSession();
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
   return (
@@ -74,7 +71,7 @@ export const AccountHeader = connect((state: AppState) => ({
       edges={["top"]}
       style={[styles.titleContainer, { backgroundColor: theme.primary }]}
     >
-      {userId && authToken ? <EmailHeader userId={userId} /> : null}
+      {session ? <EmailHeader userId={session.userId} /> : null}
     </SafeAreaView>
   );
-});
+};

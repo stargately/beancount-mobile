@@ -2,14 +2,17 @@ import { ApolloClient, ApolloLink, HttpLink } from "@apollo/client";
 
 import fetch from "isomorphic-unfetch";
 import { getEndpoint } from "@/common/request";
-import { store } from "@/common/store";
+import { sessionVar } from "@/common/vars";
 import { onErrorLink } from "@/common/apollo/error-handling";
 import { cache } from "@/common/apollo/cache";
 
 const middlewareLink = new ApolloLink((operation, forward) => {
-  operation.setContext({
-    headers: { authorization: `Bearer ${store.getState().base.authToken}` },
-  });
+  const token = sessionVar()?.authToken;
+  if (token) {
+    operation.setContext({
+      headers: { authorization: `Bearer ${token}` },
+    });
+  }
   return forward(operation);
 });
 

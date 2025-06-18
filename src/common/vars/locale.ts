@@ -1,3 +1,6 @@
 import { createPersistentVar } from "@/common/apollo/persistent-var";
 
-export const [locale, loadLocale] = createPersistentVar<string>("locale", "en");
+export const [localeVar, loadLocale] = createPersistentVar<string>(
+  "locale",
+  "en",
+);

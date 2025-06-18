@@ -2,7 +2,7 @@ import { Button, Modal } from "@ant-design/react-native";
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useTheme } from "@/common/theme";
-import { LoginWebView } from "@/screens/mine-screen/login-web-view";
+import { LoginWebView } from "@/screens/auth-screen/login-web-view";
 import { useStateIfMounted } from "@/common/hooks/use-state-if-mounted";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";

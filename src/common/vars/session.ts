@@ -5,7 +5,7 @@ export type Session = {
   authToken: string;
 };
 
-export const [session, loadSession] = createPersistentVar<Session | null>(
+export const [sessionVar, loadSession] = createPersistentVar<Session | null>(
   "session",
   null,
 );

@@ -1,5 +1,6 @@
 import { Redirect, Stack, router } from "expo-router";
-import { useSession } from "@/common/hooks/use-session";
+import { useReactiveVar } from "@apollo/client";
+import { sessionVar } from "@/common/vars";
 import { useCallback } from "react";
 
 import { HeaderBackButton } from "@react-navigation/elements";
@@ -14,7 +15,7 @@ export const DefaultHeaderLeftBack = () => {
 };
 
 export default function AppLayout() {
-  const session = useSession();
+  const session = useReactiveVar(sessionVar);
   const theme = useTheme().colorTheme;
   if (!session) {
     return <Redirect href="/auth" />;

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet, Text, View, Platform } from "react-native";
 import { Portal, Toast, List, DatePicker } from "@ant-design/react-native";
-import { connect } from "react-redux";
 import { NavigationBar } from "@/common/navigation-bar";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
@@ -62,11 +61,7 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-export const AddTransactionNextScreen = connect(
-  (state: { base: { userId: string } }) => ({
-    userId: state.base.userId,
-  }),
-)(function AddTransactionNextScreenInner(): JSX.Element {
+export const AddTransactionNextScreen = () => {
   useEffect(() => {
     async function init() {
       await analytics.track("page_view_add_transaction_next", {});
@@ -268,4 +263,4 @@ export const AddTransactionNextScreen = connect(
       </ScrollView>
     </SafeAreaView>
   );
-});
+};
