@@ -26,7 +26,7 @@ import { getCurrencySymbol } from "@/common/currency-util";
 import { analytics } from "@/common/analytics";
 import { Announcement } from "@/common/announcement";
 import { EmailIcon } from "@/screens/home-screen/email-icon";
-import { useFeatureFlags } from "@/common/feature-flags/use-feature-flags";
+import { useFeatureFlags } from "@/common/hooks/use-feature-flags";
 import { ColorTheme } from "@/types/theme-props";
 import { AppState } from "@/common/store";
 import { useRouter } from "expo-router";

@@ -1,15 +1,6 @@
-import { useMutation } from "@apollo/client";
-import {
-  addEntriesVariables,
-  addEntries,
-} from "@/screens/add-transaction-screen/data/__generated__/addEntries";
-import { addEntriesToRemote } from "@/screens/add-transaction-screen/data/mutations";
+import { useAddEntriesMutation } from "@/generated-graphql/graphql";
 
 export const useAddEntriesToRemote = () => {
-  const [mutate, { error, data }] = useMutation<
-    addEntries,
-    addEntriesVariables
-  >(addEntriesToRemote);
-
+  const [mutate, { error, data }] = useAddEntriesMutation();
   return { error, mutate, data };
 };

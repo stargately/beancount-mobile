@@ -1,11 +1,11 @@
-import { HomeCharts } from "@/screens/home-screen/data/__generated__/HomeCharts";
+import { HomeChartsQuery } from "@/generated-graphql/graphql";
 import { i18n } from "@/translations";
 
 export function isSameMonth(date1?: string, date2?: string): boolean {
   return date1?.slice(5, 7) === date2?.slice(5, 7);
 }
 
-export function selectNetWorthArray(currency: string, data?: HomeCharts) {
+export function selectNetWorthArray(currency: string, data?: HomeChartsQuery) {
   const netWorth = data?.homeCharts?.data.find((n) => n.label === "Net Worth");
   const last = netWorth?.data.slice(
     netWorth?.data.length - 7,

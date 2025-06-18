@@ -7,7 +7,12 @@ module.exports = defineConfig([
   expoConfig,
   eslintPluginPrettierRecommended,
   {
-    ignores: ["dist/*", "__generated__", "node_modules/*"],
+    ignores: [
+      "dist/*",
+      "__generated__",
+      "node_modules/*",
+      "src/generated-graphql/*",
+    ],
   },
   {
     rules: {

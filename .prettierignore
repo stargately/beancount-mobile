@@ -2,5 +2,5 @@
 package-lock.json
 package.json
 .github
-.vscode
 __generated__
+src/generated-graphql

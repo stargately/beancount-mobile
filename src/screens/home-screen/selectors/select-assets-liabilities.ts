@@ -1,8 +1,8 @@
-import { AccountHierarchy } from "@/screens/home-screen/data/__generated__/AccountHierarchy";
+import { AccountHierarchyQuery } from "@/generated-graphql/graphql";
 
 export function getAssetsLiabilities(
   currency: string,
-  data?: AccountHierarchy,
+  data?: AccountHierarchyQuery,
 ) {
   if (!currency) {
     return { assets: "0.00", liabilities: "0.00" };

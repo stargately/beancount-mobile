@@ -1,13 +1,11 @@
-import { useQuery } from "@apollo/client";
-import { getFeatureFlags } from "@/common/feature-flags/data/queries";
-import { FeatureFlags } from "@/common/feature-flags/data/__generated__/FeatureFlags";
+import { useFeatureFlagsQuery } from "@/generated-graphql/graphql";
 
 type FlagMap = {
   spendingReportSubscription?: boolean;
 };
 
 export const useFeatureFlags = (userId: string): FlagMap => {
-  const { data } = useQuery<FeatureFlags>(getFeatureFlags, {
+  const { data } = useFeatureFlagsQuery({
     variables: {
       userId,
     },

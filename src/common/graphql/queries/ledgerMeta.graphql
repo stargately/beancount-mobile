@@ -1,0 +1,18 @@
+query ledgerMeta($userId: String!) {
+  ledgerMeta(userId: $userId) {
+    data {
+      accounts
+      currencies
+      errors
+      options {
+        name_assets
+        name_equity
+        name_expenses
+        name_income
+        name_liabilities
+        operating_currency
+      }
+    }
+    success
+  }
+}
