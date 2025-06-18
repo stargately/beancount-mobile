@@ -1,8 +1,8 @@
-import { HomeCharts } from "@/screens/home-screen/data/__generated__/HomeCharts";
+import { HomeChartsQuery } from "@/generated-graphql/graphql";
 import { i18n } from "@/translations";
 import { isSameMonth } from "@/screens/home-screen/selectors/select-net-worth-array";
 
-export function selectNetProfitArray(currency: string, data?: HomeCharts) {
+export function selectNetProfitArray(currency: string, data?: HomeChartsQuery) {
   const netProfit = data?.homeCharts?.data.find(
     (n) => n.label === "Net Profit",
   );

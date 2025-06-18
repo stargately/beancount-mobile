@@ -16,10 +16,10 @@ import { i18n, setLocale } from "@/translations";
 import { actionLogout } from "@/screens/mine-screen/account-reducer";
 import { useUserProfile } from "@/screens/mine-screen/hooks/use-user-profile";
 import { useUpdateReportSubscribeToRemote } from "@/screens/mine-screen/hooks/use-update-report-subscribe";
-import { useFeatureFlags } from "@/common/feature-flags/use-feature-flags";
+import { useFeatureFlags } from "@/common/hooks/use-feature-flags";
 import { AccountHeader } from "@/screens/mine-screen/account-header";
 import { InviteSection } from "@/screens/referral-screen/components/invite-section";
-import { ReportStatus } from "../../../__generated__/globalTypes";
+import { ReportStatus } from "@/generated-graphql/graphql";
 
 const { Item } = List;
 const { Brief } = Item;
@@ -60,9 +60,9 @@ export const About = connect(
 }: Props) => {
   const theme = useTheme().colorTheme;
   const pickerSource = [
-    { value: ReportStatus.WEEKLY, label: i18n.t("weekly") },
-    { value: ReportStatus.MONTHLY, label: i18n.t("monthly") },
-    { value: ReportStatus.OFF, label: i18n.t("off") },
+    { value: ReportStatus.Weekly, label: i18n.t("weekly") },
+    { value: ReportStatus.Monthly, label: i18n.t("monthly") },
+    { value: ReportStatus.Off, label: i18n.t("off") },
   ];
 
   const [reportAnimateCount, setReportAnimateCount] = useState(0);
@@ -112,11 +112,11 @@ export const About = connect(
 
   const getReportStatusLabel = (status: string) => {
     switch (status) {
-      case ReportStatus.OFF:
+      case ReportStatus.Off:
         return i18n.t("off");
-      case ReportStatus.WEEKLY:
+      case ReportStatus.Weekly:
         return i18n.t("weekly");
-      case ReportStatus.MONTHLY:
+      case ReportStatus.Monthly:
         return i18n.t("monthly");
       default:
         return i18n.t("off");
@@ -125,14 +125,14 @@ export const About = connect(
 
   const getReportStatusEnum = (status: string) => {
     switch (status) {
-      case ReportStatus.OFF:
-        return ReportStatus.OFF;
-      case ReportStatus.WEEKLY:
-        return ReportStatus.WEEKLY;
-      case ReportStatus.MONTHLY:
-        return ReportStatus.MONTHLY;
+      case ReportStatus.Off:
+        return ReportStatus.Off;
+      case ReportStatus.Weekly:
+        return ReportStatus.Weekly;
+      case ReportStatus.Monthly:
+        return ReportStatus.Monthly;
       default:
-        return ReportStatus.OFF;
+        return ReportStatus.Off;
     }
   };
 

@@ -1,18 +1,12 @@
-import { useQuery } from "@apollo/client";
 import * as lodash from "lodash";
-import { getLedgerMeta } from "@/screens/add-transaction-screen/data/queries";
-import {
-  ledgerMeta,
-  ledgerMetaVariables,
-  ledgerMeta_ledgerMeta_data,
-} from "@/screens/add-transaction-screen/data/__generated__/ledgerMeta";
+import { useLedgerMetaQuery, LedgerMeta } from "@/generated-graphql/graphql";
 
 export interface OptionTab {
   title: string;
   options: string[];
 }
 
-function getAccountsAndCurrency(data: ledgerMeta_ledgerMeta_data | undefined) {
+function getAccountsAndCurrency(data: LedgerMeta | undefined) {
   let assets: string[] = [];
   let expenses: string[] = [];
   let currencies: string[] = [];
@@ -95,10 +89,10 @@ function handleOptions(options: string[]) {
 }
 
 export const useLedgerMeta = (userId: string) => {
-  const { data, error, loading, refetch } = useQuery<
-    ledgerMeta,
-    ledgerMetaVariables
-  >(getLedgerMeta, { variables: { userId }, fetchPolicy: "network-only" });
+  const { data, error, loading, refetch } = useLedgerMetaQuery({
+    variables: { userId },
+    fetchPolicy: "network-only",
+  });
 
   const { assets, expenses, currencies } = getAccountsAndCurrency(
     data?.ledgerMeta.data,

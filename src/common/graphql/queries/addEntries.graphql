@@ -1,0 +1,6 @@
+mutation addEntries($entriesInput: [EntryInput!]!) {
+  addEntries(entriesInput: $entriesInput) {
+    data
+    success
+  }
+}

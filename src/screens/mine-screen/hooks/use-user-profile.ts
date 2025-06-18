@@ -1,9 +1,7 @@
-import { useQuery } from "@apollo/client";
-import { userProfile } from "@/screens/mine-screen/data/query";
-import { UserProfile } from "@/screens/mine-screen/data/__generated__/UserProfile";
+import { useUserProfileQuery } from "@/generated-graphql/graphql";
 
 export const useUserProfile = (userId: string) => {
-  const { data, error, loading } = useQuery<UserProfile>(userProfile, {
+  const { data, error, loading } = useUserProfileQuery({
     variables: { userId },
   });
   return {

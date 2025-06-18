@@ -1,6 +1,6 @@
-import { HomeCharts } from "@/screens/home-screen/data/__generated__/HomeCharts";
+import { HomeChartsQuery } from "@/generated-graphql/graphql";
 
-export function getNetWorth(currency: string, data?: HomeCharts) {
+export function getNetWorth(currency: string, data?: HomeChartsQuery) {
   if (!currency) {
     return { netAssets: "0.00" };
   }

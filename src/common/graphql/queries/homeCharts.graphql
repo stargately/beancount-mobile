@@ -1,0 +1,14 @@
+query HomeCharts($userId: String!) {
+  homeCharts(userId: $userId) {
+    data {
+      type
+      label
+      data {
+        date
+        balance
+        budgets
+      }
+    }
+    success
+  }
+}
