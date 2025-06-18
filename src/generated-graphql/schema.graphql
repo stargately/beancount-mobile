@@ -1,0 +1,251 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"""Exposes a URL that specifies the behaviour of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behaviour of this scalar."""
+  url: String!
+) on SCALAR
+
+type Query {
+  accountHierarchy(userId: String!): AccountHierarchyResponse!
+  changed: ChangedResponse!
+  charts(userId: String!): ChartsResponse!
+  editorData: EditorDataResponse!
+  featureFlags(userId: String!): JSONObject!
+  fetchCoinPrice: CoinPrice!
+  """is the server healthy?"""
+  health: String!
+  homeCharts(userId: String!): HomeChartsResponse!
+  isPaid: IsPaidResponse!
+  ledgerMeta(userId: String!): LedgerMetaResponse!
+  """get the ledger of the current user"""
+  ledgers(file: BeanFilename): [Ledger!]
+  listOutboundIntegrations: ListOutboundIntegrationsResponse!
+  paymentHistory: [Receipt!]!
+  """get the user"""
+  userProfile(userId: String): UserProfileResponse
+}
+
+type AccountHierarchyResponse {
+  data: [LabeledHierarchyItem!]!
+  success: Boolean!
+}
+
+type LabeledHierarchyItem {
+  data: AccountBalance!
+  label: String!
+  type: String!
+}
+
+type AccountBalance {
+  account: String!
+  balance: JSONObject!
+  balance_children: JSONObject!
+  children: [AccountBalance!]!
+}
+
+"""The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)."""
+scalar JSONObject
+
+type ChangedResponse {
+  data: Boolean!
+  success: Boolean!
+}
+
+type ChartsResponse {
+  data: [ChartItem!]!
+  success: Boolean!
+}
+
+type ChartItem {
+  balance: Balance!
+  budgets: JSONObject
+  date: String!
+}
+
+type Balance {
+  USD: Float
+}
+
+type EditorDataResponse {
+  data: EditorData!
+  success: Boolean!
+}
+
+type EditorData {
+  file_path: String!
+  sha256sum: String!
+  source: String!
+  sources: [String!]!
+}
+
+"""IOTX price information from coinmarketcap"""
+type CoinPrice {
+  marketCapUsd: String!
+  priceUsd: String!
+}
+
+type HomeChartsResponse {
+  data: [LabeledChartItem!]!
+  success: Boolean!
+}
+
+type LabeledChartItem {
+  data: [ChartItemV2!]!
+  label: String!
+  type: String!
+}
+
+type ChartItemV2 {
+  balance: JSONObject!
+  budgets: JSONObject
+  date: String!
+}
+
+type IsPaidResponse {
+  isForcedToPay: Boolean
+  isPaid: Boolean
+}
+
+type LedgerMetaResponse {
+  data: LedgerMeta!
+  success: Boolean!
+}
+
+type LedgerMeta {
+  accounts: [String!]!
+  currencies: [String!]!
+  errors: Float!
+  options: Options!
+}
+
+type Options {
+  name_assets: String!
+  name_equity: String!
+  name_expenses: String!
+  name_income: String!
+  name_liabilities: String!
+  operating_currency: [String!]!
+}
+
+"""valid filename string"""
+scalar BeanFilename
+
+type Ledger {
+  file: BeanFilename!
+  ledgerId: String!
+  text: String!
+}
+
+type ListOutboundIntegrationsResponse {
+  integrations: [OutboundIntegration!]
+}
+
+type OutboundIntegration {
+  id: String!
+  providerId: String!
+}
+
+type Receipt {
+  _id: String
+  amount: String!
+  chargeId: String
+  createAt: DateTime
+  currency: String!
+  estimatedIotx: Float
+  fulfilledHash: String
+  paymentEmail: String!
+  userId: String!
+}
+
+"""The javascript `Date` as string. Type represents date and time as the ISO Date string."""
+scalar DateTime
+
+type UserProfileResponse {
+  email: String!
+  emailReportStatus: ReportStatus
+  id: String!
+  locale: String!
+}
+
+"""The email report status"""
+enum ReportStatus {
+  MONTHLY
+  OFF
+  WEEKLY
+}
+
+type Mutation {
+  addEntries(entriesInput: [EntryInput!]!): AddEntryResponse!
+  addPushToken(token: String!): Boolean!
+  createOutboundIntegration(byAuthorizationCode: ByAuthorizationCode): CreateOutboundIntegrationResponse!
+  """delete file that belongs to the user."""
+  deleteFile(deleteFileRequest: DeleteFileRequest!): DeleteFileResponse
+  deleteOutboundIntegration(byIntegration: DeleteOutboundIntegrationByIntegration): DeleteOutboundIntegrationResponse!
+  """rename file that belongs to the user. returns null if no file found."""
+  renameFile(renameFileRequest: RenameFileRequest!): Ledger
+  sendPushNotification(data: JSONObject!, message: String!, pushToken: String!): Boolean!
+  """update or insert user report subscribe status"""
+  updateReportSubscribe(status: ReportStatus!, userId: String!): UpdateReportSubscribeResponse
+  """update or insert a ledger text"""
+  upsertLedger(file: BeanFilename!, text: String): Ledger
+}
+
+input EntryInput {
+  date: String!
+  flag: String!
+  meta: JSONObject!
+  narration: String!
+  payee: String!
+  postings: [PostingInput!]!
+  type: String!
+}
+
+input PostingInput {
+  account: String!
+  amount: String!
+}
+
+type AddEntryResponse {
+  data: String
+  success: Boolean!
+}
+
+input ByAuthorizationCode {
+  code: String!
+  providerId: String!
+}
+
+type CreateOutboundIntegrationResponse {
+  _: Boolean!
+}
+
+input DeleteFileRequest {
+  file: BeanFilename!
+  ledgerId: String!
+}
+
+type DeleteFileResponse {
+  _id: ID
+}
+
+input DeleteOutboundIntegrationByIntegration {
+  integrationId: String!
+}
+
+type DeleteOutboundIntegrationResponse {
+  _: Boolean!
+}
+
+input RenameFileRequest {
+  from: String!
+  ledgerId: String!
+  to: String!
+}
+
+type UpdateReportSubscribeResponse {
+  success: Boolean!
+}
