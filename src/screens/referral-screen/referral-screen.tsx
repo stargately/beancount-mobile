@@ -9,7 +9,6 @@ import {
   Platform,
 } from "react-native";
 import { Button, Toast } from "@ant-design/react-native";
-import { connect } from "react-redux";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
 import { ReferralGiftIcon } from "@/screens/referral-screen/components/referral-gift-icon";
@@ -18,10 +17,7 @@ import { i18n } from "@/translations";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-type Props = {
-  userId: string;
-};
+import { useSession } from "@/common/hooks/use-session";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -85,17 +81,14 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-export const ReferralScreen = connect(
-  (state: { base: { userId: string } }) => ({ userId: state.base.userId }),
-)(function ReferralScreen(props: Props): JSX.Element {
+export const ReferralScreen = () => {
   React.useEffect(() => {
     async function init() {
       await analytics.track("page_view_referral", {});
     }
     init();
   }, []);
-
-  const { userId } = props;
+  const { userId } = useSession();
   const shareLink = `beancount.io/sign-up/?src=${Platform.OS}&by=${userId}`;
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
@@ -157,4 +150,4 @@ export const ReferralScreen = connect(
       </View>
     </SafeAreaView>
   );
-});
+};

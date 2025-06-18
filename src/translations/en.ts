@@ -4,6 +4,7 @@ export const en = {
   ledger: "Ledger",
   settings: "Settings",
   mine: "Mine",
+  setting: "Setting",
   // mine
   reviewApp: "Like it? Give it a review :)",
   about: "About",

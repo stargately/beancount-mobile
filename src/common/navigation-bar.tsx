@@ -1,27 +1,22 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { connect } from "react-redux";
 import {
   navigationBarHeight,
   onePx,
   statusBarHeight,
 } from "@/common/screen-util";
-import { AppState } from "@/common/store";
 import { useTheme } from "@/common/theme";
 import { useRouter } from "expo-router";
 
 type Props = {
-  currentTheme?: "light" | "dark";
   title: string;
   showBack?: boolean;
   rightText?: string;
   onRightClick?: () => void;
 };
 
-export const NavigationBar = connect((state: AppState) => ({
-  currentTheme: state.base.currentTheme,
-}))(function NavigationBarInner(props: Props): JSX.Element {
+export const NavigationBar = (props: Props) => {
   const { title, showBack, rightText, onRightClick } = props;
   const theme = useTheme().colorTheme;
   const router = useRouter();
@@ -96,4 +91,4 @@ export const NavigationBar = connect((state: AppState) => ({
       </View>
     </View>
   );
-});
+};

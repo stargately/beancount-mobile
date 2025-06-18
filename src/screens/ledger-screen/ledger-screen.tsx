@@ -2,18 +2,17 @@
 import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
-import { connect } from "react-redux";
 import { WebView } from "react-native-webview";
 import { Button } from "@ant-design/react-native";
 import { analytics } from "@/common/analytics";
 import { headers } from "@/common/headers";
 import { getEndpoint } from "@/common/request";
 import { statusBarHeight } from "@/common/screen-util";
-import { AppState } from "@/common/store";
 import { useTheme } from "@/common/theme";
 import { ProgressBar } from "@/common/progress-bar";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSession } from "@/common/hooks/use-session";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -38,13 +37,7 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-type Props = {
-  authToken?: string;
-};
-
-export const LedgerScreen = connect((state: AppState) => {
-  return { authToken: state.base.authToken };
-})(function BbsScreenInner(props: Props): JSX.Element {
+export const LedgerScreen = () => {
   let webViewRef: WebView | null;
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
@@ -63,8 +56,7 @@ export const LedgerScreen = connect((state: AppState) => {
       webViewRef.reload();
     }
   };
-
-  const { authToken } = props;
+  const { authToken } = useSession();
   const [uri, setUri] = useState(getEndpoint("ledger/editor/"));
   return (
     <SafeAreaView edges={["top"]} style={styles.container}>
@@ -91,4 +83,4 @@ export const LedgerScreen = connect((state: AppState) => {
       </View>
     </SafeAreaView>
   );
-});
+};

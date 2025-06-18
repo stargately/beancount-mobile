@@ -4,6 +4,7 @@ export const zh = {
   ledger: "账本",
   settings: "设置",
   mine: "我的",
+  setting: "设置",
   // mine
   reviewApp: "给个好评鼓励一下",
   about: "关于",

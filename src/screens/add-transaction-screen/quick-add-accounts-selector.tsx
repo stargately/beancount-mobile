@@ -6,7 +6,6 @@ import {
   Text,
   View,
 } from "react-native";
-import { connect } from "react-redux";
 import { List } from "@ant-design/react-native";
 import { TextStyled } from "@/common/text-styled";
 import { useTheme } from "@/common/theme";
@@ -19,6 +18,7 @@ import { i18n } from "@/translations";
 import { ColorTheme } from "@/types/theme-props";
 import { useRouter } from "expo-router";
 import { SelectedAssets, SelectedExpenses } from "@/common/globalFnFactory";
+import { useSession } from "@/common/hooks/use-session";
 
 const { Item } = List;
 const { Brief } = Item;
@@ -39,7 +39,6 @@ const LoadingList = () => (
 );
 
 type Props = {
-  userId: string;
   onChange: ({
     asset,
     expense,
@@ -63,15 +62,12 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-export const QuickAddAccountsSelector = connect(
-  (state: { base: { userId: string } }) => ({
-    userId: state.base.userId,
-  }),
-)(function AssetsExpensesSelectorInner(props: Props): JSX.Element {
+export const QuickAddAccountsSelector = (props: Props) => {
   const router = useRouter();
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
-  const { userId, onChange } = props;
+  const { userId } = useSession();
+  const { onChange } = props;
   const [refreshing, setRefreshing] = useState(false);
   const {
     assetsOptionTabs,
@@ -212,4 +208,4 @@ export const QuickAddAccountsSelector = connect(
       )}
     </ScrollView>
   );
-});
+};

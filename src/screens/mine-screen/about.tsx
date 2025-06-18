@@ -5,59 +5,32 @@ import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
 import { Alert, Platform, ScrollView, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { connect } from "react-redux";
+
 import { useIsFocused } from "@react-navigation/native";
 import { analytics } from "@/common/analytics";
 import { ListHeader } from "@/common/list-header";
-import { actionUpdateReduxState } from "@/common/root-reducer";
-import { AppState } from "@/common/store";
 import { useTheme } from "@/common/theme";
 import { i18n, setLocale } from "@/translations";
-import { actionLogout } from "@/screens/mine-screen/account-reducer";
 import { useUserProfile } from "@/screens/mine-screen/hooks/use-user-profile";
 import { useUpdateReportSubscribeToRemote } from "@/screens/mine-screen/hooks/use-update-report-subscribe";
 import { useFeatureFlags } from "@/common/hooks/use-feature-flags";
 import { AccountHeader } from "@/screens/mine-screen/account-header";
 import { InviteSection } from "@/screens/referral-screen/components/invite-section";
 import { ReportStatus } from "@/generated-graphql/graphql";
+import { useSession } from "@/common/hooks/use-session";
+import { localeVar, themeVar } from "@/common/vars";
+import { useReactiveVar } from "@apollo/client";
+import { actionLogout } from "./logout";
 
 const { Item } = List;
 const { Brief } = Item;
 
-type Props = {
-  authToken: string;
-  locale: string;
-  logout: (authToken: string) => void;
-  updateReduxState: (state: {
-    base: { locale?: string; currentTheme?: string };
-  }) => void;
-  currentTheme: "dark" | "light";
-  userId: string;
-};
+export const About = () => {
+  const { authToken, userId } = useSession();
 
-export const About = connect(
-  (state: AppState) => ({
-    authToken: state.base.authToken,
-    locale: state.base.locale,
-    currentTheme: state.base.currentTheme,
-    userId: state.base.userId,
-  }),
-  (dispatch) => ({
-    logout(authToken: string): void {
-      dispatch(actionLogout(authToken));
-    },
-    updateReduxState(payload: { base: { locale: string } }): void {
-      dispatch(actionUpdateReduxState(payload));
-    },
-  }),
-)(({
-  authToken,
-  locale,
-  logout,
-  updateReduxState,
-  currentTheme,
-  userId,
-}: Props) => {
+  const locale = useReactiveVar(localeVar);
+  const currentTheme = useReactiveVar(themeVar);
+
   const theme = useTheme().colorTheme;
   const pickerSource = [
     { value: ReportStatus.Weekly, label: i18n.t("weekly") },
@@ -216,9 +189,7 @@ export const About = connect(
               checked={String(locale).startsWith("en")}
               onChange={async (value) => {
                 const changeTo = value ? "en" : "zh";
-                updateReduxState({
-                  base: { locale: changeTo },
-                });
+                localeVar(changeTo);
                 i18n.locale = changeTo;
                 setLocale(changeTo);
                 await analytics.track("tap_switch_language", { changeTo });
@@ -242,9 +213,7 @@ export const About = connect(
               checked={currentTheme === "dark"}
               onChange={async (value) => {
                 const mode = value ? "dark" : "light";
-                updateReduxState({
-                  base: { currentTheme: mode },
-                });
+                themeVar(mode);
                 await analytics.track("tap_switch_theme", { mode });
               }}
             />
@@ -273,7 +242,7 @@ export const About = connect(
                   {
                     text: i18n.t("logoutAlertConfirm"),
                     onPress: () => {
-                      logout(authToken);
+                      actionLogout(authToken);
                     },
                   },
                 ],
@@ -297,4 +266,4 @@ export const About = connect(
       {renderAppSection()}
     </ScrollView>
   );
-});
+};

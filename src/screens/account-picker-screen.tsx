@@ -9,9 +9,8 @@ import {
 } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
 import { ColorTheme } from "@/types/theme-props";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useSelector } from "react-redux";
-import { AppState } from "@/common/store";
 import { SelectedAssets, SelectedExpenses } from "@/common/globalFnFactory";
+import { useSession } from "@/common/hooks/use-session";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -23,7 +22,7 @@ const getStyles = (theme: ColorTheme) =>
 
 export function AccountPickerScreen(): JSX.Element {
   const router = useRouter();
-  const userId = useSelector((state: AppState) => state.base.userId);
+  const { userId } = useSession();
 
   useEffect(() => {
     async function init() {

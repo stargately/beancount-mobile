@@ -1,7 +1,10 @@
-import { useSelector } from "react-redux";
-import { AppState } from "@/common/store";
+import { useReactiveVar } from "@apollo/client";
+import { sessionVar } from "@/common/vars";
 
 export const useSession = () => {
-  const authToken = useSelector((state: AppState) => state.base.authToken);
-  return authToken;
+  const session = useReactiveVar(sessionVar);
+  if (!session) {
+    throw new Error("Session not found");
+  }
+  return session;
 };

@@ -1,7 +1,8 @@
+import { useReactiveVar } from "@apollo/client";
 import React from "react";
 import { StyleSheet, ViewStyle } from "react-native";
 import { View } from "react-native-animatable";
-import { connect } from "react-redux";
+import { themeVar } from "@/common/vars";
 
 const styles = StyleSheet.create({
   light: {
@@ -16,11 +17,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export const LoadingTile = connect(
-  (state: { base: { currentTheme: string } }) => ({
-    theme: state.base.currentTheme,
-  }),
-)(({ style, theme }: { style?: ViewStyle; theme: string }) => {
+export const LoadingTile = (props: { style?: ViewStyle }) => {
+  const { style } = props;
+  const theme = useReactiveVar(themeVar);
   return (
     <View
       animation={{
@@ -38,4 +37,4 @@ export const LoadingTile = connect(
       useNativeDriver
     />
   );
-});
+};

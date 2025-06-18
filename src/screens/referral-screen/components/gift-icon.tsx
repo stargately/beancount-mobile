@@ -1,8 +1,6 @@
 import { G, Path, Svg, Polygon } from "react-native-svg";
 import * as React from "react";
 import { useTheme } from "@/common/theme";
-import { connect } from "react-redux";
-import { AppState } from "@/common/store";
 
 function GiftIconComponent(): JSX.Element {
   const { colorTheme: theme } = useTheme();
@@ -71,6 +69,4 @@ function GiftIconComponent(): JSX.Element {
   );
 }
 
-export const GiftIcon = connect((state: AppState) => ({
-  currentTheme: state.base.currentTheme,
-}))(GiftIconComponent);
+export const GiftIcon = GiftIconComponent;

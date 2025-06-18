@@ -8,7 +8,6 @@ import {
   View,
 } from "react-native";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
@@ -28,10 +27,12 @@ import { Announcement } from "@/common/announcement";
 import { EmailIcon } from "@/screens/home-screen/email-icon";
 import { useFeatureFlags } from "@/common/hooks/use-feature-flags";
 import { ColorTheme } from "@/types/theme-props";
-import { AppState } from "@/common/store";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AddTransactionCallback } from "@/common/globalFnFactory";
+import { useSession } from "@/common/hooks/use-session";
+import { themeVar } from "@/common/vars";
+import { useReactiveVar } from "@apollo/client";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -49,13 +50,7 @@ const getStyles = (theme: ColorTheme) =>
   });
 
 export const HomeScreen = (): JSX.Element => {
-  const props = useSelector((state: AppState) => {
-    return {
-      userId: state.base.userId ?? "",
-      theme: state.base.currentTheme ?? "light",
-      locale: state.base.locale ?? "en",
-    };
-  });
+  const { userId } = useSession();
   React.useEffect(() => {
     async function init() {
       await analytics.track("page_view_home", {});
@@ -65,9 +60,8 @@ export const HomeScreen = (): JSX.Element => {
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
   const router = useRouter();
-  const { currencies, refetch: ledgerMetaRefetch } = useLedgerMeta(
-    props.userId,
-  );
+  const { currencies, refetch: ledgerMetaRefetch } = useLedgerMeta(userId);
+  const currentTheme = useReactiveVar(themeVar);
 
   const currency = currencies.length > 0 ? currencies[0] : "USD";
   const currencySymbol = getCurrencySymbol(currency);
@@ -78,13 +72,13 @@ export const HomeScreen = (): JSX.Element => {
     loading: netWorthLoading,
     refetch: netWorthRefetch,
     error: netWorthError,
-  } = useHomeCharts(props.userId, currency);
+  } = useHomeCharts(userId, currency);
   const {
     accounts,
     loading: accountsLoading,
     refetch: accountsRefetch,
     error: accountsError,
-  } = useAccountHierarchy(props.userId, currency);
+  } = useAccountHierarchy(userId, currency);
   const [refreshing, setRefreshing] = useState(false);
   const isLoading = netWorthLoading || refreshing;
   const onRefresh = async () => {
@@ -99,13 +93,13 @@ export const HomeScreen = (): JSX.Element => {
       setRefreshing(false);
     }
   };
-  const { spendingReportSubscription } = useFeatureFlags(props.userId);
+  const { spendingReportSubscription } = useFeatureFlags(userId);
   return (
     <>
       <SafeAreaView edges={["top"]} style={styles.container}>
         <ScrollView
           contentContainerStyle={{ paddingHorizontal: 16 }}
-          indicatorStyle={props.theme === "dark" ? "white" : "default"}
+          indicatorStyle={currentTheme === "dark" ? "white" : "default"}
           refreshControl={
             <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
           }
