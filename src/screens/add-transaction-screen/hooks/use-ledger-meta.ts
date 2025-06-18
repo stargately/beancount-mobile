@@ -1,4 +1,3 @@
-import * as lodash from "lodash";
 import { useLedgerMetaQuery, LedgerMeta } from "@/generated-graphql/graphql";
 
 export interface OptionTab {
@@ -75,14 +74,11 @@ function handleOptions(options: string[]) {
   const optionTabs: OptionTab[] = [{ title: "All", options }];
   options.forEach((val) => {
     const prefix = val.split(":")[0];
-    const retIndex = lodash.findIndex(
-      optionTabs,
-      (opts) => opts.title === prefix,
-    );
-    if (retIndex === -1) {
+    const index = optionTabs.findIndex((opt) => opt.title === prefix);
+    if (index === -1) {
       optionTabs.push({ title: prefix, options: [val] });
     } else {
-      optionTabs[retIndex].options.push(val);
+      optionTabs[index].options.push(val);
     }
   });
   return optionTabs;
