@@ -3,7 +3,7 @@ import { Dimensions, View, StyleSheet, Image, Text } from "react-native";
 import { Button } from "@ant-design/react-native";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
-import { LoginOrSignUp } from "@/screens/mine-screen/account-header";
+import { LoginOrSignUp } from "./auth-modal";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 

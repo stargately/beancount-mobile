@@ -1,11 +1,9 @@
 import React from "react";
 import { ApolloProvider } from "@apollo/client";
-import { Provider as ReduxProvider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { apolloClient } from "@/common/apollo-client";
-import { persistor, store } from "@/common/store";
+import { apolloClient } from "@/common/apollo/client";
 import { SplashProvider } from "./splash-provider/splash-provider";
 import { AntdThemeProvider } from "./antd-provider/antd-provider";
+import { VariablesProvider } from "./vars-provider/vars-provider";
 
 export function Providers({
   children,
@@ -14,13 +12,11 @@ export function Providers({
 }): JSX.Element {
   return (
     <SplashProvider>
-      <ReduxProvider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <AntdThemeProvider>
-            <ApolloProvider client={apolloClient}>{children}</ApolloProvider>
-          </AntdThemeProvider>
-        </PersistGate>
-      </ReduxProvider>
+      <VariablesProvider>
+        <AntdThemeProvider>
+          <ApolloProvider client={apolloClient}>{children}</ApolloProvider>
+        </AntdThemeProvider>
+      </VariablesProvider>
     </SplashProvider>
   );
 }

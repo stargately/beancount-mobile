@@ -1,14 +1,10 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloLink,
-  HttpLink,
-} from "@apollo/client";
+import { ApolloClient, ApolloLink, HttpLink } from "@apollo/client";
 
 import fetch from "isomorphic-unfetch";
 import { getEndpoint } from "@/common/request";
 import { store } from "@/common/store";
-import { onErrorLink } from "@/common/apollo-error-handling";
+import { onErrorLink } from "@/common/apollo/error-handling";
+import { cache } from "@/common/apollo/cache";
 
 const middlewareLink = new ApolloLink((operation, forward) => {
   operation.setContext({
@@ -30,5 +26,5 @@ const link = middlewareLink.concat(
 
 export const apolloClient = new ApolloClient({
   link,
-  cache: new InMemoryCache(),
+  cache,
 });
