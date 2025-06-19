@@ -3,8 +3,7 @@ import { LineChart } from "@yuyongmao/react-native-chart-kit";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
-
-const shortNumber = require("short-number");
+import { shortNumber } from "@/common/number-utils";
 
 export function LineChartStyled({
   labels,

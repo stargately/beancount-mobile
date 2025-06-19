@@ -29,7 +29,7 @@
     "@yuyongmao/react-native-chart-kit": "^1.0.0",
     "buffer": "^6.0.3",
     "currency-icons": "^1.0.14",
-    "expo": "53.0.11",
+    "expo": "53.0.12",
     "expo-analytics": "^1.0.13",
     "expo-asset": "~11.1.5",
     "expo-constants": "~17.1.6",
@@ -43,14 +43,14 @@
     "expo-splash-screen": "~0.30.9",
     "expo-status-bar": "~2.2.3",
     "expo-store-review": "~8.1.5",
-    "expo-web-browser": "~14.1.6",
+    "expo-web-browser": "~14.2.0",
     "graphql": "^14.5.8",
     "i18n-js": "^4.5.1",
     "isomorphic-unfetch": "^3.0.0",
     "jwt-decode": "^2.2.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-native": "0.79.3",
+    "react-native": "0.79.4",
     "react-native-animatable": "^1.3.3",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-reanimated": "~3.17.4",
@@ -59,8 +59,7 @@
     "react-native-svg": "15.11.2",
     "react-native-web": "^0.20.0",
     "react-native-webview": "13.13.5",
-    "sentry-expo": "~7.0.0",
-    "short-number": "^1.0.7"
+    "sentry-expo": "~7.0.0"
   },
   "engines": {
     "node": ">=20"
