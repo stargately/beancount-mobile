@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { useTheme } from "@/common/theme";
 import { contentPadding } from "@/common/screen-util";
 import { CommonLine } from "@/common/common-line";
 import { i18n } from "@/translations";
 import { ColorTheme } from "@/types/theme-props";
+import { useThemeStyle } from "@/common/hooks/use-theme-style";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -35,8 +35,7 @@ export function AccountsRow({
   value: string;
   circleColor: string;
 }): JSX.Element {
-  const theme = useTheme().colorTheme;
-  const styles = getStyles(theme);
+  const styles = useThemeStyle(getStyles);
   return (
     <View style={styles.rowContainer}>
       <View style={[styles.circle, { backgroundColor: circleColor }]} />

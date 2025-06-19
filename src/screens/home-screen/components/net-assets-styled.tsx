@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { useTheme } from "@/common/theme";
 import { ColorTheme } from "@/types/theme-props";
+import { useThemeStyle } from "@/common/hooks/use-theme-style";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -21,8 +21,7 @@ export function NetAssetsStyled({
 }: {
   netAssets: string;
 }): JSX.Element {
-  const theme = useTheme().colorTheme;
-  const styles = getStyles(theme);
+  const styles = useThemeStyle(getStyles);
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{netAssets}</Text>

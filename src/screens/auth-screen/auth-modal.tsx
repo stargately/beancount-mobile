@@ -1,11 +1,11 @@
 import { Button, Modal } from "@ant-design/react-native";
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useTheme } from "@/common/theme";
 import { LoginWebView } from "@/screens/auth-screen/login-web-view";
 import { useStateIfMounted } from "@/common/hooks/use-state-if-mounted";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
+import { useThemeStyle } from "@/common/hooks/use-theme-style";
 
 const getLoginOrSignUpStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -35,8 +35,7 @@ export function LoginOrSignUp(props: LoginOrSignUpProps): JSX.Element {
   const onCloseModal = () => {
     setShouldDisplayModal(false);
   };
-  const theme = useTheme().colorTheme;
-  const styles = getLoginOrSignUpStyles(theme);
+  const styles = useThemeStyle(getLoginOrSignUpStyles);
   return (
     <View
       onTouchStart={async () => {

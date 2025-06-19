@@ -8,11 +8,12 @@ import { analytics } from "@/common/analytics";
 import { headers } from "@/common/headers";
 import { getEndpoint } from "@/common/request";
 import { statusBarHeight } from "@/common/screen-util";
-import { useTheme } from "@/common/theme";
 import { ProgressBar } from "@/common/progress-bar";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSession } from "@/common/hooks/use-session";
+import { useThemeStyle } from "@/common/hooks/use-theme-style";
+import { useTheme } from "@/common/theme";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -39,8 +40,8 @@ const getStyles = (theme: ColorTheme) =>
 
 export const LedgerScreen = () => {
   let webViewRef: WebView | null;
+  const styles = useThemeStyle(getStyles);
   const theme = useTheme().colorTheme;
-  const styles = getStyles(theme);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {

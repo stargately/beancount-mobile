@@ -1,10 +1,10 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useTheme } from "@/common/theme";
 import { ColorTheme } from "@/types/theme-props";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { useRouter } from "expo-router";
+import { useThemeStyle } from "./hooks/use-theme-style";
 
 type Props = {
   title: string;
@@ -84,9 +84,7 @@ export function Announcement(props: Props): JSX.Element {
 
   const { title, subtitle, icon } = props;
 
-  const theme = useTheme();
-
-  const styles = getStyles(theme.colorTheme);
+  const styles = useThemeStyle(getStyles);
 
   if (hide) {
     return <View />;
