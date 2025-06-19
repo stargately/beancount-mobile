@@ -4,7 +4,7 @@ import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 
-const shortNumber = require("short-number");
+import { shortNumber } from "@/common/number-utils";
 
 export function BarChartStyled({
   labels,
