@@ -7,7 +7,7 @@ export const onErrorLink = onError(({ graphQLErrors, networkError }) => {
     for (const err of graphQLErrors) {
       if (err.extensions && err.extensions.code === "UNAUTHENTICATED") {
         sessionVar(null);
-        router.replace("/auth");
+        router.replace("/auth/welcome");
       }
     }
   }

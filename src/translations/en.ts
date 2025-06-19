@@ -21,8 +21,14 @@ export const en = {
   login: "Log In / Sign Up",
   signIn: "Sign In",
   signUp: "Sign Up",
+  resetPassword: "Reset Password",
+  resetPasswordDescription:
+    "Enter your email address to receive a link to reset your password.",
+  resetPasswordEmailSent:
+    "An email has been sent to your email address. Please check your email to reset your password.",
   addTransaction: "Add Transaction",
   assets: "Assets",
+  sendResetPasswordEmail: "Send Reset Password Email",
   expenses: "Expenses",
   quickAdd: "Quick Add",
   accountPicker: "Account Picker",

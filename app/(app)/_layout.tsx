@@ -18,7 +18,7 @@ export default function AppLayout() {
   const session = useReactiveVar(sessionVar);
   const theme = useTheme().colorTheme;
   if (!session) {
-    return <Redirect href="/auth" />;
+    return <Redirect href="/auth/welcome" />;
   }
 
   return (

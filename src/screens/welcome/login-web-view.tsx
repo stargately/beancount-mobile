@@ -1,4 +1,3 @@
-import jwtDecode from "jwt-decode";
 import * as React from "react";
 import { Dimensions, View } from "react-native";
 import { WebView } from "react-native-webview";
@@ -9,6 +8,7 @@ import { ProgressBar } from "@/common/progress-bar";
 import { statusBarHeight } from "@/common/screen-util";
 import { router } from "expo-router";
 import { sessionVar } from "@/common/vars";
+import { createSession } from "@/common/session-utils";
 
 const { height } = Dimensions.get("window");
 
@@ -51,13 +51,10 @@ export const LoginWebView = ({ isSignUp, onClose }: Props) => {
             );
             const msgObj = JSON.parse(msg);
             if (msgObj.authToken) {
-              const { sub } = jwtDecode(msgObj.authToken) as { sub: string };
-              analytics.identify(sub);
+              const session = createSession(msgObj.authToken);
+              analytics.identify(session.userId);
               analytics.track(isSignUp ? "signed_up" : "logged_in", {});
-              sessionVar({
-                userId: sub,
-                authToken: msgObj.authToken,
-              });
+              sessionVar(session);
               onClose();
               router.push("/(app)/(tabs)");
             }

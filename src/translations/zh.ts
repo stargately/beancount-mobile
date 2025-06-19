@@ -21,8 +21,14 @@ export const zh = {
   login: "登录 / 注册",
   signIn: "登录",
   signUp: "注册",
+  resetPassword: "重置密码",
+  resetPasswordDescription:
+    "输入你的邮箱地址，我们会发送一个重置密码的链接给你。",
+  resetPasswordEmailSent:
+    "我们已经发送了一个重置密码的链接到你的邮箱。请检查你的邮箱并点击链接重置密码。",
   addTransaction: "添加事务",
   assets: "资产",
+  sendResetPasswordEmail: "发送重置密码邮件",
   expenses: "开支",
   quickAdd: "快速添加",
   accountPicker: "账户选择",
