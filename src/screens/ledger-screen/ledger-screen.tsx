@@ -7,7 +7,7 @@ import { analytics } from "@/common/analytics";
 import { headers } from "@/common/headers";
 import { getEndpoint } from "@/common/request";
 import { statusBarHeight } from "@/common/screen-util";
-import { ProgressBar } from "@/common/progress-bar";
+import { ProgressBar } from "./progress-bar";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSession } from "@/common/hooks/use-session";
