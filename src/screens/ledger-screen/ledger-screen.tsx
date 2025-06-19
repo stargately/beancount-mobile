@@ -1,9 +1,8 @@
 /* tslint:disable:no-any */
 import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { WebView } from "react-native-webview";
-import { Button } from "@ant-design/react-native";
 import { analytics } from "@/common/analytics";
 import { headers } from "@/common/headers";
 import { getEndpoint } from "@/common/request";
@@ -78,9 +77,13 @@ export const LedgerScreen = () => {
             setUri(navState.nativeEvent.url);
           }}
         />
-        <Button style={styles.refreshButton} onPress={onRefresh}>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          style={styles.refreshButton}
+          onPress={onRefresh}
+        >
           <Ionicons name="refresh" size={24} color={theme.white} />
-        </Button>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

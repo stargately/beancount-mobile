@@ -10,7 +10,7 @@ import { useThemeStyle } from "@/common/hooks/use-theme-style";
 import { i18n } from "@/translations";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button } from "@ant-design/react-native";
+import { Button } from "@/components";
 import { z } from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,18 +57,9 @@ const getStyles = (theme: ColorTheme) =>
       borderColor: theme.error,
     },
     button: {
-      backgroundColor: theme.primary,
-      borderRadius: 8,
       alignItems: "center",
       marginTop: 24,
       marginBottom: 16,
-      height: 44,
-      justifyContent: "center",
-    },
-    buttonText: {
-      color: theme.white,
-      fontSize: 16,
-      fontWeight: "500",
     },
     link: {
       color: theme.primary,
@@ -173,10 +164,12 @@ const ResetPasswordScreen = () => {
               </>
             )}
           />
-          <Button style={styles.button} onPress={handleSubmit(onSubmit)}>
-            <Text style={styles.buttonText}>
-              {i18n.t("sendResetPasswordEmail")}
-            </Text>
+          <Button
+            type="primary"
+            style={styles.button}
+            onPress={handleSubmit(onSubmit)}
+          >
+            {i18n.t("sendResetPasswordEmail")}
           </Button>
           {error && <Text style={styles.errorText}>{error}</Text>}
         </>

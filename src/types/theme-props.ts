@@ -15,6 +15,8 @@ export interface AntdTheme {
 
 export interface ColorTheme {
   primary: string;
+  primaryLight: string;
+  primaryDark: string;
   secondary: string;
   white: string;
   black: string;

@@ -7,6 +7,8 @@ const colorMode = colorScheme === "dark" ? "dark" : "light";
 
 const lightTheme: ColorTheme = {
   primary: "#6161e8",
+  primaryLight: "#7a7aea",
+  primaryDark: "#5252c3",
   secondary: "#0C8DE4",
   white: "#fff",
 
@@ -40,6 +42,8 @@ const lightTheme: ColorTheme = {
 
 const darkTheme: ColorTheme = {
   primary: "#6161e8",
+  primaryLight: "#7a7aea",
+  primaryDark: "#5252c3",
   secondary: "#0C8DE4",
   white: "#000",
 

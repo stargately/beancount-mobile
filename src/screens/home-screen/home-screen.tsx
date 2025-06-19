@@ -1,4 +1,3 @@
-import Button from "@ant-design/react-native/lib/button";
 import * as React from "react";
 import {
   RefreshControl,
@@ -33,6 +32,7 @@ import { useSession } from "@/common/hooks/use-session";
 import { themeVar } from "@/common/vars";
 import { useReactiveVar } from "@apollo/client";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
+import { Button } from "@/components";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({

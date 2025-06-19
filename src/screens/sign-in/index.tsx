@@ -5,12 +5,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   Linking,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
 import { i18n } from "@/translations";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button } from "@ant-design/react-native";
 import { z } from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +20,7 @@ import { api } from "@/common/api";
 import { sessionVar } from "@/common/vars";
 import { createSession } from "@/common/session-utils";
 import { getEndpoint } from "@/common/request";
+import { Button } from "@/components";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -55,18 +57,8 @@ const getStyles = (theme: ColorTheme) =>
       borderColor: theme.error,
     },
     button: {
-      backgroundColor: theme.primary,
-      borderRadius: 8,
-      alignItems: "center",
       marginTop: 24,
       marginBottom: 16,
-      height: 44,
-      justifyContent: "center",
-    },
-    buttonText: {
-      color: theme.white,
-      fontSize: 16,
-      fontWeight: "500",
     },
     link: {
       color: theme.primary,
@@ -134,72 +126,75 @@ const SignInScreen = () => {
   };
 
   return (
-    <SafeAreaView edges={["top", "bottom"]} style={styles.container}>
-      <Text style={styles.title}>{i18n.t("signIn")}</Text>
-      <Text style={styles.label}>Email</Text>
-      <Controller
-        control={control}
-        name="email"
-        render={({
-          field: { onChange, onBlur, value },
-          fieldState: { error },
-        }) => (
-          <>
-            <TextInput
-              style={[styles.input, error ? styles.inputError : {}]}
-              placeholder="Email"
-              placeholderTextColor="#aaa"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              onChangeText={onChange}
-              onBlur={onBlur}
-              value={value}
-            />
-            {error && <Text style={styles.error}>{error.message}</Text>}
-          </>
-        )}
-      />
-      <Text style={styles.label}>Password</Text>
-      <Controller
-        control={control}
-        name="password"
-        render={({
-          field: { onChange, onBlur, value },
-          fieldState: { error },
-        }) => (
-          <>
-            <TextInput
-              style={[styles.input, error ? styles.inputError : {}]}
-              placeholder="Password"
-              placeholderTextColor="#aaa"
-              secureTextEntry
-              onChangeText={onChange}
-              onBlur={onBlur}
-              value={value}
-            />
-            {error && <Text style={styles.error}>{error.message}</Text>}
-          </>
-        )}
-      />
-      <Button
-        style={styles.button}
-        onPress={handleSubmit(onSubmit)}
-        loading={loading}
-      >
-        <Text style={styles.buttonText}>{i18n.t("signIn")}</Text>
-      </Button>
-      {error && <Text style={styles.errorText}>{error}</Text>}
-      <TouchableOpacity onPress={onResetPassword}>
-        <Text style={styles.link}>Forgot Password?</Text>
-      </TouchableOpacity>
-      <Link href="/auth/sign-up" asChild>
-        <TouchableOpacity>
-          <Text style={styles.bottomLink}>
-            Don&apos;t have an account? Sign up
-          </Text>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView edges={["top", "bottom"]} style={styles.container}>
+        <Text style={styles.title}>{i18n.t("signIn")}</Text>
+        <Text style={styles.label}>Email</Text>
+        <Controller
+          control={control}
+          name="email"
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <>
+              <TextInput
+                style={[styles.input, error ? styles.inputError : {}]}
+                placeholder="Email"
+                placeholderTextColor="#aaa"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+              {error && <Text style={styles.error}>{error.message}</Text>}
+            </>
+          )}
+        />
+        <Text style={styles.label}>Password</Text>
+        <Controller
+          control={control}
+          name="password"
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <>
+              <TextInput
+                style={[styles.input, error ? styles.inputError : {}]}
+                placeholder="Password"
+                placeholderTextColor="#aaa"
+                secureTextEntry
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+              {error && <Text style={styles.error}>{error.message}</Text>}
+            </>
+          )}
+        />
+        <Button
+          style={styles.button}
+          type="primary"
+          onPress={handleSubmit(onSubmit)}
+          loading={loading}
+        >
+          {i18n.t("signIn")}
+        </Button>
+        {error && <Text style={styles.errorText}>{error}</Text>}
+        <TouchableOpacity onPress={onResetPassword}>
+          <Text style={styles.link}>Forgot Password?</Text>
         </TouchableOpacity>
-      </Link>
-    </SafeAreaView>
+        <Link href="/auth/sign-up" asChild>
+          <TouchableOpacity>
+            <Text style={styles.bottomLink}>
+              Don&apos;t have an account? Sign up
+            </Text>
+          </TouchableOpacity>
+        </Link>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

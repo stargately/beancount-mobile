@@ -1,14 +1,13 @@
 import * as React from "react";
-import { Dimensions, View, StyleSheet, Image, Text } from "react-native";
-import { Button } from "@ant-design/react-native";
+import { Dimensions, View, StyleSheet, Image } from "react-native";
 import { i18n } from "@/translations";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
 import { router } from "expo-router";
+import { Button } from "@/components";
 
-const { width, height } = Dimensions.get("window");
-const buttonWidth = (width - 20 * 3) / 2;
+const { height } = Dimensions.get("window");
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -30,27 +29,11 @@ const getStyles = (theme: ColorTheme) =>
       height: 44,
       flexDirection: "row",
       justifyContent: "space-around",
+      paddingHorizontal: 20,
+      gap: 10,
     },
-    button: {
-      height: 44,
-      width: buttonWidth,
-      justifyContent: "center",
-      alignItems: "center",
-      borderRadius: 8,
-      borderColor: theme.black60,
-      borderWidth: 1,
-      backgroundColor: theme.white,
-    },
-    btnTitle: {
-      fontSize: 20,
-      color: theme.text01,
-    },
-    primaryButton: {
-      backgroundColor: theme.primary,
-      borderColor: theme.primary,
-    },
-    primaryButtonText: {
-      color: theme.white,
+    flex: {
+      flex: 1,
     },
   });
 
@@ -67,18 +50,18 @@ export function WelcomeScreen(): JSX.Element {
       <Image source={require("@/assets/images/icon.png")} style={styles.icon} />
       <View style={styles.buttonContainer}>
         <Button
-          style={styles.button}
+          style={styles.flex}
+          type="outline"
           onPress={() => router.push("/auth/sign-in")}
         >
-          <Text style={styles.btnTitle}>{i18n.t("signIn")}</Text>
+          {i18n.t("signIn")}
         </Button>
         <Button
-          style={[styles.button, styles.primaryButton]}
+          style={styles.flex}
+          type="primary"
           onPress={() => router.push("/auth/sign-up")}
         >
-          <Text style={[styles.btnTitle, styles.primaryButtonText]}>
-            {i18n.t("signUp")}
-          </Text>
+          {i18n.t("signUp")}
         </Button>
       </View>
     </View>

@@ -8,7 +8,8 @@ import {
   Share,
   Platform,
 } from "react-native";
-import { Button, Toast } from "@ant-design/react-native";
+import { Toast } from "@ant-design/react-native";
+import { Button } from "@/components";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
 import { ReferralGiftIcon } from "@/screens/referral-screen/components/referral-gift-icon";
@@ -68,11 +69,8 @@ const getStyles = (theme: ColorTheme) =>
       color: theme.primary,
     },
     shareBtn: {
-      backgroundColor: theme.white,
+      // backgroundColor: theme.white,
       width: ScreenWidth - 2 * contentPadding,
-      alignItems: "center",
-      justifyContent: "center",
-      borderColor: theme.primary,
     },
     share: {
       fontWeight: "bold",
@@ -122,6 +120,7 @@ export const ReferralScreen = () => {
         <CommonMargin />
         <Button
           style={styles.shareBtn}
+          type="outline"
           onPress={async () => {
             await analytics.track("tap_share_link_share", { shareLink });
             Share.share({
