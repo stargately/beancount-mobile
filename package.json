@@ -21,6 +21,7 @@
     "@apollo/client": "^3.13.8",
     "@callstack/react-theme-provider": "^3.0.9",
     "@expo/vector-icons": "^14.1.0",
+    "@hookform/resolvers": "^5.1.1",
     "@react-native-async-storage/async-storage": "^2.1.2",
     "@react-navigation/native": "^7.1.6",
     "@react-navigation/stack": "^6.x",
@@ -50,6 +51,7 @@
     "jwt-decode": "^2.2.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "react-hook-form": "^7.58.1",
     "react-native": "0.79.4",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-reanimated": "~3.17.4",
@@ -58,7 +60,8 @@
     "react-native-svg": "15.11.2",
     "react-native-web": "^0.20.0",
     "react-native-webview": "13.13.5",
-    "sentry-expo": "~7.0.0"
+    "sentry-expo": "~7.0.0",
+    "zod": "^3.25.67"
   },
   "engines": {
     "node": ">=20"
