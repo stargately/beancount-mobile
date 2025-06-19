@@ -16,7 +16,7 @@ import { HeaderText, SmallHeaderText } from "@/common/text-styled";
 import { BarChartStyled } from "@/common/bar-chart-styled";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
-import { LoadingTile } from "@/common/loading-tile";
+import { LoadingTile } from "@/components/loading-tile";
 import { AccountsStyled } from "@/screens/home-screen/components/accounts-styled";
 import { NetAssetsStyled } from "@/screens/home-screen/components/net-assets-styled";
 import { LineChartStyled } from "@/common/line-chart-styled";

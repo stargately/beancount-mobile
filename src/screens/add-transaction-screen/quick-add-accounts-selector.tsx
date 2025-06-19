@@ -10,7 +10,7 @@ import { List } from "@ant-design/react-native";
 import { TextStyled } from "@/common/text-styled";
 import { useTheme } from "@/common/theme";
 import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
-import { LoadingTile } from "@/common/loading-tile";
+import { LoadingTile } from "@/components/loading-tile";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { ListItemStyled } from "@/screens/add-transaction-screen/components/list-item-styled";
 import { analytics } from "@/common/analytics";
