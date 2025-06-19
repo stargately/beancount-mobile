@@ -1,7 +1,10 @@
 {
   "client": {
     "service": {
-      "localSchemaFile": "src/generated-graphql/schema.graphql"
-    }
+      "name": "Beancount",
+      "localSchemaFile": "./src/generated-graphql/graphql.schema.json"
+    },
+    "includes": ["src/common/graphql/**/*.graphql"],
+    "excludes": ["src/generated-graphql/**"]
   }
 }
