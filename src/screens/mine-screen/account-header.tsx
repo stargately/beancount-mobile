@@ -8,6 +8,7 @@ import { LoadingTile } from "@/common/loading-tile";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSession } from "@/common/hooks/use-session";
+import { useThemeStyle } from "@/common/hooks/use-theme-style";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -45,8 +46,7 @@ const getStyles = (theme: ColorTheme) =>
 
 export const EmailHeader = ({ userId }: { userId: string }) => {
   const { email, loading, error } = useUserProfile(userId);
-  const theme = useTheme().colorTheme;
-  const styles = getStyles(theme);
+  const styles = useThemeStyle(getStyles);
   if (loading || error || !email) {
     if (error) {
       Toast.fail(`failed to fetch user: ${error}`, 5);

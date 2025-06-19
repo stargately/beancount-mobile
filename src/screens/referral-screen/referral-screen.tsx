@@ -12,12 +12,12 @@ import { Button, Toast } from "@ant-design/react-native";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
 import { ReferralGiftIcon } from "@/screens/referral-screen/components/referral-gift-icon";
-import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSession } from "@/common/hooks/use-session";
+import { useThemeStyle } from "@/common/hooks/use-theme-style";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -90,8 +90,7 @@ export const ReferralScreen = () => {
   }, []);
   const { userId } = useSession();
   const shareLink = `beancount.io/sign-up/?src=${Platform.OS}&by=${userId}`;
-  const theme = useTheme().colorTheme;
-  const styles = getStyles(theme);
+  const styles = useThemeStyle(getStyles);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.body}>

@@ -8,7 +8,6 @@ import {
   View,
 } from "react-native";
 import { useState } from "react";
-import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
 import { useHomeCharts } from "@/screens/home-screen/hooks/use-home-charts";
@@ -33,6 +32,7 @@ import { AddTransactionCallback } from "@/common/globalFnFactory";
 import { useSession } from "@/common/hooks/use-session";
 import { themeVar } from "@/common/vars";
 import { useReactiveVar } from "@apollo/client";
+import { useThemeStyle } from "@/common/hooks/use-theme-style";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -57,8 +57,7 @@ export const HomeScreen = (): JSX.Element => {
     }
     init();
   }, []);
-  const theme = useTheme().colorTheme;
-  const styles = getStyles(theme);
+  const styles = useThemeStyle(getStyles);
   const router = useRouter();
   const { currencies, refetch: ledgerMetaRefetch } = useLedgerMeta(userId);
   const currentTheme = useReactiveVar(themeVar);

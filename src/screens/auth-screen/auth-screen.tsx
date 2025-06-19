@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Dimensions, View, StyleSheet, Image, Text } from "react-native";
 import { Button } from "@ant-design/react-native";
-import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { LoginOrSignUp } from "./auth-modal";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
+import { useThemeStyle } from "@/common/hooks/use-theme-style";
 
 const { width, height } = Dimensions.get("window");
 const buttonWidth = (width - 20 * 3) / 2;
@@ -45,6 +45,13 @@ const getStyles = (theme: ColorTheme) =>
       fontSize: 20,
       color: theme.text01,
     },
+    primaryButton: {
+      backgroundColor: theme.primary,
+      borderColor: theme.primary,
+    },
+    primaryButtonText: {
+      color: theme.white,
+    },
   });
 
 export function AuthScreen(): JSX.Element {
@@ -54,8 +61,7 @@ export function AuthScreen(): JSX.Element {
     }
     init();
   }, []);
-  const theme = useTheme().colorTheme;
-  const styles = getStyles(theme);
+  const styles = useThemeStyle(getStyles);
   return (
     <View style={styles.container}>
       <Image source={require("@/assets/images/icon.png")} style={styles.icon} />
@@ -65,15 +71,9 @@ export function AuthScreen(): JSX.Element {
             <Text style={styles.btnTitle}>{i18n.t("signIn")}</Text>
           </Button>
         </LoginOrSignUp>
-
         <LoginOrSignUp isSignUp={true}>
-          <Button
-            style={[
-              styles.button,
-              { backgroundColor: theme.primary, borderColor: theme.primary },
-            ]}
-          >
-            <Text style={[styles.btnTitle, { color: theme.white }]}>
+          <Button style={[styles.button, styles.primaryButton]}>
+            <Text style={[styles.btnTitle, styles.primaryButtonText]}>
               {i18n.t("signUp")}
             </Text>
           </Button>
