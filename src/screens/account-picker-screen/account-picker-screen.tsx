@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, SafeAreaView } from "react-native";
-import { List, Tabs } from "@ant-design/react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import { Tabs } from "@ant-design/react-native";
 import { useTheme } from "@/common/theme";
 import { analytics } from "@/common/analytics";
 import {
@@ -11,12 +17,22 @@ import { ColorTheme } from "@/types/theme-props";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { SelectedAssets, SelectedExpenses } from "@/common/globalFnFactory";
 import { useSession } from "@/common/hooks/use-session";
+import { Ionicons } from "@expo/vector-icons";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: theme.white,
+    },
+    listItem: {
+      backgroundColor: theme.white,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: theme.black20,
     },
   });
 
@@ -43,61 +59,58 @@ export function AccountPickerScreen(): JSX.Element {
     return { title: opt.title };
   });
   const theme = useTheme().colorTheme;
+  const styles = getStyles(theme);
 
   const renderOptionTabs = optionTabs.map((val, index) => {
     return (
-      <SafeAreaView style={{ flex: 1 }} key={index}>
-        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-          <List>
-            {val.options.map((op, idx) => {
-              return (
-                <List.Item
-                  key={idx}
-                  arrow="horizontal"
-                  style={{
-                    backgroundColor: theme.white,
-                  }}
-                  onPress={async () => {
-                    await analytics.track("tap_account_picker_confirm", {
-                      selectedAccount: op,
-                    });
-                    onSelected?.(op);
-                    router.back();
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      color: theme.black,
-                    }}
-                  >
-                    {op}
-                  </Text>
-                </List.Item>
-              );
-            })}
-          </List>
-        </ScrollView>
-      </SafeAreaView>
+      <ScrollView
+        key={index}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}
+      >
+        {val.options.map((op, idx) => {
+          return (
+            <TouchableOpacity
+              key={idx}
+              style={styles.listItem}
+              onPress={async () => {
+                await analytics.track("tap_account_picker_confirm", {
+                  selectedAccount: op,
+                });
+                onSelected?.(op);
+                router.back();
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: theme.black,
+                }}
+              >
+                {op}
+              </Text>
+              <Ionicons name="chevron-forward" size={24} color={theme.black} />
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
     );
   });
 
-  const styles = getStyles(theme);
   return (
     <View style={styles.container}>
-      <View style={styles.container}>
-        <Tabs
-          tabs={tabs}
-          initialPage={0}
-          tabBarPosition="top"
-          tabBarBackgroundColor={theme.white}
-          tabBarInactiveTextColor={theme.black}
-          tabBarActiveTextColor={theme.primary}
-          tabBarTextStyle={{ fontSize: 18 }}
-        >
-          {renderOptionTabs}
-        </Tabs>
-      </View>
+      <Tabs
+        tabs={tabs}
+        initialPage={0}
+        tabBarPosition="top"
+        tabBarBackgroundColor={theme.white}
+        tabBarInactiveTextColor={theme.black}
+        tabBarActiveTextColor={theme.primary}
+        tabBarTextStyle={{ fontSize: 18 }}
+        renderUnderline={() => null}
+      >
+        {renderOptionTabs}
+      </Tabs>
     </View>
   );
 }

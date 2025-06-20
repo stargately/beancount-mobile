@@ -1,5 +1,5 @@
-import { MineScreen } from "@/screens/mine-screen/mine-screen";
+import { SettingScreen } from "@/screens/setting/setting-screen";
 
 export default function Home() {
-  return <MineScreen />;
+  return <SettingScreen />;
 }

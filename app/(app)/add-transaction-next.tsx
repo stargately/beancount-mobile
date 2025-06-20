@@ -9,7 +9,6 @@ export default function AddTransactionNext() {
       <Stack.Screen
         options={{
           title: i18n.t("addTransaction"),
-          headerShown: false,
         }}
       />
       <AddTransactionNextScreen />

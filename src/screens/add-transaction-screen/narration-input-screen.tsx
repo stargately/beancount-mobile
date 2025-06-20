@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, TextInput } from "react-native";
-import { NavigationBar } from "@/common/navigation-bar";
-import { ScreenWidth, contentPadding } from "@/common/screen-util";
+import { View, StyleSheet, TextInput, Pressable, Text } from "react-native";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 import { SelectedNarration } from "@/common/globalFnFactory";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const getStyles = (theme: ColorTheme) =>
@@ -17,13 +15,20 @@ const getStyles = (theme: ColorTheme) =>
       flex: 1,
     },
     inputContainer: {
-      marginHorizontal: contentPadding,
-      marginTop: contentPadding * 2,
+      marginHorizontal: 16,
+      marginTop: 16,
+      borderBottomColor: theme.black40,
+      borderBottomWidth: StyleSheet.hairlineWidth,
     },
     input: {
       color: theme.text01,
-      width: ScreenWidth - contentPadding * 2,
       fontSize: 18,
+      paddingVertical: 8,
+    },
+    doneButton: {
+      fontWeight: "bold",
+      color: theme.primary,
+      fontSize: 16,
     },
   });
 
@@ -52,12 +57,16 @@ export function NarrationInputScreen(): JSX.Element {
   };
 
   return (
-    <SafeAreaView edges={["top"]} style={styles.container}>
-      <NavigationBar
-        title={i18n.t("narration")}
-        showBack
-        rightText={i18n.t("save")}
-        onRightClick={onRightClick}
+    <SafeAreaView edges={["bottom"]} style={styles.container}>
+      <Stack.Screen
+        options={{
+          headerTitle: i18n.t("narration"),
+          headerRight: () => (
+            <Pressable onPress={onRightClick} hitSlop={10}>
+              <Text style={styles.doneButton}>{i18n.t("save")}</Text>
+            </Pressable>
+          ),
+        }}
       />
       <View style={styles.inputContainer}>
         <TextInput

@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useTheme } from "@/common/theme";
-import { About } from "@/screens/mine-screen/about";
+import { About } from "./about";
 import { analytics } from "@/common/analytics";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export function MineScreen(): JSX.Element {
+export function SettingScreen(): JSX.Element {
   const theme = useTheme().colorTheme;
   React.useEffect(() => {
     async function init() {
