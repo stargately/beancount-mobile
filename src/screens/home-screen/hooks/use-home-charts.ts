@@ -6,6 +6,7 @@ import { getNetWorth } from "@/screens/home-screen/selectors/select-net-worth";
 export const useHomeCharts = (userId: string, currency: string) => {
   const { loading, data, error, refetch } = useHomeChartsQuery({
     variables: { userId },
+    fetchPolicy: "network-only",
   });
 
   const netWorth = getNetWorth(currency, data);

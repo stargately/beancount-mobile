@@ -13,7 +13,6 @@ import { useHomeCharts } from "@/screens/home-screen/hooks/use-home-charts";
 import { useAccountHierarchy } from "@/screens/home-screen/hooks/use-account-hierarchy";
 import { HeaderText, SmallHeaderText } from "@/common/text-styled";
 import { BarChartStyled } from "@/common/bar-chart-styled";
-import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
 import { LoadingTile } from "@/components/loading-tile";
 import { AccountsStyled } from "@/screens/home-screen/components/accounts-styled";
@@ -38,10 +37,7 @@ const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      // paddingTop: statusBarHeight,
       backgroundColor: theme.white,
-      // paddingLeft: 16,
-      // paddingRight: 16,
     },
     quickAddLabel: {
       color: theme.white,
@@ -101,16 +97,18 @@ export const HomeScreen = (): JSX.Element => {
           contentContainerStyle={{ paddingHorizontal: 16 }}
           indicatorStyle={currentTheme === "dark" ? "white" : "default"}
           refreshControl={
-            <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={currentTheme === "dark" ? "white" : "black"}
+            />
           }
         >
           <CommonMargin />
           <SmallHeaderText>{i18n.t("netAssets")}</SmallHeaderText>
           <View>
-            {accountsLoading || refreshing || accountsError ? (
-              <LoadingTile
-                style={{ height: 40, width: ScreenWidth - 2 * contentPadding }}
-              />
+            {netWorthLoading || netWorthError || refreshing ? (
+              <LoadingTile height={40} mx={16} />
             ) : (
               <NetAssetsStyled
                 netAssets={`${netWorth.netAssets} ${currency}`}
@@ -130,10 +128,8 @@ export const HomeScreen = (): JSX.Element => {
           <HeaderText>{i18n.t("accounts")}</HeaderText>
           <CommonMargin />
           <View>
-            {netWorthLoading || refreshing || netWorthError ? (
-              <LoadingTile
-                style={{ height: 139, width: ScreenWidth - 2 * contentPadding }}
-              />
+            {accountsLoading || accountsError || refreshing ? (
+              <LoadingTile height={139} mx={16} />
             ) : (
               <AccountsStyled
                 assets={`${accounts.assets} ${currency}`}
@@ -158,10 +154,8 @@ export const HomeScreen = (): JSX.Element => {
           <HeaderText>{i18n.t("monthlyNetIncome")}</HeaderText>
           <CommonMargin />
           <View>
-            {isLoading || netWorthError ? (
-              <LoadingTile
-                style={{ height: 200, width: ScreenWidth - 2 * contentPadding }}
-              />
+            {isLoading || netWorthError || accountsError ? (
+              <LoadingTile height={200} mx={16} />
             ) : (
               <BarChartStyled
                 currencySymbol={currencySymbol}
@@ -175,9 +169,7 @@ export const HomeScreen = (): JSX.Element => {
           <CommonMargin />
           <View>
             {isLoading || netWorthError ? (
-              <LoadingTile
-                style={{ height: 200, width: ScreenWidth - 2 * contentPadding }}
-              />
+              <LoadingTile height={200} mx={16} />
             ) : (
               <LineChartStyled
                 currencySymbol={currencySymbol}
