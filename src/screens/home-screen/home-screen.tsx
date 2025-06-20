@@ -97,6 +97,7 @@ export const HomeScreen = (): JSX.Element => {
     <>
       <SafeAreaView edges={["top"]} style={styles.container}>
         <ScrollView
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 16 }}
           indicatorStyle={currentTheme === "dark" ? "white" : "default"}
           refreshControl={

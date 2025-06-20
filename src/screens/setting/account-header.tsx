@@ -3,7 +3,7 @@ import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useTheme } from "@/common/theme";
 import { ScreenWidth } from "@/common/screen-util";
-import { useUserProfile } from "@/screens/mine-screen/hooks/use-user-profile";
+import { useUserProfile } from "./hooks/use-user-profile";
 import { LoadingTile } from "@/components/loading-tile";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";

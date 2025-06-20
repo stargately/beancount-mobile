@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, TextInput } from "react-native";
-import { NavigationBar } from "@/common/navigation-bar";
-import { contentPadding } from "@/common/screen-util";
+import { View, StyleSheet, TextInput, Pressable, Text } from "react-native";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { SelectedPayee } from "@/common/globalFnFactory";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -17,15 +15,19 @@ const getStyles = (theme: ColorTheme) =>
       flex: 1,
     },
     inputContainer: {
-      marginHorizontal: contentPadding,
-      marginTop: contentPadding * 2,
+      marginHorizontal: 16,
+      marginTop: 16,
       borderBottomColor: theme.black40,
-      borderBottomWidth: 1,
+      borderBottomWidth: StyleSheet.hairlineWidth,
     },
     input: {
       color: theme.text01,
       fontSize: 18,
-      marginBottom: contentPadding * 0.5,
+    },
+    doneButton: {
+      fontWeight: "bold",
+      color: theme.primary,
+      fontSize: 16,
     },
   });
 
@@ -52,14 +54,17 @@ export function PayeeInputScreen(): JSX.Element {
   };
 
   return (
-    <SafeAreaView edges={["top"]} style={styles.container}>
-      <NavigationBar
-        title={i18n.t("payee")}
-        showBack
-        rightText={i18n.t("save")}
-        onRightClick={onRightClick}
+    <SafeAreaView edges={["bottom"]} style={styles.container}>
+      <Stack.Screen
+        options={{
+          headerTitle: i18n.t("payee"),
+          headerRight: () => (
+            <Pressable onPress={onRightClick} hitSlop={10}>
+              <Text style={styles.doneButton}>{i18n.t("save")}</Text>
+            </Pressable>
+          ),
+        }}
       />
-
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}

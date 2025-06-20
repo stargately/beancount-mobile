@@ -1,6 +1,6 @@
 import * as React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Button, Toast } from "@ant-design/react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Toast } from "@ant-design/react-native";
 import { Feather } from "@expo/vector-icons";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
@@ -36,7 +36,7 @@ const getStyles = (theme: ColorTheme) =>
       width: KeyWidth,
       justifyContent: "center",
       alignItems: "center",
-      borderWidth: 0.5,
+      borderWidth: StyleSheet.hairlineWidth,
       borderRadius: 0,
       backgroundColor: theme.black10,
     },
@@ -121,8 +121,9 @@ export function AddTransactionScreen(): JSX.Element {
       <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
         {Keys.map((key) => {
           return (
-            <Button
+            <TouchableOpacity
               key={key.value}
+              activeOpacity={0.5}
               style={[
                 styles.keyButton,
                 {
@@ -183,7 +184,7 @@ export function AddTransactionScreen(): JSX.Element {
                   {key.display}
                 </Text>
               )}
-            </Button>
+            </TouchableOpacity>
           );
         })}
       </View>

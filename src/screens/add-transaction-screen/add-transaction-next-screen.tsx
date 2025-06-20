@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, StyleSheet, Text, View, Platform } from "react-native";
-import { Portal, Toast, List, DatePicker } from "@ant-design/react-native";
-import { NavigationBar } from "@/common/navigation-bar";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+  Pressable,
+} from "react-native";
+import { Portal, Toast } from "@ant-design/react-native";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { getFormatDate } from "@/common/time-util";
 import { useAddEntriesToRemote } from "@/screens/add-transaction-screen/hooks/use-add-entries-to-remote";
-import { ListItemStyled } from "@/screens/add-transaction-screen/components/list-item-styled";
-import { TextStyled } from "@/common/text-styled";
 import { getCurrencySymbol } from "@/common/currency-util";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ListItem, List } from "@/screens/add-transaction-screen/list-item";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 import {
   SelectedAssets,
   SelectedExpenses,
@@ -20,9 +27,6 @@ import {
   SelectedPayee,
   AddTransactionCallback,
 } from "@/common/globalFnFactory";
-
-const { Item } = List;
-const { Brief } = Item;
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -58,6 +62,11 @@ const getStyles = (theme: ColorTheme) =>
     date: {
       fontSize: 25,
       color: theme.black80,
+    },
+    doneButton: {
+      fontWeight: "bold",
+      color: theme.primary,
+      fontSize: 16,
     },
   });
 
@@ -137,13 +146,32 @@ export const AddTransactionNextScreen = () => {
     }
   };
 
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date: Date) => {
+    setDate(getFormatDate(date));
+    hideDatePicker();
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <NavigationBar
-        title={i18n.t("addTransaction")}
-        showBack
-        rightText={i18n.t("done")}
-        onRightClick={addEntries}
+    <SafeAreaView edges={["top"]} style={styles.container}>
+      <Stack.Screen
+        options={{
+          headerTitle: i18n.t("addTransaction"),
+          headerRight: () => (
+            <Pressable onPress={addEntries} hitSlop={10}>
+              <Text style={styles.doneButton}>Done</Text>
+            </Pressable>
+          ),
+        }}
       />
       <ScrollView>
         <View style={styles.topContainer}>
@@ -159,7 +187,9 @@ export const AddTransactionNextScreen = () => {
           <Text style={styles.date}>{date}</Text>
         </View>
         <List>
-          <ListItemStyled
+          <ListItem
+            title={i18n.t("from").toUpperCase()}
+            content={assets}
             onPress={async () => {
               await analytics.track("tap_assets_picker", {
                 originalOption: assets,
@@ -172,17 +202,13 @@ export const AddTransactionNextScreen = () => {
                 params: {
                   type: "assets",
                   selectedItem: assets,
-                  // onSelected: (item: string) => {
-                  //   setAssets(item);
-                  // },
                 },
               });
             }}
-          >
-            <Brief>{i18n.t("from").toUpperCase()}</Brief>
-            <TextStyled>{assets}</TextStyled>
-          </ListItemStyled>
-          <ListItemStyled
+          />
+          <ListItem
+            title={i18n.t("to").toUpperCase()}
+            content={expenses}
             onPress={async () => {
               analytics.track("tap_expenses_picker", {
                 originalOption: expenses,
@@ -197,37 +223,16 @@ export const AddTransactionNextScreen = () => {
                   selectedItem: expenses,
                 },
               });
-              // router.navigate("/(app)/account-picker", {
-              //   optionTabs: expensesOptionTabs,
-              //   selectedItem: expenses,
-              //   onSelected: (item: string) => {
-              //     setExpenses(item);
-              //   },
-              // });
             }}
-          >
-            <Brief>{i18n.t("to").toUpperCase()}</Brief>
-            <TextStyled>{expenses}</TextStyled>
-          </ListItemStyled>
-          <DatePicker
-            value={new Date(date)}
-            mode="date"
-            defaultDate={new Date()}
-            onChange={async (d) => {
-              const selectedDate = getFormatDate(new Date(d));
-              setDate(selectedDate);
-              await analytics.track("tap_date_picker_confirm", {
-                selectedDate,
-              });
-            }}
-            format="YYYY-MM-DD"
-          >
-            <ListItemStyled>
-              <Brief>{i18n.t("date").toUpperCase()}</Brief>
-              <TextStyled>{date}</TextStyled>
-            </ListItemStyled>
-          </DatePicker>
-          <ListItemStyled
+          />
+          <ListItem
+            title={i18n.t("date").toUpperCase()}
+            content={date}
+            onPress={showDatePicker}
+          />
+          <ListItem
+            title={i18n.t("payee").toUpperCase()}
+            content={payee}
             onPress={() => {
               SelectedPayee.setFn((value: string) => {
                 setPayee(value);
@@ -239,11 +244,10 @@ export const AddTransactionNextScreen = () => {
                 },
               });
             }}
-          >
-            <Brief>{i18n.t("payee").toUpperCase()}</Brief>
-            <TextStyled>{payee}</TextStyled>
-          </ListItemStyled>
-          <ListItemStyled
+          />
+          <ListItem
+            title={i18n.t("narration").toUpperCase()}
+            content={narration}
             onPress={() => {
               SelectedNarration.setFn((value: string) => {
                 setNarration(value);
@@ -255,11 +259,15 @@ export const AddTransactionNextScreen = () => {
                 },
               });
             }}
-          >
-            <Brief>{i18n.t("narration").toUpperCase()}</Brief>
-            <TextStyled>{narration}</TextStyled>
-          </ListItemStyled>
+          />
         </List>
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="date"
+          date={new Date(date)}
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+        />
       </ScrollView>
     </SafeAreaView>
   );
