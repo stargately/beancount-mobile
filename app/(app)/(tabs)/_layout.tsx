@@ -1,12 +1,29 @@
 import { Tabs } from "expo-router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { HapticTab } from "@/components/haptic-tab";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
+import { localeVar } from "@/common/vars";
+import { useReactiveVar } from "@apollo/client";
 
 export default function TabLayout() {
   const theme = useTheme().colorTheme;
+  const locale = useReactiveVar(localeVar);
+  const [tabTitles, setTabTitles] = useState({
+    home: i18n.t("home"),
+    ledger: i18n.t("ledger"),
+    setting: i18n.t("setting"),
+  });
+
+  useEffect(() => {
+    setTabTitles({
+      home: i18n.t("home"),
+      ledger: i18n.t("ledger"),
+      setting: i18n.t("setting"),
+    });
+  }, [locale]);
+
   return (
     <Tabs
       initialRouteName="index"
@@ -24,7 +41,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: i18n.t("home"),
+          title: tabTitles.home,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name="home"
@@ -37,7 +54,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="ledger"
         options={{
-          title: i18n.t("ledger"),
+          title: tabTitles.ledger,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name="wallet"
@@ -50,7 +67,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="setting"
         options={{
-          title: i18n.t("setting"),
+          title: tabTitles.setting,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name="settings"
