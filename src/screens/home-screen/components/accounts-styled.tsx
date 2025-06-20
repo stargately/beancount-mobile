@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { contentPadding } from "@/common/screen-util";
-import { CommonLine } from "@/common/common-line";
 import { i18n } from "@/translations";
 import { ColorTheme } from "@/types/theme-props";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
@@ -53,21 +52,29 @@ export function AccountsStyled({
   assets: string;
   liabilities: string;
 }): JSX.Element {
+  const styles = useThemeStyle((theme) =>
+    StyleSheet.create({
+      line: {
+        height: StyleSheet.hairlineWidth,
+        backgroundColor: theme.black20,
+      },
+    }),
+  );
   return (
     <View>
-      <CommonLine />
+      <View style={styles.line} />
       <AccountsRow
         title={i18n.t("assets")}
         value={assets}
         circleColor="#07A35A"
       />
-      <CommonLine />
+      <View style={styles.line} />
       <AccountsRow
         title={i18n.t("liabilities")}
         value={liabilities}
         circleColor="#5AAAFA"
       />
-      <CommonLine />
+      <View style={styles.line} />
     </View>
   );
 }

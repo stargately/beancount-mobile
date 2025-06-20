@@ -104,7 +104,7 @@ export function Announcement(props: Props): JSX.Element {
     >
       <View style={styles.titleContainer}>
         <Text style={styles.subtitle}>{subtitle}</Text>
-        <Text numberOfLines={2} style={styles.title}>
+        <Text numberOfLines={3} style={styles.title}>
           {title}
         </Text>
       </View>
