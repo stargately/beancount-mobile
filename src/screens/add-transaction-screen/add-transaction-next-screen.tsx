@@ -10,7 +10,7 @@ import {
 import { Portal, Toast } from "@ant-design/react-native";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
-import { getFormatDate } from "@/common/time-util";
+import { getFormatDate } from "@/common/format-util";
 import { useAddEntriesToRemote } from "@/screens/add-transaction-screen/hooks/use-add-entries-to-remote";
 import { getCurrencySymbol } from "@/common/currency-util";
 import { analytics } from "@/common/analytics";

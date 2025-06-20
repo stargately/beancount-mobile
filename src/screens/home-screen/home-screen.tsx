@@ -11,7 +11,7 @@ import { i18n } from "@/translations";
 import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
 import { useHomeCharts } from "@/screens/home-screen/hooks/use-home-charts";
 import { useAccountHierarchy } from "@/screens/home-screen/hooks/use-account-hierarchy";
-import { HeaderText, SmallHeaderText } from "@/common/text-styled";
+import { HeaderText, SmallHeaderText } from "@/screens/home-screen/text-styled";
 import { BarChartStyled } from "@/common/bar-chart-styled";
 import { CommonMargin } from "@/common/common-margin";
 import { LoadingTile } from "@/components/loading-tile";

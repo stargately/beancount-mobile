@@ -42,7 +42,7 @@ const getStyles = (theme: ColorTheme) =>
       marginTop: 16,
     },
     input: {
-      borderWidth: 2,
+      borderWidth: 1,
       borderColor: theme.primary,
       borderRadius: 8,
       paddingHorizontal: 12,

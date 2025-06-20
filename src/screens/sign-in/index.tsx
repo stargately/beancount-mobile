@@ -44,8 +44,8 @@ const getStyles = (theme: ColorTheme) =>
       marginTop: 16,
     },
     input: {
-      borderWidth: 2,
-      borderColor: theme.primary,
+      borderWidth: 1,
+      borderColor: theme.primaryLight,
       borderRadius: 8,
       paddingHorizontal: 12,
       fontSize: 18,

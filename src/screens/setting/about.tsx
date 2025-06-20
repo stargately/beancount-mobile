@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useIsFocused } from "@react-navigation/native";
 import { analytics } from "@/common/analytics";
-import { ListHeader } from "@/common/list-header";
+import { ListHeader } from "@/screens/setting/list-header";
 import { useTheme } from "@/common/theme";
 import { i18n, setLocale } from "@/translations";
 import { useUserProfile } from "./hooks/use-user-profile";
