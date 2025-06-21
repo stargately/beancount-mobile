@@ -73,12 +73,12 @@ export const About = () => {
   }, [subscriptionFlash, reportAnimateCount]);
 
   const { emailReportStatus } = useUserProfile(userId);
-  const [reportStatus, setReportStatue] = useState<string>(
+  const [reportStatus, setReportStatus] = useState<string>(
     emailReportStatus ? emailReportStatus.toString() : "",
   );
 
   useEffect(() => {
-    setReportStatue(emailReportStatus ? emailReportStatus.toString() : "");
+    setReportStatus(emailReportStatus ? emailReportStatus.toString() : "");
   }, [emailReportStatus]);
 
   const { error, mutate } = useUpdateReportSubscribeToRemote();
@@ -152,7 +152,7 @@ export const About = () => {
               if (newValue === reportStatus) {
                 return;
               }
-              setReportStatue(newValue);
+              setReportStatus(newValue);
               const loadingKey = Toast.loading(i18n.t("updating"));
               await mutate({
                 variables: { userId, status: getReportStatusEnum(newValue) },

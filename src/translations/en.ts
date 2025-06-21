@@ -58,7 +58,7 @@ export const en = {
   weekly: "Weekly",
   monthly: "Monthly",
   updating: "updating...",
-  updateSuccess: "Updated subscription successful",
+  updateSuccess: "Subscription updated successfully",
   updateFailed: "Update subscription failed",
   inviteFriends: "Invite Friends",
   invite: "Invite",

@@ -35,6 +35,6 @@ Star ⭐️ the repo, download the App, and give it a review!
 
 <a target="_blank" href="https://play.google.com/store/apps/details?id=io.beancount.android" rel="noreferrer"><img src="https://beancount-io.b-cdn.net/google-play.png" alt="download from Play Store" style="height: 42px; width: 124px;"></a>
 
-## Having question?
+## Have a question?
 
 Ask us at https://t.me/beancount
