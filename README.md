@@ -27,6 +27,15 @@ Scripts
 - `npm run lint`: run the linter
 - `npm run schema`: generate Apollo GraphQL schema
 
+## Languages
+
+The app will use your device language when possible. Available translations:
+
+- English
+- Chinese
+- Spanish
+- French
+
 ## Like it?
 
 Star ⭐️ the repo, download the App, and give it a review!

@@ -32,6 +32,12 @@ export const About = () => {
   const currentTheme = useReactiveVar(themeVar);
 
   const theme = useTheme().colorTheme;
+  const languageSource = [
+    { value: "en", label: i18n.t("english") },
+    { value: "zh", label: i18n.t("chinese") },
+    { value: "es", label: i18n.t("spanish") },
+    { value: "fr", label: i18n.t("french") },
+  ];
   const pickerSource = [
     { value: ReportStatus.Weekly, label: i18n.t("weekly") },
     { value: ReportStatus.Monthly, label: i18n.t("monthly") },
@@ -109,6 +115,20 @@ export const About = () => {
     }
   };
 
+  const getLanguageLabel = (lng: string) => {
+    switch (lng) {
+      case "zh":
+        return i18n.t("chinese");
+      case "es":
+        return i18n.t("spanish");
+      case "fr":
+        return i18n.t("french");
+      case "en":
+      default:
+        return i18n.t("english");
+    }
+  };
+
   const { spendingReportSubscription } = useFeatureFlags(userId);
 
   const renderAppSection = () => {
@@ -181,29 +201,25 @@ export const About = () => {
           </Picker>
         )}
 
-        <Item
-          // disabled
-          style={backgroundColor}
-          extra={
-            <Switch
-              checked={String(locale).startsWith("en")}
-              onChange={async (value) => {
-                const changeTo = value ? "en" : "zh";
-                localeVar(changeTo);
-                i18n.locale = changeTo;
-                setLocale(changeTo);
-                await analytics.track("tap_switch_language", { changeTo });
-              }}
-            />
-          }
+        <Picker
+          data={languageSource}
+          cols={1}
+          extra={getLanguageLabel(String(locale))}
+          onChange={async (value) => {
+            const changeTo = value ? String(value[0]) : "en";
+            if (changeTo === locale) {
+              return;
+            }
+            localeVar(changeTo);
+            i18n.locale = changeTo;
+            setLocale(changeTo);
+            await analytics.track("tap_switch_language", { changeTo });
+          }}
         >
-          {i18n.t("currentLanguage")}
-          <Brief>
-            {String(locale).startsWith("en")
-              ? i18n.t("english")
-              : i18n.t("chinese")}
-          </Brief>
-        </Item>
+          <Item style={backgroundColor} arrow="horizontal">
+            {i18n.t("currentLanguage")}
+          </Item>
+        </Picker>
 
         <Item
           style={backgroundColor}

@@ -17,7 +17,7 @@ export const AntdThemeProvider = ({
     <ThemeProvider theme={themes[currentTheme]}>
       <AntdProvider
         theme={themes[currentTheme].antdTheme}
-        locale={String(locale).startsWith("en") ? enUS : zhCN}
+        locale={String(locale).startsWith("zh") ? zhCN : enUS}
       >
         {children}
       </AntdProvider>
