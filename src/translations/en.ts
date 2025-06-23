@@ -11,6 +11,8 @@ export const en = {
   currentLanguage: "Language",
   chinese: "Chinese",
   english: "English",
+  spanish: "Spanish",
+  french: "French",
   currentVersion: "Version",
   theme: "Theme",
   // logout alert
