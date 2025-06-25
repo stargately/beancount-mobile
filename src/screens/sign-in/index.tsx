@@ -4,7 +4,6 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Linking,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
@@ -19,7 +18,6 @@ import { Link, router } from "expo-router";
 import { api } from "@/common/api";
 import { sessionVar } from "@/common/vars";
 import { createSession } from "@/common/session-utils";
-import { getEndpoint } from "@/common/request";
 import { Button } from "@/components";
 
 const getStyles = (theme: ColorTheme) =>
@@ -122,7 +120,7 @@ const SignInScreen = () => {
   };
 
   const onResetPassword = () => {
-    Linking.openURL(getEndpoint("forgot-password"));
+    router.push("/auth/reset-password");
   };
 
   return (

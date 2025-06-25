@@ -45,10 +45,10 @@ const signUp = async (
   return response.json();
 };
 
-const resetPassword = async (
+const forgotPassword = async (
   email: string,
 ): Promise<ApiResponse<undefined>> => {
-  const url = getEndpoint("api/reset-password/");
+  const url = getEndpoint("api/forgot-password/");
   const response = await fetch(url, {
     method: "POST",
     body: JSON.stringify({ email }),
@@ -60,5 +60,5 @@ const resetPassword = async (
 export const api = {
   signIn,
   signUp,
-  resetPassword,
+  forgotPassword,
 };

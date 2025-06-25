@@ -44,8 +44,8 @@ const getStyles = (theme: ColorTheme) =>
       marginTop: 16,
     },
     input: {
-      borderWidth: 2,
-      borderColor: theme.primary,
+      borderWidth: 1,
+      borderColor: theme.primaryLight,
       borderRadius: 8,
       paddingHorizontal: 12,
       fontSize: 18,
@@ -123,7 +123,7 @@ const ResetPasswordScreen = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
-    const res = await api.resetPassword(data.email);
+    const res = await api.forgotPassword(data.email);
     if (!res.ok) {
       setError(res.error.message || "An unknown error occurred");
       return;
@@ -171,7 +171,7 @@ const ResetPasswordScreen = () => {
           >
             {i18n.t("sendResetPasswordEmail")}
           </Button>
-          {error && <Text style={styles.errorText}>{error}</Text>}
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
         </>
       )}
       <Link href="/auth/sign-in" asChild>
