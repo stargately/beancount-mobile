@@ -12,10 +12,7 @@ export const es: typeof en = {
   reviewApp: "¿Te gusta? Deja una reseña :)",
   about: "Acerca de",
   currentLanguage: "Idioma",
-  chinese: "Chino",
-  english: "Inglés",
-  spanish: "Español",
-  french: "Francés",
+
   currentVersion: "Versión",
   theme: "Tema",
   // logout alert

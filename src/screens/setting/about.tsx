@@ -32,12 +32,17 @@ export const About = () => {
   const currentTheme = useReactiveVar(themeVar);
 
   const theme = useTheme().colorTheme;
-  const languageSource = [
-    { value: "en", label: i18n.t("english") },
-    { value: "zh", label: i18n.t("chinese") },
-    { value: "es", label: i18n.t("spanish") },
-    { value: "fr", label: i18n.t("french") },
-  ];
+  const LANGUAGES = {
+    en: "English",
+    zh: "中文",
+    es: "Español",
+    fr: "Français",
+  };
+
+  const languageSource = Object.entries(LANGUAGES).map(([value, label]) => ({
+    value,
+    label,
+  }));
   const pickerSource = [
     { value: ReportStatus.Weekly, label: i18n.t("weekly") },
     { value: ReportStatus.Monthly, label: i18n.t("monthly") },
@@ -116,17 +121,7 @@ export const About = () => {
   };
 
   const getLanguageLabel = (lng: string) => {
-    switch (lng) {
-      case "zh":
-        return i18n.t("chinese");
-      case "es":
-        return i18n.t("spanish");
-      case "fr":
-        return i18n.t("french");
-      case "en":
-      default:
-        return i18n.t("english");
-    }
+    return LANGUAGES[lng as keyof typeof LANGUAGES] || LANGUAGES.en;
   };
 
   const { spendingReportSubscription } = useFeatureFlags(userId);

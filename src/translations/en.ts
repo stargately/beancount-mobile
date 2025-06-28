@@ -9,10 +9,7 @@ export const en = {
   reviewApp: "Like it? Give it a review :)",
   about: "About",
   currentLanguage: "Language",
-  chinese: "Chinese",
-  english: "English",
-  spanish: "Spanish",
-  french: "French",
+
   currentVersion: "Version",
   theme: "Theme",
   // logout alert

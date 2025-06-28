@@ -9,10 +9,7 @@ export const zh = {
   reviewApp: "给个好评鼓励一下",
   about: "关于",
   currentLanguage: "当前语言",
-  english: "英文",
-  chinese: "中文",
-  spanish: "西班牙语",
-  french: "法语",
+
   currentVersion: "当前版本",
   theme: "主题",
   // logout alert
