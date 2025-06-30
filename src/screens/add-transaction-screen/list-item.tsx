@@ -37,8 +37,8 @@ export const ListItem = ({ onPress, title, content }: ListItemProps) => {
         alignItems: "center",
       },
       title: {
-        fontSize: 16,
-        color: theme.black20,
+        fontSize: 14,
+        color: theme.black80,
       },
       content: {
         fontSize: 20,

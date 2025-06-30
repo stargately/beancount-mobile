@@ -8,23 +8,27 @@ export function createPersistentVar<T>(
   defaultValue: T, // 默认值（初始加载失败时使用）
   serialize?: (value: T) => string, // 序列化函数（默认 JSON.stringify）
   deserialize?: (value: string) => T, // 反序列化函数（默认 JSON.parse）
-): [ReactiveVar<T>, () => Promise<void>] {
+): [ReactiveVar<T>, () => Promise<T | null>] {
   // 初始化变量（内存中的响应式变量）
   const varInstance = makeVar<T>(defaultValue);
 
   // 序列化与反序列化方法（默认使用 JSON）
   const serializeValue = serialize || ((value) => JSON.stringify(value));
-  const deserializeValue = deserialize || ((value) => JSON.parse(value));
+  const deserializeValue = deserialize || ((value) => JSON.parse(value) as T);
 
   // 加载存储的值并更新变量（异步）
-  const loadFromStorage = async (): Promise<void> => {
+  const loadFromStorage = async (): Promise<T | null> => {
     try {
       const storedValue = await AsyncStorage.getItem(key);
       if (storedValue !== null) {
-        varInstance(deserializeValue(storedValue)); // 更新内存变量
+        const result = deserializeValue(storedValue);
+        varInstance(result); // 更新内存变量
+        return result;
       }
+      return null;
     } catch (error) {
       console.error(`Failed to load ${key} from AsyncStorage:`, error);
+      return null;
     }
   };
 
