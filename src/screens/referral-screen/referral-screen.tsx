@@ -4,11 +4,11 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Clipboard,
   Share,
   Platform,
 } from "react-native";
 import { Button } from "@/components";
+import * as Clipboard from "expo-clipboard";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
 import { ReferralGiftIcon } from "@/screens/referral-screen/components/referral-gift-icon";
