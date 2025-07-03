@@ -6,16 +6,19 @@ import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { shortNumber } from "@/common/number-utils";
+import { ErrorBoundary } from "react-error-boundary";
 
-export function BarChartD3({
-  labels,
-  numbers,
-  currencySymbol,
-}: {
+type BarChartProps = {
   labels: string[];
   numbers: number[];
   currencySymbol: string;
-}): JSX.Element {
+};
+
+function BarChart({
+  labels,
+  numbers,
+  currencySymbol,
+}: BarChartProps): JSX.Element {
   const theme = useTheme().colorTheme;
 
   // Chart dimensions
@@ -35,9 +38,10 @@ export function BarChartD3({
     .padding(0.2);
 
   const maxValue = Math.max(...numbers, 1);
+  const minValue = Math.min(...numbers, 0);
 
   const yScale = scaleLinear()
-    .domain([0, maxValue])
+    .domain([minValue, maxValue])
     .range([chartHeight - bottomPadding, topPadding])
     .nice();
 
@@ -64,7 +68,7 @@ export function BarChartD3({
               strokeWidth={1}
             />
             <SvgText
-              x={leftPadding - 16}
+              x={leftPadding - 4}
               y={yScale(tick) + 5}
               fontSize={axisFontSize}
               fill={theme.text01}
@@ -77,18 +81,37 @@ export function BarChartD3({
 
         {/* Bars */}
         {numbers.map((num, i) => {
-          const barHeight = yScale(0) - yScale(num);
+          const zeroY = yScale(0);
+          const valueY = yScale(num);
           const minHeight = 2; // Minimum height for visibility
-          const finalHeight = barHeight === 0 ? minHeight : barHeight;
-          const finalY = barHeight === 0 ? yScale(0) - minHeight : yScale(num);
+
+          // Calculate bar height and position
+          let barHeight: number;
+          let barY: number;
+
+          if (num >= 0) {
+            // Positive values: bar goes from value to zero
+            barHeight = zeroY - valueY;
+            barY = valueY;
+          } else {
+            // Negative values: bar goes from zero to value
+            barHeight = valueY - zeroY;
+            barY = zeroY;
+          }
+
+          // Ensure minimum height for visibility
+          if (Math.abs(barHeight) < minHeight) {
+            barHeight = num >= 0 ? minHeight : -minHeight;
+            barY = num >= 0 ? zeroY - minHeight : zeroY;
+          }
 
           return (
             <Rect
               key={i}
               x={xScale(labels[i])}
-              y={finalY}
+              y={barY}
               width={barWidth}
-              height={finalHeight}
+              height={Math.abs(barHeight)}
               fill={theme.primary}
               rx={3}
             />
@@ -112,3 +135,16 @@ export function BarChartD3({
     </View>
   );
 }
+
+export const BarChartD3 = (props: BarChartProps) => {
+  return (
+    <ErrorBoundary
+      fallback={null}
+      onError={(error) => {
+        console.log(error);
+      }}
+    >
+      <BarChart {...props} />
+    </ErrorBoundary>
+  );
+};
