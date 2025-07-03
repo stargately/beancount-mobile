@@ -12,12 +12,10 @@ import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger
 import { useHomeCharts } from "@/screens/home-screen/hooks/use-home-charts";
 import { useAccountHierarchy } from "@/screens/home-screen/hooks/use-account-hierarchy";
 import { HeaderText, SmallHeaderText } from "@/screens/home-screen/text-styled";
-import { BarChartStyled } from "@/common/bar-chart-styled";
 import { CommonMargin } from "@/common/common-margin";
 import { LoadingTile } from "@/components/loading-tile";
 import { AccountsStyled } from "@/screens/home-screen/components/accounts-styled";
 import { NetAssetsStyled } from "@/screens/home-screen/components/net-assets-styled";
-import { LineChartStyled } from "@/common/line-chart-styled";
 import { getCurrencySymbol } from "@/common/currency-util";
 import { analytics } from "@/common/analytics";
 import { Announcement } from "@/common/announcement";
@@ -32,6 +30,8 @@ import { themeVar } from "@/common/vars";
 import { useReactiveVar } from "@apollo/client";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
 import { Button } from "@/components";
+import { BarChartD3 } from "@/common/d3/bar-chart-d3";
+import { LineChartD3 } from "@/common/d3/line-chart-d3";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -157,11 +157,13 @@ export const HomeScreen = (): JSX.Element => {
             {isLoading || netWorthError || accountsError ? (
               <LoadingTile height={200} mx={16} />
             ) : (
-              <BarChartStyled
-                currencySymbol={currencySymbol}
-                labels={lastSixProfitData.labels}
-                numbers={lastSixProfitData.numbers}
-              />
+              <>
+                <BarChartD3
+                  currencySymbol={currencySymbol}
+                  labels={lastSixProfitData.labels}
+                  numbers={lastSixProfitData.numbers}
+                />
+              </>
             )}
           </View>
           <CommonMargin />
@@ -171,11 +173,13 @@ export const HomeScreen = (): JSX.Element => {
             {isLoading || netWorthError ? (
               <LoadingTile height={200} mx={16} />
             ) : (
-              <LineChartStyled
-                currencySymbol={currencySymbol}
-                labels={lastSixWorthData.labels}
-                numbers={lastSixWorthData.numbers}
-              />
+              <>
+                <LineChartD3
+                  currencySymbol={currencySymbol}
+                  labels={lastSixWorthData.labels}
+                  numbers={lastSixWorthData.numbers}
+                />
+              </>
             )}
           </View>
           <CommonMargin />
