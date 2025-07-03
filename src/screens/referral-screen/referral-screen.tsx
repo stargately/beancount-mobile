@@ -8,7 +8,6 @@ import {
   Share,
   Platform,
 } from "react-native";
-import { Toast } from "@ant-design/react-native";
 import { Button } from "@/components";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
@@ -19,6 +18,7 @@ import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSession } from "@/common/hooks/use-session";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
+import { useToast } from "@/common/hooks";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -87,6 +87,7 @@ export const ReferralScreen = () => {
     init();
   }, []);
   const { userId } = useSession();
+  const toast = useToast();
   const shareLink = `beancount.io/sign-up/?src=${Platform.OS}&by=${userId}`;
   const styles = useThemeStyle(getStyles);
   return (
@@ -109,7 +110,10 @@ export const ReferralScreen = () => {
             style={styles.copyBtn}
             onPress={async () => {
               Clipboard.setString(shareLink);
-              Toast.show(i18n.t("copied"), 1);
+              toast.showToast({
+                message: i18n.t("copied"),
+                type: "text",
+              });
               await analytics.track("tap_share_link_copy", { shareLink });
             }}
           >
@@ -138,7 +142,10 @@ export const ReferralScreen = () => {
                 }
               })
               .catch((_) => {
-                Toast.fail(i18n.t("shareError"));
+                toast.showToast({
+                  message: i18n.t("shareError"),
+                  type: "error",
+                });
               });
           }}
         >

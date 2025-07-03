@@ -1,9 +1,9 @@
 /* tslint:disable:no-any */
-import { List, Picker, Toast, Portal, Switch } from "@ant-design/react-native";
+import { List, Picker } from "@ant-design/react-native";
 import Constants from "expo-constants";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
-import { Alert, Platform, ScrollView, View } from "react-native";
+import { Alert, Platform, ScrollView, View, Switch } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useIsFocused } from "@react-navigation/native";
@@ -21,13 +21,14 @@ import { useSession } from "@/common/hooks/use-session";
 import { localeVar, themeVar } from "@/common/vars";
 import { useReactiveVar } from "@apollo/client";
 import { actionLogout } from "./logout";
+import { useToast } from "@/common/hooks";
 
 const { Item } = List;
 const { Brief } = Item;
 
 export const About = () => {
   const { authToken, userId } = useSession();
-
+  const toast = useToast();
   const locale = useReactiveVar(localeVar);
   const currentTheme = useReactiveVar(themeVar);
 
@@ -168,16 +169,25 @@ export const About = () => {
                 return;
               }
               setReportStatus(newValue);
-              const loadingKey = Toast.loading(i18n.t("updating"));
+              const cancel = toast.showToast({
+                message: i18n.t("updating"),
+                type: "loading",
+              });
               await mutate({
                 variables: { userId, status: getReportStatusEnum(newValue) },
               });
-              Portal.remove(loadingKey);
+              cancel();
               if (!error) {
-                Toast.success(i18n.t("updateSuccess"));
+                toast.showToast({
+                  message: i18n.t("updateSuccess"),
+                  type: "success",
+                });
               } else {
                 console.error("failed to update report status", error);
-                Toast.fail(i18n.t("updateFailed"));
+                toast.showToast({
+                  message: i18n.t("updateFailed"),
+                  type: "error",
+                });
               }
             }}
           >
@@ -221,8 +231,8 @@ export const About = () => {
           // disabled
           extra={
             <Switch
-              checked={currentTheme === "dark"}
-              onChange={async (value) => {
+              value={currentTheme === "dark"}
+              onValueChange={async (value) => {
                 const mode = value ? "dark" : "light";
                 themeVar(mode);
                 await analytics.track("tap_switch_theme", { mode });

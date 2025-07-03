@@ -1,4 +1,3 @@
-import { Toast } from "@ant-design/react-native";
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useTheme } from "@/common/theme";
@@ -9,6 +8,7 @@ import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSession } from "@/common/hooks/use-session";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
+import { useToast } from "@/common/hooks";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -47,9 +47,13 @@ const getStyles = (theme: ColorTheme) =>
 export const EmailHeader = ({ userId }: { userId: string }) => {
   const { email, loading, error } = useUserProfile(userId);
   const styles = useThemeStyle(getStyles);
+  const toast = useToast();
   if (loading || error || !email) {
     if (error) {
-      Toast.fail(`failed to fetch user: ${error}`, 5);
+      toast.showToast({
+        message: `failed to fetch user: ${error}`,
+        type: "error",
+      });
     }
     return <LoadingTile style={{ height: 24, width: ScreenWidth - 14 * 2 }} />;
   }

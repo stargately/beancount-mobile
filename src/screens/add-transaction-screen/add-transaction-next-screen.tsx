@@ -7,7 +7,6 @@ import {
   Platform,
   Pressable,
 } from "react-native";
-import { Portal, Toast } from "@ant-design/react-native";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
 import { getFormatDate } from "@/common/format-util";
@@ -19,6 +18,7 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ListItem, List } from "@/screens/add-transaction-screen/list-item";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useToast } from "@/common/hooks";
 
 import {
   SelectedAssets,
@@ -87,6 +87,7 @@ export const AddTransactionNextScreen = () => {
     }>();
   const styles = getStyles(theme);
   const router = useRouter();
+  const toast = useToast();
   const [assets, setAssets] = useState<string>(currentAsset);
   const [expenses, setExpenses] = useState<string>(currentExpense);
   const [payee, setPayee] = useState<string>("");
@@ -99,7 +100,10 @@ export const AddTransactionNextScreen = () => {
   const addEntries = async () => {
     await analytics.track("tap_add_transaction_done", {});
     try {
-      const loadingKey = Toast.loading(i18n.t("saving"));
+      const cancel = toast.showToast({
+        message: i18n.t("saving"),
+        type: "loading",
+      });
       const params = [
         {
           date,
@@ -124,23 +128,33 @@ export const AddTransactionNextScreen = () => {
       await mutate({ variables: { entriesInput: params } });
       // await new Promise(resolve => setTimeout(resolve, 1000));
 
-      Portal.remove(loadingKey);
+      cancel();
 
       if (!error) {
-        Toast.success(i18n.t("saveSuccess"), 2, async () => {
+        toast.showToast({
+          message: i18n.t("saveSuccess"),
+          type: "success",
+        });
+        setTimeout(async () => {
           const callback = AddTransactionCallback.getFn();
           if (callback) {
             await callback();
             AddTransactionCallback.deleteFn();
           }
           router.back();
-        });
+        }, 2000);
       } else {
         console.error("failed to add transaction", error);
-        Toast.fail(i18n.t("saveFailed"));
+        toast.showToast({
+          message: i18n.t("saveFailed"),
+          type: "error",
+        });
       }
     } catch (e) {
-      Toast.fail(i18n.t("saveFailed"));
+      toast.showToast({
+        message: i18n.t("saveFailed"),
+        type: "error",
+      });
       // tslint:disable-next-line
       console.error(`failed to create target profile: ${e}`);
     }
