@@ -12,7 +12,7 @@ export const shortNumber = (number: number | string): string => {
   const absNum = Math.abs(num);
 
   if (absNum < 1000) {
-    return num.toString();
+    return num.toFixed(1);
   }
 
   const suffixes = [
@@ -36,5 +36,5 @@ export const shortNumber = (number: number | string): string => {
     }
   }
 
-  return num.toString();
+  return num.toFixed(1);
 };
