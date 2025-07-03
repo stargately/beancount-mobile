@@ -1,6 +1,5 @@
 import * as React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Toast } from "@ant-design/react-native";
 import { Feather } from "@expo/vector-icons";
 import { useTheme } from "@/common/theme";
 import { i18n } from "@/translations";
@@ -11,6 +10,7 @@ import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useToast } from "@/common/hooks";
 
 const KeyWidth = ScreenWidth / 3;
 const KeyHeight = 50;
@@ -73,6 +73,7 @@ export function AddTransactionScreen(): JSX.Element {
   const [currentMoney, setCurrentMoney] = React.useState("0.00");
   const [keyValues, setKeyValues] = React.useState<number[]>([]);
   const router = useRouter();
+  const toast = useToast();
 
   let currentAsset = "";
   let currentExpense = "";
@@ -148,7 +149,10 @@ export function AddTransactionScreen(): JSX.Element {
 
                 if (key.display === i18n.t("next")) {
                   if (currentMoney === "0.00") {
-                    Toast.show(i18n.t("amountEmptyError"));
+                    toast.showToast({
+                      message: i18n.t("amountEmptyError"),
+                      type: "text",
+                    });
                     return;
                   }
                   await analytics.track("tap_add_transaction_next", {

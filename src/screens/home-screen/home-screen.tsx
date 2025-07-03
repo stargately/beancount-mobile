@@ -88,6 +88,7 @@ export const HomeScreen = (): JSX.Element => {
       setRefreshing(false);
     }
   };
+
   const { spendingReportSubscription } = useFeatureFlags(userId);
   return (
     <>

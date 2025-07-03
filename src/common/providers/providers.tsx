@@ -4,6 +4,7 @@ import { apolloClient } from "@/common/apollo/client";
 import { SplashProvider } from "./splash-provider/splash-provider";
 import { AntdThemeProvider } from "./antd-provider/antd-provider";
 import { VariablesProvider } from "./vars-provider/vars-provider";
+import { ToastProvider } from "./toast-provider";
 
 export function Providers({
   children,
@@ -13,9 +14,11 @@ export function Providers({
   return (
     <SplashProvider>
       <VariablesProvider>
-        <AntdThemeProvider>
-          <ApolloProvider client={apolloClient}>{children}</ApolloProvider>
-        </AntdThemeProvider>
+        <ToastProvider>
+          <AntdThemeProvider>
+            <ApolloProvider client={apolloClient}>{children}</ApolloProvider>
+          </AntdThemeProvider>
+        </ToastProvider>
       </VariablesProvider>
     </SplashProvider>
   );
