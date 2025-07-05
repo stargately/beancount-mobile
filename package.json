@@ -16,8 +16,6 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@ant-design/icons-react-native": "^2.3.2",
-    "@ant-design/react-native": "^5.4.1",
     "@apollo/client": "^3.13.8",
     "@callstack/react-theme-provider": "^3.0.9",
     "@expo/vector-icons": "^14.1.0",
@@ -58,6 +56,7 @@
     "react-native": "0.79.4",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-modal-datetime-picker": "^18.0.0",
+    "react-native-pager-view": "6.7.1",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",

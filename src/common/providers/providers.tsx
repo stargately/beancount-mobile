@@ -2,7 +2,7 @@ import React from "react";
 import { ApolloProvider } from "@apollo/client";
 import { apolloClient } from "@/common/apollo/client";
 import { SplashProvider } from "./splash-provider/splash-provider";
-import { AntdThemeProvider } from "./antd-provider/antd-provider";
+import { ThemeProvider } from "./theme-provider/theme-provider";
 import { VariablesProvider } from "./vars-provider/vars-provider";
 import { ToastProvider } from "./toast-provider";
 
@@ -15,9 +15,9 @@ export function Providers({
     <SplashProvider>
       <VariablesProvider>
         <ToastProvider>
-          <AntdThemeProvider>
+          <ThemeProvider>
             <ApolloProvider client={apolloClient}>{children}</ApolloProvider>
-          </AntdThemeProvider>
+          </ThemeProvider>
         </ToastProvider>
       </VariablesProvider>
     </SplashProvider>

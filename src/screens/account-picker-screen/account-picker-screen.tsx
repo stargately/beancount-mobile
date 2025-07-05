@@ -5,8 +5,8 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import { Tabs } from "@ant-design/react-native";
 import { useTheme } from "@/common/theme";
 import { analytics } from "@/common/analytics";
 import {
@@ -18,6 +18,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { SelectedAssets, SelectedExpenses } from "@/common/globalFnFactory";
 import { useSession } from "@/common/hooks/use-session";
 import { Ionicons } from "@expo/vector-icons";
+import { Tabs, FlexCenter } from "@/components";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -32,7 +33,7 @@ const getStyles = (theme: ColorTheme) =>
       flexDirection: "row",
       justifyContent: "space-between",
       borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: theme.black20,
+      borderBottomColor: theme.black60,
     },
   });
 
@@ -47,7 +48,9 @@ export function AccountPickerScreen(): JSX.Element {
     init();
   }, []);
   const { type } = useLocalSearchParams<{ type: string }>();
-  const { assetsOptionTabs, expensesOptionTabs } = useLedgerMeta(userId ?? "");
+  const { assetsOptionTabs, expensesOptionTabs, loading } = useLedgerMeta(
+    userId ?? "",
+  );
 
   const onSelected =
     type === "assets" ? SelectedAssets.getFn() : SelectedExpenses.getFn();
@@ -55,20 +58,17 @@ export function AccountPickerScreen(): JSX.Element {
   const optionTabs: OptionTab[] =
     type === "assets" ? assetsOptionTabs : expensesOptionTabs;
 
-  const tabs = optionTabs.map((opt) => {
-    return { title: opt.title };
-  });
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
 
-  const renderOptionTabs = optionTabs.map((val, index) => {
+  const renderOptionTab = (opt: OptionTab, index: number) => {
     return (
       <ScrollView
         key={index}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}
       >
-        {val.options.map((op, idx) => {
+        {opt.options.map((op, idx) => {
           return (
             <TouchableOpacity
               key={idx}
@@ -95,22 +95,32 @@ export function AccountPickerScreen(): JSX.Element {
         })}
       </ScrollView>
     );
+  };
+
+  const tabsConfig = optionTabs.map((opt, index) => {
+    return {
+      title: opt.title,
+      key: opt.title,
+      component: renderOptionTab(opt, index),
+    };
   });
+
+  if (loading) {
+    return (
+      <FlexCenter>
+        <ActivityIndicator size="large" color={theme.primary} />
+      </FlexCenter>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <Tabs
-        tabs={tabs}
-        initialPage={0}
-        tabBarPosition="top"
-        tabBarBackgroundColor={theme.white}
-        tabBarInactiveTextColor={theme.black}
-        tabBarActiveTextColor={theme.primary}
-        tabBarTextStyle={{ fontSize: 18 }}
-        renderUnderline={() => null}
-      >
-        {renderOptionTabs}
-      </Tabs>
+        tabs={tabsConfig}
+        initialIndex={0}
+        scrollable={true}
+        autoScrollToCenter={true}
+      />
     </View>
   );
 }
