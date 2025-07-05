@@ -16,9 +16,10 @@ import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ListItem, List } from "@/screens/add-transaction-screen/list-item";
+import { ListItem } from "@/screens/add-transaction-screen/list-item";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useToast } from "@/common/hooks";
+import { List } from "@/components";
 
 import {
   SelectedAssets,

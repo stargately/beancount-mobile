@@ -11,19 +11,6 @@ type ListItemProps = {
   content?: string;
 };
 
-const ListDivider = () => {
-  const styles = useThemeStyle((theme: ColorTheme) =>
-    StyleSheet.create({
-      divider: {
-        height: StyleSheet.hairlineWidth,
-        backgroundColor: theme.black20,
-        width: "100%",
-      },
-    }),
-  );
-  return <View style={styles.divider} />;
-};
-
 export const ListItem = ({ onPress, title, content }: ListItemProps) => {
   const theme = useTheme().colorTheme;
   const styles = useThemeStyle((theme: ColorTheme) =>
@@ -59,33 +46,4 @@ export const ListItem = ({ onPress, title, content }: ListItemProps) => {
       <Ionicons name="chevron-forward" size={24} color={theme.black20} />
     </TouchableOpacity>
   );
-};
-
-export const List = ({ children }: { children: React.ReactNode }) => {
-  const styles = useThemeStyle((theme: ColorTheme) =>
-    StyleSheet.create({
-      container: {
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: theme.black20,
-        borderTopWidth: StyleSheet.hairlineWidth,
-        borderTopColor: theme.black20,
-      },
-    }),
-  );
-
-  // Convert children to array and add dividers between ListItem components
-  const childrenArray = React.Children.toArray(children);
-  const itemsWithDividers: React.ReactNode[] = [];
-
-  childrenArray.forEach((child, index) => {
-    // Add the child
-    itemsWithDividers.push(child);
-
-    // Add divider after each child except the last one
-    if (index < childrenArray.length - 1) {
-      itemsWithDividers.push(<ListDivider key={`divider-${index}`} />);
-    }
-  });
-
-  return <View style={styles.container}>{itemsWithDividers}</View>;
 };
