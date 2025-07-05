@@ -14,7 +14,8 @@ import { useRouter } from "expo-router";
 import { SelectedAssets, SelectedExpenses } from "@/common/globalFnFactory";
 import { useSession } from "@/common/hooks/use-session";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
-import { ListItem, List } from "@/screens/add-transaction-screen/list-item";
+import { ListItem } from "./list-item";
+import { List } from "@/components";
 
 type QuickAddAccountsSelectorProps = {
   onChange: ({

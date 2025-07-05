@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import {
   View,
   Text,
@@ -25,8 +25,6 @@ const ITEM_HEIGHT = 50;
 const VISIBLE_ITEMS = 5;
 const WHEEL_HEIGHT = ITEM_HEIGHT * VISIBLE_ITEMS;
 
-console.log("WHEEL_HEIGHT", WHEEL_HEIGHT);
-
 type PickerItem = {
   label: string;
   value: string;
@@ -39,6 +37,8 @@ type PickerProps = {
   onCancel: () => void;
   selectedValue?: string;
   title?: string;
+  confirmButtonText?: string;
+  cancelButtonText?: string;
 };
 
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
@@ -141,6 +141,8 @@ export const Picker: React.FC<PickerProps> = ({
   onCancel,
   selectedValue,
   title,
+  confirmButtonText = "Done",
+  cancelButtonText = "Cancel",
 }) => {
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
@@ -204,8 +206,9 @@ export const Picker: React.FC<PickerProps> = ({
   }, [hideModal]);
 
   const renderItem = useCallback(
-    (item: PickerItem, index: number) => {
-      const isSelected = Math.round(scrollY.value / ITEM_HEIGHT) === index;
+    (item: PickerItem) => {
+      const isSelected = item.value === selectedValue;
+      // const isSelected = Math.round(scrollY.value / ITEM_HEIGHT) === index;
       return (
         <View key={item.value} style={styles.wheelItem}>
           <Text
@@ -236,11 +239,11 @@ export const Picker: React.FC<PickerProps> = ({
         <Animated.View style={[styles.modalContainer, animatedStyle]}>
           <View style={styles.header}>
             <TouchableOpacity onPress={handleCancel}>
-              <Text style={styles.cancelButton}>Cancel</Text>
+              <Text style={styles.cancelButton}>{cancelButtonText}</Text>
             </TouchableOpacity>
             <Text style={styles.title}>{title}</Text>
             <TouchableOpacity onPress={handleDone}>
-              <Text style={styles.doneButton}>Done</Text>
+              <Text style={styles.doneButton}>{confirmButtonText}</Text>
             </TouchableOpacity>
           </View>
 
