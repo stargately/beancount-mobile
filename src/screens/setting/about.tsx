@@ -1,10 +1,11 @@
 /* tslint:disable:no-any */
-import { List, Picker } from "@ant-design/react-native";
+import { List } from "@ant-design/react-native";
 import Constants from "expo-constants";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
 import { Alert, Platform, ScrollView, View, Switch } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import {} from '@/screens/add-transaction-screen/list-item'
 
 import { useIsFocused } from "@react-navigation/native";
 import { analytics } from "@/common/analytics";
@@ -22,6 +23,7 @@ import { localeVar, themeVar } from "@/common/vars";
 import { useReactiveVar } from "@apollo/client";
 import { actionLogout } from "./logout";
 import { useToast } from "@/common/hooks";
+import { Picker } from "@/components/picker";
 
 const { Item } = List;
 const { Brief } = Item;
@@ -31,6 +33,8 @@ export const About = () => {
   const toast = useToast();
   const locale = useReactiveVar(localeVar);
   const currentTheme = useReactiveVar(themeVar);
+  const [languageModalVisible, setLanguageModalVisible] = useState(false);
+  const [subscribeModalVisible, setSubscribeModalVisible] = useState(false);
 
   const theme = useTheme().colorTheme;
   const LANGUAGES = {
@@ -134,84 +138,107 @@ export const About = () => {
     };
 
     return (
-      // @ts-ignore
-      <List
-        style={backgroundColor}
-        renderHeader={<ListHeader>{i18n.t("about")}</ListHeader>}
-      >
-        <Item
-          // disabled
-          extra={Platform.OS === "ios" ? "Apple Store" : "Google Play"}
-          arrow="horizontal"
+      <>
+        <List
           style={backgroundColor}
-          onPress={async () => {
-            const storeUrl =
-              Platform.OS === "ios"
-                ? "https://apps.apple.com/us/app/id1527950512"
-                : "https://play.google.com/store/apps/details?id=io.beancount.android";
-            if (storeUrl) {
-              await WebBrowser.openBrowserAsync(storeUrl);
-              await analytics.track("tap_review_app", { storeUrl });
-            }
-          }}
+          renderHeader={<ListHeader>{i18n.t("about")}</ListHeader>}
         >
-          {i18n.t("reviewApp")}
-        </Item>
-
-        {spendingReportSubscription && (
-          <Picker
-            data={pickerSource}
-            cols={1}
-            extra={getReportStatusLabel(reportStatus)}
-            onChange={async (value) => {
-              const newValue = value ? String(value[0]) : "";
-              if (newValue === reportStatus) {
-                return;
-              }
-              setReportStatus(newValue);
-              const cancel = toast.showToast({
-                message: i18n.t("updating"),
-                type: "loading",
-              });
-              await mutate({
-                variables: { userId, status: getReportStatusEnum(newValue) },
-              });
-              cancel();
-              if (!error) {
-                toast.showToast({
-                  message: i18n.t("updateSuccess"),
-                  type: "success",
-                });
-              } else {
-                console.error("failed to update report status", error);
-                toast.showToast({
-                  message: i18n.t("updateFailed"),
-                  type: "error",
-                });
+          <Item
+            // disabled
+            extra={Platform.OS === "ios" ? "Apple Store" : "Google Play"}
+            arrow="horizontal"
+            style={backgroundColor}
+            onPress={async () => {
+              const storeUrl =
+                Platform.OS === "ios"
+                  ? "https://apps.apple.com/us/app/id1527950512"
+                  : "https://play.google.com/store/apps/details?id=io.beancount.android";
+              if (storeUrl) {
+                await WebBrowser.openBrowserAsync(storeUrl);
+                await analytics.track("tap_review_app", { storeUrl });
               }
             }}
           >
+            {i18n.t("reviewApp")}
+          </Item>
+          {spendingReportSubscription && (
             <Item
-              style={[
-                backgroundColor,
-                {
-                  backgroundColor:
-                    reportAnimateCount % 2 === 1 ? theme.warning : theme.white,
-                },
-              ]}
+              style={backgroundColor}
               arrow="horizontal"
+              extra={getReportStatusLabel(reportStatus)}
+              onPress={() => {
+                setSubscribeModalVisible(true);
+              }}
             >
               {i18n.t("subscribe")}
             </Item>
-          </Picker>
-        )}
-
+          )}
+          <Item
+            style={backgroundColor}
+            arrow="horizontal"
+            onPress={() => {
+              setLanguageModalVisible(true);
+            }}
+          >
+            {i18n.t("currentLanguage")}
+          </Item>
+          <Item
+            style={backgroundColor}
+            // disabled
+            extra={
+              <Switch
+                value={currentTheme === "dark"}
+                onValueChange={async (value) => {
+                  const mode = value ? "dark" : "light";
+                  themeVar(mode);
+                  await analytics.track("tap_switch_theme", { mode });
+                }}
+              />
+            }
+          >
+            {i18n.t("theme")}
+            <Brief>{currentTheme === "dark" ? "Dark" : "Light"}</Brief>
+          </Item>
+          <Item
+            style={backgroundColor}
+            disabled
+            extra={Constants.nativeAppVersion}
+          >
+            {i18n.t("currentVersion")}
+          </Item>
+          {authToken ? (
+            <Item
+              style={backgroundColor}
+              // disabled
+              onPress={() => {
+                Alert.alert(
+                  "",
+                  i18n.t("logoutAlertMsg"),
+                  [
+                    { text: i18n.t("logoutAlertCancel"), style: "cancel" },
+                    {
+                      text: i18n.t("logoutAlertConfirm"),
+                      onPress: () => {
+                        actionLogout(authToken);
+                      },
+                    },
+                  ],
+                  { cancelable: false },
+                );
+              }}
+            >
+              {i18n.t("logout")}
+            </Item>
+          ) : (
+            <View />
+          )}
+        </List>
         <Picker
-          data={languageSource}
-          cols={1}
-          extra={getLanguageLabel(String(locale))}
-          onChange={async (value) => {
-            const changeTo = value ? String(value[0]) : "en";
+          visible={languageModalVisible}
+          items={languageSource}
+          onSelect={async (item) => {
+            console.log("item", item);
+            const changeTo = item.value ? String(item.value) : "en";
             if (changeTo === locale) {
               return;
             }
@@ -219,64 +246,51 @@ export const About = () => {
             i18n.locale = changeTo;
             setLocale(changeTo);
             await analytics.track("tap_switch_language", { changeTo });
+            setLanguageModalVisible(false);
           }}
-        >
-          <Item style={backgroundColor} arrow="horizontal">
-            {i18n.t("currentLanguage")}
-          </Item>
-        </Picker>
-
-        <Item
-          style={backgroundColor}
-          // disabled
-          extra={
-            <Switch
-              value={currentTheme === "dark"}
-              onValueChange={async (value) => {
-                const mode = value ? "dark" : "light";
-                themeVar(mode);
-                await analytics.track("tap_switch_theme", { mode });
-              }}
-            />
-          }
-        >
-          {i18n.t("theme")}
-          <Brief>{currentTheme === "dark" ? "Dark" : "Light"}</Brief>
-        </Item>
-        <Item
-          style={backgroundColor}
-          disabled
-          extra={Constants.nativeAppVersion}
-        >
-          {i18n.t("currentVersion")}
-        </Item>
-        {authToken ? (
-          <Item
-            style={backgroundColor}
-            // disabled
-            onPress={() => {
-              Alert.alert(
-                "",
-                i18n.t("logoutAlertMsg"),
-                [
-                  { text: i18n.t("logoutAlertCancel"), style: "cancel" },
-                  {
-                    text: i18n.t("logoutAlertConfirm"),
-                    onPress: () => {
-                      actionLogout(authToken);
-                    },
-                  },
-                ],
-                { cancelable: false },
-              );
-            }}
-          >
-            {i18n.t("logout")}
-          </Item>
-        ) : (
-          <View />
-        )}
-      </List>
+          onCancel={() => {
+            setLanguageModalVisible(false);
+          }}
+          selectedValue={locale}
+        />
+        <Picker
+          visible={subscribeModalVisible}
+          items={pickerSource}
+          onSelect={async (item) => {
+            console.log("item", item);
+            const newValue = item.value ? String(item.value) : "";
+            if (newValue === reportStatus) {
+              return;
+            }
+            setReportStatus(newValue);
+            const cancel = toast.showToast({
+              message: i18n.t("updating"),
+              type: "loading",
+            });
+            await mutate({
+              variables: { userId, status: getReportStatusEnum(newValue) },
+            });
+            cancel();
+            if (!error) {
+              toast.showToast({
+                message: i18n.t("updateSuccess"),
+                type: "success",
+              });
+            } else {
+              console.error("failed to update report status", error);
+              toast.showToast({
+                message: i18n.t("updateFailed"),
+                type: "error",
+              });
+            }
+            setSubscribeModalVisible(false);
+          }}
+          onCancel={() => {
+            setSubscribeModalVisible(false);
+          }}
+          selectedValue={reportStatus}
+        />
+      </>
     );
   };
 

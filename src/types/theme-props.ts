@@ -14,6 +14,7 @@ export interface AntdTheme {
 }
 
 export interface ColorTheme {
+  overlay: string;
   primary: string;
   primaryLight: string;
   primaryDark: string;

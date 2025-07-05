@@ -6,6 +6,7 @@ const colorScheme = Appearance.getColorScheme();
 const colorMode = colorScheme === "dark" ? "dark" : "light";
 
 const lightTheme: ColorTheme = {
+  overlay: "rgba(0, 0, 0, 0.5)",
   primary: "#6161e8",
   primaryLight: "#7a7aea",
   primaryDark: "#5252c3",
@@ -41,6 +42,7 @@ const lightTheme: ColorTheme = {
 };
 
 const darkTheme: ColorTheme = {
+  overlay: "rgba(255, 255, 255, 0.5)",
   primary: "#6161e8",
   primaryLight: "#7a7aea",
   primaryDark: "#5252c3",
