@@ -1,6 +1,6 @@
 import { View, ViewProps, StyleSheet } from "react-native";
 
-export const Flex = ({ children, ...props }: ViewProps) => {
+export const FlexCenter = ({ children, ...props }: ViewProps) => {
   return (
     <View style={styles.flex} {...props}>
       {children}

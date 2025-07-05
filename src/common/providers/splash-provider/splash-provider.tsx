@@ -13,7 +13,6 @@ const SplashProviderComponent = ({
   const [fontsLoaded] = useFonts({
     ...Ionicons.font,
     "space-mono": require("@/assets/fonts/SpaceMono-Regular.ttf"),
-    antoutline: require("@ant-design/icons-react-native/fonts/antoutline.ttf"),
   });
 
   const loaded = fontsLoaded;
