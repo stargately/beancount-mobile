@@ -222,7 +222,12 @@ export const Picker: React.FC<PickerProps> = ({
         </View>
       );
     },
-    [scrollY, styles.wheelItemText, styles.selectedItemText, styles.wheelItem],
+    [
+      styles.wheelItemText,
+      styles.selectedItemText,
+      styles.wheelItem,
+      selectedValue,
+    ],
   );
 
   if (!visible) return null;
