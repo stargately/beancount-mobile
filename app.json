@@ -2,6 +2,7 @@
   "expo": {
     "version": "1.20250709.11",
     "name": "Beancount",
+    "scheme": "beancount",
     "slug": "beancount",
     "privacy": "public",
     "platforms": ["ios", "android"],
@@ -40,7 +41,8 @@
     "android": {
       "versionCode": 11,
       "package": "io.beancount.android",
-      "permissions": ["com.google.android.gms.permission.AD_ID"]
+      "permissions": ["com.google.android.gms.permission.AD_ID"],
+      "edgeToEdgeEnabled": true
     },
     "notification": {
       "icon": "./src/assets/images/icon96.png"
