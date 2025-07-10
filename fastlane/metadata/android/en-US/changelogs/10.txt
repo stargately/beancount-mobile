@@ -1,0 +1,7 @@
+What's New in Version 1.20250530.10:
+
+• Upgraded to Expo 53 for improved performance and stability
+• Fixed theme and color scheme issues for better visual experience
+• Removed unnecessary app permissions for enhanced privacy
+• Removed Sentry integration for improved performance and privacy
+• Cleaned up dependencies by removing unused packages for a lighter app size

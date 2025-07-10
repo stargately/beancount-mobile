@@ -13,7 +13,8 @@
     "format": "prettier . --cache --write",
     "format:check": "prettier . --cache --check",
     "codegen": "graphql-codegen",
-    "prepare": "husky"
+    "prepare": "husky",
+    "bump": "bun ./src/scripts/bump-version.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
@@ -34,7 +35,6 @@
     "expo-asset": "~11.1.5",
     "expo-clipboard": "~7.1.5",
     "expo-constants": "~17.1.6",
-    "expo-contacts": "~14.2.5",
     "expo-font": "~13.3.1",
     "expo-haptics": "~14.1.4",
     "expo-linking": "~7.1.5",
@@ -90,5 +90,6 @@
     "prettier": "^3.5.3",
     "typescript": "~5.8.3"
   },
-  "packageManager": "yarn@1.22.22"
+  "packageManager": "yarn@1.22.22",
+  "version": "1.20250709.11"
 }

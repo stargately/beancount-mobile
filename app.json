@@ -1,11 +1,10 @@
 {
   "expo": {
-    "version": "0.8.0",
+    "version": "1.20250709.11",
     "name": "Beancount",
     "slug": "beancount",
-    "scheme": "beancount",
     "privacy": "public",
-    "platforms": ["ios", "android", "web"],
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
     "splash": {
@@ -14,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/eef0c5cf-1a6f-4566-a6a6-e03821db7f8d"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -32,16 +32,15 @@
         "NSMotionUsageDescription": false,
         "NSPhotoLibraryUsageDescription": false,
         "NSPhotoLibraryAddUsageDescription": false,
-        "NSFaceIDUsageDescription": false
-      }
+        "NSFaceIDUsageDescription": false,
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "buildNumber": "11"
     },
     "android": {
-      "versionCode": 7,
+      "versionCode": 11,
       "package": "io.beancount.android",
-      "permissions": []
-    },
-    "web": {
-      "bundler": "metro"
+      "permissions": ["com.google.android.gms.permission.AD_ID"]
     },
     "notification": {
       "icon": "./src/assets/images/icon96.png"
@@ -53,13 +52,13 @@
       "sentry-expo",
       "expo-router"
     ],
-    "experiments": {
-      "typedRoutes": true
-    },
     "extra": {
-      "router": {
-        "origin": false
+      "eas": {
+        "projectId": "eef0c5cf-1a6f-4566-a6a6-e03821db7f8d"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }
