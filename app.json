@@ -47,9 +47,33 @@
       "icon": "./src/assets/images/icon96.png"
     },
     "plugins": [
-      "expo-asset",
+      [
+        "expo-font",
+        {
+          "fonts": ["./src/assets/fonts/SpaceMono-Regular.ttf"]
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./src/assets/images/splash.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-asset",
+        {
+          "assets": ["./src/assets"]
+        }
+      ],
       "expo-localization",
-      "expo-web-browser",
+      [
+        "expo-web-browser",
+        {
+          "experimentalLauncherActivity": true
+        }
+      ],
       "sentry-expo",
       "expo-router"
     ],
