@@ -5,8 +5,8 @@
   "scheme": "beancount",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "test": "npm run lint && npm run typecheck",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit && eslint src --quiet --cache --fix --ext .js,.tsx,.ts ",
