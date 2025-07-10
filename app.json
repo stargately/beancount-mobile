@@ -8,11 +8,6 @@
     "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
-    "splash": {
-      "image": "./src/assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/eef0c5cf-1a6f-4566-a6a6-e03821db7f8d"
@@ -57,8 +52,9 @@
       [
         "expo-splash-screen",
         {
-          "image": "./src/assets/images/splash.png",
+          "image": "./src/assets/images/icon.png",
           "resizeMode": "contain",
+          "imageWidth": 200,
           "backgroundColor": "#ffffff"
         }
       ],
