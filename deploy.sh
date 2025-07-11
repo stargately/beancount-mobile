@@ -1,61 +1,33 @@
 #! /usr/bin/env bash
 
-# https://docs.expo.io/versions/latest/distribution/building-standalone-apps/
+# https://docs.expo.dev/build/introduction/
 
-#### 2. Script Setup ####
-# It's useful to exit the bash script when a command exits with a non-zero status
-# as the following commands must be run successfully in sequence for expected results.
-set -e # exit entire script when command exits with non-zero status
+set -e # exit on error
 
 # Install dependencies
-npm install
+yarn
 
-# [Optional] Login to Expo using username & password
-# You may or may not need to do this depending on your setup.
-# Note the $EXPO_USERNAME and $EXPO_PASSWORD env variables
-npx expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD --non-interactive
+# Install EAS CLI if not already installed
+yarn global add eas-cli@latest
 
-#### 3. Publish to Expo ####
-# Publish `production` release
+# No need for login; EAS_TOKEN will be used automatically by the CLI if set
+# export EAS_TOKEN=your-token # <-- make sure this is set in your CI or shell environment
+
+#### 2. Send Over-the-Air Updates ####
 eas update --channel production --message "Production update $(date +'%Y-%m-%d %H:%M:%S')"
 
-#### 4. Building Android Standalone App ####
-# Start building standalone android build using `production` release channel
+### 3. Build Android App ####
 echo "Building Android app..."
-eas build --platform android --profile production --no-wait
+eas build --platform android --profile production --non-interactive --no-wait
 
-# Download the artifact to current directory as `app.aab`
-curl -o app.aab "$(npx expo url:aab --non-interactive)"
+#### 4. Submit Android App ####
+echo "Submitting Android app to Play Store..."
+eas submit --platform android --latest --track production --non-interactive
 
-echo "Submitting android app to App Store..."
-eas submit --platform android --latest
-
-#### 5. Submit and publish standalone Android app to the Google Play Store ####
-# Use fastlane to upload your current standalone android build
-# Customize this to fit your needs. Take note of env variables.
-# Check out https://docs.fastlane.tools for more info.
-# https://support.zendesk.com/hc/en-us/articles/227391488-Setting-up-the-Google-Developer-console-for-the-Google-Play-integration
-fastlane supply --track 'production' --json_key_data "$DELIVER_JSON_KEY" --package_name "io.beancount.android" --aab "app.aab" --skip_upload_metadata --skip_upload_images --skip_upload_screenshots
-
-#### 6. Building iOS Standalone App ####
-# Start building standalone android build using `production` release channel
+#### 5. Build iOS App ####
 echo "Building iOS app..."
-eas build --platform ios --profile production
-# Download the artifact to current directory as `app.ipa`
-curl -o app.ipa "$(npx expo url:ipa --non-interactive)"
+eas build --platform ios --profile production --non-interactive --no-wait
 
+#### 6. Submit iOS App ####
 echo "Submitting iOS app to App Store..."
 eas submit --platform ios --latest --non-interactive
-
-#### 7. Submit standalone iOS app to iTunes Connect ####
-# Make sure the following env variables are set
-# export DELIVER_USERNAME=<your-itunes-connect-email>
-# export DELIVER_PASSWORD=<your-itunes-connect-password>
-
-
-# Use fastlane to upload your current standalone iOS build to itc
-fastlane deliver --verbose --ipa "app.ipa" --skip_screenshots --skip_metadata
-
-#### Misc ####
-# [Optional] You may or may not need to do this depending on your setup.
-# expo logout
