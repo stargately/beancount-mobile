@@ -1,4 +1,4 @@
-What's New in Version 1.20250709.11:
+What's New in Version 1.20250710.13:
 
 • Removed Ant Design (antd) library dependency for better performance
 • Added custom picker component for improved user experience

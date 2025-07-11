@@ -45,6 +45,7 @@
     "expo-splash-screen": "~0.30.9",
     "expo-status-bar": "~2.2.3",
     "expo-store-review": "~8.1.5",
+    "expo-updates": "~0.28.17",
     "expo-web-browser": "~14.2.0",
     "graphql": "^14.5.8",
     "i18n-js": "^4.5.1",
@@ -92,5 +93,5 @@
     "typescript": "~5.8.3"
   },
   "packageManager": "yarn@1.22.22",
-  "version": "1.20250709.11"
+  "version": "1.20250710.13"
 }
