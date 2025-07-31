@@ -1,9 +1,9 @@
 <p align="center"><a href="https://beancount.io/?utm_source=github.com&utm_medium=readme&utm_campaign=os_oct_1" target="_blank" rel="noopener noreferrer"><img width="100" src="https://beancount.io/favicon.png" alt="Beancount.io logo"></a></p>
 
-<h1 align="center">Beancount Mobile CE</h2>
+<h1 align="center">Beancount Mobile CE</h1>
 
 <p align="center">
-  <img src="https://github.com/puncsky/mobile-beancount/workflows/Node.js%20CI/badge.svg"/>
+  <img src="https://github.com/beancount/beancount-mobile/actions/workflows/lint.yml/badge.svg"/>
 </p>
 
 Beancount Mobile Community Edition is an iOS and Android App for [Beancount.io - Double-entry bookkeeping made easy for living your best financial life](https://beancount.io/?utm_source=github.com&utm_medium=readme&utm_campaign=os_oct_1) 💰
@@ -15,17 +15,17 @@ Beancount Mobile Community Edition is an iOS and Android App for [Beancount.io -
 Run it locally
 
 ```zsh
-git clone git@github.com:stargately/beancount-mobile.git
+git clone https://github.com/beancount/beancount-mobile.git
 cd beancount-mobile
-npm install
-npm run start
+yarn install
+yarn start
 ```
 
 Scripts
 
-- `npm run test`: test the whole project
-- `npm run lint`: run the linter
-- `npm run schema`: generate Apollo GraphQL schema
+- `yarn test`: run lint and type checks
+- `yarn lint`: run the linter
+- `yarn codegen`: generate Apollo GraphQL schema types
 
 ## Languages
 
