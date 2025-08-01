@@ -1,4 +1,4 @@
-import * as Locatization from "expo-localization";
+import * as Localization from "expo-localization";
 import { I18n } from "i18n-js";
 import { en } from "@/translations/en";
 import { zh } from "@/translations/zh";
@@ -8,7 +8,7 @@ import { fr } from "@/translations/fr";
 const SUPPORTED_LOCALES = ["en", "zh", "es", "fr"];
 
 const getLocale = () => {
-  const locales = Locatization.getLocales();
+  const locales = Localization.getLocales();
   for (let i = 0; i < locales.length; i++) {
     const locale = locales[i];
     if (
