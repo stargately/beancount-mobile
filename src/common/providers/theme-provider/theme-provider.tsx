@@ -14,7 +14,9 @@ export const ThemeProvider = ({
   children: JSX.Element | JSX.Element[];
 }) => {
   const currentThemeSetting = useReactiveVar(themeVar);
-  const [systemColorScheme, setSystemColorScheme] = useState(getSystemColorScheme());
+  const [systemColorScheme, setSystemColorScheme] = useState(
+    getSystemColorScheme(),
+  );
 
   useEffect(() => {
     const subscription = Appearance.addChangeListener(({ colorScheme }) => {

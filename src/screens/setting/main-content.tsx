@@ -1,7 +1,7 @@
 import Constants from "expo-constants";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
-import { Alert, Platform } from "react-native";
+import { Alert, Platform, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { List as List2 } from "@/components";
 
@@ -20,12 +20,14 @@ import { useToast } from "@/common/hooks";
 import { Picker } from "@/components/picker";
 import { ListItemHorizontal, ItemDescription } from "./list-item";
 import { Theme } from "@/common/vars/theme";
+import { useTheme } from "@/common/theme";
 
 export const MainContent = () => {
   const { authToken, userId } = useSession();
   const toast = useToast();
   const locale = useReactiveVar(localeVar);
   const currentTheme = useReactiveVar(themeVar);
+  const theme = useTheme().colorTheme;
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
   const [subscribeModalVisible, setSubscribeModalVisible] = useState(false);
   const [themeModalVisible, setThemeModalVisible] = useState(false);
@@ -46,7 +48,7 @@ export const MainContent = () => {
     value,
     label,
   }));
-  
+
   const themeSource = Object.entries(THEMES).map(([value, label]) => ({
     value,
     label,
@@ -186,7 +188,11 @@ export const MainContent = () => {
         />
         <ListItemHorizontal
           title={i18n.t("currentVersion")}
-          content={Constants.nativeAppVersion}
+          content={
+            <Text style={{ fontSize: 16, color: theme.black80 }}>
+              {Constants.expoConfig?.version || "Unknown"}
+            </Text>
+          }
         />
 
         {authToken ? (
