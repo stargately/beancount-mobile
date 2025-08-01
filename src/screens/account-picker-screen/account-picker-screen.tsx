@@ -107,7 +107,7 @@ export function AccountPickerScreen(): JSX.Element {
 
   if (loading) {
     return (
-      <FlexCenter>
+      <FlexCenter style={{ backgroundColor: theme.white }}>
         <ActivityIndicator size="large" color={theme.primary} />
       </FlexCenter>
     );

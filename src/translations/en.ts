@@ -12,6 +12,9 @@ export const en = {
 
   currentVersion: "Version",
   theme: "Theme",
+  themeLight: "Light",
+  themeDark: "Dark",
+  themeSystem: "System",
   // logout alert
   logoutAlertMsg: "Are you sure you want to log out?",
   logoutAlertCancel: "Cancel",

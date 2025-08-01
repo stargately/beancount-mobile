@@ -2,11 +2,21 @@ import { AccountPickerScreen } from "@/screens/account-picker-screen/account-pic
 import { Stack } from "expo-router";
 import { i18n } from "@/translations";
 import React from "react";
+import { useTheme } from "@/common/theme";
 
 export default function AccountPicker() {
+  const theme = useTheme().colorTheme;
+
   return (
     <>
-      <Stack.Screen options={{ title: i18n.t("accountPicker") }} />
+      <Stack.Screen
+        options={{
+          title: i18n.t("accountPicker"),
+          contentStyle: {
+            backgroundColor: theme.white,
+          },
+        }}
+      />
       <AccountPickerScreen />
     </>
   );

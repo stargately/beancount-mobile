@@ -1,7 +1,7 @@
 import Constants from "expo-constants";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
-import { Alert, Platform, Switch } from "react-native";
+import { Alert, Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { List as List2 } from "@/components";
 
@@ -19,6 +19,7 @@ import { actionLogout } from "./logout";
 import { useToast } from "@/common/hooks";
 import { Picker } from "@/components/picker";
 import { ListItemHorizontal, ItemDescription } from "./list-item";
+import { Theme } from "@/common/vars/theme";
 
 export const MainContent = () => {
   const { authToken, userId } = useSession();
@@ -27,6 +28,7 @@ export const MainContent = () => {
   const currentTheme = useReactiveVar(themeVar);
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
   const [subscribeModalVisible, setSubscribeModalVisible] = useState(false);
+  const [themeModalVisible, setThemeModalVisible] = useState(false);
   const LANGUAGES = {
     en: "English",
     zh: "中文",
@@ -34,7 +36,18 @@ export const MainContent = () => {
     fr: "Français",
   };
 
+  const THEMES = {
+    light: i18n.t("themeLight"),
+    dark: i18n.t("themeDark"),
+    system: i18n.t("themeSystem"),
+  };
+
   const languageSource = Object.entries(LANGUAGES).map(([value, label]) => ({
+    value,
+    label,
+  }));
+  
+  const themeSource = Object.entries(THEMES).map(([value, label]) => ({
     value,
     label,
   }));
@@ -119,6 +132,10 @@ export const MainContent = () => {
     return LANGUAGES[lng as keyof typeof LANGUAGES] || LANGUAGES.en;
   };
 
+  const getThemeLabel = (theme: Theme) => {
+    return THEMES[theme] || THEMES.light;
+  };
+
   const { spendingReportSubscription } = useFeatureFlags(userId);
 
   return (
@@ -162,17 +179,10 @@ export const MainContent = () => {
         />
         <ListItemHorizontal
           title={i18n.t("theme")}
-          description={currentTheme === "dark" ? "Dark" : "Light"}
-          content={
-            <Switch
-              value={currentTheme === "dark"}
-              onValueChange={async (value) => {
-                const mode = value ? "dark" : "light";
-                themeVar(mode);
-                await analytics.track("tap_switch_theme", { mode });
-              }}
-            />
-          }
+          content={<ItemDescription text={getThemeLabel(currentTheme)} />}
+          onPress={() => {
+            setThemeModalVisible(true);
+          }}
         />
         <ListItemHorizontal
           title={i18n.t("currentVersion")}
@@ -257,6 +267,25 @@ export const MainContent = () => {
           setSubscribeModalVisible(false);
         }}
         selectedValue={reportStatus}
+        confirmButtonText={i18n.t("confirm")}
+        cancelButtonText={i18n.t("cancel")}
+      />
+      <Picker
+        visible={themeModalVisible}
+        items={themeSource}
+        onSelect={async (item) => {
+          const newTheme = item.value as Theme;
+          if (newTheme === currentTheme) {
+            return;
+          }
+          themeVar(newTheme);
+          await analytics.track("tap_switch_theme", { mode: newTheme });
+          setThemeModalVisible(false);
+        }}
+        onCancel={() => {
+          setThemeModalVisible(false);
+        }}
+        selectedValue={currentTheme}
         confirmButtonText={i18n.t("confirm")}
         cancelButtonText={i18n.t("cancel")}
       />

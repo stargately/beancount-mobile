@@ -15,6 +15,9 @@ export const fr: typeof en = {
 
   currentVersion: "Version",
   theme: "Thème",
+  themeLight: "Clair",
+  themeDark: "Sombre",
+  themeSystem: "Système",
   // logout alert
   logoutAlertMsg: "Êtes-vous sûr de vouloir vous déconnecter ?",
   logoutAlertCancel: "Annuler",

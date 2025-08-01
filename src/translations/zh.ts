@@ -12,6 +12,9 @@ export const zh = {
 
   currentVersion: "当前版本",
   theme: "主题",
+  themeLight: "浅色",
+  themeDark: "深色",
+  themeSystem: "跟随系统",
   // logout alert
   logoutAlertMsg: "你确认要登出吗？",
   logoutAlertCancel: "取消",

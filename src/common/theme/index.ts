@@ -2,8 +2,12 @@ import { Appearance } from "react-native";
 import { createTheming } from "@callstack/react-theme-provider";
 import { ThemeProps, ColorTheme, AntdTheme } from "@/types/theme-props";
 
-const colorScheme = Appearance.getColorScheme();
-const colorMode = colorScheme === "dark" ? "dark" : "light";
+export const getSystemColorScheme = () => {
+  const colorScheme = Appearance.getColorScheme();
+  return colorScheme === "dark" ? "dark" : "light";
+};
+
+const colorMode = getSystemColorScheme();
 
 const lightTheme: ColorTheme = {
   overlay: "rgba(0, 0, 0, 0.5)",
