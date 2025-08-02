@@ -37,6 +37,7 @@ export type Query = {
   ledgers?: Maybe<Array<Ledger>>;
   listOutboundIntegrations: ListOutboundIntegrationsResponse;
   paymentHistory: Array<Receipt>;
+  subscriptionStatus: CustomerSubscriptionStatus;
   /** get the user */
   userProfile?: Maybe<UserProfileResponse>;
 };
@@ -223,6 +224,51 @@ export type Receipt = {
   userId: Scalars['String']['output'];
 };
 
+export type CustomerSubscriptionStatus = {
+  __typename?: 'CustomerSubscriptionStatus';
+  hasActiveSubscription: Scalars['Boolean']['output'];
+  subscriptions: Array<Subscription>;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  cancelAt?: Maybe<Scalars['DateTime']['output']>;
+  cancelAtPeriodEnd: Scalars['Boolean']['output'];
+  canceledAt?: Maybe<Scalars['DateTime']['output']>;
+  clientId: Scalars['String']['output'];
+  currentPeriodEnd: Scalars['DateTime']['output'];
+  currentPeriodStart: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  items: Array<SubscriptionItem>;
+  status: Scalars['String']['output'];
+};
+
+export type SubscriptionItem = {
+  __typename?: 'SubscriptionItem';
+  id: Scalars['ID']['output'];
+  price: SubscriptionPrice;
+  product?: Maybe<SubscriptionProduct>;
+  quantity: Scalars['Float']['output'];
+};
+
+export type SubscriptionPrice = {
+  __typename?: 'SubscriptionPrice';
+  amount: Scalars['Float']['output'];
+  currency: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  interval: Scalars['String']['output'];
+  intervalCount?: Maybe<Scalars['Float']['output']>;
+  trialPeriodDays?: Maybe<Scalars['Float']['output']>;
+};
+
+export type SubscriptionProduct = {
+  __typename?: 'SubscriptionProduct';
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  images?: Maybe<Array<Scalars['String']['output']>>;
+  name: Scalars['String']['output'];
+};
+
 export type UserProfileResponse = {
   __typename?: 'UserProfileResponse';
   email: Scalars['String']['output'];
@@ -242,7 +288,9 @@ export type Mutation = {
   __typename?: 'Mutation';
   addEntries: AddEntryResponse;
   addPushToken: Scalars['Boolean']['output'];
+  cancelSubscription: SubscriptionActionResult;
   createOutboundIntegration: CreateOutboundIntegrationResponse;
+  createSubscriptionSession: SubscriptionSessionResult;
   /** delete file that belongs to the user. */
   deleteFile?: Maybe<DeleteFileResponse>;
   deleteOutboundIntegration: DeleteOutboundIntegrationResponse;
@@ -266,8 +314,20 @@ export type MutationAddPushTokenArgs = {
 };
 
 
+export type MutationCancelSubscriptionArgs = {
+  clientId: Scalars['String']['input'];
+  subscriptionId: Scalars['String']['input'];
+};
+
+
 export type MutationCreateOutboundIntegrationArgs = {
   byAuthorizationCode?: InputMaybe<ByAuthorizationCode>;
+};
+
+
+export type MutationCreateSubscriptionSessionArgs = {
+  clientId: Scalars['String']['input'];
+  priceId: Scalars['String']['input'];
 };
 
 
@@ -325,6 +385,12 @@ export type AddEntryResponse = {
   success: Scalars['Boolean']['output'];
 };
 
+export type SubscriptionActionResult = {
+  __typename?: 'SubscriptionActionResult';
+  message?: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
+};
+
 export type ByAuthorizationCode = {
   code: Scalars['String']['input'];
   providerId: Scalars['String']['input'];
@@ -333,6 +399,14 @@ export type ByAuthorizationCode = {
 export type CreateOutboundIntegrationResponse = {
   __typename?: 'CreateOutboundIntegrationResponse';
   _: Scalars['Boolean']['output'];
+};
+
+export type SubscriptionSessionResult = {
+  __typename?: 'SubscriptionSessionResult';
+  message?: Maybe<Scalars['String']['output']>;
+  sessionId?: Maybe<Scalars['String']['output']>;
+  sessionUrl?: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
 };
 
 export type DeleteFileRequest = {

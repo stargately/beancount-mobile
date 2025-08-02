@@ -25,6 +25,7 @@ type Query {
   ledgers(file: BeanFilename): [Ledger!]
   listOutboundIntegrations: ListOutboundIntegrationsResponse!
   paymentHistory: [Receipt!]!
+  subscriptionStatus: CustomerSubscriptionStatus!
   """get the user"""
   userProfile(userId: String): UserProfileResponse
 }
@@ -164,6 +165,46 @@ type Receipt {
 """The javascript `Date` as string. Type represents date and time as the ISO Date string."""
 scalar DateTime
 
+type CustomerSubscriptionStatus {
+  hasActiveSubscription: Boolean!
+  subscriptions: [Subscription!]!
+}
+
+type Subscription {
+  cancelAt: DateTime
+  cancelAtPeriodEnd: Boolean!
+  canceledAt: DateTime
+  clientId: String!
+  currentPeriodEnd: DateTime!
+  currentPeriodStart: DateTime!
+  id: ID!
+  items: [SubscriptionItem!]!
+  status: String!
+}
+
+type SubscriptionItem {
+  id: ID!
+  price: SubscriptionPrice!
+  product: SubscriptionProduct
+  quantity: Float!
+}
+
+type SubscriptionPrice {
+  amount: Float!
+  currency: String!
+  id: ID!
+  interval: String!
+  intervalCount: Float
+  trialPeriodDays: Float
+}
+
+type SubscriptionProduct {
+  description: String
+  id: ID!
+  images: [String!]
+  name: String!
+}
+
 type UserProfileResponse {
   email: String!
   emailReportStatus: ReportStatus
@@ -181,7 +222,9 @@ enum ReportStatus {
 type Mutation {
   addEntries(entriesInput: [EntryInput!]!): AddEntryResponse!
   addPushToken(token: String!): Boolean!
+  cancelSubscription(clientId: String!, subscriptionId: String!): SubscriptionActionResult!
   createOutboundIntegration(byAuthorizationCode: ByAuthorizationCode): CreateOutboundIntegrationResponse!
+  createSubscriptionSession(clientId: String!, priceId: String!): SubscriptionSessionResult!
   """delete file that belongs to the user."""
   deleteFile(deleteFileRequest: DeleteFileRequest!): DeleteFileResponse
   deleteOutboundIntegration(byIntegration: DeleteOutboundIntegrationByIntegration): DeleteOutboundIntegrationResponse!
@@ -214,6 +257,11 @@ type AddEntryResponse {
   success: Boolean!
 }
 
+type SubscriptionActionResult {
+  message: String
+  success: Boolean!
+}
+
 input ByAuthorizationCode {
   code: String!
   providerId: String!
@@ -221,6 +269,13 @@ input ByAuthorizationCode {
 
 type CreateOutboundIntegrationResponse {
   _: Boolean!
+}
+
+type SubscriptionSessionResult {
+  message: String
+  sessionId: String
+  sessionUrl: String
+  success: Boolean!
 }
 
 input DeleteFileRequest {
