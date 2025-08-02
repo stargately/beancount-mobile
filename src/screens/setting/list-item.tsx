@@ -7,7 +7,7 @@ import { useTheme } from "@/common/theme";
 
 type ListItemHorizontalProps = {
   onPress?: () => void;
-  title: string;
+  title: string | React.ReactNode;
   description?: string;
   content?: string | React.ReactNode;
 };
@@ -47,7 +47,11 @@ export const ListItemHorizontal = ({
       onPress={onPress}
     >
       <View>
-        <Text style={styles.title}>{title}</Text>
+        {typeof title === "string" ? (
+          <Text style={styles.title}>{title}</Text>
+        ) : (
+          <View>{title}</View>
+        )}
         {description ? (
           <Text style={styles.description}>{description}</Text>
         ) : null}

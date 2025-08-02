@@ -21,6 +21,7 @@ import { Picker } from "@/components/picker";
 import { ListItemHorizontal, ItemDescription } from "./list-item";
 import { Theme } from "@/common/vars/theme";
 import { useTheme } from "@/common/theme";
+import { Ionicons } from "@expo/vector-icons";
 
 export const MainContent = () => {
   const { authToken, userId } = useSession();
@@ -34,8 +35,17 @@ export const MainContent = () => {
   const LANGUAGES = {
     en: "English",
     zh: "中文",
+    bg: "Български",
+    ca: "Català",
+    de: "Deutsch",
     es: "Español",
+    fa: "فارسی",
     fr: "Français",
+    nl: "Nederlands",
+    pt: "Português",
+    ru: "Русский",
+    sk: "Slovenčina",
+    uk: "Українська",
   };
 
   const THEMES = {
@@ -173,7 +183,7 @@ export const MainContent = () => {
           />
         )}
         <ListItemHorizontal
-          title={i18n.t("currentLanguage")}
+          title={<Ionicons name="language" size={20} color={theme.black90} />}
           content={<ItemDescription text={getLanguageLabel(String(locale))} />}
           onPress={() => {
             setLanguageModalVisible(true);
