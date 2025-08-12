@@ -74,4 +74,5 @@ expo-env.d.ts
 
 ios
 android
+!fastlane/metadata/android
 dist

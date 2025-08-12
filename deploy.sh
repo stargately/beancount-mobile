@@ -32,4 +32,4 @@ eas build --platform android --profile production --non-interactive --no-wait
 
 #### 4. Submit Android App ####
 echo "Submitting Android app to Play Store..."
-eas submit --platform android --latest --track production --non-interactive
+eas submit --platform android --latest --non-interactive

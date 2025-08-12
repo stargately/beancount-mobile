@@ -1,6 +1,6 @@
 {
   "expo": {
-    "version": "1.20250710.13",
+    "version": "1.20250811.14",
     "name": "Beancount",
     "scheme": "beancount",
     "slug": "beancount",
@@ -31,10 +31,10 @@
         "NSFaceIDUsageDescription": false,
         "ITSAppUsesNonExemptEncryption": false
       },
-      "buildNumber": "13"
+      "buildNumber": "14"
     },
     "android": {
-      "versionCode": 13,
+      "versionCode": 14,
       "package": "io.beancount.android",
       "permissions": ["com.google.android.gms.permission.AD_ID"],
       "edgeToEdgeEnabled": true
