@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./yarn.lock
+      - name: Detect version change
+        id: version
+        run: |
+          CURRENT_VERSION=$(jq -r '.version' package.json)
+          PREVIOUS_VERSION=$(git show HEAD^:package.json 2>/dev/null | jq -r '.version')
+          echo "current=${CURRENT_VERSION}"
+          echo "previous=${PREVIOUS_VERSION}"
+          if [ "${CURRENT_VERSION}" != "${PREVIOUS_VERSION}" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Build and submit
+        if: steps.version.outputs.changed == 'true'
+        env:
+          EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
+        run: ./deploy.sh
