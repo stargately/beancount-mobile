@@ -14,7 +14,6 @@
     "format": "prettier . --cache --write",
     "format:check": "prettier . --cache --check",
     "codegen": "graphql-codegen",
-    "prepare": "husky",
     "bump": "npx tsx ./src/scripts/bump-version.ts"
   },
   "dependencies": {
