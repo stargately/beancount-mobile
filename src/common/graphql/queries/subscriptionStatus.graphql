@@ -1,0 +1,33 @@
+query SubscriptionStatus {
+  subscriptionStatus {
+    hasActiveSubscription
+    subscriptions {
+      id
+      status
+      cancelAt
+      cancelAtPeriodEnd
+      canceledAt
+      clientId
+      currentPeriodEnd
+      currentPeriodStart
+      items {
+        id
+        quantity
+        price {
+          id
+          amount
+          currency
+          interval
+          intervalCount
+          trialPeriodDays
+        }
+        product {
+          id
+          name
+          description
+          images
+        }
+      }
+    }
+  }
+}

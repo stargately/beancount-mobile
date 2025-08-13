@@ -10,12 +10,19 @@ directive @specifiedBy(
 ) on SCALAR
 
 type Query {
+  """Get account balance tree"""
+  accountBalances: AccountBalancesResponse!
   accountHierarchy(userId: String!): AccountHierarchyResponse!
   changed: ChangedResponse!
   charts(userId: String!): ChartsResponse!
+  """Get context for a specific entry"""
+  context(entryHash: String!): ContextResponse!
   editorData: EditorDataResponse!
+  """Extract entries using the ingest framework"""
+  extract(filename: String!, importer: String!): ExtractResponse!
+  """Check if the Fava service is healthy"""
+  favaHealth: HealthResponse!
   featureFlags(userId: String!): JSONObject!
-  fetchCoinPrice: CoinPrice!
   """is the server healthy?"""
   health: String!
   homeCharts(userId: String!): HomeChartsResponse!
@@ -24,11 +31,32 @@ type Query {
   """get the ledger of the current user"""
   ledgers(file: BeanFilename): [Ledger!]
   listOutboundIntegrations: ListOutboundIntegrationsResponse!
+  """Get ranked accounts for a given payee"""
+  payeeAccounts(payee: String!): PayeeAccountsResponse!
+  """Get the last transaction for a given payee"""
+  payeeTransaction(payee: String!): PayeeTransactionResponse!
   paymentHistory: [Receipt!]!
+  """Execute a Beancount query and get results"""
+  queryResult(queryString: String!): QueryResultResponse!
   subscriptionStatus: CustomerSubscriptionStatus!
   """get the user"""
   userProfile(userId: String): UserProfileResponse
 }
+
+type AccountBalancesResponse {
+  data: TreeNode!
+  success: Boolean!
+}
+
+type TreeNode {
+  account: String!
+  balance: JSONObject!
+  balance_children: JSONObject!
+  children: [TreeNode!]!
+}
+
+"""The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)."""
+scalar JSONObject
 
 type AccountHierarchyResponse {
   data: [LabeledHierarchyItem!]!
@@ -47,9 +75,6 @@ type AccountBalance {
   balance_children: JSONObject!
   children: [AccountBalance!]!
 }
-
-"""The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)."""
-scalar JSONObject
 
 type ChangedResponse {
   data: Boolean!
@@ -71,6 +96,17 @@ type Balance {
   USD: Float
 }
 
+type ContextResponse {
+  data: Context!
+  success: Boolean!
+}
+
+type Context {
+  content: String!
+  sha256sum: String!
+  slice: [Int!]!
+}
+
 type EditorDataResponse {
   data: EditorData!
   success: Boolean!
@@ -83,10 +119,14 @@ type EditorData {
   sources: [String!]!
 }
 
-"""IOTX price information from coinmarketcap"""
-type CoinPrice {
-  marketCapUsd: String!
-  priceUsd: String!
+type ExtractResponse {
+  data: [JSONObject!]!
+  success: Boolean!
+}
+
+type HealthResponse {
+  data: String!
+  success: Boolean!
 }
 
 type HomeChartsResponse {
@@ -150,6 +190,16 @@ type OutboundIntegration {
   providerId: String!
 }
 
+type PayeeAccountsResponse {
+  data: [String!]!
+  success: Boolean!
+}
+
+type PayeeTransactionResponse {
+  data: JSONObject!
+  success: Boolean!
+}
+
 type Receipt {
   _id: String
   amount: String!
@@ -164,6 +214,16 @@ type Receipt {
 
 """The javascript `Date` as string. Type represents date and time as the ISO Date string."""
 scalar DateTime
+
+type QueryResultResponse {
+  data: QueryResult!
+  success: Boolean!
+}
+
+type QueryResult {
+  chart: JSONObject
+  table: String!
+}
 
 type CustomerSubscriptionStatus {
   hasActiveSubscription: Boolean!
@@ -222,17 +282,33 @@ enum ReportStatus {
 type Mutation {
   addEntries(entriesInput: [EntryInput!]!): AddEntryResponse!
   addPushToken(token: String!): Boolean!
+  """Attach a document to an entry"""
+  attachDocument(attachInput: AttachDocumentInput!): DocumentOperationResponse!
   cancelSubscription(clientId: String!, subscriptionId: String!): SubscriptionActionResult!
+  """Create or rename a file"""
+  createOrRenameFile(fileInput: CreateOrRenameFileInput!): FileOperationResponse!
   createOutboundIntegration(byAuthorizationCode: ByAuthorizationCode): CreateOutboundIntegrationResponse!
   createSubscriptionSession(clientId: String!, priceId: String!): SubscriptionSessionResult!
+  """Delete a document"""
+  deleteDocument(filename: String!): DocumentOperationResponse!
+  """Delete a Fava file"""
+  deleteFavaFile(deleteInput: DeleteFavaFileInput!): FileOperationResponse!
   """delete file that belongs to the user."""
   deleteFile(deleteFileRequest: DeleteFileRequest!): DeleteFileResponse
   deleteOutboundIntegration(byIntegration: DeleteOutboundIntegrationByIntegration): DeleteOutboundIntegrationResponse!
+  """Format beancount source code"""
+  formatSource(source: String!): SourceUpdateResponse!
+  """Move a document file to a different account"""
+  moveDocument(moveInput: MoveDocumentInput!): MoveResponse!
   """rename file that belongs to the user. returns null if no file found."""
   renameFile(renameFileRequest: RenameFileRequest!): Ledger
   sendPushNotification(data: JSONObject!, message: String!, pushToken: String!): Boolean!
   """update or insert user report subscribe status"""
   updateReportSubscribe(status: ReportStatus!, userId: String!): UpdateReportSubscribeResponse
+  """Update source file content"""
+  updateSource(sourceInput: SourceInput!): SourceUpdateResponse!
+  """Update entry source slice"""
+  updateSourceSlice(sourceSliceInput: SourceSliceInput!): SourceUpdateResponse!
   """update or insert a ledger text"""
   upsertLedger(file: BeanFilename!, text: String): Ledger
 }
@@ -257,8 +333,29 @@ type AddEntryResponse {
   success: Boolean!
 }
 
+input AttachDocumentInput {
+  entry_hash: String!
+  filename: String!
+}
+
+type DocumentOperationResponse {
+  data: String!
+  success: Boolean!
+}
+
 type SubscriptionActionResult {
   message: String
+  success: Boolean!
+}
+
+input CreateOrRenameFileInput {
+  ledger_id: String!
+  new_file: String!
+  old_file: String
+}
+
+type FileOperationResponse {
+  data: String!
   success: Boolean!
 }
 
@@ -278,6 +375,11 @@ type SubscriptionSessionResult {
   success: Boolean!
 }
 
+input DeleteFavaFileInput {
+  filename: String!
+  ledger_id: String!
+}
+
 input DeleteFileRequest {
   file: BeanFilename!
   ledgerId: String!
@@ -295,6 +397,22 @@ type DeleteOutboundIntegrationResponse {
   _: Boolean!
 }
 
+type SourceUpdateResponse {
+  data: String!
+  success: Boolean!
+}
+
+input MoveDocumentInput {
+  account: String!
+  filename: String!
+  newName: String!
+}
+
+type MoveResponse {
+  data: String!
+  success: Boolean!
+}
+
 input RenameFileRequest {
   from: String!
   ledgerId: String!
@@ -303,4 +421,16 @@ input RenameFileRequest {
 
 type UpdateReportSubscribeResponse {
   success: Boolean!
+}
+
+input SourceInput {
+  file_path: String!
+  sha256sum: String!
+  source: String!
+}
+
+input SourceSliceInput {
+  entry_hash: String!
+  sha256sum: String!
+  source: String!
 }

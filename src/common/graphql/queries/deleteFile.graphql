@@ -1,0 +1,5 @@
+mutation DeleteFile($deleteFileRequest: DeleteFileRequest!) {
+  deleteFile(deleteFileRequest: $deleteFileRequest) {
+    _id
+  }
+}

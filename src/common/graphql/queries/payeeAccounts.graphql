@@ -1,0 +1,6 @@
+query PayeeAccounts($payee: String!) {
+  payeeAccounts(payee: $payee) {
+    data
+    success
+  }
+}

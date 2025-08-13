@@ -1,0 +1,6 @@
+mutation CancelSubscription($clientId: String!, $subscriptionId: String!) {
+  cancelSubscription(clientId: $clientId, subscriptionId: $subscriptionId) {
+    success
+    message
+  }
+}

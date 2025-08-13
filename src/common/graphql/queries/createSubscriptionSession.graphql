@@ -1,0 +1,8 @@
+mutation CreateSubscriptionSession($clientId: String!, $priceId: String!) {
+  createSubscriptionSession(clientId: $clientId, priceId: $priceId) {
+    success
+    sessionId
+    sessionUrl
+    message
+  }
+}
