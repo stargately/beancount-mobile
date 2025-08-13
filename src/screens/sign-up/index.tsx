@@ -169,6 +169,7 @@ const SignUpScreen = () => {
                 placeholder="Password"
                 placeholderTextColor="#aaa"
                 secureTextEntry
+                autoCapitalize="none"
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -191,6 +192,7 @@ const SignUpScreen = () => {
                 placeholder="Confirm Password"
                 placeholderTextColor="#aaa"
                 secureTextEntry
+                autoCapitalize="none"
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}

@@ -164,6 +164,7 @@ const SignInScreen = () => {
                 placeholder="Password"
                 placeholderTextColor="#aaa"
                 secureTextEntry
+                autoCapitalize="none"
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
