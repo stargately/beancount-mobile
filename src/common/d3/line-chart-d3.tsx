@@ -5,7 +5,7 @@ import { scaleLinear, scalePoint } from "d3-scale";
 import { line as d3Line, curveMonotoneX } from "d3-shape";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
-import { i18n } from "@/translations";
+import { useTranslations } from "@/common/hooks/use-translations";
 import { shortNumber } from "@/common/number-utils";
 import { generateTicks } from "@/common/d3/utils";
 
@@ -19,6 +19,7 @@ export function LineChartD3({
   currencySymbol: string;
 }): JSX.Element {
   const theme = useTheme().colorTheme;
+  const { t } = useTranslations();
 
   // Chart dimensions
   const chartWidth = ScreenWidth - contentPadding * 2;
@@ -111,7 +112,7 @@ export function LineChartD3({
             fill={theme.text01}
             textAnchor="middle"
           >
-            {i18n.t(label)}
+            {t(label)}
           </SvgText>
         ))}
       </Svg>

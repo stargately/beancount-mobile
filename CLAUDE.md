@@ -29,8 +29,9 @@ Beancount Mobile Community Edition is a React Native app for iOS and Android bui
 
 - Location: `src/translations/`
 - Supported languages: en, zh, bg, ca, de, es, fa, fr, nl, pt, ru, sk, uk
-- Use `i18n.t("key")` for translations
+- **IMPORTANT**: Use `useTranslations()` hook for reactive translations, not `i18n.t()` directly
 - All translation files extend the English base with language-specific overrides
+- Translation hook automatically re-renders components when language changes
 
 ### Common Commands
 
@@ -77,6 +78,14 @@ import { themeVar } from "@/common/vars";
 const currentTheme = useReactiveVar(themeVar);
 ```
 
+### Using Translations (Reactive)
+
+```typescript
+import { useTranslations } from "@/common/hooks/use-translations";
+const { t } = useTranslations();
+// Use t("key") instead of i18n.t("key") for reactive translations
+```
+
 ### Screen Structure
 
 Most screens follow this pattern:
@@ -115,14 +124,24 @@ Most screens follow this pattern:
 - Removed unnecessary arrow from version display (non-clickable item)
 - Fixed typo: "Locatization" → "Localization" in translations index
 
+### Language Switching Reactivity Fix
+
+- **Problem**: Components using `i18n.t()` directly weren't updating when language changed
+- **Solution**: Created `useTranslations()` hook that uses reactive variables
+- **Fixed Components**: Home screen, Settings, Auth screens, Add Transaction, Referral, Charts
+- **Implementation**: Hook listens to `localeVar` changes and triggers re-renders automatically
+- **Usage**: Replace `i18n.t("key")` with `const { t } = useTranslations(); t("key")`
+
 ## Development Notes
 
 - Always use theme-aware colors (`theme.white`, `theme.black`, etc.)
+- **Always use `useTranslations()` hook instead of `i18n.t()` for reactive translations**
 - Follow existing component patterns when creating new UI
 - Add proper TypeScript types
 - Use existing translation keys or add new ones to all language files
 - Test in both light and dark themes
 - Ensure proper background colors for loading states
+- Test language switching to verify translations update instantly
 
 ## Repository Info
 

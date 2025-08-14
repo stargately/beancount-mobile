@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "@/common/theme";
 import { contentPadding, ScreenWidth, onePx } from "@/common/screen-util";
-import { i18n } from "@/translations";
+import { useTranslations } from "@/common/hooks/use-translations";
 import { GiftIcon } from "@/screens/referral-screen/components/gift-icon";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
@@ -50,9 +50,11 @@ export function InviteSection(): JSX.Element {
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
   const router = useRouter();
+  const { t } = useTranslations();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{i18n.t("inviteFriends")}</Text>
+      <Text style={styles.title}>{t("inviteFriends")}</Text>
       <TouchableOpacity
         style={styles.section}
         activeOpacity={0.9}
@@ -62,7 +64,7 @@ export function InviteSection(): JSX.Element {
         }}
       >
         <View style={styles.summaryContainer}>
-          <Text style={styles.summary}>{i18n.t("inviteSummary")}</Text>
+          <Text style={styles.summary}>{t("inviteSummary")}</Text>
         </View>
         <View style={styles.imageContainer}>
           <GiftIcon />

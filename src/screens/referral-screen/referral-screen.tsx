@@ -12,7 +12,7 @@ import * as Clipboard from "expo-clipboard";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { CommonMargin } from "@/common/common-margin";
 import { ReferralGiftIcon } from "@/screens/referral-screen/components/referral-gift-icon";
-import { i18n } from "@/translations";
+import { useTranslations } from "@/common/hooks/use-translations";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -88,6 +88,7 @@ export const ReferralScreen = () => {
   }, []);
   const { userId } = useSession();
   const toast = useToast();
+  const { t } = useTranslations();
   const shareLink = `beancount.io/sign-up/?src=${Platform.OS}&by=${userId}`;
   const styles = useThemeStyle(getStyles);
   return (
@@ -97,9 +98,9 @@ export const ReferralScreen = () => {
         <CommonMargin />
         <ReferralGiftIcon />
         <CommonMargin />
-        <Text style={styles.title}>{i18n.t("rewardSummary")}</Text>
+        <Text style={styles.title}>{t("rewardSummary")}</Text>
         <CommonMargin />
-        <Text style={styles.summary}>{i18n.t("rewardDetail")}</Text>
+        <Text style={styles.summary}>{t("rewardDetail")}</Text>
         <CommonMargin />
         <CommonMargin />
         <View style={styles.shareLinkContainer}>
@@ -111,13 +112,13 @@ export const ReferralScreen = () => {
             onPress={async () => {
               Clipboard.setString(shareLink);
               toast.showToast({
-                message: i18n.t("copied"),
+                message: t("copied"),
                 type: "text",
               });
               await analytics.track("tap_share_link_copy", { shareLink });
             }}
           >
-            <Text style={styles.copy}>{i18n.t("copy")}</Text>
+            <Text style={styles.copy}>{t("copy")}</Text>
           </TouchableOpacity>
         </View>
         <View style={{ flex: 1 }}></View>
@@ -128,7 +129,7 @@ export const ReferralScreen = () => {
           onPress={async () => {
             await analytics.track("tap_share_link_share", { shareLink });
             Share.share({
-              message: `${i18n.t("recommend")} ${shareLink}`,
+              message: `${t("recommend")} ${shareLink}`,
             })
               .then((result) => {
                 if (result.action === Share.sharedAction) {
@@ -143,13 +144,13 @@ export const ReferralScreen = () => {
               })
               .catch((_) => {
                 toast.showToast({
-                  message: i18n.t("shareError"),
+                  message: t("shareError"),
                   type: "error",
                 });
               });
           }}
         >
-          <Text style={styles.share}>{i18n.t("share")}</Text>
+          <Text style={styles.share}>{t("share")}</Text>
         </Button>
         <CommonMargin />
       </View>

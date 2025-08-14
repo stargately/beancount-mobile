@@ -8,7 +8,7 @@ import {
   Keyboard,
 } from "react-native";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
-import { i18n } from "@/translations";
+import { useTranslations } from "@/common/hooks/use-translations";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
@@ -95,6 +95,7 @@ const SignInScreen = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const styles = useThemeStyle(getStyles);
+  const { t } = useTranslations();
   const { control, handleSubmit } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -126,7 +127,7 @@ const SignInScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView edges={["top", "bottom"]} style={styles.container}>
-        <Text style={styles.title}>{i18n.t("signIn")}</Text>
+        <Text style={styles.title}>{t("signIn")}</Text>
         <Text style={styles.label}>Email</Text>
         <Controller
           control={control}
@@ -179,7 +180,7 @@ const SignInScreen = () => {
           onPress={handleSubmit(onSubmit)}
           loading={loading}
         >
-          {i18n.t("signIn")}
+          {t("signIn")}
         </Button>
         {error && <Text style={styles.errorText}>{error}</Text>}
         <TouchableOpacity onPress={onResetPassword}>

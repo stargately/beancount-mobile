@@ -8,7 +8,7 @@ import {
   Pressable,
 } from "react-native";
 import { useTheme } from "@/common/theme";
-import { i18n } from "@/translations";
+import { useTranslations } from "@/common/hooks/use-translations";
 import { getFormatDate } from "@/common/format-util";
 import { useAddEntriesToRemote } from "@/screens/add-transaction-screen/hooks/use-add-entries-to-remote";
 import { getCurrencySymbol } from "@/common/currency-util";
@@ -79,6 +79,7 @@ export const AddTransactionNextScreen = () => {
     init();
   }, []);
   const theme = useTheme().colorTheme;
+  const { t } = useTranslations();
   const { currentMoney, currentAsset, currentExpense, currentCurrency } =
     useLocalSearchParams<{
       currentMoney: string;
@@ -102,7 +103,7 @@ export const AddTransactionNextScreen = () => {
     await analytics.track("tap_add_transaction_done", {});
     try {
       const cancel = toast.showToast({
-        message: i18n.t("saving"),
+        message: t("saving"),
         type: "loading",
       });
       const params = [
@@ -133,7 +134,7 @@ export const AddTransactionNextScreen = () => {
 
       if (!error) {
         toast.showToast({
-          message: i18n.t("saveSuccess"),
+          message: t("saveSuccess"),
           type: "success",
         });
         setTimeout(async () => {
@@ -147,13 +148,13 @@ export const AddTransactionNextScreen = () => {
       } else {
         console.error("failed to add transaction", error);
         toast.showToast({
-          message: i18n.t("saveFailed"),
+          message: t("saveFailed"),
           type: "error",
         });
       }
     } catch (e) {
       toast.showToast({
-        message: i18n.t("saveFailed"),
+        message: t("saveFailed"),
         type: "error",
       });
       // tslint:disable-next-line
@@ -180,7 +181,7 @@ export const AddTransactionNextScreen = () => {
     <SafeAreaView edges={["top"]} style={styles.container}>
       <Stack.Screen
         options={{
-          headerTitle: i18n.t("addTransaction"),
+          headerTitle: t("addTransaction"),
           headerRight: () => (
             <Pressable onPress={addEntries} hitSlop={10}>
               <Text style={styles.doneButton}>Done</Text>
@@ -203,7 +204,7 @@ export const AddTransactionNextScreen = () => {
         </View>
         <List>
           <ListItem
-            title={i18n.t("from").toUpperCase()}
+            title={t("from").toUpperCase()}
             content={assets}
             onPress={async () => {
               await analytics.track("tap_assets_picker", {
@@ -222,7 +223,7 @@ export const AddTransactionNextScreen = () => {
             }}
           />
           <ListItem
-            title={i18n.t("to").toUpperCase()}
+            title={t("to").toUpperCase()}
             content={expenses}
             onPress={async () => {
               analytics.track("tap_expenses_picker", {
@@ -241,12 +242,12 @@ export const AddTransactionNextScreen = () => {
             }}
           />
           <ListItem
-            title={i18n.t("date").toUpperCase()}
+            title={t("date").toUpperCase()}
             content={date}
             onPress={showDatePicker}
           />
           <ListItem
-            title={i18n.t("payee").toUpperCase()}
+            title={t("payee").toUpperCase()}
             content={payee}
             onPress={() => {
               SelectedPayee.setFn((value: string) => {
@@ -261,7 +262,7 @@ export const AddTransactionNextScreen = () => {
             }}
           />
           <ListItem
-            title={i18n.t("narration").toUpperCase()}
+            title={t("narration").toUpperCase()}
             content={narration}
             onPress={() => {
               SelectedNarration.setFn((value: string) => {

@@ -4,7 +4,7 @@ import Svg, { Rect, Text as SvgText, G, Line } from "react-native-svg";
 import { scaleBand, scaleLinear } from "d3-scale";
 import { contentPadding, ScreenWidth } from "@/common/screen-util";
 import { useTheme } from "@/common/theme";
-import { i18n } from "@/translations";
+import { useTranslations } from "@/common/hooks/use-translations";
 import { shortNumber } from "@/common/number-utils";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -20,6 +20,7 @@ function BarChart({
   currencySymbol,
 }: BarChartProps): JSX.Element {
   const theme = useTheme().colorTheme;
+  const { t } = useTranslations();
 
   // Chart dimensions
   const chartWidth = ScreenWidth - contentPadding * 2;
@@ -128,7 +129,7 @@ function BarChart({
             fill={theme.text01}
             textAnchor="middle"
           >
-            {i18n.t(label)}
+            {t(label)}
           </SvgText>
         ))}
       </Svg>

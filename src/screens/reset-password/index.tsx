@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
-import { i18n } from "@/translations";
+import { useTranslations } from "@/common/hooks/use-translations";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/components";
@@ -104,9 +104,10 @@ const schema = z.object({
 
 const ResetPasswordSent = () => {
   const styles = useThemeStyle(getStyles);
+  const { t } = useTranslations();
   return (
     <View style={styles.sentContainer}>
-      <Text style={styles.sentTitle}>{i18n.t("resetPasswordEmailSent")}</Text>
+      <Text style={styles.sentTitle}>{t("resetPasswordEmailSent")}</Text>
     </View>
   );
 };
@@ -115,6 +116,7 @@ const ResetPasswordScreen = () => {
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
   const styles = useThemeStyle(getStyles);
+  const { t } = useTranslations();
   const { control, handleSubmit } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -133,10 +135,8 @@ const ResetPasswordScreen = () => {
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={styles.container}>
-      <Text style={styles.title}>{i18n.t("resetPassword")}</Text>
-      <Text style={styles.description}>
-        {i18n.t("resetPasswordDescription")}
-      </Text>
+      <Text style={styles.title}>{t("resetPassword")}</Text>
+      <Text style={styles.description}>{t("resetPasswordDescription")}</Text>
       {sent ? (
         <ResetPasswordSent />
       ) : (
@@ -169,7 +169,7 @@ const ResetPasswordScreen = () => {
             style={styles.button}
             onPress={handleSubmit(onSubmit)}
           >
-            {i18n.t("sendResetPasswordEmail")}
+            {t("sendResetPasswordEmail")}
           </Button>
           {error ? <Text style={styles.errorText}>{error}</Text> : null}
         </>

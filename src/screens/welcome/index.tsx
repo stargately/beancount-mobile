@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dimensions, View, StyleSheet, Image } from "react-native";
-import { i18n } from "@/translations";
+import { useTranslations } from "@/common/hooks/use-translations";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
@@ -45,6 +45,7 @@ export function WelcomeScreen(): JSX.Element {
     init();
   }, []);
   const styles = useThemeStyle(getStyles);
+  const { t } = useTranslations();
   return (
     <View style={styles.container}>
       <Image source={require("@/assets/images/icon.png")} style={styles.icon} />
@@ -54,14 +55,14 @@ export function WelcomeScreen(): JSX.Element {
           type="outline"
           onPress={() => router.push("/auth/sign-in")}
         >
-          {i18n.t("signIn")}
+          {t("signIn")}
         </Button>
         <Button
           style={styles.flex}
           type="primary"
           onPress={() => router.push("/auth/sign-up")}
         >
-          {i18n.t("signUp")}
+          {t("signUp")}
         </Button>
       </View>
     </View>

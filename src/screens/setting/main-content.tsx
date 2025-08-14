@@ -8,6 +8,7 @@ import { List as List2 } from "@/components";
 import { useIsFocused } from "@react-navigation/native";
 import { analytics } from "@/common/analytics";
 import { i18n, setLocale } from "@/translations";
+import { useTranslations } from "@/common/hooks/use-translations";
 import { useUserProfile } from "./hooks/use-user-profile";
 import { useUpdateReportSubscribeToRemote } from "./hooks/use-update-report-subscribe";
 import { useFeatureFlags } from "@/common/hooks/use-feature-flags";
@@ -29,6 +30,7 @@ export const MainContent = () => {
   const locale = useReactiveVar(localeVar);
   const currentTheme = useReactiveVar(themeVar);
   const theme = useTheme().colorTheme;
+  const { t } = useTranslations();
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
   const [subscribeModalVisible, setSubscribeModalVisible] = useState(false);
   const [themeModalVisible, setThemeModalVisible] = useState(false);
@@ -49,9 +51,9 @@ export const MainContent = () => {
   };
 
   const THEMES = {
-    light: i18n.t("themeLight"),
-    dark: i18n.t("themeDark"),
-    system: i18n.t("themeSystem"),
+    light: t("themeLight"),
+    dark: t("themeDark"),
+    system: t("themeSystem"),
   };
 
   const languageSource = Object.entries(LANGUAGES).map(([value, label]) => ({
@@ -64,9 +66,9 @@ export const MainContent = () => {
     label,
   }));
   const pickerSource = [
-    { value: ReportStatus.Weekly, label: i18n.t("weekly") },
-    { value: ReportStatus.Monthly, label: i18n.t("monthly") },
-    { value: ReportStatus.Off, label: i18n.t("off") },
+    { value: ReportStatus.Weekly, label: t("weekly") },
+    { value: ReportStatus.Monthly, label: t("monthly") },
+    { value: ReportStatus.Off, label: t("off") },
   ];
 
   const [reportAnimateCount, setReportAnimateCount] = useState(0);
@@ -117,13 +119,13 @@ export const MainContent = () => {
   const getReportStatusLabel = (status: string) => {
     switch (status) {
       case ReportStatus.Off:
-        return i18n.t("off");
+        return t("off");
       case ReportStatus.Weekly:
-        return i18n.t("weekly");
+        return t("weekly");
       case ReportStatus.Monthly:
-        return i18n.t("monthly");
+        return t("monthly");
       default:
-        return i18n.t("off");
+        return t("off");
     }
   };
 
@@ -154,7 +156,7 @@ export const MainContent = () => {
     <>
       <List2>
         <ListItemHorizontal
-          title={i18n.t("reviewApp")}
+          title={t("reviewApp")}
           content={
             <ItemDescription
               text={Platform.OS === "ios" ? "Apple Store" : "Google Play"}
@@ -173,7 +175,7 @@ export const MainContent = () => {
         />
         {spendingReportSubscription && (
           <ListItemHorizontal
-            title={i18n.t("subscribe")}
+            title={t("subscribe")}
             content={
               <ItemDescription text={getReportStatusLabel(reportStatus)} />
             }
@@ -190,14 +192,14 @@ export const MainContent = () => {
           }}
         />
         <ListItemHorizontal
-          title={i18n.t("theme")}
+          title={t("theme")}
           content={<ItemDescription text={getThemeLabel(currentTheme)} />}
           onPress={() => {
             setThemeModalVisible(true);
           }}
         />
         <ListItemHorizontal
-          title={i18n.t("currentVersion")}
+          title={t("currentVersion")}
           content={
             <Text style={{ fontSize: 16, color: theme.black80 }}>
               {Constants.expoConfig?.version || "Unknown"}
@@ -207,15 +209,15 @@ export const MainContent = () => {
 
         {authToken ? (
           <ListItemHorizontal
-            title={i18n.t("logout")}
+            title={t("logout")}
             onPress={() => {
               Alert.alert(
                 "",
-                i18n.t("logoutAlertMsg"),
+                t("logoutAlertMsg"),
                 [
-                  { text: i18n.t("logoutAlertCancel"), style: "cancel" },
+                  { text: t("logoutAlertCancel"), style: "cancel" },
                   {
-                    text: i18n.t("logoutAlertConfirm"),
+                    text: t("logoutAlertConfirm"),
                     onPress: () => {
                       actionLogout(authToken);
                     },
@@ -245,8 +247,8 @@ export const MainContent = () => {
           setLanguageModalVisible(false);
         }}
         selectedValue={locale}
-        confirmButtonText={i18n.t("confirm")}
-        cancelButtonText={i18n.t("cancel")}
+        confirmButtonText={t("confirm")}
+        cancelButtonText={t("cancel")}
       />
       <Picker
         visible={subscribeModalVisible}
@@ -258,7 +260,7 @@ export const MainContent = () => {
           }
           setReportStatus(newValue);
           const cancel = toast.showToast({
-            message: i18n.t("updating"),
+            message: t("updating"),
             type: "loading",
           });
           await mutate({
@@ -267,13 +269,13 @@ export const MainContent = () => {
           cancel();
           if (!error) {
             toast.showToast({
-              message: i18n.t("updateSuccess"),
+              message: t("updateSuccess"),
               type: "success",
             });
           } else {
             console.error("failed to update report status", error);
             toast.showToast({
-              message: i18n.t("updateFailed"),
+              message: t("updateFailed"),
               type: "error",
             });
           }
@@ -283,8 +285,8 @@ export const MainContent = () => {
           setSubscribeModalVisible(false);
         }}
         selectedValue={reportStatus}
-        confirmButtonText={i18n.t("confirm")}
-        cancelButtonText={i18n.t("cancel")}
+        confirmButtonText={t("confirm")}
+        cancelButtonText={t("cancel")}
       />
       <Picker
         visible={themeModalVisible}
@@ -302,8 +304,8 @@ export const MainContent = () => {
           setThemeModalVisible(false);
         }}
         selectedValue={currentTheme}
-        confirmButtonText={i18n.t("confirm")}
-        cancelButtonText={i18n.t("cancel")}
+        confirmButtonText={t("confirm")}
+        cancelButtonText={t("cancel")}
       />
     </>
   );

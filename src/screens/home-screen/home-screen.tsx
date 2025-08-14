@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { useState } from "react";
-import { i18n } from "@/translations";
+import { useTranslations } from "@/common/hooks/use-translations";
 import { useLedgerMeta } from "@/screens/add-transaction-screen/hooks/use-ledger-meta";
 import { useHomeCharts } from "@/screens/home-screen/hooks/use-home-charts";
 import { useAccountHierarchy } from "@/screens/home-screen/hooks/use-account-hierarchy";
@@ -47,6 +47,7 @@ const getStyles = (theme: ColorTheme) =>
 
 export const HomeScreen = (): JSX.Element => {
   const { userId } = useSession();
+  const { t } = useTranslations();
   React.useEffect(() => {
     async function init() {
       await analytics.track("page_view_home", {});
@@ -106,7 +107,7 @@ export const HomeScreen = (): JSX.Element => {
           }
         >
           <CommonMargin />
-          <SmallHeaderText>{i18n.t("netAssets")}</SmallHeaderText>
+          <SmallHeaderText>{t("netAssets")}</SmallHeaderText>
           <View>
             {netWorthLoading || netWorthError || refreshing ? (
               <LoadingTile height={40} mx={16} />
@@ -126,7 +127,7 @@ export const HomeScreen = (): JSX.Element => {
             />
           )}
 
-          <HeaderText>{i18n.t("accounts")}</HeaderText>
+          <HeaderText>{t("accounts")}</HeaderText>
           <CommonMargin />
           <View>
             {accountsLoading || accountsError || refreshing ? (
@@ -152,10 +153,10 @@ export const HomeScreen = (): JSX.Element => {
               });
             }}
           >
-            <Text style={styles.quickAddLabel}>{i18n.t("quickAdd")}</Text>
+            <Text style={styles.quickAddLabel}>{t("quickAdd")}</Text>
           </Button>
           <CommonMargin />
-          <HeaderText>{i18n.t("monthlyNetIncome")}</HeaderText>
+          <HeaderText>{t("monthlyNetIncome")}</HeaderText>
           <CommonMargin />
           <View>
             {isLoading || netWorthError || accountsError ? (
@@ -171,7 +172,7 @@ export const HomeScreen = (): JSX.Element => {
             )}
           </View>
           <CommonMargin />
-          <HeaderText>{i18n.t("monthlyNetWorth")}</HeaderText>
+          <HeaderText>{t("monthlyNetWorth")}</HeaderText>
           <CommonMargin />
           <View>
             {isLoading || netWorthError ? (
