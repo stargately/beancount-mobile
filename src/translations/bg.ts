@@ -5,6 +5,7 @@ export const bg: typeof en = {
   // bottom tab bar
   home: "Начало",
   ledger: "Книга",
+  journal: "Журнал",
   settings: "Настройки",
   mine: "Моето",
   setting: "Настройка",

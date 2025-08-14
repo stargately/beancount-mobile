@@ -5,6 +5,7 @@ export const es: typeof en = {
   // bottom tab bar
   home: "Inicio",
   ledger: "Libro",
+  journal: "Diario",
   settings: "Configuración",
   mine: "Mío",
   setting: "Ajustes",
