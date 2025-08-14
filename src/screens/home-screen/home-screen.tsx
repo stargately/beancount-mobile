@@ -130,11 +130,14 @@ export const HomeScreen = (): JSX.Element => {
           <CommonMargin />
           <View>
             {accountsLoading || accountsError || refreshing ? (
-              <LoadingTile height={139} mx={16} />
+              <LoadingTile height={216} mx={16} />
             ) : (
               <AccountsStyled
                 assets={`${accounts.assets} ${currency}`}
                 liabilities={`${accounts.liabilities} ${currency}`}
+                income={`${accounts.income} ${currency}`}
+                expenses={`${accounts.expenses} ${currency}`}
+                equity={`${accounts.equity} ${currency}`}
               />
             )}
           </View>

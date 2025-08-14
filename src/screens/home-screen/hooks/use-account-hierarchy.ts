@@ -1,4 +1,4 @@
-import { getAssetsLiabilities } from "@/screens/home-screen/selectors/select-assets-liabilities";
+import { getAccountTotals } from "@/screens/home-screen/selectors/select-account-totals";
 import { useAccountHierarchyQuery } from "@/generated-graphql/graphql";
 
 export const useAccountHierarchy = (userId: string, currency: string) => {
@@ -6,6 +6,6 @@ export const useAccountHierarchy = (userId: string, currency: string) => {
     variables: { userId },
     fetchPolicy: "network-only",
   });
-  const accounts = getAssetsLiabilities(currency, data);
+  const accounts = getAccountTotals(currency, data);
   return { loading, data, error, refetch, accounts };
 };
