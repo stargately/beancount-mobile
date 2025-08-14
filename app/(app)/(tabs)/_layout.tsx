@@ -13,6 +13,7 @@ export default function TabLayout() {
   const [tabTitles, setTabTitles] = useState({
     home: i18n.t("home"),
     ledger: i18n.t("ledger"),
+    journal: i18n.t("journal"),
     setting: i18n.t("setting"),
   });
 
@@ -20,6 +21,7 @@ export default function TabLayout() {
     setTabTitles({
       home: i18n.t("home"),
       ledger: i18n.t("ledger"),
+      journal: i18n.t("journal"),
       setting: i18n.t("setting"),
     });
   }, [locale]);
@@ -58,6 +60,19 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name="wallet"
+              size={28}
+              color={focused ? theme.primary : color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="journal"
+        options={{
+          title: tabTitles.journal,
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name="document-text"
               size={28}
               color={focused ? theme.primary : color}
             />

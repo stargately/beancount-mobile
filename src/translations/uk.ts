@@ -5,6 +5,7 @@ export const uk: typeof en = {
   // bottom tab bar
   home: "Головна",
   ledger: "Книга",
+  journal: "Журнал",
   settings: "Налаштування",
   mine: "Моє",
   setting: "Налаштування",

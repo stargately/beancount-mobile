@@ -5,6 +5,7 @@ export const sk: typeof en = {
   // bottom tab bar
   home: "Domov",
   ledger: "Kniha",
+  journal: "Denník",
   settings: "Nastavenia",
   mine: "Moje",
   setting: "Nastavenie",

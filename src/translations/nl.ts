@@ -5,6 +5,7 @@ export const nl: typeof en = {
   // bottom tab bar
   home: "Home",
   ledger: "Grootboek",
+  journal: "Journaal",
   settings: "Instellingen",
   mine: "Mijn",
   setting: "Instelling",
