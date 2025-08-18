@@ -39,6 +39,8 @@ export type Query = {
   health: Scalars['String']['output'];
   homeCharts: HomeChartsResponse;
   isPaid: IsPaidResponse;
+  /** Get journal entries with enhanced search, filtering, and pagination */
+  journalEntries: JournalEntriesResponse;
   ledgerMeta: LedgerMetaResponse;
   /** get the ledger of the current user */
   ledgers?: Maybe<Array<Ledger>>;
@@ -84,6 +86,23 @@ export type QueryFeatureFlagsArgs = {
 
 export type QueryHomeChartsArgs = {
   userId: Scalars['String']['input'];
+};
+
+
+export type QueryJournalEntriesArgs = {
+  accountFilter?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  amountMax?: InputMaybe<Scalars['Float']['input']>;
+  amountMin?: InputMaybe<Scalars['Float']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  detailed?: InputMaybe<Scalars['Boolean']['input']>;
+  entryTypes?: InputMaybe<Array<Scalars['String']['input']>>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  groupBy?: InputMaybe<Scalars['String']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  searchQuery?: InputMaybe<Scalars['String']['input']>;
+  sortBy?: InputMaybe<Scalars['String']['input']>;
+  sortOrder?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -238,6 +257,69 @@ export type IsPaidResponse = {
   __typename?: 'IsPaidResponse';
   isForcedToPay?: Maybe<Scalars['Boolean']['output']>;
   isPaid?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type JournalEntriesResponse = {
+  __typename?: 'JournalEntriesResponse';
+  data: Array<JournalEntry>;
+  /** Pagination information */
+  pageInfo?: Maybe<PageInfo>;
+  success: Scalars['Boolean']['output'];
+};
+
+export type JournalEntry = {
+  __typename?: 'JournalEntry';
+  date: Scalars['String']['output'];
+  /** Entry type (Transaction, Balance, Open, etc.) */
+  entryType?: Maybe<Scalars['String']['output']>;
+  flag: Scalars['String']['output'];
+  links: Array<Scalars['String']['output']>;
+  narration: Scalars['String']['output'];
+  /** Net amount for the transaction */
+  netAmount?: Maybe<Scalars['Float']['output']>;
+  payee?: Maybe<Scalars['String']['output']>;
+  postings?: Maybe<Array<JournalEntryPosting>>;
+  /** Primary account for display */
+  primaryAccount?: Maybe<Scalars['String']['output']>;
+  /** Combined searchable text */
+  searchableText?: Maybe<Scalars['String']['output']>;
+  tags: Array<Scalars['String']['output']>;
+};
+
+export type JournalEntryPosting = {
+  __typename?: 'JournalEntryPosting';
+  account: Scalars['String']['output'];
+  cost?: Maybe<Scalars['String']['output']>;
+  flag?: Maybe<Scalars['String']['output']>;
+  meta: PostingMeta;
+  price?: Maybe<Scalars['String']['output']>;
+  units: PostingUnits;
+};
+
+export type PostingMeta = {
+  __typename?: 'PostingMeta';
+  filename: Scalars['String']['output'];
+  lineno: Scalars['Float']['output'];
+};
+
+export type PostingUnits = {
+  __typename?: 'PostingUnits';
+  currency: Scalars['String']['output'];
+  number: Scalars['Float']['output'];
+};
+
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** Cursor for the end of the current page */
+  endCursor?: Maybe<Scalars['String']['output']>;
+  /** Whether there are more entries after the current page */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** Whether there are more entries before the current page */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** Cursor for the start of the current page */
+  startCursor?: Maybe<Scalars['String']['output']>;
+  /** Total number of entries available */
+  totalCount?: Maybe<Scalars['Int']['output']>;
 };
 
 export type LedgerMetaResponse = {
@@ -729,6 +811,25 @@ export type IsPaidQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type IsPaidQuery = { __typename?: 'Query', isPaid: { __typename?: 'IsPaidResponse', isPaid?: boolean | null, isForcedToPay?: boolean | null } };
+
+export type JournalEntriesQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  detailed?: InputMaybe<Scalars['Boolean']['input']>;
+  searchQuery?: InputMaybe<Scalars['String']['input']>;
+  accountFilter?: InputMaybe<Scalars['String']['input']>;
+  amountMin?: InputMaybe<Scalars['Float']['input']>;
+  amountMax?: InputMaybe<Scalars['Float']['input']>;
+  entryTypes?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  sortBy?: InputMaybe<Scalars['String']['input']>;
+  sortOrder?: InputMaybe<Scalars['String']['input']>;
+  groupBy?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: { __typename?: 'JournalEntriesResponse', success: boolean, data: Array<{ __typename?: 'JournalEntry', date: string, flag: string, links: Array<string>, narration: string, payee?: string | null, tags: Array<string>, entryType?: string | null, netAmount?: number | null, primaryAccount?: string | null, searchableText?: string | null, postings?: Array<{ __typename?: 'JournalEntryPosting', account: string, cost?: string | null, flag?: string | null, price?: string | null, meta: { __typename?: 'PostingMeta', filename: string, lineno: number }, units: { __typename?: 'PostingUnits', currency: string, number: number } }> | null }>, pageInfo?: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null, totalCount?: number | null } | null } };
 
 export type LedgerMetaQueryVariables = Exact<{
   userId: Scalars['String']['input'];
@@ -1299,6 +1400,91 @@ export type IsPaidQueryHookResult = ReturnType<typeof useIsPaidQuery>;
 export type IsPaidLazyQueryHookResult = ReturnType<typeof useIsPaidLazyQuery>;
 export type IsPaidSuspenseQueryHookResult = ReturnType<typeof useIsPaidSuspenseQuery>;
 export type IsPaidQueryResult = Apollo.QueryResult<IsPaidQuery, IsPaidQueryVariables>;
+export const JournalEntriesDocument = gql`
+    query JournalEntries($first: Int, $after: String, $last: Int, $before: String, $detailed: Boolean, $searchQuery: String, $accountFilter: String, $amountMin: Float, $amountMax: Float, $entryTypes: [String!], $sortBy: String, $sortOrder: String, $groupBy: String) {
+  journalEntries(first: $first, after: $after, last: $last, before: $before, detailed: $detailed, searchQuery: $searchQuery, accountFilter: $accountFilter, amountMin: $amountMin, amountMax: $amountMax, entryTypes: $entryTypes, sortBy: $sortBy, sortOrder: $sortOrder, groupBy: $groupBy) {
+    success
+    data {
+      date
+      flag
+      links
+      narration
+      payee
+      postings {
+        account
+        cost
+        flag
+        meta {
+          filename
+          lineno
+        }
+        price
+        units {
+          currency
+          number
+        }
+      }
+      tags
+      entryType
+      netAmount
+      primaryAccount
+      searchableText
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+      totalCount
+    }
+  }
+}
+    `;
+
+/**
+ * __useJournalEntriesQuery__
+ *
+ * To run a query within a React component, call `useJournalEntriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useJournalEntriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useJournalEntriesQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      after: // value for 'after'
+ *      last: // value for 'last'
+ *      before: // value for 'before'
+ *      detailed: // value for 'detailed'
+ *      searchQuery: // value for 'searchQuery'
+ *      accountFilter: // value for 'accountFilter'
+ *      amountMin: // value for 'amountMin'
+ *      amountMax: // value for 'amountMax'
+ *      entryTypes: // value for 'entryTypes'
+ *      sortBy: // value for 'sortBy'
+ *      sortOrder: // value for 'sortOrder'
+ *      groupBy: // value for 'groupBy'
+ *   },
+ * });
+ */
+export function useJournalEntriesQuery(baseOptions?: Apollo.QueryHookOptions<JournalEntriesQuery, JournalEntriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<JournalEntriesQuery, JournalEntriesQueryVariables>(JournalEntriesDocument, options);
+      }
+export function useJournalEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<JournalEntriesQuery, JournalEntriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<JournalEntriesQuery, JournalEntriesQueryVariables>(JournalEntriesDocument, options);
+        }
+export function useJournalEntriesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<JournalEntriesQuery, JournalEntriesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<JournalEntriesQuery, JournalEntriesQueryVariables>(JournalEntriesDocument, options);
+        }
+export type JournalEntriesQueryHookResult = ReturnType<typeof useJournalEntriesQuery>;
+export type JournalEntriesLazyQueryHookResult = ReturnType<typeof useJournalEntriesLazyQuery>;
+export type JournalEntriesSuspenseQueryHookResult = ReturnType<typeof useJournalEntriesSuspenseQuery>;
+export type JournalEntriesQueryResult = Apollo.QueryResult<JournalEntriesQuery, JournalEntriesQueryVariables>;
 export const LedgerMetaDocument = gql`
     query ledgerMeta($userId: String!) {
   ledgerMeta(userId: $userId) {

@@ -27,6 +27,35 @@ type Query {
   health: String!
   homeCharts(userId: String!): HomeChartsResponse!
   isPaid: IsPaidResponse!
+  """Get journal entries with enhanced search, filtering, and pagination"""
+  journalEntries(
+    """Account regex filter (e.g., 'Assets:*' or 'Expenses:Food:*')"""
+    accountFilter: String
+    """Cursor for pagination (can be date string YYYY-MM-DD or index)"""
+    after: String
+    """Maximum amount filter for transactions"""
+    amountMax: Float
+    """Minimum amount filter for transactions"""
+    amountMin: Float
+    """Cursor for pagination (can be date string YYYY-MM-DD or index)"""
+    before: String
+    """Whether to include detailed entry metadata"""
+    detailed: Boolean
+    """Entry types to include (Transaction, Balance, Open, Close, etc.)"""
+    entryTypes: [String!]
+    """Number of entries to fetch from the start"""
+    first: Int
+    """Group entries by: date, account, payee"""
+    groupBy: String
+    """Number of entries to fetch from the end"""
+    last: Int
+    """Text search across payee, narration, and account fields"""
+    searchQuery: String
+    """Sort field: date, amount, payee, account"""
+    sortBy: String
+    """Sort order: asc or desc"""
+    sortOrder: String
+  ): JournalEntriesResponse!
   ledgerMeta(userId: String!): LedgerMetaResponse!
   """get the ledger of the current user"""
   ledgers(file: BeanFilename): [Ledger!]
@@ -149,6 +178,63 @@ type ChartItemV2 {
 type IsPaidResponse {
   isForcedToPay: Boolean
   isPaid: Boolean
+}
+
+type JournalEntriesResponse {
+  data: [JournalEntry!]!
+  """Pagination information"""
+  pageInfo: PageInfo
+  success: Boolean!
+}
+
+type JournalEntry {
+  date: String!
+  """Entry type (Transaction, Balance, Open, etc.)"""
+  entryType: String
+  flag: String!
+  links: [String!]!
+  narration: String!
+  """Net amount for the transaction"""
+  netAmount: Float
+  payee: String
+  postings: [JournalEntryPosting!]
+  """Primary account for display"""
+  primaryAccount: String
+  """Combined searchable text"""
+  searchableText: String
+  tags: [String!]!
+}
+
+type JournalEntryPosting {
+  account: String!
+  cost: String
+  flag: String
+  meta: PostingMeta!
+  price: String
+  units: PostingUnits!
+}
+
+type PostingMeta {
+  filename: String!
+  lineno: Float!
+}
+
+type PostingUnits {
+  currency: String!
+  number: Float!
+}
+
+type PageInfo {
+  """Cursor for the end of the current page"""
+  endCursor: String
+  """Whether there are more entries after the current page"""
+  hasNextPage: Boolean!
+  """Whether there are more entries before the current page"""
+  hasPreviousPage: Boolean!
+  """Cursor for the start of the current page"""
+  startCursor: String
+  """Total number of entries available"""
+  totalCount: Int
 }
 
 type LedgerMetaResponse {

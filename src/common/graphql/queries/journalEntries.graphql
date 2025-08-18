@@ -1,0 +1,70 @@
+query JournalEntries(
+  # Pagination parameters
+  $first: Int
+  $after: String
+  $last: Int
+  $before: String
+  $detailed: Boolean
+  # Enhanced search and filtering parameters
+  $searchQuery: String
+  $accountFilter: String
+  $amountMin: Float
+  $amountMax: Float
+  $entryTypes: [String!]
+  $sortBy: String
+  $sortOrder: String
+  $groupBy: String
+) {
+  journalEntries(
+    first: $first
+    after: $after
+    last: $last
+    before: $before
+    detailed: $detailed
+    searchQuery: $searchQuery
+    accountFilter: $accountFilter
+    amountMin: $amountMin
+    amountMax: $amountMax
+    entryTypes: $entryTypes
+    sortBy: $sortBy
+    sortOrder: $sortOrder
+    groupBy: $groupBy
+  ) {
+    success
+    data {
+      date
+      flag
+      links
+      narration
+      payee
+      postings {
+        account
+        cost
+        flag
+        meta {
+          filename
+          lineno
+        }
+        price
+        units {
+          currency
+          number
+        }
+      }
+      tags
+      # Enhanced fields for UI rendering
+      entryType
+      netAmount
+      primaryAccount
+      searchableText
+    }
+    # Enhanced pagination info
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+      totalCount
+    }
+  }
+}
