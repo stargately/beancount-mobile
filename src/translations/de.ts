@@ -97,4 +97,25 @@ export const de: typeof en = {
   "10": "OKT",
   "11": "NOV",
   "12": "DEZ",
+  // journal screen
+  transactions: "Transaktionen",
+  search: "Suchen",
+  unknown: "Unbekannt",
+  openAccount: "Konto eröffnen",
+  closeAccount: "Konto schließen",
+  transaction: "Transaktion",
+  loadingMore: "Lädt mehr...",
+  noMoreEntries: "Keine weiteren Einträge",
+  journalWelcomeTitle: "Willkommen in Ihrem Journal! 📔",
+  journalWelcomeMessage: "Sie haben noch keine Journaleinträge.",
+  journalWelcomeInstructions: "Um zu beginnen:",
+  journalWelcomeInstruction1:
+    'Verwenden Sie die Schaltfläche "Transaktion hinzufügen" zum Erstellen von Einträgen',
+  journalWelcomeInstruction2:
+    "Laden Sie Beancount-Dateien über die Web-Oberfläche hoch",
+  journalWelcomeInstruction3: "Importieren Sie vorhandene Buchhaltungsdaten",
+  journalWelcomeInstructionFinal:
+    "Sobald Sie Transaktionen hinzufügen, erscheinen sie hier.",
+  journalLoadError: "Fehler beim Laden des Journals: ",
+  accountsPlural: "Konten",
 };

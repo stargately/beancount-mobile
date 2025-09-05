@@ -15,10 +15,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { analytics } from "@/common/analytics";
 import { useTheme } from "@/common/theme";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
+import { useTranslations } from "@/common/hooks/use-translations";
 import { ColorTheme } from "@/types/theme-props";
 import {
   useJournalEntriesQuery,
   JournalEntry,
+  JournalEntryPosting,
 } from "@/generated-graphql/graphql";
 
 // Helper function to generate avatar from name
@@ -66,7 +68,10 @@ const getAvatarColor = (name: string): string => {
 };
 
 // Helper function to get account flow for transactions
-const getAccountFlow = (postings: any[]): string => {
+const getAccountFlow = (
+  postings: JournalEntryPosting[],
+  t: (key: string) => string,
+): string => {
   if (!postings || postings.length === 0) return "";
 
   // Separate positive (debit) and negative (credit) postings
@@ -95,18 +100,18 @@ const getAccountFlow = (postings: any[]): string => {
     if (debits.length === 2) {
       return `${debits.map((d) => formatAccount(d.account)).join(", ")} ← ${formatAccount(credits[0].account)}`;
     } else {
-      return `${debits.length} accounts ← ${formatAccount(credits[0].account)}`;
+      return `${debits.length} ${t("accountsPlural")} ← ${formatAccount(credits[0].account)}`;
     }
   } else if (debits.length === 1 && credits.length > 1) {
     // Multiple sources to one destination
     if (credits.length === 2) {
       return `${formatAccount(debits[0].account)} ← ${credits.map((c) => formatAccount(c.account)).join(", ")}`;
     } else {
-      return `${formatAccount(debits[0].account)} ← ${credits.length} accounts`;
+      return `${formatAccount(debits[0].account)} ← ${credits.length} ${t("accountsPlural")}`;
     }
   } else if (debits.length > 0 && credits.length > 0) {
     // Complex multi-leg transaction
-    return `${debits.length} → ${credits.length} accounts`;
+    return `${debits.length} → ${credits.length} ${t("accountsPlural")}`;
   } else {
     // Fallback
     return postings[0] ? formatAccount(postings[0].account) : "";
@@ -114,7 +119,7 @@ const getAccountFlow = (postings: any[]): string => {
 };
 
 // Helper function to calculate transaction amount
-const getTransactionAmount = (postings: any[]): number => {
+const getTransactionAmount = (postings: JournalEntryPosting[]): number => {
   if (!postings || postings.length === 0) return 0;
 
   // Sum all positive amounts (debits)
@@ -159,14 +164,14 @@ const getStyles = (theme: ColorTheme) =>
     },
     header: {
       paddingHorizontal: 16,
-      paddingVertical: 20,
+      paddingVertical: 12,
       backgroundColor: theme.white,
     },
     headerTitle: {
-      fontSize: 24,
+      fontSize: 22,
       fontWeight: "bold",
       color: theme.black,
-      marginBottom: 16,
+      marginBottom: 12,
     },
     searchContainer: {
       flexDirection: "row",
@@ -174,8 +179,8 @@ const getStyles = (theme: ColorTheme) =>
       backgroundColor: theme.black10,
       borderRadius: 12,
       paddingHorizontal: 12,
-      paddingVertical: 10,
-      marginBottom: 16,
+      paddingVertical: 8,
+      marginBottom: 8,
     },
     searchInput: {
       flex: 1,
@@ -188,8 +193,8 @@ const getStyles = (theme: ColorTheme) =>
     },
     dateHeader: {
       backgroundColor: theme.black10,
-      paddingHorizontal: 16,
-      paddingVertical: 12,
+      paddingHorizontal: 12,
+      paddingVertical: 4,
     },
     dateHeaderText: {
       fontSize: 16,
@@ -292,6 +297,7 @@ const getStyles = (theme: ColorTheme) =>
 export const JournalScreen = () => {
   const styles = useThemeStyle(getStyles);
   const theme = useTheme().colorTheme;
+  const { t } = useTranslations();
 
   // State for search
   const [searchQuery, setSearchQuery] = useState("");
@@ -447,13 +453,16 @@ export const JournalScreen = () => {
     [journalEntries],
   );
 
+  // Type for flat list items
+  type FlatListItem = {
+    type: "date" | "entry";
+    date?: string;
+    entry?: JournalEntry;
+  };
+
   // Flatten grouped entries for FlatList
   const flatListData = useMemo(() => {
-    const items: Array<{
-      type: "date" | "entry";
-      date?: string;
-      entry?: JournalEntry;
-    }> = [];
+    const items: FlatListItem[] = [];
     groupedEntries.forEach(([dateString, entries]) => {
       items.push({ type: "date", date: dateString });
       entries.forEach((entry) => {
@@ -465,14 +474,14 @@ export const JournalScreen = () => {
 
   const renderHeader = () => (
     <View style={styles.header}>
-      <Text style={styles.headerTitle}>Transactions</Text>
+      <Text style={styles.headerTitle}>{t("transactions")}</Text>
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color={theme.black60} />
         <TextInput
           style={styles.searchInput}
-          placeholder="Search"
+          placeholder={t("search")}
           placeholderTextColor={theme.black60}
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -490,7 +499,7 @@ export const JournalScreen = () => {
   const renderJournalEntry = (entry: JournalEntry) => {
     // Use payee for avatar if available, otherwise use narration or account name
     const avatarSource =
-      entry.payee || entry.narration || entry.account || "Unknown";
+      entry.payee || entry.narration || entry.account || t("unknown");
     const avatarInitials = getAvatarInitials(avatarSource);
 
     // Always use payee for color consistency, fallback to avatarSource if no payee
@@ -501,12 +510,13 @@ export const JournalScreen = () => {
     let primaryLine: string;
     if (entry.type === "Open" || entry.type === "Close") {
       // For Open/Close entries, show the type and account
-      primaryLine = `${entry.type} Account`;
+      primaryLine =
+        entry.type === "Open" ? t("openAccount") : t("closeAccount");
     } else if (entry.narration && entry.payee) {
       primaryLine = `${entry.payee} · ${entry.narration}`;
     } else {
       primaryLine =
-        entry.narration || entry.payee || entry.type || "Transaction";
+        entry.narration || entry.payee || entry.type || t("transaction");
     }
 
     // Get account flow for secondary line
@@ -515,7 +525,7 @@ export const JournalScreen = () => {
       // For Open/Close entries without postings, show the account
       accountFlow = entry.account;
     } else {
-      accountFlow = getAccountFlow(entry.postings || []);
+      accountFlow = getAccountFlow(entry.postings || [], t);
     }
 
     // Calculate the transaction amount
@@ -564,7 +574,7 @@ export const JournalScreen = () => {
     );
   };
 
-  const renderListItem = ({ item }: { item: any }) => {
+  const renderListItem = ({ item }: { item: FlatListItem }) => {
     if (item.type === "date") {
       return (
         <View style={styles.dateHeader}>
@@ -573,7 +583,11 @@ export const JournalScreen = () => {
       );
     }
 
-    return renderJournalEntry(item.entry);
+    if (item.entry) {
+      return renderJournalEntry(item.entry);
+    }
+
+    return null;
   };
 
   const renderEmptyState = () => (
@@ -590,12 +604,16 @@ export const JournalScreen = () => {
       showsVerticalScrollIndicator={false}
     >
       <Text style={styles.emptyText}>
-        Welcome to your Journal! 📔{"\n\n"}
-        You don&apos;t have any journal entries yet.{"\n\n"}
-        To get started:{"\n"}• Use the &quot;Add Transaction&quot; button to
-        create entries{"\n"}• Upload beancount files through the web interface
-        {"\n"}• Import existing accounting data{"\n\n"}
-        Once you add some transactions, they&apos;ll appear here.
+        {t("journalWelcomeTitle")}
+        {"\n\n"}
+        {t("journalWelcomeMessage")}
+        {"\n\n"}
+        {t("journalWelcomeInstructions")}
+        {"\n"}• {t("journalWelcomeInstruction1")}
+        {"\n"}• {t("journalWelcomeInstruction2")}
+        {"\n"}• {t("journalWelcomeInstruction3")}
+        {"\n\n"}
+        {t("journalWelcomeInstructionFinal")}
       </Text>
     </ScrollView>
   );
@@ -614,7 +632,8 @@ export const JournalScreen = () => {
       showsVerticalScrollIndicator={false}
     >
       <Text style={styles.errorText}>
-        Failed to load journal: {error?.message}
+        {t("journalLoadError")}
+        {error?.message}
       </Text>
     </ScrollView>
   );
@@ -660,11 +679,13 @@ export const JournalScreen = () => {
             isLoadingMore && journalEntries.length > 0 ? (
               <View style={styles.loadingFooter}>
                 <ActivityIndicator color={theme.primary} />
-                <Text style={styles.loadingFooterText}>Loading more...</Text>
+                <Text style={styles.loadingFooterText}>{t("loadingMore")}</Text>
               </View>
             ) : !hasNextPage && journalEntries.length > 0 ? (
               <View style={styles.loadingFooter}>
-                <Text style={styles.loadingFooterText}>No more entries</Text>
+                <Text style={styles.loadingFooterText}>
+                  {t("noMoreEntries")}
+                </Text>
               </View>
             ) : null
           }

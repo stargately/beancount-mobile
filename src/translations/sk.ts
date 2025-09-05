@@ -97,4 +97,23 @@ export const sk: typeof en = {
   "10": "OKT",
   "11": "NOV",
   "12": "DEC",
+  // journal screen
+  transactions: "Transakcie", // TODO: needs native speaker review
+  search: "Hľadať",
+  unknown: "Neznámy",
+  openAccount: "Otvoriť účet",
+  closeAccount: "Zatvoriť účet",
+  transaction: "Transakcia",
+  loadingMore: "Načítava sa viac...",
+  noMoreEntries: "Žiadne ďalšie záznamy",
+  journalWelcomeTitle: "Vitajte vo vašom Denníku! 📔",
+  journalWelcomeMessage: "Zatiaľ nemáte žiadne záznamy v denníku.",
+  journalWelcomeInstructions: "Pre začiatok:",
+  journalWelcomeInstruction1:
+    'Použite tlačidlo "Pridať transakciu" na vytvorenie záznamov',
+  journalWelcomeInstruction2: "Nahrajte beancount súbory cez webové rozhranie",
+  journalWelcomeInstruction3: "Importujte existujúce účtovné údaje",
+  journalWelcomeInstructionFinal: "Akonáhle pridáte transakcie, objavia sa tu.",
+  journalLoadError: "Načítanie denníka zlyhalo: ",
+  accountsPlural: "účty",
 };

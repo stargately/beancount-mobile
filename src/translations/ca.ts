@@ -97,4 +97,25 @@ export const ca: typeof en = {
   "10": "OCT",
   "11": "NOV",
   "12": "DES",
+  // journal screen
+  transactions: "Transaccions",
+  search: "Buscar",
+  unknown: "Desconegut",
+  openAccount: "Obrir compte",
+  closeAccount: "Tancar compte",
+  transaction: "Transacció",
+  loadingMore: "Carregant més...",
+  noMoreEntries: "No hi ha més entrades",
+  journalWelcomeTitle: "Benvingut al teu Diari! 📔",
+  journalWelcomeMessage: "Encara no tens entrades al diari.",
+  journalWelcomeInstructions: "Per començar:",
+  journalWelcomeInstruction1:
+    'Usa el botó "Afegir transacció" per crear entrades',
+  journalWelcomeInstruction2:
+    "Puja fitxers beancount a través de la interfície web",
+  journalWelcomeInstruction3: "Importa dades comptables existents",
+  journalWelcomeInstructionFinal:
+    "Un cop afegeixis transaccions, apareixeran aquí.",
+  journalLoadError: "Error en carregar el diari: ",
+  accountsPlural: "comptes",
 };

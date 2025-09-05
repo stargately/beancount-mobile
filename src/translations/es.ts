@@ -98,4 +98,25 @@ export const es: typeof en = {
   "10": "OCT",
   "11": "NOV",
   "12": "DIC",
+  // journal screen
+  transactions: "Transacciones",
+  search: "Buscar",
+  unknown: "Desconocido",
+  openAccount: "Abrir cuenta",
+  closeAccount: "Cerrar cuenta",
+  transaction: "Transacción",
+  loadingMore: "Cargando más...",
+  noMoreEntries: "No hay más entradas",
+  journalWelcomeTitle: "¡Bienvenido a tu Diario! 📔",
+  journalWelcomeMessage: "Aún no tienes entradas en el diario.",
+  journalWelcomeInstructions: "Para empezar:",
+  journalWelcomeInstruction1:
+    'Usa el botón "Añadir transacción" para crear entradas',
+  journalWelcomeInstruction2:
+    "Sube archivos beancount a través de la interfaz web",
+  journalWelcomeInstruction3: "Importa datos contables existentes",
+  journalWelcomeInstructionFinal:
+    "Una vez que agregues transacciones, aparecerán aquí.",
+  journalLoadError: "Error al cargar el diario: ",
+  accountsPlural: "cuentas",
 };

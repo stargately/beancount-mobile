@@ -95,4 +95,25 @@ export const en = {
   "10": "OCT",
   "11": "NOV",
   "12": "DEC",
+  // journal screen
+  transactions: "Transactions",
+  search: "Search",
+  unknown: "Unknown",
+  openAccount: "Open Account",
+  closeAccount: "Close Account",
+  transaction: "Transaction",
+  loadingMore: "Loading more...",
+  noMoreEntries: "No more entries",
+  journalWelcomeTitle: "Welcome to your Journal! 📔",
+  journalWelcomeMessage: "You don't have any journal entries yet.",
+  journalWelcomeInstructions: "To get started:",
+  journalWelcomeInstruction1:
+    'Use the "Add Transaction" button to create entries',
+  journalWelcomeInstruction2:
+    "Upload beancount files through the web interface",
+  journalWelcomeInstruction3: "Import existing accounting data",
+  journalWelcomeInstructionFinal:
+    "Once you add some transactions, they'll appear here.",
+  journalLoadError: "Failed to load journal: ",
+  accountsPlural: "accounts",
 };

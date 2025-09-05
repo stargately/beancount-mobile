@@ -97,4 +97,25 @@ export const fa: typeof en = {
   "10": "اکت",
   "11": "نوا",
   "12": "دسا",
+  // journal screen
+  transactions: "Transactions", // TODO: needs native speaker review
+  search: "Search", // TODO: needs native speaker review
+  unknown: "Unknown", // TODO: needs native speaker review
+  openAccount: "Open Account", // TODO: needs native speaker review
+  closeAccount: "Close Account", // TODO: needs native speaker review
+  transaction: "Transaction", // TODO: needs native speaker review
+  loadingMore: "Loading more...", // TODO: needs native speaker review
+  noMoreEntries: "No more entries", // TODO: needs native speaker review
+  journalWelcomeTitle: "Welcome to your Journal! 📔", // TODO: needs native speaker review
+  journalWelcomeMessage: "You don't have any journal entries yet.", // TODO: needs native speaker review
+  journalWelcomeInstructions: "To get started:", // TODO: needs native speaker review
+  journalWelcomeInstruction1:
+    'Use the "Add Transaction" button to create entries', // TODO: needs native speaker review
+  journalWelcomeInstruction2:
+    "Upload beancount files through the web interface", // TODO: needs native speaker review
+  journalWelcomeInstruction3: "Import existing accounting data", // TODO: needs native speaker review
+  journalWelcomeInstructionFinal:
+    "Once you add some transactions, they'll appear here.", // TODO: needs native speaker review
+  journalLoadError: "Failed to load journal: ", // TODO: needs native speaker review
+  accountsPlural: "accounts", // TODO: needs native speaker review
 };

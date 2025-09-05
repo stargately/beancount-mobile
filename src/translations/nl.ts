@@ -97,4 +97,24 @@ export const nl: typeof en = {
   "10": "OKT",
   "11": "NOV",
   "12": "DEC",
+  // journal screen
+  transactions: "Transacties",
+  search: "Zoeken",
+  unknown: "Onbekend",
+  openAccount: "Account openen",
+  closeAccount: "Account sluiten",
+  transaction: "Transactie",
+  loadingMore: "Meer laden...",
+  noMoreEntries: "Geen verdere vermeldingen",
+  journalWelcomeTitle: "Welkom bij je Journaal! 📔",
+  journalWelcomeMessage: "Je hebt nog geen journaalvermeldingen.",
+  journalWelcomeInstructions: "Om te beginnen:",
+  journalWelcomeInstruction1:
+    'Gebruik de "Transactie toevoegen" knop om vermeldingen aan te maken',
+  journalWelcomeInstruction2: "Upload beancount bestanden via de webinterface",
+  journalWelcomeInstruction3: "Importeer bestaande boekhoudgegevens",
+  journalWelcomeInstructionFinal:
+    "Zodra je transacties toevoegt, verschijnen ze hier.",
+  journalLoadError: "Laden van journaal mislukt: ",
+  accountsPlural: "accounts",
 };
