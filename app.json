@@ -1,18 +1,23 @@
 {
   "expo": {
-    "version": "1.20250811.14",
+    "version": "1.20250905.15",
     "name": "Beancount",
     "scheme": "beancount",
     "slug": "beancount",
     "privacy": "public",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
     "updates": {
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/eef0c5cf-1a6f-4566-a6a6-e03821db7f8d"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "io.beancount.ios",
@@ -31,12 +36,14 @@
         "NSFaceIDUsageDescription": false,
         "ITSAppUsesNonExemptEncryption": false
       },
-      "buildNumber": "14"
+      "buildNumber": "15"
     },
     "android": {
-      "versionCode": 14,
+      "versionCode": 15,
       "package": "io.beancount.android",
-      "permissions": ["com.google.android.gms.permission.AD_ID"],
+      "permissions": [
+        "com.google.android.gms.permission.AD_ID"
+      ],
       "edgeToEdgeEnabled": true
     },
     "notification": {
@@ -46,7 +53,9 @@
       [
         "expo-font",
         {
-          "fonts": ["./src/assets/fonts/SpaceMono-Regular.ttf"]
+          "fonts": [
+            "./src/assets/fonts/SpaceMono-Regular.ttf"
+          ]
         }
       ],
       [
@@ -61,7 +70,9 @@
       [
         "expo-asset",
         {
-          "assets": ["./src/assets"]
+          "assets": [
+            "./src/assets"
+          ]
         }
       ],
       "expo-localization",

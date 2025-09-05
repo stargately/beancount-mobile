@@ -91,5 +91,5 @@
     "typescript": "~5.8.3"
   },
   "packageManager": "yarn@1.22.22",
-  "version": "1.20250811.14"
+  "version": "1.20250905.15"
 }
