@@ -34,28 +34,103 @@ const getAvatarInitials = (name: string): string => {
 // Helper function to get deterministic color from string
 const getAvatarColor = (name: string): string => {
   if (!name) return "#6B7280";
+
+  // Normalize the name to ensure consistent hashing (lowercase, trimmed)
+  const normalizedName = name.toLowerCase().trim();
+
+  // Create a more robust hash function
   let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  for (let i = 0; i < normalizedName.length; i++) {
+    const char = normalizedName.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32-bit integer
   }
+
+  // Expanded color palette for better variety
   const colors = [
-    "#3B82F6",
-    "#10B981",
-    "#F59E0B",
-    "#EF4444",
-    "#8B5CF6",
-    "#06B6D4",
-    "#84CC16",
+    "#3B82F6", // Blue
+    "#10B981", // Emerald
+    "#F59E0B", // Amber
+    "#EF4444", // Red
+    "#8B5CF6", // Violet
+    "#06B6D4", // Cyan
+    "#84CC16", // Lime
+    "#F97316", // Orange
+    "#EC4899", // Pink
+    "#6366F1", // Indigo
+    "#14B8A6", // Teal
+    "#A855F7", // Purple
   ];
+
   return colors[Math.abs(hash) % colors.length];
 };
 
-// Helper function to format currency
-const formatAmount = (amount: number | null | undefined): string => {
-  if (amount === null || amount === undefined) return "";
-  const absAmount = Math.abs(amount);
-  const sign = amount >= 0 ? "+" : "-";
-  return `${sign}$${absAmount.toFixed(2)}`;
+// Helper function to get account flow for transactions
+const getAccountFlow = (postings: any[]): string => {
+  if (!postings || postings.length === 0) return "";
+
+  // Separate positive (debit) and negative (credit) postings
+  const debits = postings.filter((p) => p.units?.number && p.units.number > 0);
+  const credits = postings.filter((p) => p.units?.number && p.units.number < 0);
+
+  // Format account names as TopLevel/LastSegment for brevity
+  const formatAccount = (account: string) => {
+    const parts = account.split(":");
+    if (parts.length === 1) {
+      return parts[0];
+    } else if (parts.length === 2) {
+      return parts.join("/");
+    } else {
+      // Show first part (Assets, Expenses, etc.) and last part
+      return `${parts[0]}/${parts[parts.length - 1]}`;
+    }
+  };
+
+  // Handle different cases
+  if (debits.length === 1 && credits.length === 1) {
+    // Simple transfer
+    return `${formatAccount(debits[0].account)} ← ${formatAccount(credits[0].account)}`;
+  } else if (debits.length > 1 && credits.length === 1) {
+    // Split from one source
+    if (debits.length === 2) {
+      return `${debits.map((d) => formatAccount(d.account)).join(", ")} ← ${formatAccount(credits[0].account)}`;
+    } else {
+      return `${debits.length} accounts ← ${formatAccount(credits[0].account)}`;
+    }
+  } else if (debits.length === 1 && credits.length > 1) {
+    // Multiple sources to one destination
+    if (credits.length === 2) {
+      return `${formatAccount(debits[0].account)} ← ${credits.map((c) => formatAccount(c.account)).join(", ")}`;
+    } else {
+      return `${formatAccount(debits[0].account)} ← ${credits.length} accounts`;
+    }
+  } else if (debits.length > 0 && credits.length > 0) {
+    // Complex multi-leg transaction
+    return `${debits.length} → ${credits.length} accounts`;
+  } else {
+    // Fallback
+    return postings[0] ? formatAccount(postings[0].account) : "";
+  }
+};
+
+// Helper function to calculate transaction amount
+const getTransactionAmount = (postings: any[]): number => {
+  if (!postings || postings.length === 0) return 0;
+
+  // Sum all positive amounts (debits)
+  const positiveSum = postings
+    .filter((p) => p.units?.number && p.units.number > 0)
+    .reduce((sum, p) => sum + (p.units?.number || 0), 0);
+
+  // Sum all negative amounts (credits) - make it positive for display
+  const negativeSum = Math.abs(
+    postings
+      .filter((p) => p.units?.number && p.units.number < 0)
+      .reduce((sum, p) => sum + (p.units?.number || 0), 0),
+  );
+
+  // Return the non-zero sum (typically they should be equal in a balanced transaction)
+  return positiveSum || negativeSum;
 };
 
 // Helper function to group entries by date
@@ -107,30 +182,6 @@ const getStyles = (theme: ColorTheme) =>
       fontSize: 16,
       color: theme.black,
       marginLeft: 8,
-    },
-    filterContainer: {
-      flexDirection: "row",
-      gap: 8,
-    },
-    filterButton: {
-      paddingHorizontal: 16,
-      paddingVertical: 8,
-      backgroundColor: theme.black10,
-      borderRadius: 20,
-      borderWidth: 1,
-      borderColor: theme.black20,
-    },
-    filterButtonActive: {
-      backgroundColor: theme.primary,
-      borderColor: theme.primary,
-    },
-    filterButtonText: {
-      fontSize: 14,
-      color: theme.black,
-      fontWeight: "500",
-    },
-    filterButtonTextActive: {
-      color: theme.white,
     },
     list: {
       flex: 1,
@@ -242,9 +293,8 @@ export const JournalScreen = () => {
   const styles = useThemeStyle(getStyles);
   const theme = useTheme().colorTheme;
 
-  // State for search and filtering
+  // State for search
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
   // State for pagination
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -260,8 +310,6 @@ export const JournalScreen = () => {
     sortOrder: "desc",
   };
 
-  console.log("Journal query variables:", queryVariables);
-
   const { data, loading, error, refetch, fetchMore } = useJournalEntriesQuery({
     variables: queryVariables,
     notifyOnNetworkStatusChange: false, // Reduce flickering by not notifying on network status
@@ -276,27 +324,17 @@ export const JournalScreen = () => {
     await refetch();
   };
 
-  const journalEntries = useMemo(() => {
-    const entries = data?.journalEntries?.data ?? [];
-    console.log("Journal entries received:", entries.length, "entries");
-    return entries;
-  }, [data?.journalEntries?.data]);
+  const journalEntries = useMemo(
+    () => data?.journalEntries?.data ?? [],
+    [data?.journalEntries?.data],
+  );
+
+  const hasNextPage = data?.journalEntries?.pageInfo?.hasNextPage ?? true;
 
   // Note: We use date-based pagination instead of cursor-based
 
   const loadMoreEntries = useCallback(async () => {
-    console.log("loadMoreEntries called", {
-      isLoadingMore,
-      loading,
-      entriesLength: journalEntries.length,
-    });
-
-    if (isLoadingMore || loading || !journalEntries.length) {
-      console.log("loadMoreEntries blocked:", {
-        isLoadingMore,
-        loading,
-        entriesLength: journalEntries.length,
-      });
+    if (isLoadingMore || loading || !journalEntries.length || !hasNextPage) {
       return;
     }
 
@@ -306,8 +344,6 @@ export const JournalScreen = () => {
       // Get the date of the last entry to use for pagination
       const lastEntry = journalEntries[journalEntries.length - 1];
       const lastEntryDate = lastEntry?.date;
-
-      console.log("Loading more entries before date:", lastEntryDate);
 
       if (!lastEntryDate) return;
 
@@ -327,11 +363,6 @@ export const JournalScreen = () => {
           const newData = fetchMoreResult.journalEntries?.data || [];
           const prevData = prev.journalEntries?.data || [];
 
-          console.log("fetchMore updateQuery:", {
-            prevDataLength: prevData.length,
-            newDataLength: newData.length,
-          });
-
           // Filter out duplicates based on date + narration + payee
           const existingEntries = new Set(
             prevData.map(
@@ -346,16 +377,52 @@ export const JournalScreen = () => {
               ),
           );
 
-          console.log("After deduplication:", {
-            uniqueNewDataLength: uniqueNewData.length,
-            totalAfterMerge: prevData.length + uniqueNewData.length,
-          });
+          // If no new unique data was found, mark hasNextPage as false
+          // This handles cases where the server thinks there might be more
+          // but subsequent requests return duplicate/empty results
+          const fetchMorePageInfo = fetchMoreResult.journalEntries?.pageInfo;
+          const hasNoNewData = uniqueNewData.length === 0;
+
+          // Debug logging for pagination issues
+          if (hasNoNewData) {
+            console.log(
+              "Pagination: No new unique data found, setting hasNextPage to false",
+              {
+                newDataLength: newData.length,
+                uniqueNewDataLength: uniqueNewData.length,
+                serverHasNextPage: fetchMorePageInfo?.hasNextPage,
+              },
+            );
+          }
+
+          const updatedPageInfo = {
+            hasNextPage: hasNoNewData
+              ? false
+              : (fetchMorePageInfo?.hasNextPage ?? false),
+            hasPreviousPage: fetchMorePageInfo?.hasPreviousPage ?? false,
+            startCursor: fetchMorePageInfo?.startCursor ?? "",
+            endCursor: fetchMorePageInfo?.endCursor ?? "",
+            totalCount: fetchMorePageInfo?.totalCount ?? 0,
+          };
 
           return {
             ...prev,
             journalEntries: {
-              ...fetchMoreResult.journalEntries,
+              ...prev.journalEntries,
               data: [...prevData, ...uniqueNewData], // Append new entries to existing ones
+              success:
+                fetchMoreResult.journalEntries?.success ??
+                prev.journalEntries?.success ??
+                true, // Preserve success field
+              // Use the updated pageInfo that accounts for duplicate filtering
+              pageInfo: updatedPageInfo ||
+                prev.journalEntries?.pageInfo || {
+                  hasNextPage: false,
+                  hasPreviousPage: false,
+                  startCursor: "",
+                  endCursor: "",
+                  totalCount: 0,
+                },
             },
           };
         },
@@ -365,7 +432,14 @@ export const JournalScreen = () => {
     } finally {
       setIsLoadingMore(false);
     }
-  }, [isLoadingMore, loading, journalEntries, fetchMore, searchQuery]);
+  }, [
+    isLoadingMore,
+    loading,
+    journalEntries,
+    fetchMore,
+    searchQuery,
+    hasNextPage,
+  ]);
 
   // Group entries by date for display
   const groupedEntries = useMemo(
@@ -389,26 +463,6 @@ export const JournalScreen = () => {
     return items;
   }, [groupedEntries]);
 
-  const renderFilterButton = (label: string, key: string) => {
-    const isActive = activeFilter === key;
-    return (
-      <TouchableOpacity
-        key={key}
-        style={[styles.filterButton, isActive && styles.filterButtonActive]}
-        onPress={() => setActiveFilter(isActive ? null : key)}
-      >
-        <Text
-          style={[
-            styles.filterButtonText,
-            isActive && styles.filterButtonTextActive,
-          ]}
-        >
-          {label}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
-
   const renderHeader = () => (
     <View style={styles.header}>
       <Text style={styles.headerTitle}>Transactions</Text>
@@ -429,41 +483,68 @@ export const JournalScreen = () => {
             <Ionicons name="close-circle" size={20} color={theme.black60} />
           </TouchableOpacity>
         )}
-        <TouchableOpacity style={{ marginLeft: 8 }}>
-          <Ionicons name="options-outline" size={20} color={theme.black60} />
-        </TouchableOpacity>
-      </View>
-
-      {/* Filter Buttons */}
-      <View style={styles.filterContainer}>
-        {renderFilterButton("Views", "views")}
-        {renderFilterButton("Methods", "methods")}
-        {renderFilterButton("Amount", "amount")}
       </View>
     </View>
   );
 
   const renderJournalEntry = (entry: JournalEntry) => {
-    const displayName = entry.payee || entry.primaryAccount || "Unknown";
-    const description = entry.narration || entry.entryType || "Transaction";
-    const avatarInitials = getAvatarInitials(displayName);
-    const avatarColor = getAvatarColor(displayName);
-    const amount = entry.netAmount ?? null;
-    const formattedAmount = formatAmount(amount);
-    const isPositive = amount !== null && amount !== undefined && amount >= 0;
+    // Use payee for avatar if available, otherwise use narration or account name
+    const avatarSource =
+      entry.payee || entry.narration || entry.account || "Unknown";
+    const avatarInitials = getAvatarInitials(avatarSource);
+
+    // Always use payee for color consistency, fallback to avatarSource if no payee
+    const colorSource = entry.payee || avatarSource;
+    const avatarColor = getAvatarColor(colorSource);
+
+    // Format primary line based on entry type
+    let primaryLine: string;
+    if (entry.type === "Open" || entry.type === "Close") {
+      // For Open/Close entries, show the type and account
+      primaryLine = `${entry.type} Account`;
+    } else if (entry.narration && entry.payee) {
+      primaryLine = `${entry.payee} · ${entry.narration}`;
+    } else {
+      primaryLine =
+        entry.narration || entry.payee || entry.type || "Transaction";
+    }
+
+    // Get account flow for secondary line
+    let accountFlow: string;
+    if (entry.account && !entry.postings?.length) {
+      // For Open/Close entries without postings, show the account
+      accountFlow = entry.account;
+    } else {
+      accountFlow = getAccountFlow(entry.postings || []);
+    }
+
+    // Calculate the transaction amount
+    const amount = getTransactionAmount(entry.postings || []);
+
+    // Determine if this is likely an expense (positive in expense accounts)
+    const isExpense = entry.postings?.some(
+      (p) =>
+        p.account.startsWith("Expenses") &&
+        p.units?.number &&
+        p.units.number > 0,
+    );
+
+    // Format amount with appropriate sign
+    const formattedAmount =
+      amount > 0 ? `${isExpense ? "-" : "+"}$${amount.toFixed(2)}` : "";
 
     return (
-      <TouchableOpacity style={styles.entryContainer}>
+      <View style={styles.entryContainer}>
         <View style={[styles.avatar, { backgroundColor: avatarColor }]}>
           <Text style={styles.avatarText}>{avatarInitials}</Text>
         </View>
 
         <View style={styles.entryContent}>
           <Text style={styles.entryTitle} numberOfLines={1}>
-            {displayName}
+            {primaryLine}
           </Text>
           <Text style={styles.entrySubtitle} numberOfLines={1}>
-            {description}
+            {accountFlow}
           </Text>
         </View>
 
@@ -471,15 +552,15 @@ export const JournalScreen = () => {
           <Text
             style={[
               styles.entryAmount,
-              isPositive
-                ? styles.entryAmountPositive
-                : styles.entryAmountNegative,
+              isExpense
+                ? styles.entryAmountNegative
+                : styles.entryAmountPositive,
             ]}
           >
             {formattedAmount}
           </Text>
         )}
-      </TouchableOpacity>
+      </View>
     );
   };
 
@@ -580,6 +661,10 @@ export const JournalScreen = () => {
               <View style={styles.loadingFooter}>
                 <ActivityIndicator color={theme.primary} />
                 <Text style={styles.loadingFooterText}>Loading more...</Text>
+              </View>
+            ) : !hasNextPage && journalEntries.length > 0 ? (
+              <View style={styles.loadingFooter}>
+                <Text style={styles.loadingFooterText}>No more entries</Text>
               </View>
             ) : null
           }

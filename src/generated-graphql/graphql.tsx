@@ -269,12 +269,22 @@ export type JournalEntriesResponse = {
 
 export type JournalEntry = {
   __typename?: 'JournalEntry';
+  account?: Maybe<Scalars['String']['output']>;
+  /** Amount for balance entries */
+  amount?: Maybe<PostingUnits>;
+  booking?: Maybe<Scalars['String']['output']>;
+  comment?: Maybe<Scalars['String']['output']>;
+  currencies?: Maybe<Array<Scalars['String']['output']>>;
   date: Scalars['String']['output'];
-  /** Entry type (Transaction, Balance, Open, etc.) */
-  entryType?: Maybe<Scalars['String']['output']>;
-  flag: Scalars['String']['output'];
-  links: Array<Scalars['String']['output']>;
-  narration: Scalars['String']['output'];
+  entry_hash?: Maybe<Scalars['String']['output']>;
+  entry_type?: Maybe<Scalars['String']['output']>;
+  error?: Maybe<Scalars['String']['output']>;
+  error_message?: Maybe<Scalars['String']['output']>;
+  filename?: Maybe<Scalars['String']['output']>;
+  flag?: Maybe<Scalars['String']['output']>;
+  links?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  meta: EntryMeta;
+  narration?: Maybe<Scalars['String']['output']>;
   /** Net amount for the transaction */
   netAmount?: Maybe<Scalars['Float']['output']>;
   payee?: Maybe<Scalars['String']['output']>;
@@ -283,7 +293,21 @@ export type JournalEntry = {
   primaryAccount?: Maybe<Scalars['String']['output']>;
   /** Combined searchable text */
   searchableText?: Maybe<Scalars['String']['output']>;
-  tags: Array<Scalars['String']['output']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Entry type (Transaction, Balance, Open, etc.) */
+  type: Scalars['String']['output'];
+};
+
+export type PostingUnits = {
+  __typename?: 'PostingUnits';
+  currency: Scalars['String']['output'];
+  number: Scalars['Float']['output'];
+};
+
+export type EntryMeta = {
+  __typename?: 'EntryMeta';
+  filename: Scalars['String']['output'];
+  lineno: Scalars['Float']['output'];
 };
 
 export type JournalEntryPosting = {
@@ -291,21 +315,15 @@ export type JournalEntryPosting = {
   account: Scalars['String']['output'];
   cost?: Maybe<Scalars['String']['output']>;
   flag?: Maybe<Scalars['String']['output']>;
-  meta: PostingMeta;
+  meta?: Maybe<PostingMeta>;
   price?: Maybe<Scalars['String']['output']>;
-  units: PostingUnits;
+  units?: Maybe<PostingUnits>;
 };
 
 export type PostingMeta = {
   __typename?: 'PostingMeta';
   filename: Scalars['String']['output'];
   lineno: Scalars['Float']['output'];
-};
-
-export type PostingUnits = {
-  __typename?: 'PostingUnits';
-  currency: Scalars['String']['output'];
-  number: Scalars['Float']['output'];
 };
 
 export type PageInfo = {
@@ -829,7 +847,7 @@ export type JournalEntriesQueryVariables = Exact<{
 }>;
 
 
-export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: { __typename?: 'JournalEntriesResponse', success: boolean, data: Array<{ __typename?: 'JournalEntry', date: string, flag: string, links: Array<string>, narration: string, payee?: string | null, tags: Array<string>, entryType?: string | null, netAmount?: number | null, primaryAccount?: string | null, searchableText?: string | null, postings?: Array<{ __typename?: 'JournalEntryPosting', account: string, cost?: string | null, flag?: string | null, price?: string | null, meta: { __typename?: 'PostingMeta', filename: string, lineno: number }, units: { __typename?: 'PostingUnits', currency: string, number: number } }> | null }>, pageInfo?: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null, totalCount?: number | null } | null } };
+export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: { __typename?: 'JournalEntriesResponse', success: boolean, data: Array<{ __typename?: 'JournalEntry', date: string, type: string, account?: string | null, booking?: string | null, currencies?: Array<string> | null, flag?: string | null, links?: Array<string | null> | null, narration?: string | null, payee?: string | null, tags?: Array<string | null> | null, comment?: string | null, filename?: string | null, entry_hash?: string | null, entry_type?: string | null, error?: string | null, error_message?: string | null, netAmount?: number | null, primaryAccount?: string | null, searchableText?: string | null, meta: { __typename?: 'EntryMeta', filename: string, lineno: number }, postings?: Array<{ __typename?: 'JournalEntryPosting', account: string, cost?: string | null, flag?: string | null, price?: string | null, meta?: { __typename?: 'PostingMeta', filename: string, lineno: number } | null, units?: { __typename?: 'PostingUnits', currency: string, number: number } | null }> | null, amount?: { __typename?: 'PostingUnits', currency: string, number: number } | null }>, pageInfo?: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null, totalCount?: number | null } | null } };
 
 export type LedgerMetaQueryVariables = Exact<{
   userId: Scalars['String']['input'];
@@ -1406,6 +1424,14 @@ export const JournalEntriesDocument = gql`
     success
     data {
       date
+      type
+      meta {
+        filename
+        lineno
+      }
+      account
+      booking
+      currencies
       flag
       links
       narration
@@ -1425,7 +1451,16 @@ export const JournalEntriesDocument = gql`
         }
       }
       tags
-      entryType
+      amount {
+        currency
+        number
+      }
+      comment
+      filename
+      entry_hash
+      entry_type
+      error
+      error_message
       netAmount
       primaryAccount
       searchableText

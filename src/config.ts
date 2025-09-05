@@ -5,5 +5,5 @@ export const config = {
     googleTid: "UA-143353833-1",
     mixpanelProjectToken: "", // TODO
   },
-  serverUrl: "https://beancount.io/",
+  serverUrl: process.env.EXPO_PUBLIC_SERVER_URL || "https://beancount.io/",
 };

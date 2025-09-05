@@ -33,6 +33,16 @@ query JournalEntries(
     success
     data {
       date
+      type
+      meta {
+        filename
+        lineno
+      }
+      # Open/Close entry fields
+      account
+      booking
+      currencies
+      # Transaction fields
       flag
       links
       narration
@@ -52,8 +62,21 @@ query JournalEntries(
         }
       }
       tags
+      # Balance entry fields
+      amount {
+        currency
+        number
+      }
+      # Note/Document fields
+      comment
+      filename
+      # Entry hash for detailed mode
+      entry_hash
+      entry_type
+      # Error handling
+      error
+      error_message
       # Enhanced fields for UI rendering
-      entryType
       netAmount
       primaryAccount
       searchableText

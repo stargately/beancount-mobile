@@ -188,12 +188,22 @@ type JournalEntriesResponse {
 }
 
 type JournalEntry {
+  account: String
+  """Amount for balance entries"""
+  amount: PostingUnits
+  booking: String
+  comment: String
+  currencies: [String!]
   date: String!
-  """Entry type (Transaction, Balance, Open, etc.)"""
-  entryType: String
-  flag: String!
-  links: [String!]!
-  narration: String!
+  entry_hash: String
+  entry_type: String
+  error: String
+  error_message: String
+  filename: String
+  flag: String
+  links: [String]
+  meta: EntryMeta!
+  narration: String
   """Net amount for the transaction"""
   netAmount: Float
   payee: String
@@ -202,26 +212,33 @@ type JournalEntry {
   primaryAccount: String
   """Combined searchable text"""
   searchableText: String
-  tags: [String!]!
+  tags: [String]
+  """Entry type (Transaction, Balance, Open, etc.)"""
+  type: String!
+}
+
+type PostingUnits {
+  currency: String!
+  number: Float!
+}
+
+type EntryMeta {
+  filename: String!
+  lineno: Float!
 }
 
 type JournalEntryPosting {
   account: String!
   cost: String
   flag: String
-  meta: PostingMeta!
+  meta: PostingMeta
   price: String
-  units: PostingUnits!
+  units: PostingUnits
 }
 
 type PostingMeta {
   filename: String!
   lineno: Float!
-}
-
-type PostingUnits {
-  currency: String!
-  number: Float!
 }
 
 type PageInfo {

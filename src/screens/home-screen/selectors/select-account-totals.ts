@@ -4,7 +4,7 @@ export function getAccountTotals(
   currency: string,
   data?: AccountHierarchyQuery,
 ) {
-  if (!currency) {
+  if (!currency || !data?.accountHierarchy?.data) {
     return {
       assets: "0.00",
       liabilities: "0.00",
@@ -14,26 +14,42 @@ export function getAccountTotals(
     };
   }
 
-  const getTotal = (label: string) => {
-    const list = data?.accountHierarchy?.data.filter((a) => a.label === label);
-    let total = 0;
-    list?.forEach((a) => {
-      total += Number(a.data.balance_children[currency] || 0);
-    });
-    return total;
+  const hierarchyData = data.accountHierarchy.data;
+  const totals = {
+    assets: "0.00",
+    liabilities: "0.00", 
+    income: "0.00",
+    expenses: "0.00",
+    equity: "0.00",
   };
 
-  const assets = getTotal("Assets");
-  const liabilities = getTotal("Liabilities");
-  const income = getTotal("Income");
-  const expenses = getTotal("Expenses");
-  const equity = getTotal("Equity");
+  // Extract totals from the hierarchy data based on account type labels
+  hierarchyData.forEach((item) => {
+    if (!item.data?.balance_children) return;
+    
+    // Get the currency balance (assuming USD for now, but could be dynamic)
+    const balanceChildren = item.data.balance_children as Record<string, number>;
+    const balance = balanceChildren[currency] || balanceChildren.USD || 0;
+    const formattedBalance = Math.abs(balance).toFixed(2);
+    
+    switch (item.label.toLowerCase()) {
+      case "assets":
+        totals.assets = formattedBalance;
+        break;
+      case "liabilities":
+        totals.liabilities = formattedBalance;
+        break;
+      case "income":
+        totals.income = balance < 0 ? `-${formattedBalance}` : formattedBalance;
+        break;
+      case "expenses":
+        totals.expenses = formattedBalance;
+        break;
+      case "equity":
+        totals.equity = balance < 0 ? `-${formattedBalance}` : formattedBalance;
+        break;
+    }
+  });
 
-  return {
-    assets: assets.toFixed(2),
-    liabilities: liabilities.toFixed(2),
-    income: income.toFixed(2),
-    expenses: expenses.toFixed(2),
-    equity: equity.toFixed(2),
-  };
+  return totals;
 }

@@ -1,7 +1,7 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const schema =
-  process.env.CODEGEN_SCHEMA_URL || "https://beancount.io/api-gateway/";
+  process.env.CODEGEN_SCHEMA_URL || process.env.EXPO_PUBLIC_SERVER_URL + "api-gateway/" || "https://beancount.io/api-gateway/";
 
 const config: CodegenConfig = {
   overwrite: true,
