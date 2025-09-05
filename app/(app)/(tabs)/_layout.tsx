@@ -54,12 +54,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="ledger"
+        name="journal"
         options={{
-          title: tabTitles.ledger,
+          title: tabTitles.journal,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name="wallet"
+              name="document-text"
               size={28}
               color={focused ? theme.primary : color}
             />
@@ -67,12 +67,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="journal"
+        name="ledger"
         options={{
-          title: tabTitles.journal,
+          title: tabTitles.ledger,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name="document-text"
+              name="wallet"
               size={28}
               color={focused ? theme.primary : color}
             />
