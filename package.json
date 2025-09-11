@@ -33,6 +33,7 @@
     "expo": "53.0.12",
     "expo-analytics": "^1.0.13",
     "expo-asset": "~11.1.5",
+    "expo-build-properties": "~0.14.8",
     "expo-clipboard": "~7.1.5",
     "expo-constants": "~17.1.6",
     "expo-font": "~13.3.1",
