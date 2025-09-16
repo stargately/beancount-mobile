@@ -133,7 +133,7 @@ const SignUpScreen = () => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView edges={["top", "bottom"]} style={styles.container}>
         <Text style={styles.title}>{t("signUp")}</Text>
-        <Text style={styles.label}>Email</Text>
+        <Text style={styles.label}>{t("email")}</Text>
         <Controller
           control={control}
           name="email"
@@ -144,7 +144,7 @@ const SignUpScreen = () => {
             <>
               <TextInput
                 style={[styles.input, error ? styles.inputError : {}]}
-                placeholder="Email"
+                placeholder={t("email")}
                 placeholderTextColor="#aaa"
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -156,7 +156,7 @@ const SignUpScreen = () => {
             </>
           )}
         />
-        <Text style={styles.label}>Password</Text>
+        <Text style={styles.label}>{t("password")}</Text>
         <Controller
           control={control}
           name="password"
@@ -167,7 +167,7 @@ const SignUpScreen = () => {
             <>
               <TextInput
                 style={[styles.input, error ? styles.inputError : {}]}
-                placeholder="Password"
+                placeholder={t("password")}
                 placeholderTextColor="#aaa"
                 secureTextEntry
                 autoCapitalize="none"
@@ -179,7 +179,7 @@ const SignUpScreen = () => {
             </>
           )}
         />
-        <Text style={styles.label}>Confirm Password</Text>
+        <Text style={styles.label}>{t("confirmPassword")}</Text>
         <Controller
           control={control}
           name="confirmPassword"
@@ -190,7 +190,7 @@ const SignUpScreen = () => {
             <>
               <TextInput
                 style={[styles.input, error ? styles.inputError : {}]}
-                placeholder="Confirm Password"
+                placeholder={t("confirmPassword")}
                 placeholderTextColor="#aaa"
                 secureTextEntry
                 autoCapitalize="none"
@@ -214,7 +214,7 @@ const SignUpScreen = () => {
         <Link href="/auth/sign-in" asChild>
           <TouchableOpacity>
             <Text style={styles.bottomLink}>
-              Already have an account? Sign in
+              {t("alreadyHaveAccount")}
             </Text>
           </TouchableOpacity>
         </Link>

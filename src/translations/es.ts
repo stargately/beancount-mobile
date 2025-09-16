@@ -36,6 +36,10 @@ export const es: typeof en = {
   login: "Iniciar sesión / Registrarse",
   signIn: "Iniciar sesión",
   signUp: "Registrarse",
+  email: "Correo electrónico",
+  password: "Contraseña",
+  forgotPassword: "¿Olvidaste tu contraseña?",
+  dontHaveAccount: "¿No tienes cuenta? Regístrate",
   resetPassword: "Restablecer contraseña",
   resetPasswordDescription:
     "Introduce tu correo electrónico para recibir un enlace y restablecer la contraseña.",

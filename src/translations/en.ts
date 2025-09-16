@@ -34,6 +34,13 @@ export const en = {
   login: "Log In / Sign Up",
   signIn: "Sign In",
   signUp: "Sign Up",
+  email: "Email",
+  password: "Password",
+  forgotPassword: "Forgot Password?",
+  dontHaveAccount: "Don't have an account? Sign up",
+  confirmPassword: "Confirm Password",
+  alreadyHaveAccount: "Already have an account? Sign in",
+  backToSignIn: "Back to Sign in",
   resetPassword: "Reset Password",
   resetPasswordDescription:
     "Enter your email address to receive a link to reset your password.",

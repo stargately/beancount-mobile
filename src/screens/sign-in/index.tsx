@@ -128,7 +128,7 @@ const SignInScreen = () => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView edges={["top", "bottom"]} style={styles.container}>
         <Text style={styles.title}>{t("signIn")}</Text>
-        <Text style={styles.label}>Email</Text>
+        <Text style={styles.label}>{t("email")}</Text>
         <Controller
           control={control}
           name="email"
@@ -139,7 +139,7 @@ const SignInScreen = () => {
             <>
               <TextInput
                 style={[styles.input, error ? styles.inputError : {}]}
-                placeholder="Email"
+                placeholder={t("email")}
                 placeholderTextColor="#aaa"
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -151,7 +151,7 @@ const SignInScreen = () => {
             </>
           )}
         />
-        <Text style={styles.label}>Password</Text>
+        <Text style={styles.label}>{t("password")}</Text>
         <Controller
           control={control}
           name="password"
@@ -162,7 +162,7 @@ const SignInScreen = () => {
             <>
               <TextInput
                 style={[styles.input, error ? styles.inputError : {}]}
-                placeholder="Password"
+                placeholder={t("password")}
                 placeholderTextColor="#aaa"
                 secureTextEntry
                 autoCapitalize="none"
@@ -184,12 +184,12 @@ const SignInScreen = () => {
         </Button>
         {error && <Text style={styles.errorText}>{error}</Text>}
         <TouchableOpacity onPress={onResetPassword}>
-          <Text style={styles.link}>Forgot Password?</Text>
+          <Text style={styles.link}>{t("forgotPassword")}</Text>
         </TouchableOpacity>
         <Link href="/auth/sign-up" asChild>
           <TouchableOpacity>
             <Text style={styles.bottomLink}>
-              Don&apos;t have an account? Sign up
+              {t("dontHaveAccount")}
             </Text>
           </TouchableOpacity>
         </Link>

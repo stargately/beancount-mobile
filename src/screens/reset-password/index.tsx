@@ -141,7 +141,7 @@ const ResetPasswordScreen = () => {
         <ResetPasswordSent />
       ) : (
         <>
-          <Text style={styles.label}>Email</Text>
+          <Text style={styles.label}>{t("email")}</Text>
           <Controller
             control={control}
             name="email"
@@ -176,7 +176,7 @@ const ResetPasswordScreen = () => {
       )}
       <Link href="/auth/sign-in" asChild>
         <TouchableOpacity>
-          <Text style={styles.bottomLink}>Back to Sign in</Text>
+          <Text style={styles.bottomLink}>{t("backToSignIn")}</Text>
         </TouchableOpacity>
       </Link>
     </SafeAreaView>

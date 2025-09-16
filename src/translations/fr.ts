@@ -36,6 +36,10 @@ export const fr: typeof en = {
   login: "Se connecter / S'inscrire",
   signIn: "Se connecter",
   signUp: "S'inscrire",
+  email: "E-mail",
+  password: "Mot de passe",
+  forgotPassword: "Mot de passe oublié ?",
+  dontHaveAccount: "Pas de compte ? S'inscrire",
   resetPassword: "Réinitialiser le mot de passe",
   resetPasswordDescription:
     "Entrez votre e-mail pour recevoir un lien de réinitialisation de mot de passe.",

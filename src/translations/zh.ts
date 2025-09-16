@@ -34,6 +34,13 @@ export const zh = {
   login: "登录 / 注册",
   signIn: "登录",
   signUp: "注册",
+  email: "邮箱",
+  password: "密码",
+  forgotPassword: "忘记密码？",
+  dontHaveAccount: "没有账号？注册",
+  confirmPassword: "确认密码",
+  alreadyHaveAccount: "已有账号？登录",
+  backToSignIn: "返回登录",
   resetPassword: "重置密码",
   resetPasswordDescription:
     "输入你的邮箱地址，我们会发送一个重置密码的链接给你。",
