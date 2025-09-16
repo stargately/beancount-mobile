@@ -86,12 +86,6 @@
         }
       ],
       "expo-localization",
-      [
-        "expo-web-browser",
-        {
-          "experimentalLauncherActivity": true
-        }
-      ],
       "sentry-expo",
       "expo-router"
     ],
