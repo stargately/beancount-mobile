@@ -1,37 +1,36 @@
 import Constants from "expo-constants";
 import * as WebBrowser from "expo-web-browser";
-import React, { useEffect, useState } from "react";
-import { Alert, Platform, Text } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState } from "react";
+import { Alert, Platform } from "react-native";
 import { List as List2 } from "@/components";
 
-import { useIsFocused } from "@react-navigation/native";
 import { analytics } from "@/common/analytics";
 import { i18n, setLocale } from "@/translations";
 import { useTranslations } from "@/common/hooks/use-translations";
-import { useUserProfile } from "./hooks/use-user-profile";
-import { useUpdateReportSubscribeToRemote } from "./hooks/use-update-report-subscribe";
-import { ReportStatus } from "@/generated-graphql/graphql";
+import { useDeleteAccountMutation } from "@/generated-graphql/graphql";
 import { useSession } from "@/common/hooks/use-session";
 import { localeVar, themeVar } from "@/common/vars";
 import { useReactiveVar } from "@apollo/client";
 import { actionLogout } from "./logout";
 import { useToast } from "@/common/hooks";
 import { Picker } from "@/components/picker";
-import { ListItemHorizontal, ItemDescription } from "./list-item";
+import {
+  ListItemHorizontal,
+  SectionHeader,
+  SecondaryButton,
+} from "./list-item";
 import { Theme } from "@/common/vars/theme";
 import { useTheme } from "@/common/theme";
 import { Ionicons } from "@expo/vector-icons";
 
 export const MainContent = () => {
-  const { authToken, userId } = useSession();
+  const { authToken } = useSession();
   const toast = useToast();
   const locale = useReactiveVar(localeVar);
   const currentTheme = useReactiveVar(themeVar);
   const theme = useTheme().colorTheme;
   const { t } = useTranslations();
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
-  const [subscribeModalVisible, setSubscribeModalVisible] = useState(false);
   const [themeModalVisible, setThemeModalVisible] = useState(false);
   const LANGUAGES = {
     en: "English",
@@ -64,82 +63,8 @@ export const MainContent = () => {
     value,
     label,
   }));
-  const pickerSource = [
-    { value: ReportStatus.Weekly, label: t("weekly") },
-    { value: ReportStatus.Monthly, label: t("monthly") },
-    { value: ReportStatus.Off, label: t("off") },
-  ];
-
-  const [reportAnimateCount, setReportAnimateCount] = useState(0);
-  const [subscriptionFlash, setSubscriptionFlash] = useState(false);
-  const isFocused = useIsFocused();
-
-  React.useEffect(() => {
-    async function init() {
-      try {
-        const value = await AsyncStorage.getItem("@SubscriptionFlash:key");
-        if (value !== null) {
-          setSubscriptionFlash(value === "true");
-        } else {
-          setSubscriptionFlash(false);
-        }
-        await AsyncStorage.setItem("@SubscriptionFlash:key", "false");
-      } catch (error) {
-        console.error(`failed to get subscription flash value: ${error}`);
-      }
-    }
-    init();
-  }, [isFocused]);
-
-  useEffect(() => {
-    if (subscriptionFlash) {
-      const interval = setInterval(() => {
-        if (reportAnimateCount < 5) {
-          setReportAnimateCount(reportAnimateCount + 1);
-        }
-      }, 300);
-      return () => clearInterval(interval);
-    }
-    setReportAnimateCount(0);
-    return undefined;
-  }, [subscriptionFlash, reportAnimateCount]);
-
-  const { emailReportStatus } = useUserProfile(userId);
-  const [reportStatus, setReportStatus] = useState<string>(
-    emailReportStatus ? emailReportStatus.toString() : "",
-  );
-
-  useEffect(() => {
-    setReportStatus(emailReportStatus ? emailReportStatus.toString() : "");
-  }, [emailReportStatus]);
-
-  const { error, mutate } = useUpdateReportSubscribeToRemote();
-
-  const getReportStatusLabel = (status: string) => {
-    switch (status) {
-      case ReportStatus.Off:
-        return t("off");
-      case ReportStatus.Weekly:
-        return t("weekly");
-      case ReportStatus.Monthly:
-        return t("monthly");
-      default:
-        return t("off");
-    }
-  };
-
-  const getReportStatusEnum = (status: string) => {
-    switch (status) {
-      case ReportStatus.Off:
-        return ReportStatus.Off;
-      case ReportStatus.Weekly:
-        return ReportStatus.Weekly;
-      case ReportStatus.Monthly:
-        return ReportStatus.Monthly;
-      default:
-        return ReportStatus.Off;
-    }
-  };
+  const [deleteAccountMutation, { loading: deleteAccountLoading }] =
+    useDeleteAccountMutation();
 
   const getLanguageLabel = (lng: string) => {
     return LANGUAGES[lng as keyof typeof LANGUAGES] || LANGUAGES.en;
@@ -149,16 +74,57 @@ export const MainContent = () => {
     return THEMES[theme] || THEMES.light;
   };
 
+  const handleDeleteAccount = async () => {
+    try {
+      const result = await deleteAccountMutation();
+      if (result.data?.deleteAccount) {
+        toast.showToast({
+          message: "Account deleted successfully",
+          type: "success",
+        });
+        // Logout after successful deletion
+        actionLogout(authToken);
+      } else {
+        toast.showToast({
+          message: "Failed to delete account",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Delete account error:", error);
+      toast.showToast({
+        message: "Failed to delete account",
+        type: "error",
+      });
+    }
+  };
+
   return (
     <>
       <List2>
+        <SectionHeader title={t("appSettings")} />
         <ListItemHorizontal
+          icon={<Ionicons name="language" size={22} color={theme.black80} />}
+          title={t("currentLanguage")}
+          content={getLanguageLabel(String(locale))}
+          onPress={() => {
+            setLanguageModalVisible(true);
+          }}
+        />
+        <ListItemHorizontal
+          icon={<Ionicons name="contrast" size={22} color={theme.black80} />}
+          title={t("theme")}
+          content={getThemeLabel(currentTheme)}
+          onPress={() => {
+            setThemeModalVisible(true);
+          }}
+        />
+
+        <SectionHeader title={t("supportSettings")} />
+        <ListItemHorizontal
+          icon={<Ionicons name="star" size={22} color={theme.black80} />}
           title={t("reviewApp")}
-          content={
-            <ItemDescription
-              text={Platform.OS === "ios" ? "Apple Store" : "Google Play"}
-            />
-          }
+          content={Platform.OS === "ios" ? "Apple Store" : "Google Play"}
           onPress={async () => {
             const storeUrl =
               Platform.OS === "ios"
@@ -170,60 +136,65 @@ export const MainContent = () => {
             }
           }}
         />
-        <ListItemHorizontal
-          title={t("subscribe")}
-          content={
-            <ItemDescription text={getReportStatusLabel(reportStatus)} />
-          }
-          onPress={() => {
-            setSubscribeModalVisible(true);
-          }}
-        />
-        <ListItemHorizontal
-          title={<Ionicons name="language" size={20} color={theme.black90} />}
-          content={<ItemDescription text={getLanguageLabel(String(locale))} />}
-          onPress={() => {
-            setLanguageModalVisible(true);
-          }}
-        />
-        <ListItemHorizontal
-          title={t("theme")}
-          content={<ItemDescription text={getThemeLabel(currentTheme)} />}
-          onPress={() => {
-            setThemeModalVisible(true);
-          }}
-        />
-        <ListItemHorizontal
-          title={t("currentVersion")}
-          content={
-            <Text style={{ fontSize: 16, color: theme.black80 }}>
-              {Constants.expoConfig?.version || "Unknown"}
-            </Text>
-          }
-        />
-
-        {authToken ? (
+        {authToken && (
           <ListItemHorizontal
-            title={t("logout")}
+            icon={<Ionicons name="trash" size={22} color={theme.black80} />}
+            title={t("deleteAccount")}
+            description={t("deleteAccountDescription")}
             onPress={() => {
+              if (deleteAccountLoading) return;
               Alert.alert(
                 "",
-                t("logoutAlertMsg"),
+                t("deleteAccountAlertMsg"),
                 [
-                  { text: t("logoutAlertCancel"), style: "cancel" },
+                  { text: t("deleteAccountAlertCancel"), style: "cancel" },
                   {
-                    text: t("logoutAlertConfirm"),
-                    onPress: () => {
-                      actionLogout(authToken);
-                    },
+                    text: t("deleteAccountAlertConfirm"),
+                    style: "destructive",
+                    onPress: handleDeleteAccount,
                   },
                 ],
                 { cancelable: false },
               );
             }}
           />
-        ) : null}
+        )}
+        <ListItemHorizontal
+          icon={
+            <Ionicons
+              name="information-circle"
+              size={22}
+              color={theme.black80}
+            />
+          }
+          title={t("currentVersion")}
+          content={Constants.expoConfig?.version || "Unknown"}
+        />
       </List2>
+
+      {authToken && (
+        <SecondaryButton
+          title={t("logout")}
+          icon={<Ionicons name="log-out" size={20} color="#DC2626" />}
+          destructive
+          onPress={() => {
+            Alert.alert(
+              "",
+              t("logoutAlertMsg"),
+              [
+                { text: t("logoutAlertCancel"), style: "cancel" },
+                {
+                  text: t("logoutAlertConfirm"),
+                  onPress: () => {
+                    actionLogout(authToken);
+                  },
+                },
+              ],
+              { cancelable: false },
+            );
+          }}
+        />
+      )}
       <Picker
         visible={languageModalVisible}
         items={languageSource}
@@ -242,44 +213,6 @@ export const MainContent = () => {
           setLanguageModalVisible(false);
         }}
         selectedValue={locale}
-        confirmButtonText={t("confirm")}
-        cancelButtonText={t("cancel")}
-      />
-      <Picker
-        visible={subscribeModalVisible}
-        items={pickerSource}
-        onSelect={async (item) => {
-          const newValue = item.value ? String(item.value) : "";
-          if (newValue === reportStatus) {
-            return;
-          }
-          setReportStatus(newValue);
-          const cancel = toast.showToast({
-            message: t("updating"),
-            type: "loading",
-          });
-          await mutate({
-            variables: { userId, status: getReportStatusEnum(newValue) },
-          });
-          cancel();
-          if (!error) {
-            toast.showToast({
-              message: t("updateSuccess"),
-              type: "success",
-            });
-          } else {
-            console.error("failed to update report status", error);
-            toast.showToast({
-              message: t("updateFailed"),
-              type: "error",
-            });
-          }
-          setSubscribeModalVisible(false);
-        }}
-        onCancel={() => {
-          setSubscribeModalVisible(false);
-        }}
-        selectedValue={reportStatus}
         confirmButtonText={t("confirm")}
         cancelButtonText={t("cancel")}
       />

@@ -11,7 +11,6 @@ export const sk: typeof en = {
   setting: "Nastavenie",
   // mine
   reviewApp: "Páči sa vám? Zanechajte recenziu :)",
-  about: "O aplikácii",
   currentLanguage: "Jazyk",
   currentVersion: "Verzia",
   theme: "Téma",
@@ -23,6 +22,17 @@ export const sk: typeof en = {
   logoutAlertCancel: "Zrušiť",
   logoutAlertConfirm: "Odhlásiť",
   logout: "Odhlásiť",
+  // delete account alert
+  deleteAccountAlertMsg:
+    "Ste si istí, že chcete vymazať svoj účet? Táto akcia sa nedá vrátiť späť a natrvalo vymaže všetky vaše údaje.",
+  deleteAccountAlertCancel: "Zrušiť",
+  deleteAccountAlertConfirm: "Vymazať účet",
+  deleteAccount: "Vymazať účet",
+  deleteAccountDescription: "Trvalo odstrániť účet a údaje",
+  // settings sections
+  appSettings: "Nastavenia aplikácie",
+  accountSettings: "Účet",
+  supportSettings: "Podpora",
   login: "Prihlásiť / Registrovať",
   signIn: "Prihlásiť",
   signUp: "Registrovať",

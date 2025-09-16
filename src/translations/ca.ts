@@ -11,7 +11,6 @@ export const ca: typeof en = {
   setting: "Configuració",
   // mine
   reviewApp: "T'agrada? Deixa una ressenya :)",
-  about: "Sobre",
   currentLanguage: "Idioma",
   currentVersion: "Versió",
   theme: "Tema",
@@ -23,6 +22,17 @@ export const ca: typeof en = {
   logoutAlertCancel: "Cancel·lar",
   logoutAlertConfirm: "Tancar sessió",
   logout: "Tancar sessió",
+  // delete account alert
+  deleteAccountAlertMsg:
+    "Estàs segur que vols eliminar el teu compte? Aquesta acció no es pot desfer i eliminarà permanentment totes les teves dades.",
+  deleteAccountAlertCancel: "Cancel·lar",
+  deleteAccountAlertConfirm: "Eliminar compte",
+  deleteAccount: "Eliminar compte",
+  deleteAccountDescription: "Eliminar permanentment el compte i les dades",
+  // settings sections
+  appSettings: "Configuració de l'aplicació",
+  accountSettings: "Compte",
+  supportSettings: "Suport",
   login: "Iniciar sessió / Registrar-se",
   signIn: "Iniciar sessió",
   signUp: "Registrar-se",

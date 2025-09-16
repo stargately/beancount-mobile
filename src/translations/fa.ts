@@ -11,7 +11,6 @@ export const fa: typeof en = {
   setting: "تنظیم",
   // mine
   reviewApp: "دوستش دارید؟ نظر بدهید :)",
-  about: "درباره",
   currentLanguage: "زبان",
   currentVersion: "نسخه",
   theme: "تم",
@@ -23,6 +22,17 @@ export const fa: typeof en = {
   logoutAlertCancel: "لغو",
   logoutAlertConfirm: "خروج",
   logout: "خروج",
+  // delete account alert
+  deleteAccountAlertMsg:
+    "آیا مطمئن هستید که می‌خواهید حساب خود را حذف کنید؟ این عمل قابل بازگشت نیست و تمام داده‌های شما را برای همیشه حذف خواهد کرد.",
+  deleteAccountAlertCancel: "لغو",
+  deleteAccountAlertConfirm: "حذف حساب",
+  deleteAccount: "حذف حساب",
+  deleteAccountDescription: "حذف دائمی حساب و داده‌ها",
+  // settings sections
+  appSettings: "تنظیمات برنامه",
+  accountSettings: "حساب",
+  supportSettings: "پشتیبانی",
   login: "ورود / ثبت نام",
   signIn: "ورود",
   signUp: "ثبت نام",

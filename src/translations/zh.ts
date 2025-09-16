@@ -8,7 +8,6 @@ export const zh = {
   setting: "设置",
   // mine
   reviewApp: "给个好评鼓励一下",
-  about: "关于",
   currentLanguage: "当前语言",
 
   currentVersion: "当前版本",
@@ -21,6 +20,17 @@ export const zh = {
   logoutAlertCancel: "取消",
   logoutAlertConfirm: "确认",
   logout: "登出",
+  // delete account alert
+  deleteAccountAlertMsg:
+    "你确认要删除账号吗？此操作无法撤销，将永久删除你的所有数据。",
+  deleteAccountAlertCancel: "取消",
+  deleteAccountAlertConfirm: "删除账号",
+  deleteAccount: "删除账号",
+  deleteAccountDescription: "永久删除账号和数据",
+  // settings sections
+  appSettings: "应用设置",
+  accountSettings: "账户",
+  supportSettings: "支持",
   login: "登录 / 注册",
   signIn: "登录",
   signUp: "注册",

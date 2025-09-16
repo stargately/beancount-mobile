@@ -11,7 +11,6 @@ export const de: typeof en = {
   setting: "Einstellung",
   // mine
   reviewApp: "Gefällt es dir? Hinterlasse eine Bewertung :)",
-  about: "Über",
   currentLanguage: "Sprache",
   currentVersion: "Version",
   theme: "Design",
@@ -23,6 +22,17 @@ export const de: typeof en = {
   logoutAlertCancel: "Abbrechen",
   logoutAlertConfirm: "Abmelden",
   logout: "Abmelden",
+  // delete account alert
+  deleteAccountAlertMsg:
+    "Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und löscht alle Ihre Daten dauerhaft.",
+  deleteAccountAlertCancel: "Abbrechen",
+  deleteAccountAlertConfirm: "Konto löschen",
+  deleteAccount: "Konto löschen",
+  deleteAccountDescription: "Konto und Daten dauerhaft entfernen",
+  // settings sections
+  appSettings: "App-Einstellungen",
+  accountSettings: "Konto",
+  supportSettings: "Support",
   login: "Anmelden / Registrieren",
   signIn: "Anmelden",
   signUp: "Registrieren",

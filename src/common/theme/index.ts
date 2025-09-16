@@ -55,10 +55,10 @@ const darkTheme: ColorTheme = {
 
   black: "#FFF",
   black90: "#F7F7F7",
-  black80: "#F0F0F0",
-  black60: "#E5E5E5",
-  black40: "#CCCCCC",
-  black20: "#999999",
+  black80: "#B3B3B3",
+  black60: "#AAAAAA",
+  black40: "#888888",
+  black20: "#666666",
   black10: "#333333",
 
   text01: "#FFFFFF", //		Primary text, Body copy

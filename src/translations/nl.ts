@@ -11,7 +11,6 @@ export const nl: typeof en = {
   setting: "Instelling",
   // mine
   reviewApp: "Bevalt het? Geef een review :)",
-  about: "Over",
   currentLanguage: "Taal",
   currentVersion: "Versie",
   theme: "Thema",
@@ -23,6 +22,17 @@ export const nl: typeof en = {
   logoutAlertCancel: "Annuleren",
   logoutAlertConfirm: "Uitloggen",
   logout: "Uitloggen",
+  // delete account alert
+  deleteAccountAlertMsg:
+    "Weet je zeker dat je je account wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt en zal al je gegevens permanent verwijderen.",
+  deleteAccountAlertCancel: "Annuleren",
+  deleteAccountAlertConfirm: "Account verwijderen",
+  deleteAccount: "Account verwijderen",
+  deleteAccountDescription: "Account en gegevens permanent verwijderen",
+  // settings sections
+  appSettings: "App-instellingen",
+  accountSettings: "Account",
+  supportSettings: "Ondersteuning",
   login: "Inloggen / Registreren",
   signIn: "Inloggen",
   signUp: "Registreren",

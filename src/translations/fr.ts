@@ -11,7 +11,6 @@ export const fr: typeof en = {
   setting: "Réglage",
   // mine
   reviewApp: "Vous aimez ? Laissez un avis :)",
-  about: "À propos",
   currentLanguage: "Langue",
 
   currentVersion: "Version",
@@ -24,6 +23,16 @@ export const fr: typeof en = {
   logoutAlertCancel: "Annuler",
   logoutAlertConfirm: "Se déconnecter",
   logout: "Déconnexion",
+  // delete account alert
+  deleteAccountAlertMsg:
+    "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action ne peut pas être annulée et supprimera définitivement toutes vos données.",
+  deleteAccountAlertCancel: "Annuler",
+  deleteAccountAlertConfirm: "Supprimer le compte",
+  deleteAccount: "Supprimer le compte",
+  // settings sections
+  appSettings: "Paramètres de l'application",
+  accountSettings: "Compte",
+  supportSettings: "Support",
   login: "Se connecter / S'inscrire",
   signIn: "Se connecter",
   signUp: "S'inscrire",

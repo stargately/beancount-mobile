@@ -8,7 +8,6 @@ export const en = {
   setting: "Setting",
   // mine
   reviewApp: "Like it? Give it a review :)",
-  about: "About",
   currentLanguage: "Language",
 
   currentVersion: "Version",
@@ -21,6 +20,17 @@ export const en = {
   logoutAlertCancel: "Cancel",
   logoutAlertConfirm: "Log Out",
   logout: "Logout",
+  // delete account alert
+  deleteAccountAlertMsg:
+    "Are you sure you want to delete your account? This action cannot be undone and will permanently delete all your data.",
+  deleteAccountAlertCancel: "Cancel",
+  deleteAccountAlertConfirm: "Delete Account",
+  deleteAccount: "Delete Account",
+  deleteAccountDescription: "Permanently remove your account and data",
+  // settings sections
+  appSettings: "App Settings",
+  accountSettings: "Account",
+  supportSettings: "Support",
   login: "Log In / Sign Up",
   signIn: "Sign In",
   signUp: "Sign Up",

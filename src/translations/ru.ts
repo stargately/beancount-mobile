@@ -11,7 +11,6 @@ export const ru: typeof en = {
   setting: "Настройка",
   // mine
   reviewApp: "Нравится? Оставьте отзыв :)",
-  about: "О программе",
   currentLanguage: "Язык",
   currentVersion: "Версия",
   theme: "Тема",
@@ -23,6 +22,17 @@ export const ru: typeof en = {
   logoutAlertCancel: "Отмена",
   logoutAlertConfirm: "Выйти",
   logout: "Выход",
+  // delete account alert
+  deleteAccountAlertMsg:
+    "Вы уверены, что хотите удалить свой аккаунт? Это действие нельзя отменить, и оно навсегда удалит все ваши данные.",
+  deleteAccountAlertCancel: "Отмена",
+  deleteAccountAlertConfirm: "Удалить аккаунт",
+  deleteAccount: "Удалить аккаунт",
+  deleteAccountDescription: "Навсегда удалить аккаунт и данные",
+  // settings sections
+  appSettings: "Настройки приложения",
+  accountSettings: "Аккаунт",
+  supportSettings: "Поддержка",
   login: "Войти / Регистрация",
   signIn: "Войти",
   signUp: "Регистрация",

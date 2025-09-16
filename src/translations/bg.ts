@@ -11,7 +11,6 @@ export const bg: typeof en = {
   setting: "Настройка",
   // mine
   reviewApp: "Харесва ли ви? Оставете отзив :)",
-  about: "Относно",
   currentLanguage: "Език",
   currentVersion: "Версия",
   theme: "Тема",
@@ -23,6 +22,17 @@ export const bg: typeof en = {
   logoutAlertCancel: "Отказ",
   logoutAlertConfirm: "Изход",
   logout: "Изход",
+  // delete account alert
+  deleteAccountAlertMsg:
+    "Сигурни ли сте, че искате да изтриете акаунта си? Това действие не може да бъде отменено и ще изтрие завинаги всички ваши данни.",
+  deleteAccountAlertCancel: "Отказ",
+  deleteAccountAlertConfirm: "Изтриване на акаунт",
+  deleteAccount: "Изтриване на акаунт",
+  deleteAccountDescription: "Перманентно премахване на акаунта и данните",
+  // settings sections
+  appSettings: "Настройки на приложението",
+  accountSettings: "Акаунт",
+  supportSettings: "Поддръжка",
   login: "Вход / Регистрация",
   signIn: "Вход",
   signUp: "Регистрация",

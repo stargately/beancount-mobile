@@ -11,7 +11,6 @@ export const pt: typeof en = {
   setting: "Configuração",
   // mine
   reviewApp: "Gostou? Deixe uma avaliação :)",
-  about: "Sobre",
   currentLanguage: "Idioma",
   currentVersion: "Versão",
   theme: "Tema",
@@ -23,6 +22,17 @@ export const pt: typeof en = {
   logoutAlertCancel: "Cancelar",
   logoutAlertConfirm: "Sair",
   logout: "Sair",
+  // delete account alert
+  deleteAccountAlertMsg:
+    "Tem certeza de que deseja excluir sua conta? Esta ação não pode ser desfeita e excluirá permanentemente todos os seus dados.",
+  deleteAccountAlertCancel: "Cancelar",
+  deleteAccountAlertConfirm: "Excluir conta",
+  deleteAccount: "Excluir conta",
+  deleteAccountDescription: "Remover permanentemente a conta e os dados",
+  // settings sections
+  appSettings: "Configurações do aplicativo",
+  accountSettings: "Conta",
+  supportSettings: "Suporte",
   login: "Entrar / Registrar",
   signIn: "Entrar",
   signUp: "Registrar",

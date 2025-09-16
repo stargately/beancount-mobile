@@ -11,7 +11,6 @@ export const uk: typeof en = {
   setting: "Налаштування",
   // mine
   reviewApp: "Подобається? Залиште відгук :)",
-  about: "Про додаток",
   currentLanguage: "Мова",
   currentVersion: "Версія",
   theme: "Тема",
@@ -23,6 +22,17 @@ export const uk: typeof en = {
   logoutAlertCancel: "Скасувати",
   logoutAlertConfirm: "Вийти",
   logout: "Вихід",
+  // delete account alert
+  deleteAccountAlertMsg:
+    "Ви впевнені, що хочете видалити свій обліковий запис? Цю дію неможливо скасувати, і вона назавжди видалить усі ваші дані.",
+  deleteAccountAlertCancel: "Скасувати",
+  deleteAccountAlertConfirm: "Видалити обліковий запис",
+  deleteAccount: "Видалити обліковий запис",
+  deleteAccountDescription: "Назавжди видалити обліковий запис та дані",
+  // settings sections
+  appSettings: "Налаштування додатку",
+  accountSettings: "Обліковий запис",
+  supportSettings: "Підтримка",
   login: "Увійти / Реєстрація",
   signIn: "Увійти",
   signUp: "Реєстрація",
