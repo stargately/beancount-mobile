@@ -1,3 +1,0 @@
-query FeatureFlags($userId: String!) {
-  featureFlags(userId: $userId)
-}

@@ -18,9 +18,6 @@ import { AccountsStyled } from "@/screens/home-screen/components/accounts-styled
 import { NetAssetsStyled } from "@/screens/home-screen/components/net-assets-styled";
 import { getCurrencySymbol } from "@/common/currency-util";
 import { analytics } from "@/common/analytics";
-import { Announcement } from "@/common/announcement";
-import { EmailIcon } from "@/screens/home-screen/email-icon";
-import { useFeatureFlags } from "@/common/hooks/use-feature-flags";
 import { ColorTheme } from "@/types/theme-props";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -90,7 +87,6 @@ export const HomeScreen = (): JSX.Element => {
     }
   };
 
-  const { spendingReportSubscription } = useFeatureFlags(userId);
   return (
     <>
       <SafeAreaView edges={["top"]} style={styles.container}>
@@ -118,14 +114,6 @@ export const HomeScreen = (): JSX.Element => {
             )}
           </View>
           <CommonMargin />
-
-          {spendingReportSubscription && (
-            <Announcement
-              title="Never miss your financial report - set up now"
-              subtitle="Weekly or Monthly Report"
-              icon={<EmailIcon />}
-            />
-          )}
 
           <HeaderText>{t("accounts")}</HeaderText>
           <CommonMargin />

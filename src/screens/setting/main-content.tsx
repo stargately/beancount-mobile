@@ -11,7 +11,6 @@ import { i18n, setLocale } from "@/translations";
 import { useTranslations } from "@/common/hooks/use-translations";
 import { useUserProfile } from "./hooks/use-user-profile";
 import { useUpdateReportSubscribeToRemote } from "./hooks/use-update-report-subscribe";
-import { useFeatureFlags } from "@/common/hooks/use-feature-flags";
 import { ReportStatus } from "@/generated-graphql/graphql";
 import { useSession } from "@/common/hooks/use-session";
 import { localeVar, themeVar } from "@/common/vars";
@@ -150,8 +149,6 @@ export const MainContent = () => {
     return THEMES[theme] || THEMES.light;
   };
 
-  const { spendingReportSubscription } = useFeatureFlags(userId);
-
   return (
     <>
       <List2>
@@ -173,17 +170,15 @@ export const MainContent = () => {
             }
           }}
         />
-        {spendingReportSubscription && (
-          <ListItemHorizontal
-            title={t("subscribe")}
-            content={
-              <ItemDescription text={getReportStatusLabel(reportStatus)} />
-            }
-            onPress={() => {
-              setSubscribeModalVisible(true);
-            }}
-          />
-        )}
+        <ListItemHorizontal
+          title={t("subscribe")}
+          content={
+            <ItemDescription text={getReportStatusLabel(reportStatus)} />
+          }
+          onPress={() => {
+            setSubscribeModalVisible(true);
+          }}
+        />
         <ListItemHorizontal
           title={<Ionicons name="language" size={20} color={theme.black90} />}
           content={<ItemDescription text={getLanguageLabel(String(locale))} />}

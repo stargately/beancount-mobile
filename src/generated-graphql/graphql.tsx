@@ -34,7 +34,6 @@ export type Query = {
   extract: ExtractResponse;
   /** Check if the Fava service is healthy */
   favaHealth: HealthResponse;
-  featureFlags: Scalars['JSONObject']['output'];
   /** is the server healthy? */
   health: Scalars['String']['output'];
   homeCharts: HomeChartsResponse;
@@ -44,7 +43,6 @@ export type Query = {
   ledgerMeta: LedgerMetaResponse;
   /** get the ledger of the current user */
   ledgers?: Maybe<Array<Ledger>>;
-  listOutboundIntegrations: ListOutboundIntegrationsResponse;
   /** Get ranked accounts for a given payee */
   payeeAccounts: PayeeAccountsResponse;
   /** Get the last transaction for a given payee */
@@ -76,11 +74,6 @@ export type QueryContextArgs = {
 export type QueryExtractArgs = {
   filename: Scalars['String']['input'];
   importer: Scalars['String']['input'];
-};
-
-
-export type QueryFeatureFlagsArgs = {
-  userId: Scalars['String']['input'];
 };
 
 
@@ -283,7 +276,7 @@ export type JournalEntry = {
   filename?: Maybe<Scalars['String']['output']>;
   flag?: Maybe<Scalars['String']['output']>;
   links?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  meta: EntryMeta;
+  meta?: Maybe<EntryMeta>;
   narration?: Maybe<Scalars['String']['output']>;
   /** Net amount for the transaction */
   netAmount?: Maybe<Scalars['Float']['output']>;
@@ -295,13 +288,13 @@ export type JournalEntry = {
   searchableText?: Maybe<Scalars['String']['output']>;
   tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** Entry type (Transaction, Balance, Open, etc.) */
-  type: Scalars['String']['output'];
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type PostingUnits = {
   __typename?: 'PostingUnits';
-  currency: Scalars['String']['output'];
-  number: Scalars['Float']['output'];
+  currency?: Maybe<Scalars['String']['output']>;
+  number?: Maybe<Scalars['Float']['output']>;
 };
 
 export type EntryMeta = {
@@ -313,6 +306,7 @@ export type EntryMeta = {
 export type JournalEntryPosting = {
   __typename?: 'JournalEntryPosting';
   account: Scalars['String']['output'];
+  amount?: Maybe<Scalars['String']['output']>;
   cost?: Maybe<Scalars['String']['output']>;
   flag?: Maybe<Scalars['String']['output']>;
   meta?: Maybe<PostingMeta>;
@@ -369,17 +363,6 @@ export type Ledger = {
   file: Scalars['BeanFilename']['output'];
   ledgerId: Scalars['String']['output'];
   text: Scalars['String']['output'];
-};
-
-export type ListOutboundIntegrationsResponse = {
-  __typename?: 'ListOutboundIntegrationsResponse';
-  integrations?: Maybe<Array<OutboundIntegration>>;
-};
-
-export type OutboundIntegration = {
-  __typename?: 'OutboundIntegration';
-  id: Scalars['String']['output'];
-  providerId: Scalars['String']['output'];
 };
 
 export type PayeeAccountsResponse = {
@@ -468,7 +451,9 @@ export type UserProfileResponse = {
   __typename?: 'UserProfileResponse';
   email: Scalars['String']['output'];
   emailReportStatus?: Maybe<ReportStatus>;
+  firstName?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
+  lastName?: Maybe<Scalars['String']['output']>;
   locale: Scalars['String']['output'];
 };
 
@@ -488,15 +473,15 @@ export type Mutation = {
   cancelSubscription: SubscriptionActionResult;
   /** Create or rename a file */
   createOrRenameFile: FileOperationResponse;
-  createOutboundIntegration: CreateOutboundIntegrationResponse;
   createSubscriptionSession: SubscriptionSessionResult;
+  /** delete user account and its associated data */
+  deleteAccount: Scalars['Boolean']['output'];
   /** Delete a document */
   deleteDocument: DocumentOperationResponse;
   /** Delete a Fava file */
   deleteFavaFile: FileOperationResponse;
   /** delete file that belongs to the user. */
   deleteFile?: Maybe<DeleteFileResponse>;
-  deleteOutboundIntegration: DeleteOutboundIntegrationResponse;
   /** Format beancount source code */
   formatSource: SourceUpdateResponse;
   /** Move a document file to a different account */
@@ -541,11 +526,6 @@ export type MutationCreateOrRenameFileArgs = {
 };
 
 
-export type MutationCreateOutboundIntegrationArgs = {
-  byAuthorizationCode?: InputMaybe<ByAuthorizationCode>;
-};
-
-
 export type MutationCreateSubscriptionSessionArgs = {
   clientId: Scalars['String']['input'];
   priceId: Scalars['String']['input'];
@@ -564,11 +544,6 @@ export type MutationDeleteFavaFileArgs = {
 
 export type MutationDeleteFileArgs = {
   deleteFileRequest: DeleteFileRequest;
-};
-
-
-export type MutationDeleteOutboundIntegrationArgs = {
-  byIntegration?: InputMaybe<DeleteOutboundIntegrationByIntegration>;
 };
 
 
@@ -665,16 +640,6 @@ export type FileOperationResponse = {
   success: Scalars['Boolean']['output'];
 };
 
-export type ByAuthorizationCode = {
-  code: Scalars['String']['input'];
-  providerId: Scalars['String']['input'];
-};
-
-export type CreateOutboundIntegrationResponse = {
-  __typename?: 'CreateOutboundIntegrationResponse';
-  _: Scalars['Boolean']['output'];
-};
-
 export type SubscriptionSessionResult = {
   __typename?: 'SubscriptionSessionResult';
   message?: Maybe<Scalars['String']['output']>;
@@ -696,15 +661,6 @@ export type DeleteFileRequest = {
 export type DeleteFileResponse = {
   __typename?: 'DeleteFileResponse';
   _id?: Maybe<Scalars['ID']['output']>;
-};
-
-export type DeleteOutboundIntegrationByIntegration = {
-  integrationId: Scalars['String']['input'];
-};
-
-export type DeleteOutboundIntegrationResponse = {
-  __typename?: 'DeleteOutboundIntegrationResponse';
-  _: Scalars['Boolean']['output'];
 };
 
 export type SourceUpdateResponse = {
@@ -804,13 +760,6 @@ export type DeleteFileMutationVariables = Exact<{
 
 export type DeleteFileMutation = { __typename?: 'Mutation', deleteFile?: { __typename?: 'DeleteFileResponse', _id?: string | null } | null };
 
-export type FeatureFlagsQueryVariables = Exact<{
-  userId: Scalars['String']['input'];
-}>;
-
-
-export type FeatureFlagsQuery = { __typename?: 'Query', featureFlags: any };
-
 export type FormatSourceMutationVariables = Exact<{
   source: Scalars['String']['input'];
 }>;
@@ -847,7 +796,7 @@ export type JournalEntriesQueryVariables = Exact<{
 }>;
 
 
-export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: { __typename?: 'JournalEntriesResponse', success: boolean, data: Array<{ __typename?: 'JournalEntry', date: string, type: string, account?: string | null, booking?: string | null, currencies?: Array<string> | null, flag?: string | null, links?: Array<string | null> | null, narration?: string | null, payee?: string | null, tags?: Array<string | null> | null, comment?: string | null, filename?: string | null, entry_hash?: string | null, entry_type?: string | null, error?: string | null, error_message?: string | null, netAmount?: number | null, primaryAccount?: string | null, searchableText?: string | null, meta: { __typename?: 'EntryMeta', filename: string, lineno: number }, postings?: Array<{ __typename?: 'JournalEntryPosting', account: string, cost?: string | null, flag?: string | null, price?: string | null, meta?: { __typename?: 'PostingMeta', filename: string, lineno: number } | null, units?: { __typename?: 'PostingUnits', currency: string, number: number } | null }> | null, amount?: { __typename?: 'PostingUnits', currency: string, number: number } | null }>, pageInfo?: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null, totalCount?: number | null } | null } };
+export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: { __typename?: 'JournalEntriesResponse', success: boolean, data: Array<{ __typename?: 'JournalEntry', date: string, type?: string | null, account?: string | null, booking?: string | null, currencies?: Array<string> | null, flag?: string | null, links?: Array<string | null> | null, narration?: string | null, payee?: string | null, tags?: Array<string | null> | null, comment?: string | null, filename?: string | null, entry_hash?: string | null, entry_type?: string | null, error?: string | null, error_message?: string | null, netAmount?: number | null, primaryAccount?: string | null, searchableText?: string | null, meta?: { __typename?: 'EntryMeta', filename: string, lineno: number } | null, postings?: Array<{ __typename?: 'JournalEntryPosting', account: string, cost?: string | null, flag?: string | null, price?: string | null, meta?: { __typename?: 'PostingMeta', filename: string, lineno: number } | null, units?: { __typename?: 'PostingUnits', currency?: string | null, number?: number | null } | null }> | null, amount?: { __typename?: 'PostingUnits', currency?: string | null, number?: number | null } | null }>, pageInfo?: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null, totalCount?: number | null } | null } };
 
 export type LedgerMetaQueryVariables = Exact<{
   userId: Scalars['String']['input'];
@@ -1257,44 +1206,6 @@ export function useDeleteFileMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteFileMutationHookResult = ReturnType<typeof useDeleteFileMutation>;
 export type DeleteFileMutationResult = Apollo.MutationResult<DeleteFileMutation>;
 export type DeleteFileMutationOptions = Apollo.BaseMutationOptions<DeleteFileMutation, DeleteFileMutationVariables>;
-export const FeatureFlagsDocument = gql`
-    query FeatureFlags($userId: String!) {
-  featureFlags(userId: $userId)
-}
-    `;
-
-/**
- * __useFeatureFlagsQuery__
- *
- * To run a query within a React component, call `useFeatureFlagsQuery` and pass it any options that fit your needs.
- * When your component renders, `useFeatureFlagsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFeatureFlagsQuery({
- *   variables: {
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useFeatureFlagsQuery(baseOptions: Apollo.QueryHookOptions<FeatureFlagsQuery, FeatureFlagsQueryVariables> & ({ variables: FeatureFlagsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FeatureFlagsQuery, FeatureFlagsQueryVariables>(FeatureFlagsDocument, options);
-      }
-export function useFeatureFlagsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FeatureFlagsQuery, FeatureFlagsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FeatureFlagsQuery, FeatureFlagsQueryVariables>(FeatureFlagsDocument, options);
-        }
-export function useFeatureFlagsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FeatureFlagsQuery, FeatureFlagsQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<FeatureFlagsQuery, FeatureFlagsQueryVariables>(FeatureFlagsDocument, options);
-        }
-export type FeatureFlagsQueryHookResult = ReturnType<typeof useFeatureFlagsQuery>;
-export type FeatureFlagsLazyQueryHookResult = ReturnType<typeof useFeatureFlagsLazyQuery>;
-export type FeatureFlagsSuspenseQueryHookResult = ReturnType<typeof useFeatureFlagsSuspenseQuery>;
-export type FeatureFlagsQueryResult = Apollo.QueryResult<FeatureFlagsQuery, FeatureFlagsQueryVariables>;
 export const FormatSourceDocument = gql`
     mutation FormatSource($source: String!) {
   formatSource(source: $source) {

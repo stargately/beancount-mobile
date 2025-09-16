@@ -22,7 +22,6 @@ type Query {
   extract(filename: String!, importer: String!): ExtractResponse!
   """Check if the Fava service is healthy"""
   favaHealth: HealthResponse!
-  featureFlags(userId: String!): JSONObject!
   """is the server healthy?"""
   health: String!
   homeCharts(userId: String!): HomeChartsResponse!
@@ -59,7 +58,6 @@ type Query {
   ledgerMeta(userId: String!): LedgerMetaResponse!
   """get the ledger of the current user"""
   ledgers(file: BeanFilename): [Ledger!]
-  listOutboundIntegrations: ListOutboundIntegrationsResponse!
   """Get ranked accounts for a given payee"""
   payeeAccounts(payee: String!): PayeeAccountsResponse!
   """Get the last transaction for a given payee"""
@@ -202,7 +200,7 @@ type JournalEntry {
   filename: String
   flag: String
   links: [String]
-  meta: EntryMeta!
+  meta: EntryMeta
   narration: String
   """Net amount for the transaction"""
   netAmount: Float
@@ -214,12 +212,12 @@ type JournalEntry {
   searchableText: String
   tags: [String]
   """Entry type (Transaction, Balance, Open, etc.)"""
-  type: String!
+  type: String
 }
 
 type PostingUnits {
-  currency: String!
-  number: Float!
+  currency: String
+  number: Float
 }
 
 type EntryMeta {
@@ -229,6 +227,7 @@ type EntryMeta {
 
 type JournalEntryPosting {
   account: String!
+  amount: String
   cost: String
   flag: String
   meta: PostingMeta
@@ -282,15 +281,6 @@ type Ledger {
   file: BeanFilename!
   ledgerId: String!
   text: String!
-}
-
-type ListOutboundIntegrationsResponse {
-  integrations: [OutboundIntegration!]
-}
-
-type OutboundIntegration {
-  id: String!
-  providerId: String!
 }
 
 type PayeeAccountsResponse {
@@ -371,7 +361,9 @@ type SubscriptionProduct {
 type UserProfileResponse {
   email: String!
   emailReportStatus: ReportStatus
+  firstName: String
   id: String!
+  lastName: String
   locale: String!
 }
 
@@ -390,15 +382,15 @@ type Mutation {
   cancelSubscription(clientId: String!, subscriptionId: String!): SubscriptionActionResult!
   """Create or rename a file"""
   createOrRenameFile(fileInput: CreateOrRenameFileInput!): FileOperationResponse!
-  createOutboundIntegration(byAuthorizationCode: ByAuthorizationCode): CreateOutboundIntegrationResponse!
   createSubscriptionSession(clientId: String!, priceId: String!): SubscriptionSessionResult!
+  """delete user account and its associated data"""
+  deleteAccount: Boolean!
   """Delete a document"""
   deleteDocument(filename: String!): DocumentOperationResponse!
   """Delete a Fava file"""
   deleteFavaFile(deleteInput: DeleteFavaFileInput!): FileOperationResponse!
   """delete file that belongs to the user."""
   deleteFile(deleteFileRequest: DeleteFileRequest!): DeleteFileResponse
-  deleteOutboundIntegration(byIntegration: DeleteOutboundIntegrationByIntegration): DeleteOutboundIntegrationResponse!
   """Format beancount source code"""
   formatSource(source: String!): SourceUpdateResponse!
   """Move a document file to a different account"""
@@ -462,15 +454,6 @@ type FileOperationResponse {
   success: Boolean!
 }
 
-input ByAuthorizationCode {
-  code: String!
-  providerId: String!
-}
-
-type CreateOutboundIntegrationResponse {
-  _: Boolean!
-}
-
 type SubscriptionSessionResult {
   message: String
   sessionId: String
@@ -490,14 +473,6 @@ input DeleteFileRequest {
 
 type DeleteFileResponse {
   _id: ID
-}
-
-input DeleteOutboundIntegrationByIntegration {
-  integrationId: String!
-}
-
-type DeleteOutboundIntegrationResponse {
-  _: Boolean!
 }
 
 type SourceUpdateResponse {
