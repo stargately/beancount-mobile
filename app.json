@@ -1,6 +1,6 @@
 {
   "expo": {
-    "version": "1.20250922.17",
+    "version": "1.20250922.34",
     "name": "Beancount",
     "scheme": "beancount",
     "slug": "beancount",
@@ -36,10 +36,10 @@
         "NSFaceIDUsageDescription": false,
         "ITSAppUsesNonExemptEncryption": false
       },
-      "buildNumber": "17"
+      "buildNumber": "34"
     },
     "android": {
-      "versionCode": 17,
+      "versionCode": 34,
       "package": "io.beancount.android",
       "permissions": [
         "com.google.android.gms.permission.AD_ID"

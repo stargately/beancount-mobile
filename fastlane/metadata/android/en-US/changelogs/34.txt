@@ -1,4 +1,4 @@
-What's New in Version 1.20250922.17:
+What's New in Version 1.20250922.34:
 
 • Updated internationalization for login screen
 • Added user deletion functionality
