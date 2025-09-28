@@ -188,9 +188,7 @@ const SignInScreen = () => {
         </TouchableOpacity>
         <Link href="/auth/sign-up" asChild>
           <TouchableOpacity>
-            <Text style={styles.bottomLink}>
-              {t("dontHaveAccount")}
-            </Text>
+            <Text style={styles.bottomLink}>{t("dontHaveAccount")}</Text>
           </TouchableOpacity>
         </Link>
       </SafeAreaView>
