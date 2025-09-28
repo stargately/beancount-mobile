@@ -213,9 +213,7 @@ const SignUpScreen = () => {
         {error && <Text style={styles.errorText}>{error}</Text>}
         <Link href="/auth/sign-in" asChild>
           <TouchableOpacity>
-            <Text style={styles.bottomLink}>
-              {t("alreadyHaveAccount")}
-            </Text>
+            <Text style={styles.bottomLink}>{t("alreadyHaveAccount")}</Text>
           </TouchableOpacity>
         </Link>
       </SafeAreaView>
