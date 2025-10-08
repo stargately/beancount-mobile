@@ -11,6 +11,7 @@ export const uk: typeof en = {
   setting: "Налаштування",
   // mine
   reviewApp: "Подобається? Залиште відгук :)",
+  helpCenter: "Центр допомоги",
   currentLanguage: "Мова",
   currentVersion: "Версія",
   theme: "Тема",

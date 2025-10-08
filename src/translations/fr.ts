@@ -11,6 +11,7 @@ export const fr: typeof en = {
   setting: "Réglage",
   // mine
   reviewApp: "Vous aimez ? Laissez un avis :)",
+  helpCenter: "Centre d'aide",
   currentLanguage: "Langue",
 
   currentVersion: "Version",

@@ -11,6 +11,7 @@ export const nl: typeof en = {
   setting: "Instelling",
   // mine
   reviewApp: "Bevalt het? Geef een review :)",
+  helpCenter: "Helpcentrum",
   currentLanguage: "Taal",
   currentVersion: "Versie",
   theme: "Thema",

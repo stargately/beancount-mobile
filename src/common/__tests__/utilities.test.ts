@@ -120,7 +120,12 @@ describe("utility modules", () => {
 
     beforeAll(() => {
       const originalResolve = Module._resolveFilename;
-      Module._resolveFilename = function patched(request: string, parent: any, isMain: boolean, options: any) {
+      Module._resolveFilename = function patched(
+        request: string,
+        parent: any,
+        isMain: boolean,
+        options: any,
+      ) {
         if (request === "@/config") {
           return configPath;
         }
@@ -189,11 +194,11 @@ describe("utility modules", () => {
       SelectedAssets.setFn(assetsFn);
       expect(SelectedAssets.hasFn()).toBe(true);
       expect(SelectedAssets.getFn()).toBe(assetsFn);
-      expect(getGlobalFn<typeof assetsFn>("SelectedAssets")).toBe(assetsFn);
+      expect(getGlobalFn("SelectedAssets")).toBe(assetsFn);
 
       const currencyFn = (value: string) => `currency:${value}`;
       SelectedCurrency.setFn(currencyFn);
-      expect(getGlobalFn<typeof currencyFn>("SelectedCurrency")).toBe(currencyFn);
+      expect(getGlobalFn("SelectedCurrency")).toBe(currencyFn);
 
       SelectedAssets.deleteFn();
       expect(SelectedAssets.hasFn()).toBe(false);

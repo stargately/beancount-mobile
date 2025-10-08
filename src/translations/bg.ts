@@ -11,6 +11,7 @@ export const bg: typeof en = {
   setting: "Настройка",
   // mine
   reviewApp: "Харесва ли ви? Оставете отзив :)",
+  helpCenter: "Помощен център",
   currentLanguage: "Език",
   currentVersion: "Версия",
   theme: "Тема",

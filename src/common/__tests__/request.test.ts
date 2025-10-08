@@ -12,11 +12,22 @@ describe("request utilities", () => {
     const Module = require("module");
     const originalResolveFilename = Module._resolveFilename;
     const configPath = require.resolve("../../config");
-    Module._resolveFilename = function patch(request, parent, isMain, options) {
+    Module._resolveFilename = function patch(
+      request: string,
+      parent: any,
+      isMain: boolean,
+      options: any,
+    ) {
       if (request === "@/config") {
         return configPath;
       }
-      return originalResolveFilename.call(this, request, parent, isMain, options);
+      return originalResolveFilename.call(
+        this,
+        request,
+        parent,
+        isMain,
+        options,
+      );
     };
     restoreResolveFilename = () => {
       Module._resolveFilename = originalResolveFilename;
@@ -25,7 +36,7 @@ describe("request utilities", () => {
     const constantsPath = require.resolve("expo-constants");
     require.cache[constantsPath] = {
       exports: { nativeAppVersion: "9.9.9" },
-    };
+    } as any;
 
     const modulePath = require.resolve("../request");
     delete require.cache[modulePath];

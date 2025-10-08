@@ -136,6 +136,15 @@ export const MainContent = () => {
             }
           }}
         />
+        <ListItemHorizontal
+          icon={<Ionicons name="help-circle" size={22} color={theme.black80} />}
+          title={t("helpCenter")}
+          onPress={async () => {
+            const helpCenterUrl = "https://beancount.io/docs/help-center";
+            await WebBrowser.openBrowserAsync(helpCenterUrl);
+            await analytics.track("tap_help_center", { url: helpCenterUrl });
+          }}
+        />
         {authToken && (
           <ListItemHorizontal
             icon={<Ionicons name="trash" size={22} color={theme.black80} />}

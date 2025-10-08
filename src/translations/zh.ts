@@ -8,6 +8,7 @@ export const zh = {
   setting: "设置",
   // mine
   reviewApp: "给个好评鼓励一下",
+  helpCenter: "帮助中心",
   currentLanguage: "当前语言",
 
   currentVersion: "当前版本",

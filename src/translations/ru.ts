@@ -11,6 +11,7 @@ export const ru: typeof en = {
   setting: "Настройка",
   // mine
   reviewApp: "Нравится? Оставьте отзыв :)",
+  helpCenter: "Справочный центр",
   currentLanguage: "Язык",
   currentVersion: "Версия",
   theme: "Тема",
