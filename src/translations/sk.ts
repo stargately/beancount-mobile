@@ -11,6 +11,7 @@ export const sk: typeof en = {
   setting: "Nastavenie",
   // mine
   reviewApp: "Páči sa vám? Zanechajte recenziu :)",
+  helpCenter: "Centrum pomoci",
   currentLanguage: "Jazyk",
   currentVersion: "Verzia",
   theme: "Téma",

@@ -8,6 +8,7 @@ export const en = {
   setting: "Setting",
   // mine
   reviewApp: "Like it? Give it a review :)",
+  helpCenter: "Help Center",
   currentLanguage: "Language",
 
   currentVersion: "Version",

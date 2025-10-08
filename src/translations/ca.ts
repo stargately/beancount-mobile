@@ -11,6 +11,7 @@ export const ca: typeof en = {
   setting: "Configuració",
   // mine
   reviewApp: "T'agrada? Deixa una ressenya :)",
+  helpCenter: "Centre d'ajuda",
   currentLanguage: "Idioma",
   currentVersion: "Versió",
   theme: "Tema",

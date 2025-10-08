@@ -11,6 +11,7 @@ export const fa: typeof en = {
   setting: "تنظیم",
   // mine
   reviewApp: "دوستش دارید؟ نظر بدهید :)",
+  helpCenter: "مرکز کمک",
   currentLanguage: "زبان",
   currentVersion: "نسخه",
   theme: "تم",
