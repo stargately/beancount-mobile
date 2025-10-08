@@ -2,7 +2,9 @@ const Module = require("module");
 
 const configModulePath = require.resolve("../../config");
 const analyticsModulePath = require.resolve("../analytics");
-const mixpanelMockPath = require.resolve("./fixtures/mock-expo-mixpanel-analytics");
+const mixpanelMockPath = require.resolve(
+  "./fixtures/mock-expo-mixpanel-analytics",
+);
 
 const { config } = require("../../config");
 
@@ -18,21 +20,33 @@ function loadAnalytics(options: { token: string; dev: boolean }) {
   config.analytics.mixpanelProjectToken = token;
   delete require.cache[analyticsModulePath];
   (global as any).__DEV__ = dev;
-  const moduleExports = require("../analytics") as typeof import("../analytics");
+  const moduleExports =
+    require("../analytics") as typeof import("../analytics");
   return { analytics: moduleExports.analytics, MockExpoMixpanelAnalytics };
 }
 
 describe("analytics", () => {
   beforeAll(() => {
     const originalResolveFilename = Module._resolveFilename;
-    Module._resolveFilename = function resolve(request: string, parent: any, isMain: boolean, options: any) {
+    Module._resolveFilename = function resolve(
+      request: string,
+      parent: any,
+      isMain: boolean,
+      options: any,
+    ) {
       if (request === "@/config") {
         return configModulePath;
       }
       if (request === "@/common/expo-mixpanel-analytics") {
         return mixpanelMockPath;
       }
-      return originalResolveFilename.call(this, request, parent, isMain, options);
+      return originalResolveFilename.call(
+        this,
+        request,
+        parent,
+        isMain,
+        options,
+      );
     };
 
     restoreResolveFilename = () => {
@@ -56,7 +70,10 @@ describe("analytics", () => {
   });
 
   it("does not instantiate mixpanel when no project token is configured", () => {
-    const { MockExpoMixpanelAnalytics } = loadAnalytics({ token: "", dev: false });
+    const { MockExpoMixpanelAnalytics } = loadAnalytics({
+      token: "",
+      dev: false,
+    });
 
     expect(MockExpoMixpanelAnalytics.instances.length).toBe(0);
   });

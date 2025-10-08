@@ -14,14 +14,25 @@ describe("api client", () => {
     const configPath = require.resolve("../../config");
     const requestPath = require.resolve("../request");
 
-    Module._resolveFilename = function resolve(request: string, parent: any, isMain: boolean, options: any) {
+    Module._resolveFilename = function resolve(
+      request: string,
+      parent: any,
+      isMain: boolean,
+      options: any,
+    ) {
       if (request === "@/config") {
         return configPath;
       }
       if (request === "@/common/request") {
         return requestPath;
       }
-      return originalResolveFilename.call(this, request, parent, isMain, options);
+      return originalResolveFilename.call(
+        this,
+        request,
+        parent,
+        isMain,
+        options,
+      );
     };
 
     restoreResolveFilename = () => {
@@ -31,7 +42,7 @@ describe("api client", () => {
     const constantsPath = require.resolve("expo-constants");
     require.cache[constantsPath] = {
       exports: { nativeAppVersion: "42.0.0" },
-    };
+    } as any;
 
     const modulePath = require.resolve("../api");
     delete require.cache[modulePath];

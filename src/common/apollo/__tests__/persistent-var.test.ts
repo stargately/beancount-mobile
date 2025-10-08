@@ -3,7 +3,9 @@ import type { ReactiveVar } from "@apollo/client";
 describe("createPersistentVar", () => {
   let createPersistentVar: typeof import("../persistent-var").createPersistentVar;
   const apolloPath = require.resolve("@apollo/client");
-  const asyncStoragePath = require.resolve("@react-native-async-storage/async-storage");
+  const asyncStoragePath = require.resolve(
+    "@react-native-async-storage/async-storage",
+  );
   let originalApolloModule: NodeModule | undefined;
   let originalAsyncStorageModule: NodeModule | undefined;
 
@@ -21,8 +23,14 @@ describe("createPersistentVar", () => {
         listeners.slice().forEach((listener) => listener(currentValue));
         return currentValue;
       }) as ReactiveVar<T>;
-      reactiveVar.onNextChange = (listener: Listener<T>) => {
+      reactiveVar.onNextChange = (listener: Listener<T>): (() => void) => {
         listeners.push(listener);
+        return () => {
+          const index = listeners.indexOf(listener);
+          if (index > -1) {
+            listeners.splice(index, 1);
+          }
+        };
       };
       return reactiveVar;
     };
@@ -114,7 +122,9 @@ describe("createPersistentVar", () => {
 
       expect(result).toBe(null);
       expect(
-        errors.some((entry) => `${entry.message}`.includes("Failed to load locale")),
+        errors.some((entry) =>
+          `${entry.message}`.includes("Failed to load locale"),
+        ),
       ).toBe(true);
     } finally {
       console.error = originalError;

@@ -10,7 +10,7 @@ describe("getCurrencySymbol", () => {
         USD: { symbol: "$" },
         EUR: {},
       },
-    };
+    } as any;
 
     const modulePath = require.resolve("../currency-util");
     delete require.cache[modulePath];

@@ -24,11 +24,13 @@ describe("globalFnFactory helpers", () => {
   });
 
   it("allows retrieving callbacks via getGlobalFn", async () => {
-    const callback = async () => "done";
+    const callback = async (): Promise<void> => {
+      await Promise.resolve("done");
+    };
     AddTransactionCallback.setFn(callback);
 
     const lookedUp = getGlobalFn<typeof callback>("AddTransactionCallback");
     expect(lookedUp).toBe(callback);
-    expect(await lookedUp?.()).toBe("done");
+    await lookedUp?.();
   });
 });

@@ -61,7 +61,9 @@ function bumpVersionDummy() {
   // Write the updated app.json file
   fs.writeFileSync(appJsonPath, JSON.stringify(appJson, null, 2));
 
-  console.log(`Version bumped to ${newVersion} (dummy bump - no changelog changes)`);
+  console.log(
+    `Version bumped to ${newVersion} (dummy bump - no changelog changes)`,
+  );
   console.log(`iOS build number: ${appJson.expo.ios?.buildNumber}`);
   console.log(`Android version code: ${appJson.expo.android?.versionCode}`);
 }
