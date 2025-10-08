@@ -137,13 +137,7 @@ export const MainContent = () => {
           }}
         />
         <ListItemHorizontal
-          icon={
-            <Ionicons
-              name="help-circle"
-              size={22}
-              color={theme.black80}
-            />
-          }
+          icon={<Ionicons name="help-circle" size={22} color={theme.black80} />}
           title={t("helpCenter")}
           onPress={async () => {
             const helpCenterUrl = "https://beancount.io/docs/help-center";
