@@ -5,10 +5,6 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "jsx": "react-native",
-    "lib": ["es2017"],
-    "module": "esnext",
-    "noEmit": true,
     "noEmitHelpers": true,
     "noEmitOnError": true,
     "noImplicitAny": true,
@@ -17,10 +13,8 @@
     "noUnusedParameters": true,
     "preserveConstEnums": true,
     "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
     "sourceMap": true,
     "strictNullChecks": true,
-    "target": "es2017",
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]

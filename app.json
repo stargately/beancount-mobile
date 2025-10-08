@@ -1,10 +1,9 @@
 {
   "expo": {
-    "version": "1.20251006.35",
+    "version": "1.20251007.36",
     "name": "Beancount",
     "scheme": "beancount",
     "slug": "beancount",
-    "privacy": "public",
     "platforms": [
       "ios",
       "android"
@@ -36,10 +35,10 @@
         "NSFaceIDUsageDescription": false,
         "ITSAppUsesNonExemptEncryption": false
       },
-      "buildNumber": "35"
+      "buildNumber": "36"
     },
     "android": {
-      "versionCode": 35,
+      "versionCode": 36,
       "package": "io.beancount.android",
       "permissions": [
         "com.google.android.gms.permission.AD_ID"
@@ -87,7 +86,8 @@
       ],
       "expo-localization",
       "sentry-expo",
-      "expo-router"
+      "expo-router",
+      "expo-web-browser"
     ],
     "extra": {
       "eas": {
