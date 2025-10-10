@@ -28,6 +28,10 @@ export const zh = {
   deleteAccountAlertConfirm: "删除账号",
   deleteAccount: "删除账号",
   deleteAccountDescription: "永久删除账号和数据",
+  deleteAccountConfirmTitle: "确认删除账号",
+  deleteAccountConfirmMessage: '请在下方输入 "sudo delete my account" 以确认：',
+  deleteAccountConfirmPhrase: "sudo delete my account",
+  deleteAccountConfirmPlaceholder: "在此输入短语",
   // settings sections
   appSettings: "应用设置",
   accountSettings: "账户",

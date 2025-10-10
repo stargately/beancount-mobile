@@ -30,6 +30,11 @@ export const nl: typeof en = {
   deleteAccountAlertConfirm: "Account verwijderen",
   deleteAccount: "Account verwijderen",
   deleteAccountDescription: "Account en gegevens permanent verwijderen",
+  deleteAccountConfirmTitle: "Account verwijdering bevestigen",
+  deleteAccountConfirmMessage:
+    'Om te bevestigen, typ "sudo delete my account" hieronder:',
+  deleteAccountConfirmPhrase: "sudo delete my account",
+  deleteAccountConfirmPlaceholder: "Typ de zin hier",
   // settings sections
   appSettings: "App-instellingen",
   accountSettings: "Account",

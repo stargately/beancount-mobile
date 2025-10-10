@@ -30,6 +30,11 @@ export const bg: typeof en = {
   deleteAccountAlertConfirm: "Изтриване на акаунт",
   deleteAccount: "Изтриване на акаунт",
   deleteAccountDescription: "Перманентно премахване на акаунта и данните",
+  deleteAccountConfirmTitle: "Потвърждаване на изтриване на акаунт",
+  deleteAccountConfirmMessage:
+    'За да потвърдите, моля въведете "sudo delete my account" по-долу:',
+  deleteAccountConfirmPhrase: "sudo delete my account",
+  deleteAccountConfirmPlaceholder: "Въведете фразата тук",
   // settings sections
   appSettings: "Настройки на приложението",
   accountSettings: "Акаунт",

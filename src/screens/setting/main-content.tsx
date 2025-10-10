@@ -14,6 +14,7 @@ import { useReactiveVar } from "@apollo/client";
 import { actionLogout } from "./logout";
 import { useToast } from "@/common/hooks";
 import { Picker } from "@/components/picker";
+import { TextInputModal } from "@/components/text-input-modal";
 import {
   ListItemHorizontal,
   SectionHeader,
@@ -32,6 +33,8 @@ export const MainContent = () => {
   const { t } = useTranslations();
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
   const [themeModalVisible, setThemeModalVisible] = useState(false);
+  const [deleteAccountModalVisible, setDeleteAccountModalVisible] =
+    useState(false);
   const LANGUAGES = {
     en: "English",
     zh: "中文",
@@ -99,6 +102,14 @@ export const MainContent = () => {
     }
   };
 
+  const handleDeleteAccountConfirm = (inputText: string) => {
+    setDeleteAccountModalVisible(false);
+    // Proceed with deletion only if the input matches
+    if (inputText === t("deleteAccountConfirmPhrase")) {
+      handleDeleteAccount();
+    }
+  };
+
   return (
     <>
       <List2>
@@ -160,7 +171,7 @@ export const MainContent = () => {
                   {
                     text: t("deleteAccountAlertConfirm"),
                     style: "destructive",
-                    onPress: handleDeleteAccount,
+                    onPress: () => setDeleteAccountModalVisible(true),
                   },
                 ],
                 { cancelable: false },
@@ -243,6 +254,18 @@ export const MainContent = () => {
         selectedValue={currentTheme}
         confirmButtonText={t("confirm")}
         cancelButtonText={t("cancel")}
+      />
+      <TextInputModal
+        visible={deleteAccountModalVisible}
+        title={t("deleteAccountConfirmTitle")}
+        message={t("deleteAccountConfirmMessage")}
+        placeholder={t("deleteAccountConfirmPlaceholder")}
+        onConfirm={handleDeleteAccountConfirm}
+        onCancel={() => setDeleteAccountModalVisible(false)}
+        confirmButtonText={t("deleteAccountAlertConfirm")}
+        cancelButtonText={t("deleteAccountAlertCancel")}
+        destructive
+        validateInput={(text) => text === t("deleteAccountConfirmPhrase")}
       />
     </>
   );

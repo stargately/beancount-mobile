@@ -28,6 +28,11 @@ export const en = {
   deleteAccountAlertConfirm: "Delete Account",
   deleteAccount: "Delete Account",
   deleteAccountDescription: "Permanently remove your account and data",
+  deleteAccountConfirmTitle: "Confirm Account Deletion",
+  deleteAccountConfirmMessage:
+    'To confirm, please type "sudo delete my account" below:',
+  deleteAccountConfirmPhrase: "sudo delete my account",
+  deleteAccountConfirmPlaceholder: "Type the phrase here",
   // settings sections
   appSettings: "App Settings",
   accountSettings: "Account",

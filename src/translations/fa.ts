@@ -30,6 +30,11 @@ export const fa: typeof en = {
   deleteAccountAlertConfirm: "حذف حساب",
   deleteAccount: "حذف حساب",
   deleteAccountDescription: "حذف دائمی حساب و داده‌ها",
+  deleteAccountConfirmTitle: "تأیید حذف حساب",
+  deleteAccountConfirmMessage:
+    'برای تأیید، لطفاً "sudo delete my account" را در زیر بنویسید:',
+  deleteAccountConfirmPhrase: "sudo delete my account",
+  deleteAccountConfirmPlaceholder: "عبارت را اینجا بنویسید",
   // settings sections
   appSettings: "تنظیمات برنامه",
   accountSettings: "حساب",

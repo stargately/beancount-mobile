@@ -30,6 +30,11 @@ export const de: typeof en = {
   deleteAccountAlertConfirm: "Konto löschen",
   deleteAccount: "Konto löschen",
   deleteAccountDescription: "Konto und Daten dauerhaft entfernen",
+  deleteAccountConfirmTitle: "Kontolöschung bestätigen",
+  deleteAccountConfirmMessage:
+    'Bitte geben Sie "sudo delete my account" ein, um zu bestätigen:',
+  deleteAccountConfirmPhrase: "sudo delete my account",
+  deleteAccountConfirmPlaceholder: "Geben Sie die Phrase hier ein",
   // settings sections
   appSettings: "App-Einstellungen",
   accountSettings: "Konto",
