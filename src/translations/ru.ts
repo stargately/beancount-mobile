@@ -30,6 +30,11 @@ export const ru: typeof en = {
   deleteAccountAlertConfirm: "Удалить аккаунт",
   deleteAccount: "Удалить аккаунт",
   deleteAccountDescription: "Навсегда удалить аккаунт и данные",
+  deleteAccountConfirmTitle: "Подтвердить удаление аккаунта",
+  deleteAccountConfirmMessage:
+    'Для подтверждения введите "sudo delete my account" ниже:',
+  deleteAccountConfirmPhrase: "sudo delete my account",
+  deleteAccountConfirmPlaceholder: "Введите фразу здесь",
   // settings sections
   appSettings: "Настройки приложения",
   accountSettings: "Аккаунт",

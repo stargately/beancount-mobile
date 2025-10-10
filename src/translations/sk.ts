@@ -30,6 +30,11 @@ export const sk: typeof en = {
   deleteAccountAlertConfirm: "Vymazať účet",
   deleteAccount: "Vymazať účet",
   deleteAccountDescription: "Trvalo odstrániť účet a údaje",
+  deleteAccountConfirmTitle: "Potvrdiť vymazanie účtu",
+  deleteAccountConfirmMessage:
+    'Pre potvrdenie zadajte "sudo delete my account" nižšie:',
+  deleteAccountConfirmPhrase: "sudo delete my account",
+  deleteAccountConfirmPlaceholder: "Zadajte frázu tu",
   // settings sections
   appSettings: "Nastavenia aplikácie",
   accountSettings: "Účet",
