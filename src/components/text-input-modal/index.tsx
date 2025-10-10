@@ -86,7 +86,12 @@ const getStyles = (theme: ColorTheme) =>
       fontWeight: "600",
     },
     confirmButtonDestructive: {
-      color: "#DC2626",
+      color: theme.error,
+      fontSize: 16,
+      fontWeight: "600",
+    },
+    confirmButtonDisabled: {
+      color: theme.black40,
       fontSize: 16,
       fontWeight: "600",
     },
@@ -199,9 +204,11 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
             >
               <Text
                 style={
-                  destructive
-                    ? styles.confirmButtonDestructive
-                    : styles.confirmButton
+                  isConfirmDisabled
+                    ? styles.confirmButtonDisabled
+                    : destructive
+                      ? styles.confirmButtonDestructive
+                      : styles.confirmButton
                 }
               >
                 {confirmButtonText}
