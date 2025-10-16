@@ -29,4 +29,52 @@ describe("shortNumber", () => {
   it("returns the original value when parsing fails", () => {
     expect(shortNumber("not-a-number")).toBe("not-a-number");
   });
+
+  it("handles zero correctly", () => {
+    expect(shortNumber(0)).toBe("0.0");
+    expect(shortNumber("0")).toBe("0.0");
+  });
+
+  it("handles decimal values", () => {
+    expect(shortNumber(123.45)).toBe("123.5");
+    expect(shortNumber(567.89)).toBe("567.9");
+  });
+
+  it("formats thousands correctly", () => {
+    expect(shortNumber(1000)).toBe("1K");
+    expect(shortNumber(5000)).toBe("5K");
+    expect(shortNumber(10000)).toBe("10K");
+  });
+
+  it("formats millions correctly", () => {
+    expect(shortNumber(1000000)).toBe("1M");
+    expect(shortNumber(5000000)).toBe("5M");
+    expect(shortNumber(10000000)).toBe("10M");
+  });
+
+  it("formats billions correctly", () => {
+    expect(shortNumber(1000000000)).toBe("1B");
+    expect(shortNumber(5000000000)).toBe("5B");
+    expect(shortNumber(10000000000)).toBe("10B");
+  });
+
+  it("handles very small positive numbers", () => {
+    expect(shortNumber(0.1)).toBe("0.1");
+    expect(shortNumber(0.01)).toBe("0.0");
+  });
+
+  it("handles very small negative numbers", () => {
+    expect(shortNumber(-0.1)).toBe("-0.1");
+    expect(shortNumber(-0.01)).toBe("-0.0");
+  });
+
+  it("handles empty string", () => {
+    expect(shortNumber("")).toBe("");
+  });
+
+  it("handles boundary values", () => {
+    expect(shortNumber(999)).toBe("999.0");
+    expect(shortNumber(999999)).toBe("1000.0K");
+    expect(shortNumber(999999999)).toBe("1000.0M");
+  });
 });

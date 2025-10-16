@@ -7,7 +7,7 @@ const androidStatusBarHeight = StatusBar.currentHeight
   : 0;
 const isIphoneX =
   Platform.OS === "ios" &&
-  Number(`${ScreenHeight / ScreenWidth}`.substr(0, 4)) * 100 === 216;
+  Number(`${ScreenHeight / ScreenWidth}`.substring(0, 4)) * 100 === 216;
 const BAR_HEIGHT = isIphoneX ? 44 : 20;
 const NAV_BAR_HEIGHT = isIphoneX ? 88 : 64;
 const statusBarHeight =
