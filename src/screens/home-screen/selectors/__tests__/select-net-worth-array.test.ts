@@ -1,6 +1,5 @@
 // Mock dependencies BEFORE any imports
 const Module = require("module");
-const path = require("path");
 const originalRequire = Module.prototype.require;
 
 Module.prototype.require = function (this: any, id: string) {
