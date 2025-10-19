@@ -11,6 +11,9 @@
 - If dependencies need to be updated, ask the developer to run `yarn install` or `yarn upgrade` manually
 - Never suggest changes to `yarn.lock` in code suggestions or completions
 
-## Project Guidelines
+## Project Context
 
-This is a React Native mobile application using Expo. Please follow the existing patterns and conventions documented in the `CLAUDE.md` file.
+This is a React Native mobile application built with Expo. When making suggestions or generating code:
+- Follow existing TypeScript patterns and conventions in the codebase
+- Respect the project's dependency management through Yarn
+- Do not modify lock files or package manager configuration
