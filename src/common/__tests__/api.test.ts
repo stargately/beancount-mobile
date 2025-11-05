@@ -2,6 +2,10 @@ import { config } from "../../config";
 
 type ApiModule = typeof import("../api");
 
+interface MockResponse {
+  json: () => Promise<unknown>;
+}
+
 describe("api client", () => {
   let api: ApiModule["api"];
   let restoreResolveFilename: (() => void) | undefined;
@@ -42,7 +46,7 @@ describe("api client", () => {
     const constantsPath = require.resolve("expo-constants");
     require.cache[constantsPath] = {
       exports: { nativeAppVersion: "42.0.0" },
-    } as any;
+    } as NodeModule;
 
     const modulePath = require.resolve("../api");
     delete require.cache[modulePath];
@@ -75,7 +79,7 @@ describe("api client", () => {
       calls.push({ url: url as string, options });
       return {
         json: async () => responsePayload,
-      } as any;
+      } as MockResponse;
     }) as typeof fetch;
 
     const result = await api.signIn("user@example.com", "secret");
@@ -104,7 +108,7 @@ describe("api client", () => {
       capturedBody = options?.body as string | undefined;
       return {
         json: async () => responsePayload,
-      } as any;
+      } as MockResponse;
     }) as typeof fetch;
 
     const result = await api.signUp("new@example.com", "hunter2");
@@ -124,7 +128,7 @@ describe("api client", () => {
       recordedBodies.push(options?.body as string);
       return {
         json: async () => responsePayload,
-      } as any;
+      } as MockResponse;
     }) as typeof fetch;
 
     const result = await api.forgotPassword("reset@example.com");

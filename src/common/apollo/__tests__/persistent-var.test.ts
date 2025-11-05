@@ -106,9 +106,9 @@ describe("createPersistentVar", () => {
   });
 
   it("logs errors when storage access fails and returns null", async () => {
-    const errors: Array<{ message: string; args: unknown[] }> = [];
+    const errors: Array<{ message: unknown; args: unknown[] }> = [];
     const originalError = console.error;
-    console.error = ((message?: any, ...rest: any[]) => {
+    console.error = ((message?: unknown, ...rest: unknown[]) => {
       errors.push({ message, args: rest });
     }) as typeof console.error;
 
