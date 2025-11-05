@@ -31,7 +31,6 @@ Module.prototype.require = function (this: NodeModule, id: string) {
 import { HomeChartsQuery } from "@/generated-graphql/graphql";
 import { selectNetWorthArray, isSameMonth } from "../select-net-worth-array";
 
-
 describe("isSameMonth", () => {
   it("returns true for dates in the same month", () => {
     expect(isSameMonth("2025-01-15", "2025-01-20")).toBe(true);

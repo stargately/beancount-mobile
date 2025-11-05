@@ -40,7 +40,6 @@ Module.prototype.require = function (this: NodeModule, id: string) {
 import { HomeChartsQuery } from "@/generated-graphql/graphql";
 import { selectNetProfitArray } from "../select-net-profit-array";
 
-
 describe("selectNetProfitArray", () => {
   it("returns no data labels when data is undefined", () => {
     const result = selectNetProfitArray("USD");

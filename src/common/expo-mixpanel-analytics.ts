@@ -9,7 +9,10 @@ const MIXPANEL_API_URL = "https://api.mixpanel.com";
 const ASYNC_STORAGE_KEY = "mixpanel:super:props";
 const isIosPlatform = Platform.OS === "ios";
 
-type MixpanelEventProperties = Record<string, string | number | boolean | undefined | null>;
+type MixpanelEventProperties = Record<
+  string,
+  string | number | boolean | undefined | null
+>;
 
 interface QueuedEvent {
   name: string;

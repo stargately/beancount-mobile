@@ -165,10 +165,13 @@ export const Tabs: React.FC<TabsProps> = ({
     [scrollable, autoScrollToCenter],
   );
 
-  const handleTabLayout = useCallback((index: number, event: LayoutChangeEvent) => {
-    const { x, width } = event.nativeEvent.layout;
-    tabLayouts.current[index] = { x, width };
-  }, []);
+  const handleTabLayout = useCallback(
+    (index: number, event: LayoutChangeEvent) => {
+      const { x, width } = event.nativeEvent.layout;
+      tabLayouts.current[index] = { x, width };
+    },
+    [],
+  );
 
   useEffect(() => {
     scrollToTab(activeIndex);

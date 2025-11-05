@@ -1,7 +1,6 @@
 import { getNetWorth } from "../select-net-worth";
 import { HomeChartsQuery } from "@/generated-graphql/graphql";
 
-
 describe("getNetWorth", () => {
   it("returns default value when currency is empty", () => {
     const result = getNetWorth("");
