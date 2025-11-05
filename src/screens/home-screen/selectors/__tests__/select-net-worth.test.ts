@@ -1,6 +1,7 @@
 import { getNetWorth } from "../select-net-worth";
 import { HomeChartsQuery } from "@/generated-graphql/graphql";
 
+
 describe("getNetWorth", () => {
   it("returns default value when currency is empty", () => {
     const result = getNetWorth("");
@@ -28,7 +29,7 @@ describe("getNetWorth", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = getNetWorth("USD", data);
     expect(result).toEqual({ netAssets: "0.00" });
   });
@@ -43,7 +44,7 @@ describe("getNetWorth", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = getNetWorth("USD", data);
     expect(result).toEqual({ netAssets: "0.00" });
   });
@@ -67,7 +68,7 @@ describe("getNetWorth", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = getNetWorth("USD", data);
     expect(result).toEqual({ netAssets: "2500.75" });
   });
@@ -87,7 +88,7 @@ describe("getNetWorth", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = getNetWorth("USD", data);
     expect(result).toEqual({ netAssets: "1234.57" });
   });
@@ -107,7 +108,7 @@ describe("getNetWorth", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = getNetWorth("USD", data);
     expect(result).toEqual({ netAssets: "-500.25" });
   });
@@ -127,7 +128,7 @@ describe("getNetWorth", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = getNetWorth("USD", data);
     expect(result).toEqual({ netAssets: "0.00" });
   });
@@ -151,7 +152,7 @@ describe("getNetWorth", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = getNetWorth("EUR", data);
     expect(result).toEqual({ netAssets: "850.00" });
   });
@@ -171,7 +172,7 @@ describe("getNetWorth", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = getNetWorth("USD", data);
     expect(result).toEqual({ netAssets: "0.00" });
   });
@@ -191,7 +192,7 @@ describe("getNetWorth", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = getNetWorth("USD", data);
     expect(result).toEqual({ netAssets: "1234567890.12" });
   });
@@ -211,7 +212,7 @@ describe("getNetWorth", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = getNetWorth("USD", data);
     expect(result).toEqual({ netAssets: "0.01" });
   });
