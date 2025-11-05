@@ -8,11 +8,17 @@ import {
   Dimensions,
   ViewStyle,
   TextStyle,
+  LayoutChangeEvent,
+  NativeSyntheticEvent,
 } from "react-native";
 
 import PagerView from "react-native-pager-view";
 import { useTheme } from "@/common/theme";
 import { ColorTheme } from "@/types/theme-props";
+
+interface PageSelectedEvent {
+  position: number;
+}
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -135,7 +141,7 @@ export const Tabs: React.FC<TabsProps> = ({
   );
 
   const handlePageSelected = useCallback(
-    (event: any) => {
+    (event: NativeSyntheticEvent<PageSelectedEvent>) => {
       const index = event.nativeEvent.position;
       setActiveIndex(index);
       onTabChange?.(index);
@@ -159,7 +165,7 @@ export const Tabs: React.FC<TabsProps> = ({
     [scrollable, autoScrollToCenter],
   );
 
-  const handleTabLayout = useCallback((index: number, event: any) => {
+  const handleTabLayout = useCallback((index: number, event: LayoutChangeEvent) => {
     const { x, width } = event.nativeEvent.layout;
     tabLayouts.current[index] = { x, width };
   }, []);

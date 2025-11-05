@@ -9,6 +9,14 @@ const MIXPANEL_API_URL = "https://api.mixpanel.com";
 const ASYNC_STORAGE_KEY = "mixpanel:super:props";
 const isIosPlatform = Platform.OS === "ios";
 
+type MixpanelEventProperties = Record<string, string | number | boolean | undefined | null>;
+
+interface QueuedEvent {
+  name: string;
+  props?: MixpanelEventProperties;
+  sent?: boolean;
+}
+
 export class ExpoMixpanelAnalytics {
   ready = false;
 
@@ -36,9 +44,9 @@ export class ExpoMixpanelAnalytics {
 
   osVersion: string | number;
 
-  queue: any[];
+  queue: QueuedEvent[];
 
-  superProps: any = {};
+  superProps: MixpanelEventProperties = {};
 
   constructor(token: string) {
     this.ready = false;
@@ -78,14 +86,14 @@ export class ExpoMixpanelAnalytics {
     });
   }
 
-  register(props: any) {
+  register(props: MixpanelEventProperties) {
     this.superProps = props;
     try {
       AsyncStorage.setItem(ASYNC_STORAGE_KEY, JSON.stringify(props));
     } catch {}
   }
 
-  track(name: string, props?: any) {
+  track(name: string, props?: MixpanelEventProperties) {
     this.queue.push({
       name,
       props,
@@ -138,9 +146,11 @@ export class ExpoMixpanelAnalytics {
     if (this.ready) {
       while (this.queue.length) {
         const event = this.queue.pop();
-        this._pushEvent(event).then(() => {
-          event.sent = true;
-        });
+        if (event) {
+          this._pushEvent(event).then(() => {
+            event.sent = true;
+          });
+        }
       }
     }
   }
@@ -157,11 +167,10 @@ export class ExpoMixpanelAnalytics {
     }
   }
 
-  _pushEvent(event: Record<string, string | Record<string, string>>) {
+  _pushEvent(event: QueuedEvent) {
     const data = {
       event: event.name,
       properties: {
-        // @ts-ignore
         ...(event.props || {}),
         ...this.superProps,
       },
