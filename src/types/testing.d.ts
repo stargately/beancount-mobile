@@ -39,6 +39,8 @@ declare interface Expectation<T> {
   toBeCloseTo(expected: number, precision?: number): void;
   toBeTruthy(): void;
   toBeFalsy(): void;
-  toThrow(expected?: string | RegExp | (new (...args: any[]) => unknown)): void;
+  toThrow(
+    expected?: string | RegExp | (new (...args: unknown[]) => unknown),
+  ): void;
   readonly not: Expectation<T>;
 }

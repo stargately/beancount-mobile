@@ -14,9 +14,9 @@ describe("request utilities", () => {
     const configPath = require.resolve("../../config");
     Module._resolveFilename = function patch(
       request: string,
-      parent: any,
+      parent: NodeModule | null | undefined,
       isMain: boolean,
-      options: any,
+      options?: { paths?: string[] },
     ) {
       if (request === "@/config") {
         return configPath;

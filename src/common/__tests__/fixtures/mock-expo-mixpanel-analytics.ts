@@ -9,7 +9,7 @@ export class MockExpoMixpanelAnalytics {
 
   identifyCalls: Array<string | undefined> = [];
 
-  trackCalls: Array<{ name: string; props: Record<string, any> }> = [];
+  trackCalls: Array<{ name: string; props: Record<string, unknown> }> = [];
 
   constructor(token: string) {
     this.token = token;
@@ -20,7 +20,7 @@ export class MockExpoMixpanelAnalytics {
     this.identifyCalls.push(id);
   }
 
-  track(name: string, props: Record<string, any>): void {
+  track(name: string, props: Record<string, unknown>): void {
     this.trackCalls.push({ name, props });
   }
 }

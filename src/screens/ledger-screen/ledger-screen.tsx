@@ -1,4 +1,3 @@
-/* tslint:disable:no-any */
 import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
