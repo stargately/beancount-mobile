@@ -2,7 +2,7 @@
 const Module = require("module");
 const originalRequire = Module.prototype.require;
 
-Module.prototype.require = function (this: any, id: string) {
+Module.prototype.require = function (this: NodeModule, id: string) {
   // Mock expo-localization
   if (id === "expo-localization") {
     return {
@@ -64,7 +64,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     expect(result.labels).toEqual(["No data"]);
     expect(result.numbers).toEqual([0]);
@@ -83,7 +83,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     expect(result.labels).toEqual(["06", "07", "08", "09", "10", "11", "12"]);
     expect(result.numbers).toEqual([350, 400, 450, 500, 550, 600, 650]);
@@ -103,7 +103,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     expect(result.labels).toEqual(["01", "02", "03"]);
     expect(result.numbers).toEqual([500, 600, 700]);
@@ -124,7 +124,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     // Algorithm removes the second-to-last entry when last two are in same month
     expect(result.labels).toEqual(["02", "03"]);
@@ -144,7 +144,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     expect(result.labels).toEqual(["01", "02"]);
     expect(result.numbers).toEqual([0, 0]);
@@ -164,7 +164,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     expect(result.labels).toEqual(["01", "02", "03"]);
     expect(result.numbers).toEqual([500, -200, 300]);
@@ -183,7 +183,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     expect(result.labels).toEqual(["01", "02"]);
     expect(result.numbers).toEqual([100.5, 200.75]);
@@ -202,7 +202,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     expect(result.labels).toEqual(["01", "02"]);
     expect(result.numbers).toEqual([0, 0]);
@@ -218,7 +218,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     expect(result.labels).toEqual(["12"]);
   });
@@ -233,7 +233,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     expect(result.labels).toEqual(["01"]);
     expect(result.numbers).toEqual([500]);
@@ -249,7 +249,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     expect(result.labels).toEqual(["03"]);
     expect(result.numbers).toEqual([300]);
@@ -269,7 +269,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     expect(result.labels).toEqual(["01", "02", "03"]);
     expect(result.numbers).toEqual([100, -50, 200]);
@@ -288,7 +288,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("USD", data);
     expect(result.labels).toEqual(["01", "02", "03", "04", "05", "06", "07"]);
     expect(result.numbers).toEqual([100, 200, 300, 400, 500, 600, 700]);
@@ -313,7 +313,7 @@ describe("selectNetProfitArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetProfitArray("EUR", data);
     expect(result.labels).toEqual(["01", "02"]);
     expect(result.numbers).toEqual([85, 170]);

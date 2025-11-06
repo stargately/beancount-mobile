@@ -31,7 +31,10 @@ class MyAnalytics {
     // }
   }
 
-  async track(name: string, props: Record<string, any>): Promise<void> {
+  async track(
+    name: string,
+    props: Record<string, string | number | boolean>,
+  ): Promise<void> {
     if (__DEV__) {
       return;
     }

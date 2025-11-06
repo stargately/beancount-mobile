@@ -2,9 +2,9 @@
 const Module = require("module");
 const originalRequire = Module.prototype.require;
 
-let mockColorScheme: string | null = "light";
+let mockColorScheme: string | null | undefined = "light";
 
-Module.prototype.require = function (this: any, id: string) {
+Module.prototype.require = function (this: NodeModule, id: string) {
   // Mock react-native
   if (id === "react-native") {
     return {
@@ -17,9 +17,9 @@ Module.prototype.require = function (this: any, id: string) {
   // Mock @callstack/react-theme-provider
   if (id === "@callstack/react-theme-provider") {
     return {
-      createTheming: (theme: any) => ({
+      createTheming: (theme: unknown) => ({
         ThemeProvider: theme,
-        withTheme: (component: any) => component,
+        withTheme: (component: unknown) => component,
         useTheme: () => theme,
       }),
     };
@@ -50,7 +50,7 @@ describe("getSystemColorScheme", () => {
   });
 
   it("returns light when system color scheme is undefined", () => {
-    mockColorScheme = undefined as any;
+    mockColorScheme = undefined;
     const result = getSystemColorScheme();
     expect(result).toBe("light");
   });

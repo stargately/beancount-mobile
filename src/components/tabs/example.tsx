@@ -2,8 +2,9 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Tabs, TabItem } from "./index";
 import { useTheme } from "@/common/theme";
+import { ColorTheme } from "@/types/theme-props";
 
-const getStyles = (theme: any) =>
+const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,

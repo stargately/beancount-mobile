@@ -36,7 +36,7 @@ describe("request utilities", () => {
     const constantsPath = require.resolve("expo-constants");
     require.cache[constantsPath] = {
       exports: { nativeAppVersion: "9.9.9" },
-    } as any;
+    } as NodeModule;
 
     const modulePath = require.resolve("../request");
     delete require.cache[modulePath];

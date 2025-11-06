@@ -8,8 +8,12 @@ const mixpanelMockPath = require.resolve(
 
 const { config } = require("../../config");
 
+interface GlobalWithDev {
+  __DEV__: boolean;
+}
+
 const originalToken = config.analytics.mixpanelProjectToken;
-const originalDevFlag = (global as any).__DEV__;
+const originalDevFlag = (global as unknown as GlobalWithDev).__DEV__;
 
 let restoreResolveFilename: (() => void) | undefined;
 
@@ -19,7 +23,7 @@ function loadAnalytics(options: { token: string; dev: boolean }) {
   MockExpoMixpanelAnalytics.reset();
   config.analytics.mixpanelProjectToken = token;
   delete require.cache[analyticsModulePath];
-  (global as any).__DEV__ = dev;
+  (global as unknown as GlobalWithDev).__DEV__ = dev;
   const moduleExports =
     require("../analytics") as typeof import("../analytics");
   return { analytics: moduleExports.analytics, MockExpoMixpanelAnalytics };
@@ -58,7 +62,7 @@ describe("analytics", () => {
     restoreResolveFilename?.();
     config.analytics.mixpanelProjectToken = originalToken;
     delete require.cache[analyticsModulePath];
-    (global as any).__DEV__ = originalDevFlag;
+    (global as unknown as GlobalWithDev).__DEV__ = originalDevFlag;
   });
 
   afterEach(() => {
@@ -66,7 +70,7 @@ describe("analytics", () => {
     MockExpoMixpanelAnalytics.reset();
     config.analytics.mixpanelProjectToken = originalToken;
     delete require.cache[analyticsModulePath];
-    (global as any).__DEV__ = originalDevFlag;
+    (global as unknown as GlobalWithDev).__DEV__ = originalDevFlag;
   });
 
   it("does not instantiate mixpanel when no project token is configured", () => {

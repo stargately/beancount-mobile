@@ -2,7 +2,7 @@
 const Module = require("module");
 const originalRequire = Module.prototype.require;
 
-Module.prototype.require = function (this: any, id: string) {
+Module.prototype.require = function (this: NodeModule, id: string) {
   // Mock expo-localization
   if (id === "expo-localization") {
     return {
@@ -79,7 +79,7 @@ describe("selectNetWorthArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetWorthArray("USD", data);
     expect(result.labels).toEqual(["No data"]);
     expect(result.numbers).toEqual([0]);
@@ -98,7 +98,7 @@ describe("selectNetWorthArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetWorthArray("USD", data);
     expect(result.labels).toEqual(["06", "07", "08", "09", "10", "11", "12"]);
     expect(result.numbers).toEqual([1500, 1600, 1700, 1800, 1900, 2000, 2100]);
@@ -118,7 +118,7 @@ describe("selectNetWorthArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetWorthArray("USD", data);
     expect(result.labels).toEqual(["01", "02", "03"]);
     expect(result.numbers).toEqual([1000, 1100, 1200]);
@@ -139,7 +139,7 @@ describe("selectNetWorthArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetWorthArray("USD", data);
     // Algorithm removes the second-to-last entry when last two are in same month
     // So we expect only the last 3 unique entries (it splices out index length-2)
@@ -160,7 +160,7 @@ describe("selectNetWorthArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetWorthArray("USD", data);
     expect(result.labels).toEqual(["01", "02"]);
     expect(result.numbers).toEqual([0, 0]);
@@ -179,7 +179,7 @@ describe("selectNetWorthArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetWorthArray("USD", data);
     expect(result.labels).toEqual(["01", "02"]);
     expect(result.numbers).toEqual([1000, -500]);
@@ -198,7 +198,7 @@ describe("selectNetWorthArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetWorthArray("USD", data);
     expect(result.labels).toEqual(["01", "02"]);
     expect(result.numbers).toEqual([1000.5, 1100.75]);
@@ -217,7 +217,7 @@ describe("selectNetWorthArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetWorthArray("USD", data);
     expect(result.labels).toEqual(["01", "02"]);
     expect(result.numbers).toEqual([0, 0]);
@@ -233,7 +233,7 @@ describe("selectNetWorthArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetWorthArray("USD", data);
     expect(result.labels).toEqual(["12"]);
   });
@@ -248,7 +248,7 @@ describe("selectNetWorthArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetWorthArray("USD", data);
     expect(result.labels).toEqual(["01"]);
     expect(result.numbers).toEqual([1000]);
@@ -264,7 +264,7 @@ describe("selectNetWorthArray", () => {
           },
         ],
       },
-    } as any;
+    } as unknown as HomeChartsQuery;
     const result = selectNetWorthArray("USD", data);
     expect(result.labels).toEqual(["03"]);
     expect(result.numbers).toEqual([1000]);
