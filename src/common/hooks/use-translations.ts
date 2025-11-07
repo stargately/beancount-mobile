@@ -14,7 +14,7 @@ export const useTranslations = () => {
   }
 
   return {
-    t: (key: string, params?: Record<string, any>) => i18n.t(key, params),
+    t: (key: string, params?: Record<string, unknown>) => i18n.t(key, params),
     locale,
   };
 };

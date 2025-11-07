@@ -34,9 +34,9 @@ describe("analytics", () => {
     const originalResolveFilename = Module._resolveFilename;
     Module._resolveFilename = function resolve(
       request: string,
-      parent: any,
+      parent: NodeModule | null | undefined,
       isMain: boolean,
-      options: any,
+      options?: { paths?: string[] },
     ) {
       if (request === "@/config") {
         return configModulePath;

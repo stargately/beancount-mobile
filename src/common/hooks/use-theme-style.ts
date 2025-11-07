@@ -3,9 +3,7 @@ import { useTheme } from "@/common/theme";
 import { StyleSheet } from "react-native";
 import { ColorTheme } from "@/types/theme-props";
 
-export const useThemeStyle = <
-  T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>,
->(
+export const useThemeStyle = <T extends StyleSheet.NamedStyles<T>>(
   createStyleFactory: (colorTheme: ColorTheme) => T,
 ) => {
   const createFactory = useRef(createStyleFactory);
