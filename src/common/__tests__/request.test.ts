@@ -62,4 +62,20 @@ describe("request utilities", () => {
     expect(getEndpoint("api/data")).toBe(`${config.serverUrl}api/data`);
     expect(getEndpoint("/users")).toBe(`${config.serverUrl}/users`);
   });
+
+  it("handles empty path", () => {
+    expect(getEndpoint("")).toBe(config.serverUrl);
+  });
+
+  it("handles paths with query parameters", () => {
+    expect(getEndpoint("api/data?key=value")).toBe(
+      `${config.serverUrl}api/data?key=value`,
+    );
+  });
+
+  it("handles paths with hash fragments", () => {
+    expect(getEndpoint("api/data#section")).toBe(
+      `${config.serverUrl}api/data#section`,
+    );
+  });
 });
