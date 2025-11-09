@@ -1,5 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, ViewStyle } from "react-native";
 import { themeVar } from "@/common/vars";
 import Animated, {
@@ -31,24 +31,13 @@ type LoadingTileProps = {
 };
 
 export const LoadingTile = (props: LoadingTileProps) => {
-  const { style } = props;
+  const { style, mx, height } = props;
   const theme = useReactiveVar(themeVar);
 
-  const ownStyles = useMemo(() => {
-    const obj: {
-      marginHorizontal?: number;
-      height?: number;
-    } = {};
-    if (props.mx) {
-      obj.marginHorizontal = props.mx;
-    }
-    if (props.height) {
-      obj.height = props.height;
-    }
-    return StyleSheet.create({
-      loadingTile: obj,
-    });
-  }, [props.mx, props.height]);
+  const dynamicStyles: ViewStyle = {
+    ...(mx && { marginHorizontal: mx }),
+    ...(height && { height }),
+  };
 
   const opacity = useSharedValue(1);
 
@@ -73,7 +62,7 @@ export const LoadingTile = (props: LoadingTileProps) => {
     <Animated.View
       style={[
         styles.loadingTile,
-        ownStyles.loadingTile,
+        dynamicStyles,
         theme === "dark" ? styles.dark : styles.light,
         style,
         animatedStyle,
