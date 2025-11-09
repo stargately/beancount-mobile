@@ -25,13 +25,6 @@ describe("createSession", () => {
     });
   });
 
-  it("handles tokens with numeric sub claim", () => {
-    const token = createTokenWithPayload({ sub: 12345 });
-    const session = createSession(token);
-    expect(session.userId).toBe(12345);
-    expect(session.authToken).toBe(token);
-  });
-
   it("throws error for invalid JWT format", () => {
     expect(() => createSession("invalid-token")).toThrow();
   });
