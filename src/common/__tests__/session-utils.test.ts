@@ -24,4 +24,20 @@ describe("createSession", () => {
       authToken: token,
     });
   });
+
+  it("throws error for invalid token format", () => {
+    expect(() => createSession("invalid-token")).toThrow();
+  });
+
+  it("throws error for token without sub claim", () => {
+    const token = createTokenWithPayload({ role: "admin" });
+    expect(() => createSession(token)).toThrow();
+  });
+
+  it("handles numeric sub claim", () => {
+    const token = createTokenWithPayload({ sub: 12345 });
+    const session = createSession(token);
+    expect(session.userId).toBe("12345");
+    expect(session.authToken).toBe(token);
+  });
 });

@@ -32,4 +32,20 @@ describe("getFormatDate", () => {
     const formatted = getFormatDate(new Date(2024, 1, 29));
     expect(formatted).toBe("2024-02-29");
   });
+
+  it("handles invalid dates gracefully", () => {
+    const invalidDate = new Date("invalid");
+    const formatted = getFormatDate(invalidDate);
+    expect(formatted).toBe("NaN-NaN-NaN");
+  });
+
+  it("handles year 2000 (Y2K)", () => {
+    const formatted = getFormatDate(new Date(2000, 0, 1));
+    expect(formatted).toBe("2000-01-01");
+  });
+
+  it("handles far future dates", () => {
+    const formatted = getFormatDate(new Date(2100, 11, 31));
+    expect(formatted).toBe("2100-12-31");
+  });
 });

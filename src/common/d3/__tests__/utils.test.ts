@@ -63,4 +63,22 @@ describe("generateTicks", () => {
     const result = generateTicks(-100, 100, 9);
     expect(result).toEqual([-100, -75, -50, -25, 0, 25, 50, 75, 100]);
   });
+
+  it("handles zero count gracefully", () => {
+    const result = generateTicks(0, 100, 0);
+    expect(result.length).toBe(0);
+  });
+
+  it("handles negative count gracefully", () => {
+    const result = generateTicks(0, 100, -5);
+    expect(result.length).toBe(0);
+  });
+
+  it("handles fractional step values", () => {
+    const result = generateTicks(0, 3, 4);
+    expect(result[0]).toBeCloseTo(0);
+    expect(result[1]).toBeCloseTo(1);
+    expect(result[2]).toBeCloseTo(2);
+    expect(result[3]).toBeCloseTo(3);
+  });
 });

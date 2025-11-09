@@ -93,12 +93,7 @@ export function Announcement(props: Props): JSX.Element {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={async () => {
-        try {
-          await AsyncStorage.setItem("@SubscriptionFlash:key", "true");
-        } catch (error) {
-          console.error(`failed to set subscription flash value: ${error}`);
-        }
+      onPress={() => {
         router.navigate("/(app)/(tabs)/setting");
       }}
     >
