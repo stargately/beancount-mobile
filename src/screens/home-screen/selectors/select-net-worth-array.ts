@@ -2,7 +2,11 @@ import { HomeChartsQuery } from "@/generated-graphql/graphql";
 import { i18n } from "@/translations";
 
 export function isSameMonth(date1?: string, date2?: string): boolean {
-  return date1?.slice(5, 7) === date2?.slice(5, 7);
+  if (!date1 || !date2) {
+    return date1 === date2;
+  }
+  // Compare both year and month (YYYY-MM)
+  return date1.slice(0, 7) === date2.slice(0, 7);
 }
 
 export function selectNetWorthArray(currency: string, data?: HomeChartsQuery) {

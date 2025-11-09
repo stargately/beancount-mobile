@@ -42,6 +42,9 @@ describe("isSameMonth", () => {
 
   it("handles year boundaries correctly", () => {
     expect(isSameMonth("2024-12-31", "2025-01-01")).toBe(false);
+    // Same month number but different years should be false
+    expect(isSameMonth("2024-01-15", "2025-01-20")).toBe(false);
+    expect(isSameMonth("2024-06-30", "2025-06-01")).toBe(false);
   });
 
   it("returns true for same date", () => {
