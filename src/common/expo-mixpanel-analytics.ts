@@ -59,7 +59,6 @@ export class ExpoMixpanelAnalytics {
     this.userId = null;
     this.clientId = Constants.deviceId;
     this.osVersion = Platform.Version;
-    this.superProps;
 
     Constants.getWebViewUserAgentAsync().then((userAgent) => {
       this.userAgent = userAgent;
