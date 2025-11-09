@@ -77,4 +77,30 @@ describe("shortNumber", () => {
     expect(shortNumber(999999)).toBe("1000.0K");
     expect(shortNumber(999999999)).toBe("1000.0M");
   });
+
+  it("formats trillions correctly", () => {
+    expect(shortNumber(1000000000000)).toBe("1T");
+    expect(shortNumber(5000000000000)).toBe("5T");
+    expect(shortNumber(1500000000000)).toBe("1.5T");
+  });
+
+  it("formats quadrillions correctly", () => {
+    expect(shortNumber(1000000000000000)).toBe("1Q");
+    expect(shortNumber(5000000000000000)).toBe("5Q");
+    expect(shortNumber(1500000000000000)).toBe("1.5Q");
+  });
+
+  it("handles very large negative numbers", () => {
+    expect(shortNumber(-1000000000000)).toBe("-1T");
+    expect(shortNumber(-1500000000000000)).toBe("-1.5Q");
+  });
+
+  it("handles Infinity", () => {
+    expect(shortNumber(Infinity)).toBe("Infinity");
+    expect(shortNumber(-Infinity)).toBe("-Infinity");
+  });
+
+  it("handles NaN from number input", () => {
+    expect(shortNumber(NaN)).toBe("NaN");
+  });
 });

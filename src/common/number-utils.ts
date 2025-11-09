@@ -7,6 +7,11 @@ export const shortNumber = (number: number | string): string => {
     return number.toString();
   }
 
+  // Handle Infinity
+  if (!isFinite(num)) {
+    return num.toString();
+  }
+
   // Handle negative numbers
   const isNegative = num < 0;
   const absNum = Math.abs(num);
