@@ -33,4 +33,32 @@ describe("globalFnFactory helpers", () => {
     expect(lookedUp).toBe(callback);
     await lookedUp?.();
   });
+
+  it("returns undefined for non-existent keys", () => {
+    const result = getGlobalFn("NonExistentKey");
+    expect(result).toBe(undefined);
+  });
+
+  it("can store multiple different callbacks", () => {
+    const callback1 = (value: string) => console.log(value);
+    const callback2 = async () => Promise.resolve();
+
+    SelectedAssets.setFn(callback1);
+    AddTransactionCallback.setFn(callback2);
+
+    expect(SelectedAssets.getFn()).toBe(callback1);
+    expect(AddTransactionCallback.getFn()).toBe(callback2);
+  });
+
+  it("overwrites previous callback when setting a new one", () => {
+    const callback1 = (value: string) => console.log("first", value);
+    const callback2 = (value: string) => console.log("second", value);
+
+    SelectedAssets.setFn(callback1);
+    expect(SelectedAssets.getFn()).toBe(callback1);
+
+    SelectedAssets.setFn(callback2);
+    expect(SelectedAssets.getFn()).toBe(callback2);
+    expect(SelectedAssets.getFn()).not.toBe(callback1);
+  });
 });
