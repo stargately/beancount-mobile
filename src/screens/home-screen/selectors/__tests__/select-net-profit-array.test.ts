@@ -25,13 +25,13 @@ Module.prototype.require = function (this: NodeModule, id: string) {
     };
   }
 
-  // Mock the select-net-worth-array import used by select-net-profit-array
-  if (id === "@/screens/home-screen/selectors/select-net-worth-array") {
-    return {
-      isSameMonth: (date1?: string, date2?: string) => {
-        return date1?.slice(5, 7) === date2?.slice(5, 7);
-      },
-    };
+  // Mock the helper file that contains shared chart logic
+  if (
+    id === "./select-chart-array-helper" ||
+    id.includes("select-chart-array-helper")
+  ) {
+    const originalHelper = originalRequire.apply(this, [id]);
+    return originalHelper;
   }
 
   return originalRequire.apply(this, arguments);

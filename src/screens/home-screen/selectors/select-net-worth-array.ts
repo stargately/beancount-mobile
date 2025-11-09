@@ -1,31 +1,8 @@
 import { HomeChartsQuery } from "@/generated-graphql/graphql";
-import { i18n } from "@/translations";
+import { selectChartArray, isSameMonth } from "./select-chart-array-helper";
 
-export function isSameMonth(date1?: string, date2?: string): boolean {
-  return date1?.slice(5, 7) === date2?.slice(5, 7);
-}
+export { isSameMonth };
 
 export function selectNetWorthArray(currency: string, data?: HomeChartsQuery) {
-  const netWorth = data?.homeCharts?.data.find((n) => n.label === "Net Worth");
-  const last = netWorth?.data.slice(
-    netWorth?.data.length - 7,
-    netWorth?.data.length,
-  );
-  if (
-    last &&
-    last.length >= 2 &&
-    isSameMonth(last[last.length - 1].date, last[last.length - 2].date)
-  ) {
-    last.splice(last.length - 2, 1);
-  }
-
-  let labels = last?.map((l) => l.date.slice(5, 7)) || [];
-  let numbers = last?.map((l) => Number(l.balance[currency] || 0)) || [];
-  if (labels.length === 0) {
-    labels = [i18n.t("noDataCharts")];
-  }
-  if (numbers.length === 0) {
-    numbers = [0];
-  }
-  return { labels, numbers };
+  return selectChartArray("Net Worth", currency, data);
 }
