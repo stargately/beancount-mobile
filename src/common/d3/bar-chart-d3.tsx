@@ -142,7 +142,7 @@ export const BarChartD3 = (props: BarChartProps) => {
     <ErrorBoundary
       fallback={null}
       onError={(error) => {
-        console.log(error);
+        console.error(error);
       }}
     >
       <BarChart {...props} />
