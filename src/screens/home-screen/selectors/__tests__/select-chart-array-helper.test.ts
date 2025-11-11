@@ -116,9 +116,9 @@ describe("selectChartArray", () => {
       },
     } as unknown as HomeChartsQuery;
     const result = selectChartArray("Test Label", "USD", data);
-    // Should keep only the last entry for January
-    expect(result.labels).toEqual(["01", "01"]);
-    expect(result.numbers).toEqual([1000, 1200]);
+    // Should keep only the last entry for January (most recent)
+    expect(result.labels).toEqual(["01"]);
+    expect(result.numbers).toEqual([1200]);
   });
 
   it("handles missing currency in balance", () => {
@@ -185,6 +185,85 @@ describe("selectChartArray", () => {
     } as unknown as HomeChartsQuery;
     const result = selectChartArray("Test Label", "USD", data);
     expect(result.labels).toEqual(["12"]);
+  });
+
+  it("handles multiple duplicate months and keeps only the most recent entry for each", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Test Label",
+            data: [
+              // These won't be in the last 7
+              { date: "2024-10-01", balance: { USD: "900" } },
+              { date: "2024-11-01", balance: { USD: "950" } },
+              // These are the last 7 entries
+              { date: "2025-01-01", balance: { USD: "1000" } },
+              { date: "2025-01-10", balance: { USD: "1100" } },
+              { date: "2025-01-20", balance: { USD: "1200" } },
+              { date: "2025-02-05", balance: { USD: "1300" } },
+              { date: "2025-02-15", balance: { USD: "1400" } },
+              { date: "2025-03-01", balance: { USD: "1500" } },
+              { date: "2025-03-10", balance: { USD: "1600" } },
+            ],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = selectChartArray("Test Label", "USD", data);
+    // Should take last 7, then keep only the last entry for each month
+    expect(result.labels).toEqual(["01", "02", "03"]);
+    expect(result.numbers).toEqual([1200, 1400, 1600]);
+  });
+
+  it("preserves order and keeps most recent entry when deduplicating", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Test Label",
+            data: [
+              { date: "2024-10-01", balance: { USD: "25" } },
+              { date: "2024-11-01", balance: { USD: "50" } },
+              { date: "2025-01-01", balance: { USD: "100" } },
+              { date: "2025-02-01", balance: { USD: "200" } },
+              { date: "2025-02-15", balance: { USD: "250" } },
+              { date: "2025-03-01", balance: { USD: "300" } },
+              { date: "2025-03-10", balance: { USD: "350" } },
+              { date: "2025-03-20", balance: { USD: "400" } },
+            ],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = selectChartArray("Test Label", "USD", data);
+    // Last 7 entries: 11-01, 01-01, 02-01, 02-15, 03-01, 03-10, 03-20
+    // After dedup: 11-01, 01-01, 02-15, 03-20
+    expect(result.labels).toEqual(["11", "01", "02", "03"]);
+    expect(result.numbers).toEqual([50, 100, 250, 400]);
+  });
+
+  it("works correctly when all entries are from the same month", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Test Label",
+            data: [
+              { date: "2025-05-01", balance: { USD: "1000" } },
+              { date: "2025-05-10", balance: { USD: "2000" } },
+              { date: "2025-05-15", balance: { USD: "3000" } },
+              { date: "2025-05-20", balance: { USD: "4000" } },
+              { date: "2025-05-25", balance: { USD: "5000" } },
+            ],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = selectChartArray("Test Label", "USD", data);
+    // Should keep only the most recent entry
+    expect(result.labels).toEqual(["05"]);
+    expect(result.numbers).toEqual([5000]);
   });
 });
 

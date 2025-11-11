@@ -27,17 +27,19 @@ export function selectChartArray(
     chartData?.data.length,
   );
 
-  // Remove duplicate month entries (keep the most recent one)
-  if (
-    last &&
-    last.length >= 2 &&
-    isSameMonth(last[last.length - 1].date, last[last.length - 2].date)
-  ) {
-    last.splice(last.length - 2, 1);
-  }
+  // Remove duplicate month entries (keep the most recent one for each month)
+  const deduplicated = last?.reduceRight<typeof last>((acc, current) => {
+    const currentMonth = current.date.slice(0, 7);
+    const hasMonth = acc.some((item) => item.date.slice(0, 7) === currentMonth);
+    if (!hasMonth) {
+      acc.unshift(current);
+    }
+    return acc;
+  }, []);
 
-  let labels = last?.map((l) => l.date.slice(5, 7)) || [];
-  let numbers = last?.map((l) => Number(l.balance[currency] || 0)) || [];
+  let labels = deduplicated?.map((l) => l.date.slice(5, 7)) || [];
+  let numbers =
+    deduplicated?.map((l) => Number(l.balance[currency] || 0)) || [];
 
   if (labels.length === 0) {
     labels = [i18n.t("noDataCharts")];
