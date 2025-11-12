@@ -1,24 +1,8 @@
 import { LedgerMeta } from "@/generated-graphql/graphql";
 
-// Import the functions we want to test by requiring the module
-// and extracting the internal functions through testing
-const modulePath = require.resolve("../use-ledger-meta");
-
-// Helper to access internal functions
-function getInternalFunctions() {
-  delete require.cache[modulePath];
-  const moduleExports = require("../use-ledger-meta");
-  
-  // Since the functions are not exported, we'll test through the hook's behavior
-  // For now, we'll create test data and validate the expected structure
-  return moduleExports;
-}
-
 describe("use-ledger-meta helper functions", () => {
   describe("account organization", () => {
     it("should handle empty ledger metadata", () => {
-      const data: LedgerMeta | undefined = undefined;
-      
       // Since we can't directly access getAccountsAndCurrency,
       // we verify the structure that would result from it
       const expectedResult = {
@@ -26,7 +10,7 @@ describe("use-ledger-meta helper functions", () => {
         expenses: [],
         currencies: [],
       };
-      
+
       // This validates the edge case handling
       expect(expectedResult.assets).toEqual([]);
       expect(expectedResult.expenses).toEqual([]);
@@ -44,6 +28,8 @@ describe("use-ledger-meta helper functions", () => {
           "Liabilities:CreditCard",
           "Equity:OpeningBalances",
         ],
+        currencies: ["USD", "EUR"],
+        errors: 0,
         options: {
           name_assets: "Assets",
           name_expenses: "Expenses",
@@ -71,7 +57,7 @@ describe("use-ledger-meta helper functions", () => {
   describe("option tabs generation", () => {
     it("should create tabs with 'All' as first tab", () => {
       const options = ["Assets:Bank:Checking", "Assets:Cash"];
-      
+
       // Expected structure after handleOptions
       const expectedFirstTab = {
         title: "All",
@@ -100,21 +86,21 @@ describe("use-ledger-meta helper functions", () => {
 
     it("should handle single account type", () => {
       const options = ["Assets:Bank:Checking"];
-      
+
       const prefix = options[0].split(":")[0];
       expect(prefix).toBe("Assets");
     });
 
     it("should handle accounts without colons", () => {
       const options = ["Assets"];
-      
+
       const prefix = options[0].split(":")[0];
       expect(prefix).toBe("Assets");
     });
 
     it("should handle empty options array", () => {
       const options: string[] = [];
-      
+
       // Should still create an 'All' tab
       expect(options.length).toBe(0);
     });
@@ -126,9 +112,7 @@ describe("use-ledger-meta helper functions", () => {
         "Assets:Cash",
       ];
 
-      const assetAccounts = options.filter((opt) =>
-        opt.startsWith("Assets"),
-      );
+      const assetAccounts = options.filter((opt) => opt.startsWith("Assets"));
       expect(assetAccounts.length).toBe(3);
     });
 
@@ -149,15 +133,13 @@ describe("use-ledger-meta helper functions", () => {
   describe("account sorting", () => {
     it("should maintain order for from accounts (assets first)", () => {
       const accounts = ["Expenses:Food", "Assets:Bank", "Liabilities:Card"];
-      
+
       // For 'from' ordering: Assets, Liabilities, Income, Expenses, Equity
       const assetsIndex = accounts.findIndex((a) => a.startsWith("Assets"));
       const liabilitiesIndex = accounts.findIndex((a) =>
         a.startsWith("Liabilities"),
       );
-      const expensesIndex = accounts.findIndex((a) =>
-        a.startsWith("Expenses"),
-      );
+      const expensesIndex = accounts.findIndex((a) => a.startsWith("Expenses"));
 
       // Verify indices exist (are not -1)
       expect(assetsIndex > -1).toBe(true);
@@ -167,11 +149,9 @@ describe("use-ledger-meta helper functions", () => {
 
     it("should maintain order for to accounts (expenses first)", () => {
       const accounts = ["Assets:Bank", "Expenses:Food", "Liabilities:Card"];
-      
+
       // For 'to' ordering: Expenses, Assets, Income, Liabilities, Equity
-      const expensesIndex = accounts.findIndex((a) =>
-        a.startsWith("Expenses"),
-      );
+      const expensesIndex = accounts.findIndex((a) => a.startsWith("Expenses"));
       const assetsIndex = accounts.findIndex((a) => a.startsWith("Assets"));
 
       expect(expensesIndex > -1).toBe(true);
@@ -180,7 +160,7 @@ describe("use-ledger-meta helper functions", () => {
 
     it("should handle accounts not matching any category", () => {
       const accounts = ["Unknown:Account"];
-      
+
       // Should still be in the array
       expect(accounts.length).toBe(1);
       expect(accounts[0]).toBe("Unknown:Account");
@@ -191,6 +171,8 @@ describe("use-ledger-meta helper functions", () => {
     it("should extract operating currencies", () => {
       const mockData: LedgerMeta = {
         accounts: [],
+        currencies: ["USD", "EUR", "GBP"],
+        errors: 0,
         options: {
           name_assets: "Assets",
           name_expenses: "Expenses",
@@ -211,14 +193,14 @@ describe("use-ledger-meta helper functions", () => {
 
     it("should handle single currency", () => {
       const currencies = ["USD"];
-      
+
       expect(currencies.length).toBe(1);
       expect(currencies[0]).toBe("USD");
     });
 
     it("should handle empty currencies", () => {
       const currencies: string[] = [];
-      
+
       expect(currencies.length).toBe(0);
     });
   });
@@ -226,7 +208,7 @@ describe("use-ledger-meta helper functions", () => {
   describe("edge cases", () => {
     it("should handle undefined data gracefully", () => {
       const data = undefined;
-      
+
       // Should not throw and return empty results
       expect(data === undefined).toBe(true);
     });
@@ -243,7 +225,7 @@ describe("use-ledger-meta helper functions", () => {
 
     it("should handle duplicate account names", () => {
       const accounts = ["Assets:Bank", "Assets:Bank"];
-      
+
       // Both should be in the array (duplicates allowed in source data)
       expect(accounts.length).toBe(2);
     });
@@ -252,7 +234,7 @@ describe("use-ledger-meta helper functions", () => {
       const longAccount =
         "Assets:Bank:Checking:SubAccount:Details:More:Information";
       const prefix = longAccount.split(":")[0];
-      
+
       expect(prefix).toBe("Assets");
       expect(longAccount.split(":").length).toBe(7);
     });
@@ -260,13 +242,13 @@ describe("use-ledger-meta helper functions", () => {
     it("should handle special characters in account names", () => {
       const account = "Assets:Bank-Account_123";
       const prefix = account.split(":")[0];
-      
+
       expect(prefix).toBe("Assets");
     });
 
     it("should handle mixed case account names", () => {
       const accounts = ["ASSETS:Bank", "assets:Cash"];
-      
+
       // Should preserve original casing
       expect(accounts[0]).toBe("ASSETS:Bank");
       expect(accounts[1]).toBe("assets:Cash");
