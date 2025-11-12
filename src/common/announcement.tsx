@@ -104,7 +104,7 @@ export function Announcement(props: Props): JSX.Element {
         </Text>
       </View>
 
-      <View style={styles.iconContainer}>{icon}</View>
+      <View>{icon}</View>
       <TouchableOpacity
         style={styles.closeButton}
         activeOpacity={0.9}
