@@ -129,7 +129,9 @@ export const getAccountFlow = (
  * @param postings - Array of journal entry postings
  * @returns Transaction amount
  */
-export const getTransactionAmount = (postings: JournalEntryPosting[]): number => {
+export const getTransactionAmount = (
+  postings: JournalEntryPosting[],
+): number => {
   if (!postings || postings.length === 0) return 0;
 
   // Sum all positive amounts (debits)
@@ -153,7 +155,9 @@ export const getTransactionAmount = (postings: JournalEntryPosting[]): number =>
  * @param entries - Array of journal entries
  * @returns Array of tuples [formattedDate, entries[]]
  */
-export const groupEntriesByDate = (entries: JournalEntry[]): [string, JournalEntry[]][] => {
+export const groupEntriesByDate = (
+  entries: JournalEntry[],
+): [string, JournalEntry[]][] => {
   const groups: { [key: string]: JournalEntry[] } = {};
   entries.forEach((entry) => {
     const date = new Date(entry.date).toLocaleDateString("en-US", {

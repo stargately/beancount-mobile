@@ -283,8 +283,12 @@ describe("journal-utils", () => {
 
       expect(grouped.length).toBe(3);
       // Most recent date should be first
-      expect(new Date(grouped[0][1][0].date) > new Date(grouped[1][1][0].date)).toBe(true);
-      expect(new Date(grouped[1][1][0].date) > new Date(grouped[2][1][0].date)).toBe(true);
+      expect(
+        new Date(grouped[0][1][0].date) > new Date(grouped[1][1][0].date),
+      ).toBe(true);
+      expect(
+        new Date(grouped[1][1][0].date) > new Date(grouped[2][1][0].date),
+      ).toBe(true);
     });
 
     it("should handle empty entries array", () => {
