@@ -77,7 +77,6 @@ export const QuickAddAccountsSelector = (
   });
 
   const isLoading = loading || refreshing;
-  // const isLoading = true;
 
   if (error) {
     return (

@@ -17,51 +17,42 @@ function getAccountsAndCurrency(data: LedgerMeta | undefined) {
     const liabilityName = data.options.name_liabilities;
     const equity = data.options.name_equity;
 
-    const fromInOrder = (a: string, b: string) => {
-      function getOrder(name: string) {
-        if (name.startsWith(assetsName)) {
-          return 0;
+    // Factory function to create order getter with custom ordering
+    const createOrderGetter = (orderMap: Record<string, number>) => {
+      return (name: string): number => {
+        for (const [accountType, order] of Object.entries(orderMap)) {
+          if (name.startsWith(accountType)) {
+            return order;
+          }
         }
-        if (name.startsWith(liabilityName)) {
-          return 1;
-        }
-        if (name.startsWith(incomeName)) {
-          return 2;
-        }
-        if (name.startsWith(expensesName)) {
-          return 3;
-        }
-        if (name.startsWith(equity)) {
-          return 4;
-        }
-        return 5;
-      }
-
-      return getOrder(a) - getOrder(b);
+        return 5; // Default order for unknown types
+      };
     };
 
-    const toInOrder = (a: string, b: string) => {
-      function getOrder(name: string) {
-        if (name.startsWith(expensesName)) {
-          return 0;
-        }
-        if (name.startsWith(liabilityName)) {
-          return 3;
-        }
-        if (name.startsWith(assetsName)) {
-          return 1;
-        }
-        if (name.startsWith(equity)) {
-          return 4;
-        }
-        if (name.startsWith(incomeName)) {
-          return 2;
-        }
-        return 5;
-      }
-
-      return getOrder(a) - getOrder(b);
+    // Order for "from" accounts (sources of funds)
+    const fromOrderMap: Record<string, number> = {
+      [assetsName]: 0,
+      [liabilityName]: 1,
+      [incomeName]: 2,
+      [expensesName]: 3,
+      [equity]: 4,
     };
+
+    // Order for "to" accounts (destinations of funds)
+    const toOrderMap: Record<string, number> = {
+      [expensesName]: 0,
+      [assetsName]: 1,
+      [incomeName]: 2,
+      [liabilityName]: 3,
+      [equity]: 4,
+    };
+
+    const getFromOrder = createOrderGetter(fromOrderMap);
+    const getToOrder = createOrderGetter(toOrderMap);
+
+    const fromInOrder = (a: string, b: string) =>
+      getFromOrder(a) - getFromOrder(b);
+    const toInOrder = (a: string, b: string) => getToOrder(a) - getToOrder(b);
 
     assets = [...data.accounts].sort(fromInOrder);
     expenses = [...data.accounts].sort(toInOrder);
