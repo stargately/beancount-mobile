@@ -36,7 +36,7 @@ export function getAccountTotals(
     const balance =
       currency in balanceChildren
         ? balanceChildren[currency]
-        : balanceChildren.USD ?? 0;
+        : (balanceChildren.USD ?? 0);
     const formattedBalance = Math.abs(balance).toFixed(2);
 
     switch (item.label.toLowerCase()) {

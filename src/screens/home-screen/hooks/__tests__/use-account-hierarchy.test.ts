@@ -75,13 +75,7 @@ describe("useAccountHierarchy hook logic", () => {
     });
 
     it("should return expected properties from hook", () => {
-      const expectedProps = [
-        "loading",
-        "data",
-        "error",
-        "refetch",
-        "accounts",
-      ];
+      const expectedProps = ["loading", "data", "error", "refetch", "accounts"];
 
       expectedProps.forEach((prop) => {
         expect(typeof prop).toBe("string");
