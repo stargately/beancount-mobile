@@ -27,12 +27,16 @@ export function getAccountTotals(
   hierarchyData.forEach((item) => {
     if (!item.data?.balance_children) return;
 
-    // Get the currency balance (assuming USD for now, but could be dynamic)
+    // Get the currency balance with proper null/undefined handling
     const balanceChildren = item.data.balance_children as Record<
       string,
       number
     >;
-    const balance = balanceChildren[currency] || balanceChildren.USD || 0;
+    // Use 'in' operator to check if currency exists, to handle 0 values correctly
+    const balance =
+      currency in balanceChildren
+        ? balanceChildren[currency]
+        : balanceChildren.USD ?? 0;
     const formattedBalance = Math.abs(balance).toFixed(2);
 
     switch (item.label.toLowerCase()) {
