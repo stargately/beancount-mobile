@@ -1,8 +1,4 @@
-import {
-  getAccountsAndCurrency,
-  handleOptions,
-  OptionTab,
-} from "../ledger-meta-utils";
+import { getAccountsAndCurrency, handleOptions } from "../ledger-meta-utils";
 import { LedgerMeta } from "@/generated-graphql/graphql";
 
 // Helper to create minimal test data matching GraphQL types
@@ -39,9 +35,7 @@ describe("getAccountsAndCurrency", () => {
         },
       };
 
-      const result = getAccountsAndCurrency(
-        testData as unknown as LedgerMeta,
-      );
+      const result = getAccountsAndCurrency(testData as unknown as LedgerMeta);
 
       expect(result.currencies).toEqual(["USD", "EUR"]);
       expect(result.assets.length).toBe(5);
@@ -67,9 +61,7 @@ describe("getAccountsAndCurrency", () => {
         },
       };
 
-      const result = getAccountsAndCurrency(
-        testData as unknown as LedgerMeta,
-      );
+      const result = getAccountsAndCurrency(testData as unknown as LedgerMeta);
 
       // Assets should come first, then Liabilities, Income, Expenses, Equity
       expect(result.assets[0]).toBe("Assets:Bank:Checking");
@@ -98,9 +90,7 @@ describe("getAccountsAndCurrency", () => {
         },
       };
 
-      const result = getAccountsAndCurrency(
-        testData as unknown as LedgerMeta,
-      );
+      const result = getAccountsAndCurrency(testData as unknown as LedgerMeta);
 
       // Expenses should come first, then Assets, Income, Liabilities, Equity
       expect(result.expenses[0]).toBe("Expenses:Food");
@@ -129,9 +119,7 @@ describe("getAccountsAndCurrency", () => {
         },
       };
 
-      const result = getAccountsAndCurrency(
-        testData as unknown as LedgerMeta,
-      );
+      const result = getAccountsAndCurrency(testData as unknown as LedgerMeta);
 
       // All Assets accounts should come before Expenses
       expect(result.assets[0].startsWith("Assets")).toBe(true);
@@ -143,11 +131,7 @@ describe("getAccountsAndCurrency", () => {
 
     test("should handle accounts that don't match any category", () => {
       const testData: TestLedgerMeta = {
-        accounts: [
-          "Assets:Bank",
-          "UnknownCategory:Account",
-          "Expenses:Food",
-        ],
+        accounts: ["Assets:Bank", "UnknownCategory:Account", "Expenses:Food"],
         options: {
           name_assets: "Assets",
           name_expenses: "Expenses",
@@ -158,9 +142,7 @@ describe("getAccountsAndCurrency", () => {
         },
       };
 
-      const result = getAccountsAndCurrency(
-        testData as unknown as LedgerMeta,
-      );
+      const result = getAccountsAndCurrency(testData as unknown as LedgerMeta);
 
       // Unknown accounts should be sorted to the end (order 5)
       expect(result.assets.length).toBe(3);
@@ -180,9 +162,7 @@ describe("getAccountsAndCurrency", () => {
         },
       };
 
-      const result = getAccountsAndCurrency(
-        testData as unknown as LedgerMeta,
-      );
+      const result = getAccountsAndCurrency(testData as unknown as LedgerMeta);
 
       expect(result.currencies).toEqual(["USD", "EUR", "GBP", "JPY"]);
     });
@@ -200,9 +180,7 @@ describe("getAccountsAndCurrency", () => {
         },
       };
 
-      const result = getAccountsAndCurrency(
-        testData as unknown as LedgerMeta,
-      );
+      const result = getAccountsAndCurrency(testData as unknown as LedgerMeta);
 
       // Modifying result should not affect original data
       result.assets.push("NewAccount");
@@ -232,9 +210,7 @@ describe("getAccountsAndCurrency", () => {
         },
       };
 
-      const result = getAccountsAndCurrency(
-        testData as unknown as LedgerMeta,
-      );
+      const result = getAccountsAndCurrency(testData as unknown as LedgerMeta);
 
       expect(result.assets).toEqual([]);
       expect(result.expenses).toEqual([]);
@@ -254,9 +230,7 @@ describe("getAccountsAndCurrency", () => {
         },
       };
 
-      const result = getAccountsAndCurrency(
-        testData as unknown as LedgerMeta,
-      );
+      const result = getAccountsAndCurrency(testData as unknown as LedgerMeta);
 
       expect(result.currencies).toEqual([]);
     });
@@ -274,9 +248,7 @@ describe("getAccountsAndCurrency", () => {
         },
       };
 
-      const result = getAccountsAndCurrency(
-        testData as unknown as LedgerMeta,
-      );
+      const result = getAccountsAndCurrency(testData as unknown as LedgerMeta);
 
       expect(result.assets).toEqual(["Assets:Bank"]);
       expect(result.expenses).toEqual(["Assets:Bank"]);
@@ -303,9 +275,7 @@ describe("getAccountsAndCurrency", () => {
         },
       };
 
-      const result = getAccountsAndCurrency(
-        testData as unknown as LedgerMeta,
-      );
+      const result = getAccountsAndCurrency(testData as unknown as LedgerMeta);
 
       // Should use custom names for sorting
       expect(result.assets[0]).toBe("Vermögen:Bank");
@@ -417,8 +387,12 @@ describe("handleOptions", () => {
 
       // Each option without colon becomes its own tab
       expect(result.length).toBe(3); // "All" + 2 individual tabs
-      expect(result.find((tab) => tab.title === "SingleWord") !== undefined).toBe(true);
-      expect(result.find((tab) => tab.title === "AnotherWord") !== undefined).toBe(true);
+      expect(
+        result.find((tab) => tab.title === "SingleWord") !== undefined,
+      ).toBe(true);
+      expect(
+        result.find((tab) => tab.title === "AnotherWord") !== undefined,
+      ).toBe(true);
     });
 
     test("should handle options with empty string prefix", () => {
