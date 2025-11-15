@@ -27,7 +27,7 @@ describe("useUserProfile hook logic", () => {
     });
 
     it("should handle undefined data gracefully", () => {
-      const data = undefined;
+      const data: any = undefined;
 
       const email = data?.userProfile?.email;
       const emailReportStatus = data?.userProfile?.emailReportStatus;
@@ -37,7 +37,7 @@ describe("useUserProfile hook logic", () => {
     });
 
     it("should handle null userProfile gracefully", () => {
-      const data = {
+      const data: any = {
         userProfile: null,
       };
 
@@ -49,7 +49,7 @@ describe("useUserProfile hook logic", () => {
     });
 
     it("should handle missing email field", () => {
-      const data = {
+      const data: any = {
         userProfile: {
           emailReportStatus: false,
         },
@@ -60,7 +60,7 @@ describe("useUserProfile hook logic", () => {
     });
 
     it("should handle missing emailReportStatus field", () => {
-      const data = {
+      const data: any = {
         userProfile: {
           email: "user@test.com",
         },
@@ -128,7 +128,7 @@ describe("useUserProfile hook logic", () => {
 
     it("should handle loading state", () => {
       const loading = true;
-      const data = undefined;
+      const data: any = undefined;
 
       const result = {
         email: data?.userProfile?.email,
@@ -143,7 +143,7 @@ describe("useUserProfile hook logic", () => {
 
     it("should handle error state", () => {
       const error = new Error("Network error");
-      const data = undefined;
+      const data: any = undefined;
 
       const result = {
         email: data?.userProfile?.email,
@@ -210,7 +210,7 @@ describe("useUserProfile hook logic", () => {
 
   describe("edge cases", () => {
     it("should handle completely empty data object", () => {
-      const data = {};
+      const data: any = {};
 
       const email = data?.userProfile?.email;
       const emailReportStatus = data?.userProfile?.emailReportStatus;
@@ -220,7 +220,7 @@ describe("useUserProfile hook logic", () => {
     });
 
     it("should handle data with extra fields", () => {
-      const data = {
+      const data: any = {
         userProfile: {
           email: "user@example.com",
           emailReportStatus: true,

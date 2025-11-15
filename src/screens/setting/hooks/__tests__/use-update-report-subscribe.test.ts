@@ -4,10 +4,7 @@ describe("useUpdateReportSubscribeToRemote hook logic", () => {
   describe("mutation response structure", () => {
     it("should return error field from mutation result", () => {
       const error = new Error("Update failed");
-      const mutationResult = [
-        () => {},
-        { error, data: undefined },
-      ] as const;
+      const mutationResult = [() => {}, { error, data: undefined }] as const;
 
       const [, { error: returnedError }] = mutationResult;
       expect(returnedError).toBe(error);
@@ -15,10 +12,7 @@ describe("useUpdateReportSubscribeToRemote hook logic", () => {
 
     it("should return data field from mutation result", () => {
       const data = { updateReportSubscribe: { success: true } };
-      const mutationResult = [
-        () => {},
-        { error: undefined, data },
-      ] as const;
+      const mutationResult = [() => {}, { error: undefined, data }] as const;
 
       const [, { data: returnedData }] = mutationResult;
       expect(returnedData).toEqual(data);
