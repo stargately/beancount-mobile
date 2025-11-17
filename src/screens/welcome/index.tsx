@@ -4,8 +4,8 @@ import { useTranslations } from "@/common/hooks/use-translations";
 import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
-import { router } from "expo-router";
 import { Button } from "@/components";
+import { LoginOrSignUp } from "@/screens/welcome/auth-modal";
 
 const { height } = Dimensions.get("window");
 
@@ -50,20 +50,12 @@ export function WelcomeScreen(): JSX.Element {
     <View style={styles.container}>
       <Image source={require("@/assets/images/icon.png")} style={styles.icon} />
       <View style={styles.buttonContainer}>
-        <Button
-          style={styles.flex}
-          type="outline"
-          onPress={() => router.push("/auth/sign-in")}
-        >
-          {t("signIn")}
-        </Button>
-        <Button
-          style={styles.flex}
-          type="primary"
-          onPress={() => router.push("/auth/sign-up")}
-        >
-          {t("signUp")}
-        </Button>
+        <LoginOrSignUp isSignUp={false} style={styles.flex}>
+          <Button type="outline">{t("signIn")}</Button>
+        </LoginOrSignUp>
+        <LoginOrSignUp isSignUp={true} style={styles.flex}>
+          <Button type="primary">{t("signUp")}</Button>
+        </LoginOrSignUp>
       </View>
     </View>
   );

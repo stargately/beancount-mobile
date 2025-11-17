@@ -97,7 +97,11 @@ export const Button = (props: ButtonProps) => {
   const theme = useTheme().colorTheme;
 
   return (
-    <Pressable style={pressableStyle} onPress={props.onPress}>
+    <Pressable
+      style={pressableStyle}
+      onPress={props.onPress}
+      pointerEvents={props.onPress ? "auto" : "box-none"}
+    >
       {props.loading ? (
         <ActivityIndicator
           color={type === "primary" ? theme.white : theme.primary}
