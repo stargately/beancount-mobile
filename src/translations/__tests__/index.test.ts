@@ -17,7 +17,9 @@ const SUPPORTED_LOCALES = [
   "uk",
 ];
 
-// Testing the getLocale logic from translations/index.ts
+// Replicate the getLocale logic from translations/index.ts for testing
+// The actual module cannot be imported directly due to path alias resolution
+// limitations in the test runner. This tests the core locale detection algorithm.
 const getLocale = (
   locales: Array<{ languageCode?: string | null }>,
 ): string => {
@@ -151,7 +153,8 @@ describe("translations", () => {
   });
 
   describe("supported locales constant", () => {
-    it("contains all 13 supported locales", () => {
+    it("contains expected number of supported locales", () => {
+      // The app supports 13 locales as of this writing
       expect(SUPPORTED_LOCALES.length).toBe(13);
     });
 
