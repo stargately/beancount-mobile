@@ -1,9 +1,7 @@
 query Charts($userId: String!) {
   charts(userId: $userId) {
     data {
-      balance {
-        USD
-      }
+      balance
       budgets
       date
     }

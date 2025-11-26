@@ -177,14 +177,9 @@ export type ChartsResponse = {
 
 export type ChartItem = {
   __typename?: 'ChartItem';
-  balance: Balance;
+  balance: Scalars['JSONObject']['output'];
   budgets?: Maybe<Scalars['JSONObject']['output']>;
   date: Scalars['String']['output'];
-};
-
-export type Balance = {
-  __typename?: 'Balance';
-  USD?: Maybe<Scalars['Float']['output']>;
 };
 
 export type ContextResponse = {
@@ -473,6 +468,7 @@ export type Mutation = {
   cancelSubscription: SubscriptionActionResult;
   /** Create or rename a file */
   createOrRenameFile: FileOperationResponse;
+  createStripePortalSession: SubscriptionSessionResult;
   createSubscriptionSession: SubscriptionSessionResult;
   /** delete user account and its associated data */
   deleteAccount: Scalars['Boolean']['output'];
@@ -523,6 +519,11 @@ export type MutationCancelSubscriptionArgs = {
 
 export type MutationCreateOrRenameFileArgs = {
   fileInput: CreateOrRenameFileInput;
+};
+
+
+export type MutationCreateStripePortalSessionArgs = {
+  clientId: Scalars['String']['input'];
 };
 
 
@@ -743,7 +744,7 @@ export type ChartsQueryVariables = Exact<{
 }>;
 
 
-export type ChartsQuery = { __typename?: 'Query', charts: { __typename?: 'ChartsResponse', success: boolean, data: Array<{ __typename?: 'ChartItem', budgets?: any | null, date: string, balance: { __typename?: 'Balance', USD?: number | null } }> } };
+export type ChartsQuery = { __typename?: 'Query', charts: { __typename?: 'ChartsResponse', success: boolean, data: Array<{ __typename?: 'ChartItem', balance: any, budgets?: any | null, date: string }> } };
 
 export type CreateSubscriptionSessionMutationVariables = Exact<{
   clientId: Scalars['String']['input'];
@@ -1098,9 +1099,7 @@ export const ChartsDocument = gql`
     query Charts($userId: String!) {
   charts(userId: $userId) {
     data {
-      balance {
-        USD
-      }
+      balance
       budgets
       date
     }

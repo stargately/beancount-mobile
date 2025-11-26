@@ -114,13 +114,9 @@ type ChartsResponse {
 }
 
 type ChartItem {
-  balance: Balance!
+  balance: JSONObject!
   budgets: JSONObject
   date: String!
-}
-
-type Balance {
-  USD: Float
 }
 
 type ContextResponse {
@@ -382,6 +378,7 @@ type Mutation {
   cancelSubscription(clientId: String!, subscriptionId: String!): SubscriptionActionResult!
   """Create or rename a file"""
   createOrRenameFile(fileInput: CreateOrRenameFileInput!): FileOperationResponse!
+  createStripePortalSession(clientId: String!): SubscriptionSessionResult!
   createSubscriptionSession(clientId: String!, priceId: String!): SubscriptionSessionResult!
   """delete user account and its associated data"""
   deleteAccount: Boolean!
