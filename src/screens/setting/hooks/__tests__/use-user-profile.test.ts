@@ -10,6 +10,11 @@ interface UserProfileData {
   userProfile?: UserProfile | null;
 }
 
+// Extended interface for testing extra fields
+interface ExtendedUserProfileData {
+  userProfile: UserProfile & { extraField?: string };
+}
+
 // Helper to extract data with proper typing
 function extractUserProfileData(data: UserProfileData | undefined) {
   return {
@@ -236,9 +241,7 @@ describe("useUserProfile hook logic", () => {
     });
 
     it("should handle data with extra fields", () => {
-      const data: UserProfileData & {
-        userProfile: UserProfile & { extraField?: string };
-      } = {
+      const data: ExtendedUserProfileData = {
         userProfile: {
           email: "user@example.com",
           emailReportStatus: true,
