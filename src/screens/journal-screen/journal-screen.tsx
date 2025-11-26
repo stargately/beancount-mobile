@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -14,7 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { analytics } from "@/common/analytics";
 import { useTheme } from "@/common/theme";
-import { useThemeStyle } from "@/common/hooks/use-theme-style";
+import { useThemeStyle, usePageView } from "@/common/hooks";
 import { useTranslations } from "@/common/hooks/use-translations";
 import { ColorTheme } from "@/types/theme-props";
 import {
@@ -171,6 +171,7 @@ export const JournalScreen = () => {
   const styles = useThemeStyle(getStyles);
   const theme = useTheme().colorTheme;
   const { t } = useTranslations();
+  usePageView("journal");
 
   // State for search
   const [searchQuery, setSearchQuery] = useState("");
@@ -193,10 +194,6 @@ export const JournalScreen = () => {
     variables: queryVariables,
     notifyOnNetworkStatusChange: false, // Reduce flickering by not notifying on network status
   });
-
-  useEffect(() => {
-    analytics.track("page_view_journal", {});
-  }, []);
 
   const onRefresh = async () => {
     await analytics.track("tap_refresh", {});

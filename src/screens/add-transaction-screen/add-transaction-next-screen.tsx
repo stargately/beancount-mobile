@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -18,7 +18,7 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ListItem } from "@/screens/add-transaction-screen/list-item";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { useToast } from "@/common/hooks";
+import { useToast, usePageView } from "@/common/hooks";
 import { List } from "@/components";
 
 import {
@@ -72,12 +72,7 @@ const getStyles = (theme: ColorTheme) =>
   });
 
 export const AddTransactionNextScreen = () => {
-  useEffect(() => {
-    async function init() {
-      await analytics.track("page_view_add_transaction_next", {});
-    }
-    init();
-  }, []);
+  usePageView("add_transaction_next");
   const theme = useTheme().colorTheme;
   const { t } = useTranslations();
   const { currentMoney, currentAsset, currentExpense, currentCurrency } =
