@@ -1,8 +1,14 @@
 // utils/globalFnFactory.ts
 
-const globalFnStore = new Map<string, Function>();
+// Generic type for callback functions - more type-safe than 'Function'
+type CallbackFunction = (...args: never[]) => unknown;
 
-function createGlobalFn<T extends Function>(key: string, initialFn?: T) {
+const globalFnStore = new Map<string, CallbackFunction>();
+
+function createGlobalFn<T extends CallbackFunction>(
+  key: string,
+  initialFn?: T,
+) {
   if (initialFn) {
     globalFnStore.set(key, initialFn);
   }
@@ -23,7 +29,7 @@ function createGlobalFn<T extends Function>(key: string, initialFn?: T) {
   };
 }
 
-export const getGlobalFn = <T extends Function>(key: string) => {
+export const getGlobalFn = <T extends CallbackFunction>(key: string) => {
   return globalFnStore.get(key) as T | undefined;
 };
 

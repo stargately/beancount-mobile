@@ -33,15 +33,13 @@ export function ContactRow({
 }: ContactRowProps): JSX.Element {
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
+  const iconName = selected
+    ? ("radio-button-checked" as const)
+    : ("radio-button-unchecked" as const);
   return (
     <TouchableOpacity activeOpacity={0.9} onPress={onPress}>
       <View style={styles.rowContainer}>
-        <MaterialIcons
-          // @ts-ignore
-          name={`radio-button-${selected ? "" : "un"}checked`}
-          size={24}
-          color={theme.primary}
-        />
+        <MaterialIcons name={iconName} size={24} color={theme.primary} />
         <CommonMargin />
         <View style={{ flex: 1 }}>
           <Text style={styles.name}>{name || emailOrNumber}</Text>
