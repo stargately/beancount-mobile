@@ -126,8 +126,13 @@ describe("useAddEntriesToRemote hook logic", () => {
     });
 
     it("should accept variables parameter", () => {
-      const mutate = (variables: any) => {
-        return variables;
+      interface MutationVariables {
+        variables: {
+          entries: Array<{ id: number }>;
+        };
+      }
+      const mutate = (params: MutationVariables) => {
+        return params;
       };
 
       const variables = { entries: [{ id: 1 }] };

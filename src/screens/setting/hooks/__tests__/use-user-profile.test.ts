@@ -1,5 +1,22 @@
 // Test logic for useUserProfile hook
 
+// Type definitions for test data - matches the shape of GraphQL query data
+interface UserProfileQueryData {
+  userProfile?: {
+    email?: string;
+    emailReportStatus?: boolean;
+    extraField?: string;
+  } | null;
+}
+
+// Helper function to extract data from user profile (mirrors hook implementation)
+function extractUserProfileData(data: UserProfileQueryData | undefined) {
+  return {
+    email: data?.userProfile?.email,
+    emailReportStatus: data?.userProfile?.emailReportStatus,
+  };
+}
+
 describe("useUserProfile hook logic", () => {
   describe("data extraction", () => {
     it("should extract email from userProfile data", () => {
@@ -27,46 +44,44 @@ describe("useUserProfile hook logic", () => {
     });
 
     it("should handle undefined data gracefully", () => {
-      const data: any = undefined;
+      const data: UserProfileQueryData | undefined = undefined;
 
-      const email = data?.userProfile?.email;
-      const emailReportStatus = data?.userProfile?.emailReportStatus;
+      const { email, emailReportStatus } = extractUserProfileData(data);
 
       expect(email).toBe(undefined);
       expect(emailReportStatus).toBe(undefined);
     });
 
     it("should handle null userProfile gracefully", () => {
-      const data: any = {
+      const data: UserProfileQueryData = {
         userProfile: null,
       };
 
-      const email = data?.userProfile?.email;
-      const emailReportStatus = data?.userProfile?.emailReportStatus;
+      const { email, emailReportStatus } = extractUserProfileData(data);
 
       expect(email).toBe(undefined);
       expect(emailReportStatus).toBe(undefined);
     });
 
     it("should handle missing email field", () => {
-      const data: any = {
+      const data: UserProfileQueryData = {
         userProfile: {
           emailReportStatus: false,
         },
       };
 
-      const email = data?.userProfile?.email;
+      const { email } = extractUserProfileData(data);
       expect(email).toBe(undefined);
     });
 
     it("should handle missing emailReportStatus field", () => {
-      const data: any = {
+      const data: UserProfileQueryData = {
         userProfile: {
           email: "user@test.com",
         },
       };
 
-      const emailReportStatus = data?.userProfile?.emailReportStatus;
+      const { emailReportStatus } = extractUserProfileData(data);
       expect(emailReportStatus).toBe(undefined);
     });
   });
@@ -128,11 +143,12 @@ describe("useUserProfile hook logic", () => {
 
     it("should handle loading state", () => {
       const loading = true;
-      const data: any = undefined;
+      const data: UserProfileQueryData | undefined = undefined;
 
+      const { email, emailReportStatus } = extractUserProfileData(data);
       const result = {
-        email: data?.userProfile?.email,
-        emailReportStatus: data?.userProfile?.emailReportStatus,
+        email,
+        emailReportStatus,
         error: undefined,
         loading,
       };
@@ -143,11 +159,12 @@ describe("useUserProfile hook logic", () => {
 
     it("should handle error state", () => {
       const error = new Error("Network error");
-      const data: any = undefined;
+      const data: UserProfileQueryData | undefined = undefined;
 
+      const { email, emailReportStatus } = extractUserProfileData(data);
       const result = {
-        email: data?.userProfile?.email,
-        emailReportStatus: data?.userProfile?.emailReportStatus,
+        email,
+        emailReportStatus,
         error,
         loading: false,
       };
@@ -210,17 +227,16 @@ describe("useUserProfile hook logic", () => {
 
   describe("edge cases", () => {
     it("should handle completely empty data object", () => {
-      const data: any = {};
+      const data: UserProfileQueryData = {};
 
-      const email = data?.userProfile?.email;
-      const emailReportStatus = data?.userProfile?.emailReportStatus;
+      const { email, emailReportStatus } = extractUserProfileData(data);
 
       expect(email).toBe(undefined);
       expect(emailReportStatus).toBe(undefined);
     });
 
     it("should handle data with extra fields", () => {
-      const data: any = {
+      const data: UserProfileQueryData = {
         userProfile: {
           email: "user@example.com",
           emailReportStatus: true,
@@ -228,8 +244,7 @@ describe("useUserProfile hook logic", () => {
         },
       };
 
-      const email = data?.userProfile?.email;
-      const emailReportStatus = data?.userProfile?.emailReportStatus;
+      const { email, emailReportStatus } = extractUserProfileData(data);
 
       expect(email).toBe("user@example.com");
       expect(emailReportStatus).toBe(true);
