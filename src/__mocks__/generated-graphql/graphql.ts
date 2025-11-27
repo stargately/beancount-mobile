@@ -1,4 +1,12 @@
 // Mock for generated GraphQL types and hooks
+// Re-export types from generated code
+export type {
+  HomeChartsQuery,
+  AccountHierarchyQuery,
+  LedgerMetaQuery,
+} from "../../generated-graphql/graphql";
+
+// LedgerMeta type for legacy compatibility
 export type LedgerMeta = {
   accounts: string[];
   currencies: string[];
@@ -13,8 +21,7 @@ export type LedgerMeta = {
   };
 };
 
-export type HomeChartsQuery = any;
-export type AccountHierarchyQuery = any;
+// Mock implementations for hooks
 export const useLedgerMetaQuery = () => ({});
 export const useHomeChartsQuery = () => ({});
 export const useAccountHierarchyQuery = () => ({});
