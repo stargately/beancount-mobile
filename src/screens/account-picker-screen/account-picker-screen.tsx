@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useTheme } from "@/common/theme";
-import { analytics } from "@/common/analytics";
 import {
   OptionTab,
   useLedgerMeta,
@@ -19,6 +18,8 @@ import { SelectedAssets, SelectedExpenses } from "@/common/globalFnFactory";
 import { useSession } from "@/common/hooks/use-session";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs, FlexCenter } from "@/components";
+import { analytics } from "@/common/analytics";
+import { usePageView } from "@/common/hooks";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -40,13 +41,7 @@ const getStyles = (theme: ColorTheme) =>
 export function AccountPickerScreen(): JSX.Element {
   const router = useRouter();
   const { userId } = useSession();
-
-  useEffect(() => {
-    async function init() {
-      await analytics.track("page_view_account_picker", {});
-    }
-    init();
-  }, []);
+  usePageView("account_picker");
   const { type } = useLocalSearchParams<{ type: string }>();
   const { assetsOptionTabs, expensesOptionTabs, loading } = useLedgerMeta(
     userId ?? "",

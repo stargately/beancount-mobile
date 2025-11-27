@@ -5,3 +5,4 @@ export * from "./list";
 export * from "./tabs";
 export * from "./flex-center";
 export * from "./text-input-modal";
+export * from "./text-input-screen";

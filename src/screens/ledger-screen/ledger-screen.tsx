@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { WebView } from "react-native-webview";
@@ -9,7 +9,7 @@ import { ProgressBar } from "./progress-bar";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSession } from "@/common/hooks/use-session";
-import { useThemeStyle } from "@/common/hooks/use-theme-style";
+import { useThemeStyle, usePageView } from "@/common/hooks";
 import { useTheme } from "@/common/theme";
 
 const getStyles = (theme: ColorTheme) =>
@@ -40,13 +40,7 @@ export const LedgerScreen = () => {
   const styles = useThemeStyle(getStyles);
   const theme = useTheme().colorTheme;
   const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    async function init() {
-      await analytics.track("page_view_ledger", {});
-    }
-    init();
-  }, []);
+  usePageView("ledger");
 
   const onRefresh = async () => {
     await analytics.track("tap_refresh", {});

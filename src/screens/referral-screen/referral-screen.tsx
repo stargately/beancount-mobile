@@ -17,8 +17,7 @@ import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSession } from "@/common/hooks/use-session";
-import { useThemeStyle } from "@/common/hooks/use-theme-style";
-import { useToast } from "@/common/hooks";
+import { useThemeStyle, useToast, usePageView } from "@/common/hooks";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -80,12 +79,7 @@ const getStyles = (theme: ColorTheme) =>
   });
 
 export const ReferralScreen = () => {
-  React.useEffect(() => {
-    async function init() {
-      await analytics.track("page_view_referral", {});
-    }
-    init();
-  }, []);
+  usePageView("referral");
   const { userId } = useSession();
   const toast = useToast();
   const { t } = useTranslations();

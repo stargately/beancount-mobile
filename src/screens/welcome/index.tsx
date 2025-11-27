@@ -1,9 +1,8 @@
 import * as React from "react";
 import { Dimensions, View, StyleSheet, Image } from "react-native";
 import { useTranslations } from "@/common/hooks/use-translations";
-import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
-import { useThemeStyle } from "@/common/hooks/use-theme-style";
+import { useThemeStyle, usePageView } from "@/common/hooks";
 import { Button } from "@/components";
 import { LoginOrSignUp } from "@/screens/welcome/auth-modal";
 
@@ -38,12 +37,7 @@ const getStyles = (theme: ColorTheme) =>
   });
 
 export function WelcomeScreen(): JSX.Element {
-  React.useEffect(() => {
-    async function init() {
-      await analytics.track("page_view_pre_auth", {});
-    }
-    init();
-  }, []);
+  usePageView("pre_auth");
   const styles = useThemeStyle(getStyles);
   const { t } = useTranslations();
   return (

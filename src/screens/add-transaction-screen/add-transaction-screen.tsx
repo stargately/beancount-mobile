@@ -10,7 +10,7 @@ import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useToast } from "@/common/hooks";
+import { useToast, usePageView } from "@/common/hooks";
 
 const KeyWidth = ScreenWidth / 3;
 const KeyHeight = 50;
@@ -47,6 +47,7 @@ const getStyles = (theme: ColorTheme) =>
   });
 
 export function AddTransactionScreen(): JSX.Element {
+  usePageView("add_transaction");
   const Keys = [
     { display: "1", value: 1 },
     { display: "2", value: 2 },
@@ -62,12 +63,6 @@ export function AddTransactionScreen(): JSX.Element {
     { display: i18n.t("next"), value: 200 },
   ];
 
-  React.useEffect(() => {
-    async function init() {
-      await analytics.track("page_view_add_transaction", {});
-    }
-    init();
-  }, []);
   const theme = useTheme().colorTheme;
   const styles = getStyles(theme);
   const [currentMoney, setCurrentMoney] = React.useState("0.00");

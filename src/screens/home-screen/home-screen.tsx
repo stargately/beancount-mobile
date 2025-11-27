@@ -25,7 +25,7 @@ import { AddTransactionCallback } from "@/common/globalFnFactory";
 import { useSession } from "@/common/hooks/use-session";
 import { themeVar } from "@/common/vars";
 import { useReactiveVar } from "@apollo/client";
-import { useThemeStyle } from "@/common/hooks/use-theme-style";
+import { useThemeStyle, usePageView } from "@/common/hooks";
 import { Button } from "@/components";
 import { BarChartD3 } from "@/common/d3/bar-chart-d3";
 import { LineChartD3 } from "@/common/d3/line-chart-d3";
@@ -45,12 +45,7 @@ const getStyles = (theme: ColorTheme) =>
 export const HomeScreen = (): JSX.Element => {
   const { userId } = useSession();
   const { t } = useTranslations();
-  React.useEffect(() => {
-    async function init() {
-      await analytics.track("page_view_home", {});
-    }
-    init();
-  }, []);
+  usePageView("home");
   const styles = useThemeStyle(getStyles);
   const router = useRouter();
   const { currencies, refetch: ledgerMetaRefetch } = useLedgerMeta(userId);
