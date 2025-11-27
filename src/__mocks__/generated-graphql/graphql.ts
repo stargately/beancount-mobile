@@ -1,4 +1,12 @@
 // Mock for generated GraphQL types and hooks
+// Re-export types from generated code
+export type {
+  HomeChartsQuery,
+  AccountHierarchyQuery,
+  LedgerMetaQuery,
+} from "../../generated-graphql/graphql";
+
+// LedgerMeta type for legacy compatibility
 export type LedgerMeta = {
   accounts: string[];
   currencies: string[];
@@ -13,68 +21,7 @@ export type LedgerMeta = {
   };
 };
 
-// Balance type represents a currency-keyed object of amounts
-export type Balance = Record<string, number>;
-
-// ChartItemV2 type for chart data points
-export type ChartItemV2 = {
-  __typename?: "ChartItemV2";
-  date: string;
-  balance: Balance;
-  budgets?: Balance | null;
-};
-
-// LabeledChartItem type for labeled chart data
-export type LabeledChartItem = {
-  __typename?: "LabeledChartItem";
-  type: string;
-  label: string;
-  data: ChartItemV2[];
-};
-
-// HomeChartsResponse type for the home charts response
-export type HomeChartsResponse = {
-  __typename?: "HomeChartsResponse";
-  success: boolean;
-  data: LabeledChartItem[];
-};
-
-// HomeChartsQuery type - the full query response
-export type HomeChartsQuery = {
-  __typename?: "Query";
-  homeCharts: HomeChartsResponse;
-};
-
-// AccountBalance type for account hierarchy data
-export type AccountBalance = {
-  __typename?: "AccountBalance";
-  account: string;
-  balance: Balance;
-  balance_children: Balance;
-  children: AccountBalance[];
-};
-
-// LabeledHierarchyItem type for labeled hierarchy data
-export type LabeledHierarchyItem = {
-  __typename?: "LabeledHierarchyItem";
-  type: string;
-  label: string;
-  data: AccountBalance;
-};
-
-// AccountHierarchyResponse type for the account hierarchy response
-export type AccountHierarchyResponse = {
-  __typename?: "AccountHierarchyResponse";
-  success: boolean;
-  data: LabeledHierarchyItem[];
-};
-
-// AccountHierarchyQuery type - the full query response
-export type AccountHierarchyQuery = {
-  __typename?: "Query";
-  accountHierarchy: AccountHierarchyResponse;
-};
-
+// Mock implementations for hooks
 export const useLedgerMetaQuery = () => ({});
 export const useHomeChartsQuery = () => ({});
 export const useAccountHierarchyQuery = () => ({});
