@@ -157,7 +157,7 @@ describe("ProgressBar", () => {
         progress: number;
       };
       const props: Props = { progress: 0 };
-      expect(props.progress).toBeDefined;
+      expect(typeof props.progress).toBe("number");
     });
   });
 

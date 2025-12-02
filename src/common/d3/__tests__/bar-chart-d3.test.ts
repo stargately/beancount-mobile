@@ -76,7 +76,6 @@ describe("BarChartD3", () => {
 
   describe("bar height calculation for positive values", () => {
     it("should calculate height for positive value", () => {
-      const num = 100;
       const zeroY = 180;
       const valueY = 80;
       const barHeight = zeroY - valueY;
@@ -105,7 +104,6 @@ describe("BarChartD3", () => {
 
   describe("bar height calculation for negative values", () => {
     it("should calculate height for negative value", () => {
-      const num = -100;
       const zeroY = 180;
       const valueY = 280;
       const barHeight = valueY - zeroY;

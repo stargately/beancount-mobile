@@ -67,7 +67,6 @@ describe("ToastProvider", () => {
       };
       expect(toast.message).toBe("Operation successful");
       expect(toast.type).toBe("success");
-      expect(toast.duration).toBeUndefined;
     });
 
     it("should create toast message with custom duration", () => {
@@ -128,7 +127,7 @@ describe("ToastProvider", () => {
       ];
       const filtered = messages.filter((msg) => msg.id !== "2");
       expect(filtered.length).toBe(2);
-      expect(filtered.find((m) => m.id === "2")).toBeUndefined;
+      expect(filtered.find((m) => m.id === "2")).toBe(undefined);
     });
   });
 

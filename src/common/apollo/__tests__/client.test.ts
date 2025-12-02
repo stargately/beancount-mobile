@@ -73,21 +73,24 @@ describe("Apollo Client", () => {
     });
 
     it("should handle session without authToken", () => {
-      const session = { userId: "user123" };
-      const token = (session as { authToken?: string })?.authToken;
-      expect(token).toBeUndefined;
+      type SessionType = { userId?: string; authToken?: string };
+      const session: SessionType = { userId: "user123" };
+      const token = session?.authToken;
+      expect(token).toBe(undefined);
     });
 
     it("should handle null session", () => {
-      const session = null;
-      const token = session?.authToken;
-      expect(token).toBeUndefined;
+      type SessionType = { userId?: string; authToken?: string } | null;
+      const session: SessionType = null;
+      const hasToken = session !== null && session !== undefined;
+      expect(hasToken).toBe(false);
     });
 
     it("should handle undefined session", () => {
-      const session = undefined;
-      const token = session?.authToken;
-      expect(token).toBeUndefined;
+      type SessionType = { userId?: string; authToken?: string } | undefined;
+      const session: SessionType = undefined;
+      const hasToken = session !== null && session !== undefined;
+      expect(hasToken).toBe(false);
     });
   });
 
@@ -135,7 +138,8 @@ describe("Apollo Client", () => {
 
   describe("token validation", () => {
     it("should accept valid JWT-like token", () => {
-      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abc";
+      const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abc";
       expect(token.split(".").length).toBe(3);
     });
 
