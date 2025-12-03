@@ -3,7 +3,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 const schema =
   (process.env.EXPO_PUBLIC_SERVER_URL &&
     process.env.EXPO_PUBLIC_SERVER_URL + "api-gateway/") ||
-  "https://beancount.io/api-gateway/";
+  "src/generated-graphql/schema.graphql";
 
 const config: CodegenConfig = {
   overwrite: true,
@@ -16,6 +16,11 @@ const config: CodegenConfig = {
         "typescript-operations",
         "typescript-react-apollo",
       ],
+      config: {
+        scalars: {
+          JSONObject: "Record<string, number | string>",
+        },
+      },
     },
     "src/generated-graphql/graphql.schema.json": {
       plugins: ["introspection"],
