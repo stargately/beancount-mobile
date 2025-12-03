@@ -1,50 +1,13 @@
+import { scaleBand, scaleLinear } from "d3-scale";
+
 describe("BarChartD3", () => {
-  describe("chart dimensions", () => {
-    it("should have default chart height of 220", () => {
-      const chartHeight = 220;
-      expect(chartHeight).toBe(220);
-    });
-
-    it("should calculate bar width based on number of labels", () => {
-      const chartWidth = 400;
-      const labelCount = 5;
-      const barWidth = (chartWidth / labelCount) * 0.6;
-      expect(barWidth).toBeCloseTo(48, 0);
-    });
-
-    it("should use content padding for left padding of 50", () => {
-      const leftPadding = 50;
-      expect(leftPadding).toBe(50);
-    });
-
-    it("should use bottom padding of 30", () => {
-      const bottomPadding = 30;
-      expect(bottomPadding).toBe(30);
-    });
-
-    it("should use top padding of 20", () => {
-      const topPadding = 20;
-      expect(topPadding).toBe(20);
-    });
-  });
-
-  describe("font sizes", () => {
-    it("should use axis font size of 12", () => {
-      const axisFontSize = 12;
-      expect(axisFontSize).toBe(12);
-    });
-
-    it("should use label font size of 13", () => {
-      const labelFontSize = 13;
-      expect(labelFontSize).toBe(13);
-    });
-  });
-
-  describe("scale domain calculation", () => {
-    it("should calculate max value from positive numbers", () => {
+  describe("scale calculations", () => {
+    it("should correctly calculate scale domain for positive numbers", () => {
       const numbers = [10, 25, 15, 30, 20];
       const maxValue = Math.max(...numbers, 1);
+      const minValue = Math.min(...numbers, 0);
       expect(maxValue).toBe(30);
+      expect(minValue).toBe(0);
     });
 
     it("should use minimum of 1 for max when all numbers are negative", () => {
@@ -53,7 +16,7 @@ describe("BarChartD3", () => {
       expect(maxValue).toBe(1);
     });
 
-    it("should calculate min value from negative numbers", () => {
+    it("should calculate min value correctly for negative numbers", () => {
       const numbers = [10, -25, 15, -30, 20];
       const minValue = Math.min(...numbers, 0);
       expect(minValue).toBe(-30);
@@ -65,17 +28,39 @@ describe("BarChartD3", () => {
       expect(minValue).toBe(0);
     });
 
-    it("should handle empty array gracefully", () => {
+    it("should handle empty array with sensible defaults", () => {
       const numbers: number[] = [];
       const maxValue = Math.max(...numbers, 1);
       const minValue = Math.min(...numbers, 0);
       expect(maxValue).toBe(1);
       expect(minValue).toBe(0);
     });
+
+    it("should handle mixed positive and negative values", () => {
+      const numbers = [100, -50, 75, -25, 50];
+      const maxValue = Math.max(...numbers, 1);
+      const minValue = Math.min(...numbers, 0);
+      expect(maxValue).toBe(100);
+      expect(minValue).toBe(-50);
+    });
+
+    it("should handle all zero values", () => {
+      const numbers = [0, 0, 0];
+      const maxValue = Math.max(...numbers, 1);
+      const minValue = Math.min(...numbers, 0);
+      expect(maxValue).toBe(1);
+      expect(minValue).toBe(0);
+    });
+
+    it("should handle very large numbers", () => {
+      const numbers = [1000000, 2000000, 1500000];
+      const maxValue = Math.max(...numbers, 1);
+      expect(maxValue).toBe(2000000);
+    });
   });
 
-  describe("bar height calculation for positive values", () => {
-    it("should calculate height for positive value", () => {
+  describe("bar height calculation", () => {
+    it("should calculate correct height for positive values", () => {
       const zeroY = 180;
       const valueY = 80;
       const barHeight = zeroY - valueY;
@@ -84,7 +69,16 @@ describe("BarChartD3", () => {
       expect(barY).toBe(80);
     });
 
-    it("should ensure minimum height for very small positive values", () => {
+    it("should calculate correct height for negative values", () => {
+      const zeroY = 180;
+      const valueY = 280;
+      const barHeight = valueY - zeroY;
+      const barY = zeroY;
+      expect(barHeight).toBe(100);
+      expect(barY).toBe(180);
+    });
+
+    it("should enforce minimum height for very small positive values", () => {
       const num = 1;
       const zeroY = 180;
       const valueY = 179;
@@ -100,19 +94,8 @@ describe("BarChartD3", () => {
       expect(barHeight).toBe(2);
       expect(barY).toBe(178);
     });
-  });
 
-  describe("bar height calculation for negative values", () => {
-    it("should calculate height for negative value", () => {
-      const zeroY = 180;
-      const valueY = 280;
-      const barHeight = valueY - zeroY;
-      const barY = zeroY;
-      expect(barHeight).toBe(100);
-      expect(barY).toBe(180);
-    });
-
-    it("should ensure minimum height for very small negative values", () => {
+    it("should enforce minimum height for very small negative values", () => {
       const num = -1;
       const zeroY = 180;
       const valueY = 181;
@@ -128,123 +111,195 @@ describe("BarChartD3", () => {
       expect(barHeight).toBe(-2);
       expect(barY).toBe(180);
     });
-  });
 
-  describe("bar properties", () => {
-    it("should use bar width from scale calculation", () => {
-      const chartWidth = 400;
-      const labelCount = 5;
-      const barWidth = (chartWidth / labelCount) * 0.6;
-      expect(barWidth).toBeCloseTo(48, 0);
-    });
-
-    it("should use border radius of 3", () => {
-      const borderRadius = 3;
-      expect(borderRadius).toBe(3);
-    });
-
-    it("should use absolute value for bar height", () => {
+    it("should use absolute value for rendering bar height", () => {
       const negativeHeight = -50;
       const absoluteHeight = Math.abs(negativeHeight);
       expect(absoluteHeight).toBe(50);
     });
   });
 
-  describe("scale band padding", () => {
-    it("should use padding of 0.2", () => {
-      const padding = 0.2;
-      expect(padding).toBe(0.2);
+  describe("scaleBand integration", () => {
+    it("should create valid scale with labels", () => {
+      const labels = ["Jan", "Feb", "Mar", "Apr", "May"];
+      const xScale = scaleBand().domain(labels).range([50, 400]).padding(0.2);
+
+      expect(xScale.domain()).toEqual(labels);
+      expect(xScale.range()).toEqual([50, 400]);
+      expect(xScale.padding()).toBe(0.2);
     });
 
-    it("should validate padding is between 0 and 1", () => {
-      const padding = 0.2;
-      expect(padding >= 0 && padding <= 1).toBe(true);
+    it("should return valid positions for each label", () => {
+      const labels = ["Jan", "Feb", "Mar"];
+      const xScale = scaleBand().domain(labels).range([50, 350]).padding(0.2);
+
+      const janPos = xScale("Jan");
+      const febPos = xScale("Feb");
+      const marPos = xScale("Mar");
+
+      expect(janPos).toBeTruthy();
+      expect(febPos).toBeTruthy();
+      expect(marPos).toBeTruthy();
+      expect(typeof janPos).toBe("number");
+      expect(typeof febPos).toBe("number");
+      expect(typeof marPos).toBe("number");
+    });
+
+    it("should return undefined for non-existent label", () => {
+      const labels = ["Jan", "Feb", "Mar"];
+      const xScale = scaleBand().domain(labels).range([50, 350]).padding(0.2);
+
+      const result = xScale("InvalidLabel");
+      expect(result).toBeFalsy();
+    });
+
+    it("should handle empty labels array", () => {
+      const labels: string[] = [];
+      const xScale = scaleBand().domain(labels).range([50, 350]).padding(0.2);
+
+      expect(xScale.domain()).toEqual([]);
     });
   });
 
-  describe("y-axis ticks", () => {
-    it("should generate 5 ticks by default", () => {
-      const tickCount = 5;
-      expect(tickCount).toBe(5);
+  describe("scaleLinear integration", () => {
+    it("should create valid linear scale", () => {
+      const yScale = scaleLinear().domain([0, 100]).range([190, 20]).nice();
+
+      expect(yScale.domain()[0]).toBeCloseTo(0, 0);
+      expect(yScale.domain()[1]).toBeCloseTo(100);
+      expect(yScale.range()).toEqual([190, 20]);
     });
 
-    it("should validate tick count is positive", () => {
-      const tickCount = 5;
-      expect(tickCount > 0).toBe(true);
+    it("should correctly scale values", () => {
+      const yScale = scaleLinear().domain([0, 100]).range([200, 0]);
+
+      expect(yScale(0)).toBe(200);
+      expect(yScale(100)).toBe(0);
+      expect(yScale(50)).toBe(100);
+    });
+
+    it("should handle negative domains", () => {
+      const yScale = scaleLinear().domain([-50, 50]).range([200, 0]);
+
+      expect(yScale(0)).toBe(100);
+      expect(yScale(-50)).toBe(200);
+      expect(yScale(50)).toBe(0);
+    });
+
+    it("should generate valid ticks", () => {
+      const yScale = scaleLinear().domain([0, 100]).range([200, 0]).nice();
+
+      const ticks = yScale.ticks(5);
+      expect(ticks.length > 0).toBe(true);
+      expect(ticks[0] <= ticks[ticks.length - 1]).toBe(true);
     });
   });
 
-  describe("grid line properties", () => {
-    it("should use stroke dash array of 4,2", () => {
-      const strokeDashArray = "4,2";
-      expect(strokeDashArray).toBe("4,2");
+  describe("edge cases and data validation", () => {
+    it("should handle mismatched array lengths gracefully", () => {
+      const labels = ["Jan", "Feb", "Mar", "Apr"];
+      const numbers = [10, 20, 15];
+
+      // This represents a potential bug where numbers.length < labels.length
+      expect(numbers.length).toBe(3);
+
+      // The code should handle this by only rendering bars for available data
+      const minLength = Math.min(labels.length, numbers.length);
+      expect(minLength).toBe(3);
     });
 
-    it("should use stroke width of 1", () => {
-      const strokeWidth = 1;
-      expect(strokeWidth).toBe(1);
+    it("should handle labels longer than numbers", () => {
+      const labels = ["Jan", "Feb", "Mar"];
+      const numbers = [10, 20];
+
+      const minLength = Math.min(labels.length, numbers.length);
+      expect(minLength).toBe(2);
+    });
+
+    it("should handle single data point", () => {
+      const labels = ["Jan"];
+      const numbers = [100];
+
+      expect(labels.length).toBe(1);
+      expect(numbers.length).toBe(1);
+    });
+
+    it("should handle very small decimal numbers", () => {
+      const numbers = [0.001, 0.002, 0.0015];
+      const maxValue = Math.max(...numbers, 1);
+      const minValue = Math.min(...numbers, 0);
+
+      expect(minValue).toBeCloseTo(0, 3);
+      expect(maxValue).toBeCloseTo(1, 0);
+    });
+
+    it("should validate scale returns number or undefined", () => {
+      const labels = ["Jan", "Feb", "Mar"];
+      const xScale = scaleBand().domain(labels).range([50, 350]).padding(0.2);
+
+      const result = xScale("Jan");
+      expect(typeof result === "number" || result === undefined).toBe(true);
+    });
+
+    it("should handle NaN values in numbers array", () => {
+      const numbers = [10, NaN, 20, 30];
+      const maxValue = Math.max(...numbers, 1);
+      const minValue = Math.min(...numbers, 0);
+
+      expect(isNaN(maxValue)).toBe(true);
+      expect(isNaN(minValue)).toBe(true);
+    });
+
+    it("should handle Infinity values", () => {
+      const numbers = [10, Infinity, 20];
+      const maxValue = Math.max(...numbers, 1);
+
+      expect(maxValue).toBe(Infinity);
     });
   });
 
-  describe("y-axis label positioning", () => {
-    it("should offset label by 4 pixels to the left", () => {
+  describe("bar width calculation", () => {
+    it("should calculate bar width based on chart width and label count", () => {
+      const chartWidth = 400;
+      const labelCount = 5;
+      const barWidth = (chartWidth / labelCount) * 0.6;
+      expect(barWidth).toBeCloseTo(48, 0);
+    });
+
+    it("should handle single label", () => {
+      const chartWidth = 400;
+      const labelCount = 1;
+      const barWidth = (chartWidth / labelCount) * 0.6;
+      expect(barWidth).toBeCloseTo(240, 0);
+    });
+
+    it("should handle many labels", () => {
+      const chartWidth = 400;
+      const labelCount = 20;
+      const barWidth = (chartWidth / labelCount) * 0.6;
+      expect(barWidth).toBeCloseTo(12, 0);
+    });
+  });
+
+  describe("axis positioning", () => {
+    it("should position y-axis labels with correct offset", () => {
       const leftPadding = 50;
       const labelX = leftPadding - 4;
       expect(labelX).toBe(46);
     });
 
-    it("should offset label by 5 pixels down", () => {
-      const offset = 5;
-      expect(offset).toBe(5);
-    });
-  });
-
-  describe("x-axis label positioning", () => {
-    it("should center label on bar", () => {
+    it("should position x-axis labels centered on bars", () => {
       const xPosition = 100;
       const barWidth = 48;
       const centerX = xPosition + barWidth / 2;
       expect(centerX).toBe(124);
     });
 
-    it("should position label 8 pixels from bottom", () => {
+    it("should calculate label y position from chart height", () => {
       const chartHeight = 220;
       const bottomOffset = 8;
       const labelY = chartHeight - bottomOffset;
       expect(labelY).toBe(212);
-    });
-  });
-
-  describe("minimum height enforcement", () => {
-    it("should use minimum height of 2 for visibility", () => {
-      const minHeight = 2;
-      expect(minHeight).toBe(2);
-    });
-
-    it("should apply minimum height when calculated height is too small", () => {
-      const calculatedHeight = 0.5;
-      const minHeight = 2;
-      const shouldEnforce = Math.abs(calculatedHeight) < minHeight;
-      expect(shouldEnforce).toBe(true);
-    });
-
-    it("should not enforce minimum when calculated height is sufficient", () => {
-      const calculatedHeight = 10;
-      const minHeight = 2;
-      const shouldEnforce = Math.abs(calculatedHeight) < minHeight;
-      expect(shouldEnforce).toBe(false);
-    });
-  });
-
-  describe("error boundary", () => {
-    it("should return null as fallback", () => {
-      const fallback = null;
-      expect(fallback).toBe(null);
-    });
-
-    it("should log errors to console", () => {
-      const errorMessage = "Chart rendering error";
-      expect(errorMessage).toBe("Chart rendering error");
     });
   });
 });

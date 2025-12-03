@@ -93,7 +93,7 @@ export function LineChartD3({
         {numbers.map((num, i) => (
           <Circle
             key={i}
-            cx={xScale(labels[i])}
+            cx={xScale(labels[i]) ?? 0}
             cy={yScale(num)}
             r={6}
             stroke={theme.primary}
@@ -106,7 +106,7 @@ export function LineChartD3({
         {labels.map((label, i) => (
           <SvgText
             key={i}
-            x={xScale(label)}
+            x={xScale(label) ?? 0}
             y={chartHeight - 8}
             fontSize={labelFontSize}
             fill={theme.text01}
