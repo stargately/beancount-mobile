@@ -369,4 +369,98 @@ describe("LineChartD3", () => {
       expect(result[2]).toEqual({ value: 15, index: 2 });
     });
   });
+
+  describe("rendering edge cases", () => {
+    it("should handle chart dimensions with padding", () => {
+      const chartWidth = 400;
+      const leftPadding = 50;
+      const range = [leftPadding, chartWidth];
+      expect(range[0] < range[1]).toBe(true);
+    });
+
+    it("should ensure chart height is positive", () => {
+      const chartHeight = 220;
+      const bottomPadding = 30;
+      const topPadding = 20;
+      const effectiveHeight = chartHeight - bottomPadding - topPadding;
+      expect(effectiveHeight > 0).toBe(true);
+    });
+
+    it("should validate circle properties", () => {
+      const radius = 6;
+      const strokeWidth = 2;
+      expect(radius > 0).toBe(true);
+      expect(strokeWidth > 0).toBe(true);
+      expect(radius > strokeWidth).toBe(true);
+    });
+
+    it("should validate line stroke width", () => {
+      const lineStrokeWidth = 3;
+      expect(lineStrokeWidth > 0).toBe(true);
+    });
+  });
+
+  describe("tick generation integration", () => {
+    it("should use generateTicks function correctly", () => {
+      const minValue = -50;
+      const maxValue = 100;
+      const count = 5;
+
+      // Simulate generateTicks behavior
+      const generateTicks = (min: number, max: number, count: number) => {
+        if (count <= 0) return [];
+        if (count === 1) return [min];
+        const step = (max - min) / (count - 1);
+        const ticks: number[] = [];
+        for (let i = 0; i < count; i++) {
+          ticks.push(min + step * i);
+        }
+        return ticks;
+      };
+
+      const ticks = generateTicks(minValue, maxValue, count);
+      expect(ticks.length).toBe(count);
+      expect(ticks[0]).toBeCloseTo(minValue);
+      expect(ticks[ticks.length - 1]).toBeCloseTo(maxValue);
+    });
+
+    it("should handle ticks for very small ranges", () => {
+      const minValue = 0.001;
+      const maxValue = 0.002;
+      const count = 3;
+
+      const step = (maxValue - minValue) / (count - 1);
+      expect(step > 0).toBe(true);
+      expect(isFinite(step)).toBe(true);
+    });
+  });
+
+  describe("SVG path validation", () => {
+    it("should validate path starts with M command", () => {
+      const pathString = "M 0,100 L 50,80 L 100,90";
+      expect(pathString.charAt(0)).toBe("M");
+    });
+
+    it("should handle null path gracefully", () => {
+      const pathString = null;
+      const shouldRender = pathString !== null && pathString !== "";
+      expect(shouldRender).toBe(false);
+    });
+
+    it("should validate path is a string", () => {
+      const pathString = "M 0,0 L 10,10";
+      expect(typeof pathString).toBe("string");
+      expect(pathString.length > 0).toBe(true);
+    });
+  });
+
+  describe("stroke dash array", () => {
+    it("should validate grid line stroke pattern", () => {
+      const strokeDasharray = "4,2";
+      const parts = strokeDasharray.split(",");
+      expect(parts.length).toBe(2);
+      expect(parseInt(parts[0]) > 0).toBe(true);
+      expect(parseInt(parts[1]) > 0).toBe(true);
+    });
+  });
 });

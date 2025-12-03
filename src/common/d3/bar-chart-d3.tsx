@@ -25,7 +25,7 @@ function BarChart({
   // Chart dimensions
   const chartWidth = ScreenWidth - contentPadding * 2;
   const chartHeight = 220;
-  const barWidth = (chartWidth / labels.length) * 0.6;
+  const barWidth = labels.length > 0 ? (chartWidth / labels.length) * 0.6 : 0;
   const axisFontSize = 12;
   const labelFontSize = 13;
   const leftPadding = 50;

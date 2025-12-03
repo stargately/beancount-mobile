@@ -8,16 +8,19 @@ import { useTheme } from "@/common/theme";
 import { useTranslations } from "@/common/hooks/use-translations";
 import { shortNumber } from "@/common/number-utils";
 import { generateTicks } from "@/common/d3/utils";
+import { ErrorBoundary } from "react-error-boundary";
 
-export function LineChartD3({
-  labels,
-  numbers,
-  currencySymbol,
-}: {
+type LineChartProps = {
   labels: string[];
   numbers: number[];
   currencySymbol: string;
-}): JSX.Element {
+};
+
+function LineChart({
+  labels,
+  numbers,
+  currencySymbol,
+}: LineChartProps): JSX.Element {
   const theme = useTheme().colorTheme;
   const { t } = useTranslations();
 
@@ -119,3 +122,16 @@ export function LineChartD3({
     </View>
   );
 }
+
+export const LineChartD3 = (props: LineChartProps) => {
+  return (
+    <ErrorBoundary
+      fallback={null}
+      onError={(error) => {
+        console.error(error);
+      }}
+    >
+      <LineChart {...props} />
+    </ErrorBoundary>
+  );
+};
