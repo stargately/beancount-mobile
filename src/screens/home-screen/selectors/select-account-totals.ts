@@ -38,7 +38,8 @@ export function getAccountTotals(
         ? balanceChildren[currency]
         : (balanceChildren.USD ?? 0);
     // Convert to number if it's a string
-    const balance = typeof balanceValue === "string" ? Number(balanceValue) : balanceValue;
+    const balance =
+      typeof balanceValue === "string" ? Number(balanceValue) : balanceValue;
     const formattedBalance = Math.abs(balance).toFixed(2);
 
     switch (item.label.toLowerCase()) {
