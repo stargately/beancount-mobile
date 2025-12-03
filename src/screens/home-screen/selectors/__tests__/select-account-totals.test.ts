@@ -536,4 +536,33 @@ describe("getAccountTotals", () => {
     expect(resultEUR.assets).toBe("900.50");
     expect(resultEUR.liabilities).toBe("450.00");
   });
+
+  it("handles invalid string values in balance_children by treating as 0", () => {
+    const data: TestAccountHierarchyQuery = {
+      accountHierarchy: {
+        success: true,
+        data: [
+          {
+            type: "account",
+            label: "Assets",
+            data: {
+              account: "Assets",
+              balance: 0,
+              balance_children: {
+                USD: "invalid" as unknown as number,
+              },
+              children: [],
+            },
+          },
+        ],
+      },
+    };
+
+    const result = getAccountTotals(
+      "USD",
+      data as unknown as AccountHierarchyQuery,
+    );
+
+    expect(result.assets).toBe("0.00");
+  });
 });
