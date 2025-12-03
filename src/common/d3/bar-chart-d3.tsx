@@ -109,7 +109,7 @@ function BarChart({
           return (
             <Rect
               key={i}
-              x={xScale(labels[i])}
+              x={xScale(labels[i]) ?? 0}
               y={barY}
               width={barWidth}
               height={Math.abs(barHeight)}
