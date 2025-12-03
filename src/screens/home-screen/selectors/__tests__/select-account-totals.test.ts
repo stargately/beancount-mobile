@@ -474,4 +474,66 @@ describe("getAccountTotals", () => {
     // Should fallback to USD when USD is not present
     expect(result.assets).toBe("0.00");
   });
+
+  it("handles balance_children with string values", () => {
+    const data: TestAccountHierarchyQuery = {
+      accountHierarchy: {
+        success: true,
+        data: [
+          {
+            type: "account",
+            label: "Assets",
+            data: {
+              account: "Assets",
+              balance: 1500,
+              balance_children: { USD: "1500.50" } as unknown as Record<
+                string,
+                number
+              >,
+              children: [],
+            },
+          },
+        ],
+      },
+    };
+
+    const result = getAccountTotals(
+      "USD",
+      data as unknown as AccountHierarchyQuery,
+    );
+
+    expect(result.assets).toBe("1500.50");
+  });
+
+  it("handles mixed string and number values in balance_children", () => {
+    const data = createTestData([
+      {
+        label: "Assets",
+        balance_children: { USD: 1000.0, EUR: "900.50" as unknown as number },
+        balance: 1000.0,
+      },
+      {
+        label: "Liabilities",
+        balance_children: {
+          USD: "500.25" as unknown as number,
+          EUR: 450.0,
+        },
+        balance: 500.25,
+      },
+    ]);
+
+    const resultUSD = getAccountTotals(
+      "USD",
+      data as unknown as AccountHierarchyQuery,
+    );
+    const resultEUR = getAccountTotals(
+      "EUR",
+      data as unknown as AccountHierarchyQuery,
+    );
+
+    expect(resultUSD.assets).toBe("1000.00");
+    expect(resultUSD.liabilities).toBe("500.25");
+    expect(resultEUR.assets).toBe("900.50");
+    expect(resultEUR.liabilities).toBe("450.00");
+  });
 });

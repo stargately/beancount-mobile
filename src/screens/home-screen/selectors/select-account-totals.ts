@@ -30,13 +30,15 @@ export function getAccountTotals(
     // Get the currency balance with proper null/undefined handling
     const balanceChildren = item.data.balance_children as Record<
       string,
-      number
+      number | string
     >;
     // Use 'in' operator to check if currency exists, to handle 0 values correctly
-    const balance =
+    const balanceValue =
       currency in balanceChildren
         ? balanceChildren[currency]
         : (balanceChildren.USD ?? 0);
+    // Convert to number if it's a string
+    const balance = typeof balanceValue === "string" ? Number(balanceValue) : balanceValue;
     const formattedBalance = Math.abs(balance).toFixed(2);
 
     switch (item.label.toLowerCase()) {
