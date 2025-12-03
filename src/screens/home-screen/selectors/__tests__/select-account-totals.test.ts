@@ -379,4 +379,99 @@ describe("getAccountTotals", () => {
 
     expect(result.assets).toBe("999999999.99");
   });
+
+  it("handles negative values correctly for all account types", () => {
+    const data = createTestData([
+      { label: "Assets", balance_children: { USD: -100.0 }, balance: -100.0 },
+      {
+        label: "Liabilities",
+        balance_children: { USD: -200.0 },
+        balance: -200.0,
+      },
+      { label: "Expenses", balance_children: { USD: -300.0 }, balance: -300.0 },
+    ]);
+
+    const result = getAccountTotals(
+      "USD",
+      data as unknown as AccountHierarchyQuery,
+    );
+
+    // All should use absolute value
+    expect(result.assets).toBe("100.00");
+    expect(result.liabilities).toBe("200.00");
+    expect(result.expenses).toBe("300.00");
+  });
+
+  it("handles mixed account labels (some match, some don't)", () => {
+    const data = createTestData([
+      { label: "Assets", balance_children: { USD: 100.0 }, balance: 100.0 },
+      {
+        label: "Unknown Account",
+        balance_children: { USD: 500.0 },
+        balance: 500.0,
+      },
+      {
+        label: "Liabilities",
+        balance_children: { USD: 50.0 },
+        balance: 50.0,
+      },
+    ]);
+
+    const result = getAccountTotals(
+      "USD",
+      data as unknown as AccountHierarchyQuery,
+    );
+
+    expect(result.assets).toBe("100.00");
+    expect(result.liabilities).toBe("50.00");
+    // Unknown accounts should not affect other totals
+    expect(result.income).toBe("0.00");
+    expect(result.expenses).toBe("0.00");
+  });
+
+  it("handles null balance_children gracefully", () => {
+    const data: TestAccountHierarchyQuery = {
+      accountHierarchy: {
+        success: true,
+        data: [
+          {
+            type: "account",
+            label: "Assets",
+            data: {
+              account: "Assets",
+              balance: 100,
+              balance_children: null as unknown as Record<string, number>,
+              children: [],
+            },
+          },
+        ],
+      },
+    };
+
+    const result = getAccountTotals(
+      "USD",
+      data as unknown as AccountHierarchyQuery,
+    );
+
+    // Should return default when balance_children is null
+    expect(result.assets).toBe("0.00");
+  });
+
+  it("handles multiple currencies with one missing requested currency", () => {
+    const data = createTestData([
+      {
+        label: "Assets",
+        balance_children: { EUR: 100.0, GBP: 80.0, JPY: 10000.0 },
+        balance: 100.0,
+      },
+    ]);
+
+    const result = getAccountTotals(
+      "USD",
+      data as unknown as AccountHierarchyQuery,
+    );
+
+    // Should fallback to USD when USD is not present
+    expect(result.assets).toBe("0.00");
+  });
 });

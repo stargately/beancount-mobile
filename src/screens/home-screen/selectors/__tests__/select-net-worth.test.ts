@@ -215,4 +215,107 @@ describe("getNetWorth", () => {
     const result = getNetWorth("USD", data);
     expect(result).toEqual({ netAssets: "0.01" });
   });
+
+  it("handles scientific notation in balance values", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Net Worth",
+            data: [
+              {
+                date: "2025-01-01",
+                balance: { USD: "1e5" }, // 100000
+              },
+            ],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = getNetWorth("USD", data);
+    expect(result).toEqual({ netAssets: "100000.00" });
+  });
+
+  it("handles multiple data points and uses only the last one", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Net Worth",
+            data: [
+              {
+                date: "2025-01-01",
+                balance: { USD: "1000.00" },
+              },
+              {
+                date: "2025-02-01",
+                balance: { USD: "2000.00" },
+              },
+              {
+                date: "2025-03-01",
+                balance: { USD: "3000.00" },
+              },
+            ],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = getNetWorth("USD", data);
+    expect(result).toEqual({ netAssets: "3000.00" });
+  });
+
+  it("handles empty data array in Net Worth", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Net Worth",
+            data: [],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = getNetWorth("USD", data);
+    expect(result).toEqual({ netAssets: "0.00" });
+  });
+
+  it("handles rounding correctly for values with many decimals", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Net Worth",
+            data: [
+              {
+                date: "2025-01-01",
+                balance: { USD: "1234.56789" },
+              },
+            ],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = getNetWorth("USD", data);
+    expect(result).toEqual({ netAssets: "1234.57" });
+  });
+
+  it("handles balance value as 0 string", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Net Worth",
+            data: [
+              {
+                date: "2025-01-01",
+                balance: { USD: "0" },
+              },
+            ],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = getNetWorth("USD", data);
+    expect(result).toEqual({ netAssets: "0.00" });
+  });
 });
