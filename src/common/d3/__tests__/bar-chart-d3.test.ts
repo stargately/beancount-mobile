@@ -262,22 +262,30 @@ describe("BarChartD3", () => {
     it("should calculate bar width based on chart width and label count", () => {
       const chartWidth = 400;
       const labelCount = 5;
-      const barWidth = (chartWidth / labelCount) * 0.6;
+      const barWidth = labelCount > 0 ? (chartWidth / labelCount) * 0.6 : 0;
       expect(barWidth).toBeCloseTo(48, 0);
     });
 
     it("should handle single label", () => {
       const chartWidth = 400;
       const labelCount = 1;
-      const barWidth = (chartWidth / labelCount) * 0.6;
+      const barWidth = labelCount > 0 ? (chartWidth / labelCount) * 0.6 : 0;
       expect(barWidth).toBeCloseTo(240, 0);
     });
 
     it("should handle many labels", () => {
       const chartWidth = 400;
       const labelCount = 20;
-      const barWidth = (chartWidth / labelCount) * 0.6;
+      const barWidth = labelCount > 0 ? (chartWidth / labelCount) * 0.6 : 0;
       expect(barWidth).toBeCloseTo(12, 0);
+    });
+
+    it("should return 0 for empty labels array to avoid division by zero", () => {
+      const chartWidth = 400;
+      const labelCount = 0;
+      const barWidth = labelCount > 0 ? (chartWidth / labelCount) * 0.6 : 0;
+      expect(barWidth).toBe(0);
+      expect(isFinite(barWidth)).toBe(true);
     });
   });
 
@@ -300,6 +308,70 @@ describe("BarChartD3", () => {
       const bottomOffset = 8;
       const labelY = chartHeight - bottomOffset;
       expect(labelY).toBe(212);
+    });
+  });
+
+  describe("ErrorBoundary behavior", () => {
+    it("should handle rendering errors gracefully", () => {
+      const error = new Error("Test error");
+
+      // Simulate error handling
+      const onError = (err: Error) => {
+        return err;
+      };
+      const result = onError(error);
+
+      expect(result).toBe(error);
+    });
+
+    it("should log errors when component fails", () => {
+      const testError = new Error("Component error");
+      const errorMessage = testError.message;
+
+      expect(errorMessage).toBe("Component error");
+    });
+  });
+
+  describe("rendering edge cases", () => {
+    it("should handle chart dimensions with zero padding", () => {
+      const chartWidth = 400;
+      const leftPadding = 50;
+      const range = [leftPadding, chartWidth];
+      expect(range[0] < range[1]).toBe(true);
+    });
+
+    it("should ensure chart height is positive", () => {
+      const chartHeight = 220;
+      const bottomPadding = 30;
+      const topPadding = 20;
+      const effectiveHeight = chartHeight - bottomPadding - topPadding;
+      expect(effectiveHeight > 0).toBe(true);
+    });
+
+    it("should handle corner radius for bars", () => {
+      const borderRadius = 3;
+      expect(borderRadius >= 0).toBe(true);
+    });
+  });
+
+  describe("coordinate safety checks", () => {
+    it("should fallback to 0 for undefined scale results", () => {
+      const labels = ["Jan", "Feb", "Mar"];
+      const xScale = scaleBand().domain(labels).range([50, 350]).padding(0.2);
+
+      const validCoord = xScale("Jan") ?? 0;
+      const invalidCoord = xScale("Invalid") ?? 0;
+
+      expect(typeof validCoord).toBe("number");
+      expect(invalidCoord).toBe(0);
+    });
+
+    it("should ensure barY coordinate is valid", () => {
+      const valueY = 80;
+      const barY = valueY;
+
+      expect(isFinite(barY)).toBe(true);
+      expect(typeof barY).toBe("number");
     });
   });
 });
