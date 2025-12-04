@@ -265,6 +265,91 @@ describe("selectChartArray", () => {
     expect(result.labels).toEqual(["05"]);
     expect(result.numbers).toEqual([5000]);
   });
+
+  it("handles balance as string with leading zeros", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Test Label",
+            data: [{ date: "2025-01-01", balance: { USD: "0001.50" } }],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = selectChartArray("Test Label", "USD", data);
+    expect(result.labels).toEqual(["01"]);
+    expect(result.numbers).toEqual([1.5]);
+  });
+
+  it("handles extremely large numbers", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Test Label",
+            data: [
+              {
+                date: "2025-01-01",
+                balance: { USD: "999999999999.99" },
+              },
+            ],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = selectChartArray("Test Label", "USD", data);
+    expect(result.labels).toEqual(["01"]);
+    expect(result.numbers).toEqual([999999999999.99]);
+  });
+
+  it("handles empty balance object", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Test Label",
+            data: [{ date: "2025-01-01", balance: {} }],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = selectChartArray("Test Label", "USD", data);
+    expect(result.labels).toEqual(["01"]);
+    expect(result.numbers).toEqual([0]);
+  });
+
+  it("handles NaN string values gracefully", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Test Label",
+            data: [{ date: "2025-01-01", balance: { USD: "invalid" } }],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = selectChartArray("Test Label", "USD", data);
+    expect(result.labels).toEqual(["01"]);
+    expect(result.numbers).toEqual([NaN]);
+  });
+
+  it("handles whitespace in balance values", () => {
+    const data = {
+      homeCharts: {
+        data: [
+          {
+            label: "Test Label",
+            data: [{ date: "2025-01-01", balance: { USD: " 100.50 " } }],
+          },
+        ],
+      },
+    } as unknown as HomeChartsQuery;
+    const result = selectChartArray("Test Label", "USD", data);
+    expect(result.labels).toEqual(["01"]);
+    expect(result.numbers).toEqual([100.5]);
+  });
 });
 
 describe("isSameMonth helper", () => {
@@ -288,5 +373,17 @@ describe("isSameMonth helper", () => {
     expect(isSameMonth(undefined, undefined)).toBe(true);
     expect(isSameMonth("2025-01-15", undefined)).toBe(false);
     expect(isSameMonth(undefined, "2025-01-15")).toBe(false);
+  });
+
+  it("handles empty string dates", () => {
+    expect(isSameMonth("", "")).toBe(true);
+    expect(isSameMonth("2025-01-15", "")).toBe(false);
+    expect(isSameMonth("", "2025-01-15")).toBe(false);
+  });
+
+  it("handles dates with different formats", () => {
+    // Should still compare first 7 characters (YYYY-MM)
+    expect(isSameMonth("2025-01", "2025-01")).toBe(true);
+    expect(isSameMonth("2025-01-01", "2025-01-31")).toBe(true);
   });
 });

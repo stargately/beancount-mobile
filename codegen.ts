@@ -16,6 +16,11 @@ const config: CodegenConfig = {
         "typescript-operations",
         "typescript-react-apollo",
       ],
+      config: {
+        scalars: {
+          JSONObject: "Record<string, number | string>",
+        },
+      },
     },
     "src/generated-graphql/graphql.schema.json": {
       plugins: ["introspection"],

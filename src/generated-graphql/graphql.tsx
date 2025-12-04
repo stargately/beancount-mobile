@@ -15,8 +15,11 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  JSONObject: { input: any; output: any; }
+  /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSONObject: { input: Record<string, number | string>; output: Record<string, number | string>; }
+  /** valid filename string */
   BeanFilename: { input: any; output: any; }
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: { input: any; output: any; }
 };
 
@@ -708,14 +711,14 @@ export type SourceSliceInput = {
 export type AccountBalancesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AccountBalancesQuery = { __typename?: 'Query', accountBalances: { __typename?: 'AccountBalancesResponse', success: boolean, data: { __typename?: 'TreeNode', account: string, balance: any, balance_children: any, children: Array<{ __typename?: 'TreeNode', account: string, balance: any, balance_children: any, children: Array<{ __typename?: 'TreeNode', account: string, balance: any, balance_children: any }> }> } } };
+export type AccountBalancesQuery = { __typename?: 'Query', accountBalances: { __typename?: 'AccountBalancesResponse', success: boolean, data: { __typename?: 'TreeNode', account: string, balance: Record<string, number | string>, balance_children: Record<string, number | string>, children: Array<{ __typename?: 'TreeNode', account: string, balance: Record<string, number | string>, balance_children: Record<string, number | string>, children: Array<{ __typename?: 'TreeNode', account: string, balance: Record<string, number | string>, balance_children: Record<string, number | string> }> }> } } };
 
 export type AccountHierarchyQueryVariables = Exact<{
   userId: Scalars['String']['input'];
 }>;
 
 
-export type AccountHierarchyQuery = { __typename?: 'Query', accountHierarchy: { __typename?: 'AccountHierarchyResponse', success: boolean, data: Array<{ __typename?: 'LabeledHierarchyItem', type: string, label: string, data: { __typename?: 'AccountBalance', account: string, balance: any, balance_children: any, children: Array<{ __typename?: 'AccountBalance', account: string, balance: any, balance_children: any }> } }> } };
+export type AccountHierarchyQuery = { __typename?: 'Query', accountHierarchy: { __typename?: 'AccountHierarchyResponse', success: boolean, data: Array<{ __typename?: 'LabeledHierarchyItem', type: string, label: string, data: { __typename?: 'AccountBalance', account: string, balance: Record<string, number | string>, balance_children: Record<string, number | string>, children: Array<{ __typename?: 'AccountBalance', account: string, balance: Record<string, number | string>, balance_children: Record<string, number | string> }> } }> } };
 
 export type AddEntriesMutationVariables = Exact<{
   entriesInput: Array<EntryInput> | EntryInput;
@@ -744,7 +747,7 @@ export type ChartsQueryVariables = Exact<{
 }>;
 
 
-export type ChartsQuery = { __typename?: 'Query', charts: { __typename?: 'ChartsResponse', success: boolean, data: Array<{ __typename?: 'ChartItem', balance: any, budgets?: any | null, date: string }> } };
+export type ChartsQuery = { __typename?: 'Query', charts: { __typename?: 'ChartsResponse', success: boolean, data: Array<{ __typename?: 'ChartItem', balance: Record<string, number | string>, budgets?: Record<string, number | string> | null, date: string }> } };
 
 export type CreateSubscriptionSessionMutationVariables = Exact<{
   clientId: Scalars['String']['input'];
@@ -778,7 +781,7 @@ export type HomeChartsQueryVariables = Exact<{
 }>;
 
 
-export type HomeChartsQuery = { __typename?: 'Query', homeCharts: { __typename?: 'HomeChartsResponse', success: boolean, data: Array<{ __typename?: 'LabeledChartItem', type: string, label: string, data: Array<{ __typename?: 'ChartItemV2', date: string, balance: any, budgets?: any | null }> }> } };
+export type HomeChartsQuery = { __typename?: 'Query', homeCharts: { __typename?: 'HomeChartsResponse', success: boolean, data: Array<{ __typename?: 'LabeledChartItem', type: string, label: string, data: Array<{ __typename?: 'ChartItemV2', date: string, balance: Record<string, number | string>, budgets?: Record<string, number | string> | null }> }> } };
 
 export type IsPaidQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -830,7 +833,7 @@ export type PayeeTransactionQueryVariables = Exact<{
 }>;
 
 
-export type PayeeTransactionQuery = { __typename?: 'Query', payeeTransaction: { __typename?: 'PayeeTransactionResponse', data: any, success: boolean } };
+export type PayeeTransactionQuery = { __typename?: 'Query', payeeTransaction: { __typename?: 'PayeeTransactionResponse', data: Record<string, number | string>, success: boolean } };
 
 export type PaymentHistoryQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -842,7 +845,7 @@ export type QueryResultQueryVariables = Exact<{
 }>;
 
 
-export type QueryResultQuery = { __typename?: 'Query', queryResult: { __typename?: 'QueryResultResponse', success: boolean, data: { __typename?: 'QueryResult', table: string, chart?: any | null } } };
+export type QueryResultQuery = { __typename?: 'Query', queryResult: { __typename?: 'QueryResultResponse', success: boolean, data: { __typename?: 'QueryResult', table: string, chart?: Record<string, number | string> | null } } };
 
 export type RenameFileMutationVariables = Exact<{
   renameFileRequest: RenameFileRequest;
