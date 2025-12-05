@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { WebView } from "react-native-webview";
@@ -12,6 +12,7 @@ import { useSession } from "@/common/hooks/use-session";
 import { useThemeStyle, usePageView } from "@/common/hooks";
 import { useTheme } from "@/common/theme";
 import { appendLangParam } from '@/common/url-utils'
+import { DashboardWebView } from '@/components/dashboard-webview'
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -55,7 +56,7 @@ export const LedgerScreen = () => {
     <SafeAreaView edges={["top"]} style={styles.container}>
       <ProgressBar progress={progress} />
       <View style={styles.webViewContainer}>
-        <WebView
+        <DashboardWebView
           ref={(webView) => {
             webViewRef = webView;
           }}
