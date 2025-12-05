@@ -100,7 +100,7 @@ export const Button = (props: ButtonProps) => {
     <Pressable
       style={pressableStyle}
       onPress={props.onPress}
-      pointerEvents={props.onPress ? "auto" : "box-none"}
+      pointerEvents={props.onPress ? "auto" : "none"}
     >
       {props.loading ? (
         <ActivityIndicator
