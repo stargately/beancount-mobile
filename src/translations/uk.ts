@@ -23,6 +23,9 @@ export const uk: typeof en = {
   logoutAlertCancel: "Скасувати",
   logoutAlertConfirm: "Вийти",
   logout: "Вихід",
+  loggingOut: "Вихід",
+  loggingOutMessage: "Будь ласка, зачекайте, поки ми безпечно вийдемо з системи...",
+  loggingOutProgress: "Вихід...",
   // delete account alert
   deleteAccountAlertMsg:
     "Ви впевнені, що хочете видалити свій обліковий запис? Цю дію неможливо скасувати, і вона назавжди видалить усі ваші дані.",

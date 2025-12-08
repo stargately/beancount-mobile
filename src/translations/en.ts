@@ -19,8 +19,11 @@ export const en = {
   // logout alert
   logoutAlertMsg: "Are you sure you want to log out?",
   logoutAlertCancel: "Cancel",
-  logoutAlertConfirm: "Log Out",
+  logoutAlertConfirm: "Logout",
   logout: "Logout",
+  loggingOut: "Logging out",
+  loggingOutMessage: "Please wait while we securely log you out...",
+  loggingOutProgress: "Signing out...",
   // delete account alert
   deleteAccountAlertMsg:
     "Are you sure you want to delete your account? This action cannot be undone and will permanently delete all your data.",

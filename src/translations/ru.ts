@@ -23,6 +23,9 @@ export const ru: typeof en = {
   logoutAlertCancel: "Отмена",
   logoutAlertConfirm: "Выйти",
   logout: "Выход",
+  loggingOut: "Выход",
+  loggingOutMessage: "Пожалуйста, подождите, пока мы безопасно выйдем из системы...",
+  loggingOutProgress: "Выход...",
   // delete account alert
   deleteAccountAlertMsg:
     "Вы уверены, что хотите удалить свой аккаунт? Это действие нельзя отменить, и оно навсегда удалит все ваши данные.",

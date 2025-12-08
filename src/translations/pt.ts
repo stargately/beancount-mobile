@@ -23,6 +23,9 @@ export const pt: typeof en = {
   logoutAlertCancel: "Cancelar",
   logoutAlertConfirm: "Sair",
   logout: "Sair",
+  loggingOut: "Saindo",
+  loggingOutMessage: "Por favor, aguarde enquanto fazemos logout com segurança...",
+  loggingOutProgress: "Saindo...",
   // delete account alert
   deleteAccountAlertMsg:
     "Tem certeza de que deseja excluir sua conta? Esta ação não pode ser desfeita e excluirá permanentemente todos os seus dados.",

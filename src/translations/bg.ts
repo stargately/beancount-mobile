@@ -23,6 +23,9 @@ export const bg: typeof en = {
   logoutAlertCancel: "Отказ",
   logoutAlertConfirm: "Изход",
   logout: "Изход",
+  loggingOut: "Излизане",
+  loggingOutMessage: "Моля, изчакайте, докато ви изведем безопасно...",
+  loggingOutProgress: "Излизане...",
   // delete account alert
   deleteAccountAlertMsg:
     "Сигурни ли сте, че искате да изтриете акаунта си? Това действие не може да бъде отменено и ще изтрие завинаги всички ваши данни.",

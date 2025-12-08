@@ -23,6 +23,9 @@ export const fa: typeof en = {
   logoutAlertCancel: "لغو",
   logoutAlertConfirm: "خروج",
   logout: "خروج",
+  loggingOut: "در حال خروج",
+  loggingOutMessage: "لطفاً صبر کنید، در حال خروج امن شما هستیم...",
+  loggingOutProgress: "در حال خروج...",
   // delete account alert
   deleteAccountAlertMsg:
     "آیا مطمئن هستید که می‌خواهید حساب خود را حذف کنید؟ این عمل قابل بازگشت نیست و تمام داده‌های شما را برای همیشه حذف خواهد کرد.",
