@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useSession } from "@/common/hooks/use-session";
 import { useThemeStyle, usePageView } from "@/common/hooks";
 import { useTheme } from "@/common/theme";
-import { appendLangParam } from "@/common/url-utils";
+import { appendPreferenceParam } from "@/common/url-utils";
 import { DashboardWebView } from "@/components/dashboard-webview";
 
 const getStyles = (theme: ColorTheme) =>
@@ -51,7 +51,7 @@ export const LedgerScreen = () => {
     }
   };
   const { authToken } = useSession();
-  const uri = appendLangParam(getEndpoint("ledger/editor/"));
+  const uri = appendPreferenceParam(getEndpoint("ledger/editor/"));
   return (
     <SafeAreaView edges={["top"]} style={styles.container}>
       <ProgressBar progress={progress} />
