@@ -11,7 +11,7 @@ import { useDeleteAccountMutation } from "@/generated-graphql/graphql";
 import { useSession } from "@/common/hooks/use-session";
 import { localeVar, themeVar } from "@/common/vars";
 import { useReactiveVar } from "@apollo/client";
-import { actionLogout } from "./logout";
+import { router } from "expo-router";
 import { useToast } from "@/common/hooks";
 import { Picker } from "@/components/picker";
 import { TextInputModal } from "@/components/text-input-modal";
@@ -85,8 +85,8 @@ export const MainContent = () => {
           message: "Account deleted successfully",
           type: "success",
         });
-        // Logout after successful deletion
-        actionLogout(authToken);
+        // Navigate to logout screen after successful deletion
+        router.push("/(app)/logout");
       } else {
         toast.showToast({
           message: "Failed to delete account",
@@ -206,7 +206,7 @@ export const MainContent = () => {
                 {
                   text: t("logoutAlertConfirm"),
                   onPress: () => {
-                    actionLogout(authToken);
+                    router.push("/(app)/logout");
                   },
                 },
               ],

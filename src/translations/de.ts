@@ -23,6 +23,9 @@ export const de: typeof en = {
   logoutAlertCancel: "Abbrechen",
   logoutAlertConfirm: "Abmelden",
   logout: "Abmelden",
+  loggingOut: "Abmelden",
+  loggingOutMessage: "Bitte warten Sie, während wir Sie sicher abmelden...",
+  loggingOutProgress: "Abmelden...",
   // delete account alert
   deleteAccountAlertMsg:
     "Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und löscht alle Ihre Daten dauerhaft.",

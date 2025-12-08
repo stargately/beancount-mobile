@@ -23,6 +23,9 @@ export const sk: typeof en = {
   logoutAlertCancel: "Zrušiť",
   logoutAlertConfirm: "Odhlásiť",
   logout: "Odhlásiť",
+  loggingOut: "Odhlasovanie",
+  loggingOutMessage: "Počkajte, kým vás bezpečne odhlásime...",
+  loggingOutProgress: "Odhlasovanie...",
   // delete account alert
   deleteAccountAlertMsg:
     "Ste si istí, že chcete vymazať svoj účet? Táto akcia sa nedá vrátiť späť a natrvalo vymaže všetky vaše údaje.",

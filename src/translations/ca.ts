@@ -23,6 +23,9 @@ export const ca: typeof en = {
   logoutAlertCancel: "Cancel·lar",
   logoutAlertConfirm: "Tancar sessió",
   logout: "Tancar sessió",
+  loggingOut: "Tancant sessió",
+  loggingOutMessage: "Espereu mentre tanquem la sessió de forma segura...",
+  loggingOutProgress: "Tancant sessió...",
   // delete account alert
   deleteAccountAlertMsg:
     "Estàs segur que vols eliminar el teu compte? Aquesta acció no es pot desfer i eliminarà permanentment totes les teves dades.",

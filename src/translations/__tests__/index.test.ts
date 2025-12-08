@@ -208,7 +208,7 @@ describe("translations", () => {
       expect(en.logout).toBe("Logout");
       expect(en.logoutAlertMsg).toBe("Are you sure you want to log out?");
       expect(en.logoutAlertCancel).toBe("Cancel");
-      expect(en.logoutAlertConfirm).toBe("Log Out");
+      expect(en.logoutAlertConfirm).toBe("Logout");
     });
 
     it("has month abbreviations in English", () => {

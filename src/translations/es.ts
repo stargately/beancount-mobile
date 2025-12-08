@@ -24,6 +24,9 @@ export const es: typeof en = {
   logoutAlertCancel: "Cancelar",
   logoutAlertConfirm: "Cerrar sesión",
   logout: "Cerrar sesión",
+  loggingOut: "Cerrando sesión",
+  loggingOutMessage: "Por favor espera mientras cerramos tu sesión de forma segura...",
+  loggingOutProgress: "Cerrando sesión...",
   // delete account alert
   deleteAccountAlertMsg:
     "¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer y eliminará permanentemente todos tus datos.",
