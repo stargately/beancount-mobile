@@ -25,7 +25,8 @@ export const es: typeof en = {
   logoutAlertConfirm: "Cerrar sesión",
   logout: "Cerrar sesión",
   loggingOut: "Cerrando sesión",
-  loggingOutMessage: "Por favor espera mientras cerramos tu sesión de forma segura...",
+  loggingOutMessage:
+    "Por favor espera mientras cerramos tu sesión de forma segura...",
   loggingOutProgress: "Cerrando sesión...",
   // delete account alert
   deleteAccountAlertMsg:

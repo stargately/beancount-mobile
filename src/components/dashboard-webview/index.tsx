@@ -36,10 +36,11 @@ interface BridgeMessage {
 
 interface DashboardWebViewProps extends Omit<WebViewProps, "onMessage"> {
   onMessage?: (event: WebViewMessageEvent) => void;
+  scrollEnabled?: boolean;
 }
 
 export const DashboardWebView = forwardRef<WebView, DashboardWebViewProps>(
-  ({ onMessage, ...webViewProps }, ref) => {
+  ({ onMessage, scrollEnabled = false, ...webViewProps }, ref) => {
     const webViewRef = useRef<WebView>(null);
     const [bridgeReady, setBridgeReady] = useState(false);
     const locale = useReactiveVar(localeVar);
@@ -93,6 +94,7 @@ export const DashboardWebView = forwardRef<WebView, DashboardWebViewProps>(
         onMessage={handleMessage}
         javaScriptEnabled={true}
         domStorageEnabled={true}
+        scrollEnabled={scrollEnabled}
       />
     );
   },

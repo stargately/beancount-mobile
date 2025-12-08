@@ -57,6 +57,7 @@ export const LedgerScreen = () => {
       <ProgressBar progress={progress} />
       <View style={styles.webViewContainer}>
         <DashboardWebView
+          scrollEnabled={false}
           ref={(webView) => {
             webViewRef = webView;
           }}

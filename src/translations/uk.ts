@@ -24,7 +24,8 @@ export const uk: typeof en = {
   logoutAlertConfirm: "Вийти",
   logout: "Вихід",
   loggingOut: "Вихід",
-  loggingOutMessage: "Будь ласка, зачекайте, поки ми безпечно вийдемо з системи...",
+  loggingOutMessage:
+    "Будь ласка, зачекайте, поки ми безпечно вийдемо з системи...",
   loggingOutProgress: "Вихід...",
   // delete account alert
   deleteAccountAlertMsg:

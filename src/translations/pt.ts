@@ -24,7 +24,8 @@ export const pt: typeof en = {
   logoutAlertConfirm: "Sair",
   logout: "Sair",
   loggingOut: "Saindo",
-  loggingOutMessage: "Por favor, aguarde enquanto fazemos logout com segurança...",
+  loggingOutMessage:
+    "Por favor, aguarde enquanto fazemos logout com segurança...",
   loggingOutProgress: "Saindo...",
   // delete account alert
   deleteAccountAlertMsg:
