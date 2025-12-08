@@ -10,8 +10,8 @@ Based on the following code changes, please generate a concise and descriptive c
 
 Provide only the commit message itself, without any introduction or explanation.
 
-* If it contains frontend changes, then briefly describe UI before / after the change.
-* !!Important!! Never mention `Generated with Claude Code` or `Co-Authored-By`
+- If it contains frontend changes, then briefly describe UI before / after the change.
+- !!Important!! Never mention `Generated with Claude Code` or `Co-Authored-By`
 
 ## Staged Changes:
 

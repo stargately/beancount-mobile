@@ -11,8 +11,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useSession } from "@/common/hooks/use-session";
 import { useThemeStyle, usePageView } from "@/common/hooks";
 import { useTheme } from "@/common/theme";
-import { appendLangParam } from '@/common/url-utils'
-import { DashboardWebView } from '@/components/dashboard-webview'
+import { appendLangParam } from "@/common/url-utils";
+import { DashboardWebView } from "@/components/dashboard-webview";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
