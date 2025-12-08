@@ -25,7 +25,8 @@ export const fr: typeof en = {
   logoutAlertConfirm: "Se déconnecter",
   logout: "Déconnexion",
   loggingOut: "Déconnexion en cours",
-  loggingOutMessage: "Veuillez patienter pendant que nous vous déconnectons en toute sécurité...",
+  loggingOutMessage:
+    "Veuillez patienter pendant que nous vous déconnectons en toute sécurité...",
   loggingOutProgress: "Déconnexion...",
   // delete account alert
   deleteAccountAlertMsg:

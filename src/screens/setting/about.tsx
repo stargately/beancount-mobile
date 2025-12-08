@@ -10,7 +10,7 @@ export const About = () => {
   const theme = useTheme().colorTheme;
 
   return (
-    <ScrollView style={{ backgroundColor: theme.white }}>
+    <ScrollView bounces={false} style={{ backgroundColor: theme.white }}>
       <AccountHeader />
       <InviteSection />
       <View style={{ paddingHorizontal: 16 }}>
