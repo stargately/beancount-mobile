@@ -11,12 +11,18 @@ const testFilePatterns = [".test.ts", ".test.tsx", ".spec.ts", ".spec.tsx"];
 
 if (process.env.JEST_LITE_WORKER === "1") {
   runWorker().catch((error) => {
-    console.error("Unexpected error while running tests:\n", error && (error.stack || error.message || error));
+    console.error(
+      "Unexpected error while running tests:\n",
+      error && (error.stack || error.message || error),
+    );
     process.exit(1);
   });
 } else {
   orchestrate().catch((error) => {
-    console.error("Unexpected error while orchestrating tests:\n", error && (error.stack || error.message || error));
+    console.error(
+      "Unexpected error while orchestrating tests:\n",
+      error && (error.stack || error.message || error),
+    );
     process.exit(1);
   });
 }
@@ -84,7 +90,9 @@ async function orchestrate() {
       });
 
       child.on("error", (error) => {
-        console.error(`Failed to run tests in ${path.relative(projectRoot, file)}:`);
+        console.error(
+          `Failed to run tests in ${path.relative(projectRoot, file)}:`,
+        );
         console.error(error && (error.stack || error.message || error));
         hasFailure = true;
         running -= 1;
@@ -106,7 +114,10 @@ async function orchestrate() {
   if (aggregated.failed > 0) {
     summaryParts.push(`${aggregated.failed} failed`);
   }
-  const computedSkipped = aggregated.skipped > 0 ? aggregated.skipped : Math.max(aggregated.total - aggregated.passed - aggregated.failed, 0);
+  const computedSkipped =
+    aggregated.skipped > 0
+      ? aggregated.skipped
+      : Math.max(aggregated.total - aggregated.passed - aggregated.failed, 0);
   if (computedSkipped > 0) {
     summaryParts.push(`${computedSkipped} skipped`);
   }
@@ -125,7 +136,9 @@ async function runWorker() {
       if (!file) {
         continue;
       }
-      const absoluteFile = path.isAbsolute(file) ? file : path.resolve(projectRoot, file);
+      const absoluteFile = path.isAbsolute(file)
+        ? file
+        : path.resolve(projectRoot, file);
       collectedFiles.push(absoluteFile);
     }
   } else {
@@ -333,7 +346,12 @@ async function runTests(context) {
   await runSuite(context, context.rootSuite, []);
 }
 
-async function runSuite(context, suite, ancestors, parentHooks = { beforeEach: [], afterEach: [] }) {
+async function runSuite(
+  context,
+  suite,
+  ancestors,
+  parentHooks = { beforeEach: [], afterEach: [] },
+) {
   const namePath = suite.name ? [...ancestors, suite.name] : [...ancestors];
 
   const combinedBeforeEach = [...parentHooks.beforeEach, ...suite.beforeEach];
@@ -353,7 +371,13 @@ async function runSuite(context, suite, ancestors, parentHooks = { beforeEach: [
         afterEach: combinedAfterEach,
       });
     } else {
-      await runTest(context, child, namePath, combinedBeforeEach, combinedAfterEach);
+      await runTest(
+        context,
+        child,
+        namePath,
+        combinedBeforeEach,
+        combinedAfterEach,
+      );
     }
   }
 
@@ -365,7 +389,9 @@ function skipSuite(suite, ancestors) {
     if (child.type === "suite") {
       skipSuite(child, [...ancestors, suite.name]);
     } else {
-      console.log(`○ ${formatTestName([...ancestors, suite.name, child.name])}`);
+      console.log(
+        `○ ${formatTestName([...ancestors, suite.name, child.name])}`,
+      );
     }
   }
 }
@@ -430,7 +456,13 @@ async function runHooksSequentially(context, hooks, namePath, hookName) {
   }
 }
 
-async function runTest(context, testNode, ancestors, beforeEachHooks, afterEachHooks) {
+async function runTest(
+  context,
+  testNode,
+  ancestors,
+  beforeEachHooks,
+  afterEachHooks,
+) {
   if (testNode.mode === "skip") {
     console.log(`○ ${formatTestName([...ancestors, testNode.name])}`);
     return;
@@ -499,10 +531,18 @@ function createTsCompiler(compilerOptions) {
 
     if (output.diagnostics && output.diagnostics.length > 0) {
       for (const diagnostic of output.diagnostics) {
-        const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
+        const message = ts.flattenDiagnosticMessageText(
+          diagnostic.messageText,
+          "\n",
+        );
         if (diagnostic.file) {
-          const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start || 0);
-          console.warn(`${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
+          const { line, character } =
+            diagnostic.file.getLineAndCharacterOfPosition(
+              diagnostic.start || 0,
+            );
+          console.warn(
+            `${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`,
+          );
         } else {
           console.warn(message);
         }
@@ -541,7 +581,11 @@ function createExpect() {
       const result = comparator(received, expected);
       const expectedText = format(expected);
       const receivedText = format(received);
-      ensure(result, `Expected ${receivedText} to ${description} ${expectedText}`, `Expected ${receivedText} not to ${description} ${expectedText}`);
+      ensure(
+        result,
+        `Expected ${receivedText} to ${description} ${expectedText}`,
+        `Expected ${receivedText} not to ${description} ${expectedText}`,
+      );
     };
 
     const matchers = {
@@ -549,22 +593,42 @@ function createExpect() {
         compareEquality(expected, Object.is, "be");
       },
       toEqual(expected) {
-        compareEquality(expected, (a, b) => util.isDeepStrictEqual(a, b), "deep-equal");
+        compareEquality(
+          expected,
+          (a, b) => util.isDeepStrictEqual(a, b),
+          "deep-equal",
+        );
       },
       toBeCloseTo(expected, precision = 2) {
         const factor = Math.pow(10, precision);
-        const result = Math.round(Number(received) * factor) === Math.round(Number(expected) * factor);
-        ensure(result, `Expected ${received} to be close to ${expected} (precision ${precision})`, `Expected ${received} not to be close to ${expected} (precision ${precision})`);
+        const result =
+          Math.round(Number(received) * factor) ===
+          Math.round(Number(expected) * factor);
+        ensure(
+          result,
+          `Expected ${received} to be close to ${expected} (precision ${precision})`,
+          `Expected ${received} not to be close to ${expected} (precision ${precision})`,
+        );
       },
       toBeTruthy() {
-        ensure(Boolean(received), `Expected ${received} to be truthy`, `Expected ${received} not to be truthy`);
+        ensure(
+          Boolean(received),
+          `Expected ${received} to be truthy`,
+          `Expected ${received} not to be truthy`,
+        );
       },
       toBeFalsy() {
-        ensure(!received, `Expected ${received} to be falsy`, `Expected ${received} not to be falsy`);
+        ensure(
+          !received,
+          `Expected ${received} to be falsy`,
+          `Expected ${received} not to be falsy`,
+        );
       },
       toThrow(expected) {
         if (typeof received !== "function") {
-          throw new Error("toThrow matcher requires a function as the expectation target");
+          throw new Error(
+            "toThrow matcher requires a function as the expectation target",
+          );
         }
         let thrownError;
         try {
@@ -574,22 +638,40 @@ function createExpect() {
         }
         const didThrow = Boolean(thrownError);
         if (!expected) {
-          ensure(didThrow, "Expected function to throw an error", "Expected function not to throw an error");
+          ensure(
+            didThrow,
+            "Expected function to throw an error",
+            "Expected function not to throw an error",
+          );
           return;
         }
         if (!didThrow) {
-          throw new Error(`Expected function to throw ${format(expected)}, but it did not throw`);
+          throw new Error(
+            `Expected function to throw ${format(expected)}, but it did not throw`,
+          );
         }
         if (typeof expected === "string") {
-          ensure(thrownError && thrownError.message === expected, `Expected error message to be '${expected}' but received '${thrownError.message}'`, `Expected error message not to be '${expected}'`);
+          ensure(
+            thrownError && thrownError.message === expected,
+            `Expected error message to be '${expected}' but received '${thrownError.message}'`,
+            `Expected error message not to be '${expected}'`,
+          );
           return;
         }
         if (expected instanceof RegExp) {
-          ensure(expected.test(thrownError.message || ""), `Expected error message to match ${expected}`, `Expected error message not to match ${expected}`);
+          ensure(
+            expected.test(thrownError.message || ""),
+            `Expected error message to match ${expected}`,
+            `Expected error message not to match ${expected}`,
+          );
           return;
         }
         if (typeof expected === "function") {
-          ensure(thrownError instanceof expected, `Expected thrown error to be instance of ${expected.name}`, `Expected thrown error not to be instance of ${expected.name}`);
+          ensure(
+            thrownError instanceof expected,
+            `Expected thrown error to be instance of ${expected.name}`,
+            `Expected thrown error not to be instance of ${expected.name}`,
+          );
           return;
         }
         throw new TypeError("Unsupported argument for expect(...).toThrow");
@@ -626,7 +708,10 @@ function printError(error) {
 }
 
 function buildSummary(context) {
-  const skipped = Math.max(context.totalTests - context.passedTests - context.failedTests, 0);
+  const skipped = Math.max(
+    context.totalTests - context.passedTests - context.failedTests,
+    0,
+  );
   return {
     total: context.totalTests,
     passed: context.passedTests,
@@ -638,7 +723,11 @@ function buildSummary(context) {
 function reportAndExit(context, unexpectedError) {
   return new Promise((resolve) => {
     if (unexpectedError) {
-      console.error("Unexpected error while running tests:\n", unexpectedError && (unexpectedError.stack || unexpectedError.message || unexpectedError));
+      console.error(
+        "Unexpected error while running tests:\n",
+        unexpectedError &&
+          (unexpectedError.stack || unexpectedError.message || unexpectedError),
+      );
     }
 
     const summary = buildSummary(context);
@@ -664,4 +753,3 @@ function reportAndExit(context, unexpectedError) {
     resolve();
   });
 }
-
