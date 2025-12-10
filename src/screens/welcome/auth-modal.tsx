@@ -13,8 +13,8 @@ import { analytics } from "@/common/analytics";
 import { ColorTheme } from "@/types/theme-props";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
 
-const getLoginOrSignUpStyles = (theme: ColorTheme) =>
-  StyleSheet.create({
+const getLoginOrSignUpStyles = (theme: ColorTheme) => {
+  return StyleSheet.create({
     modalContainer: {
       flex: 1,
       backgroundColor: theme.white,
@@ -41,6 +41,7 @@ const getLoginOrSignUpStyles = (theme: ColorTheme) =>
       fontWeight: "bold",
     },
   });
+};
 
 type LoginOrSignUpProps = {
   children: JSX.Element;

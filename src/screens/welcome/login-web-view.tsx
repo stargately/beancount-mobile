@@ -9,6 +9,10 @@ import { statusBarHeight } from "@/common/screen-util";
 import { router } from "expo-router";
 import { sessionVar } from "@/common/vars";
 import { createSession } from "@/common/session-utils";
+import { appendPreferenceParam } from "@/common/url-utils";
+import { ColorTheme } from "@/types/theme-props";
+import { StyleSheet } from "react-native";
+import { useThemeStyle } from "@/common/hooks/use-theme-style";
 
 const { height } = Dimensions.get("window");
 
@@ -17,8 +21,25 @@ type Props = {
   onClose: () => void;
 };
 
+const getStyles = (theme: ColorTheme) => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: "column",
+    },
+    webView: {
+      alignSelf: "stretch",
+      marginTop: 0,
+      height: height - statusBarHeight,
+      backgroundColor: theme.white,
+    },
+  });
+};
+
 export const LoginWebView = ({ isSignUp, onClose }: Props) => {
   const [progress, setProgress] = useState(0);
+  const styles = useThemeStyle(getStyles);
+  const uri = isSignUp ? getEndpoint("sign-up") : getEndpoint("login");
 
   const injectedJavascript = `(function() {
     window.postMessage = function(data) {
@@ -27,19 +48,15 @@ export const LoginWebView = ({ isSignUp, onClose }: Props) => {
   })()`;
 
   return (
-    <View style={{ flex: 1, flexDirection: "column" }}>
+    <View style={styles.container}>
       <ProgressBar progress={progress} />
       <WebView
         injectedJavaScript={injectedJavascript}
         source={{
-          uri: isSignUp ? getEndpoint("sign-up") : getEndpoint("login"),
+          uri: appendPreferenceParam(uri),
           headers,
         }}
-        style={{
-          alignSelf: "stretch",
-          marginTop: 0,
-          height: height - statusBarHeight,
-        }}
+        style={styles.webView}
         onLoadProgress={({ nativeEvent }) => {
           setProgress(nativeEvent.progress);
         }}
