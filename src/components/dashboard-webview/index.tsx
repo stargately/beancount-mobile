@@ -13,6 +13,9 @@ import {
 import { useReactiveVar } from "@apollo/client";
 import { localeVar } from "@/common/vars";
 import { analytics } from "@/common/analytics";
+import { ColorTheme } from "@/types/theme-props";
+import { StyleSheet } from "react-native";
+import { useThemeStyle } from "@/common/hooks/use-theme-style";
 
 type SupportedLanguage =
   | "en"
@@ -34,6 +37,14 @@ interface BridgeMessage {
   data: unknown;
 }
 
+const getStyles = (theme: ColorTheme) => {
+  return StyleSheet.create({
+    webView: {
+      backgroundColor: theme.white,
+    },
+  });
+};
+
 interface DashboardWebViewProps extends Omit<WebViewProps, "onMessage"> {
   onMessage?: (event: WebViewMessageEvent) => void;
   scrollEnabled?: boolean;
@@ -44,6 +55,7 @@ export const DashboardWebView = forwardRef<WebView, DashboardWebViewProps>(
     const webViewRef = useRef<WebView>(null);
     const [bridgeReady, setBridgeReady] = useState(false);
     const locale = useReactiveVar(localeVar);
+    const styles = useThemeStyle(getStyles);
 
     // Expose WebView methods to parent via ref
     useImperativeHandle(ref, () => webViewRef.current as WebView);
@@ -94,6 +106,7 @@ export const DashboardWebView = forwardRef<WebView, DashboardWebViewProps>(
         onMessage={handleMessage}
         javaScriptEnabled={true}
         domStorageEnabled={true}
+        style={styles.webView}
         scrollEnabled={scrollEnabled}
       />
     );

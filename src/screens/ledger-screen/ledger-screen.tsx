@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
-import { WebView } from "react-native-webview";
 import { analytics } from "@/common/analytics";
 import { headers, getEndpoint } from "@/common/request";
 import { statusBarHeight } from "@/common/screen-util";
@@ -38,17 +37,15 @@ const getStyles = (theme: ColorTheme) =>
   });
 
 export const LedgerScreen = () => {
-  let webViewRef: WebView | null;
   const styles = useThemeStyle(getStyles);
   const theme = useTheme().colorTheme;
   const [progress, setProgress] = useState(0);
+  const [key, setKey] = useState(0);
   usePageView("ledger");
 
   const onRefresh = async () => {
     await analytics.track("tap_refresh", {});
-    if (webViewRef) {
-      webViewRef.reload();
-    }
+    setKey((key) => key + 1);
   };
   const { authToken } = useSession();
   const uri = appendPreferenceParam(getEndpoint("ledger/editor/"));
@@ -57,10 +54,8 @@ export const LedgerScreen = () => {
       <ProgressBar progress={progress} />
       <View style={styles.webViewContainer}>
         <DashboardWebView
+          key={key}
           scrollEnabled={false}
-          ref={(webView) => {
-            webViewRef = webView;
-          }}
           onLoadProgress={({ nativeEvent }) =>
             setProgress(nativeEvent.progress)
           }
