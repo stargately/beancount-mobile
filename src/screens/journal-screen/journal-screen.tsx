@@ -29,24 +29,8 @@ const getStyles = (theme: ColorTheme) =>
       flex: 1,
       backgroundColor: theme.white,
     },
-    headerTitle: {
-      fontSize: 22,
-      fontWeight: "bold",
-      color: theme.black,
-      marginBottom: 12,
-    },
     list: {
       flex: 1,
-    },
-    dateHeader: {
-      backgroundColor: theme.black10,
-      paddingHorizontal: 12,
-      paddingVertical: 4,
-    },
-    dateHeaderText: {
-      fontSize: 16,
-      fontWeight: "600",
-      color: theme.black60,
     },
     loadingContainer: {
       flex: 1,
@@ -63,6 +47,7 @@ const getStyles = (theme: ColorTheme) =>
     },
     errorText: {
       fontSize: 16,
+      fontWeight: "500",
       color: theme.black60,
       textAlign: "center",
       lineHeight: 24,

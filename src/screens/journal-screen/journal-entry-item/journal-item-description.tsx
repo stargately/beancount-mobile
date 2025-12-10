@@ -36,38 +36,34 @@ const getStyles = (theme: ColorTheme) =>
     payeeText: {
       fontWeight: "600",
       fontSize: 14,
-      color: theme.black,
+      color: theme.black90,
     },
     narrationText: {
       fontSize: 14,
-      color: theme.black,
-    },
-    separator: {
-      fontSize: 14,
-      color: theme.black,
-      marginHorizontal: 4,
+      color: theme.black90,
     },
     accountText: {
       fontFamily: "monospace",
       fontSize: 14,
-      color: theme.black,
+      color: theme.black90,
     },
     filenameText: {
       fontSize: 14,
-      color: theme.black,
+      color: theme.black80,
     },
     commentText: {
       fontSize: 14,
-      color: theme.black,
+      color: theme.black90,
     },
     typeText: {
       fontWeight: "500",
       fontSize: 14,
-      color: theme.black,
+      color: theme.black90,
     },
     mutedText: {
       fontSize: 12,
       color: theme.black60,
+      marginTop: 2,
     },
     tagText: {
       fontSize: 12,
@@ -101,7 +97,11 @@ const renderTransactionDescription = (
 ) => (
   <View style={styles.descriptionCell}>
     <View
-      style={{ flexDirection: "row", alignItems: "center", flexWrap: "wrap" }}
+      style={{
+        flexDirection: "column",
+        alignItems: "flex-start",
+        flexWrap: "wrap",
+      }}
     >
       {directive.payee && (
         <Text style={styles.payeeText}>{directive.payee}</Text>
