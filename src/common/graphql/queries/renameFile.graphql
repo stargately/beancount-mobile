@@ -1,7 +1,0 @@
-mutation RenameFile($renameFileRequest: RenameFileRequest!) {
-  renameFile(renameFileRequest: $renameFileRequest) {
-    file
-    ledgerId
-    text
-  }
-}
