@@ -15,8 +15,6 @@ const getStyles = (theme: ColorTheme) =>
       paddingHorizontal: 16,
       paddingVertical: 12,
       backgroundColor: theme.white,
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: theme.black10,
     },
   });
 

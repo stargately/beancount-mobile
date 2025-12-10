@@ -15,6 +15,7 @@ const getStyles = (theme: ColorTheme) =>
     },
     emptyText: {
       fontSize: 16,
+      fontWeight: "500",
       color: theme.black60,
       textAlign: "center",
       lineHeight: 24,

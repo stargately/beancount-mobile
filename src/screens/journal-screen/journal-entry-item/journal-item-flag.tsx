@@ -10,7 +10,7 @@ const getStyles = (theme: ColorTheme) =>
     flagCell: {
       fontSize: 14,
       fontFamily: "monospace",
-      color: theme.black,
+      color: theme.black90,
       textAlign: "center",
     },
   });
