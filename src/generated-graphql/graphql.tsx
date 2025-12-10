@@ -15,47 +15,99 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSONObject: { input: Record<string, number | string>; output: Record<string, number | string>; }
-  /** valid filename string */
-  BeanFilename: { input: any; output: any; }
-  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
-  DateTime: { input: any; output: any; }
+  DateTimeISO: { input: any; output: any; }
+  JSON: { input: any; output: any; }
 };
 
 export type Query = {
   __typename?: 'Query';
-  /** Get account balance tree */
-  accountBalances: AccountBalancesResponse;
   accountHierarchy: AccountHierarchyResponse;
-  changed: ChangedResponse;
-  charts: ChartsResponse;
-  /** Get context for a specific entry */
-  context: ContextResponse;
-  editorData: EditorDataResponse;
-  /** Extract entries using the ingest framework */
-  extract: ExtractResponse;
-  /** Check if the Fava service is healthy */
-  favaHealth: HealthResponse;
+  featureFlags: Scalars['JSONObject']['output'];
+  /** Get a specific ledger */
+  getLedger: Ledger;
+  /** Get account journal with change and balance information */
+  getLedgerAccountJournal: AccountJournalResponse;
+  /** Get the last entries of assets and liabilities accounts */
+  getLedgerAccountLastEntries: Array<AccountLastEntry>;
+  /** Get the report of a specific account */
+  getLedgerAccountReport: AccountReport;
+  /** Get the accounts of a specific ledger */
+  getLedgerAccounts: Array<Scalars['String']['output']>;
+  /** Get the filter options of a specific ledger */
+  getLedgerAttributes: LedgerAttributes;
+  /** Get the balance sheet of a specific ledger */
+  getLedgerBalanceSheet: BalanceSheetData;
+  getLedgerCollaboratorPermission: LedgerCollaborator;
+  /** Get the commodities of a specific ledger */
+  getLedgerCommodities: Array<CommodityPairWithPrices>;
+  /** Get the currencies of a specific ledger */
+  getLedgerCurrencies: Array<Scalars['String']['output']>;
+  /** Get the content of a specific ledger directory */
+  getLedgerDirContent: Array<LedgerFileContent>;
+  /** Get documents from a specific ledger with optional filtering */
+  getLedgerDocuments: Array<Document>;
+  /** Get the count of entries per type */
+  getLedgerEntriesCountPerType: Array<EntriesByType>;
+  /** Get context for a specific journal entry */
+  getLedgerEntryContext: EntryContext;
+  /** Get all errors from the ledger */
+  getLedgerErrors: Array<BeancountError>;
+  /** Export events from a specific ledger with optional filtering */
+  getLedgerEvents: Array<Event>;
+  /** Get the content of a specific ledger file */
+  getLedgerFile?: Maybe<LedgerFileContent>;
+  /** Get the income statement of a specific ledger */
+  getLedgerIncomeStatement: IncomeStatementData;
+  /** Get journal entries for a specific ledger */
+  getLedgerJournal: JournalResponse;
+  /** Get the links of a specific ledger */
+  getLedgerLinks: Array<Scalars['String']['output']>;
+  getLedgerNarrations: Array<Scalars['String']['output']>;
+  /** Get the transactions for a narration */
+  getLedgerNarrationTransactions: Transaction;
+  /** Get the overview of a specific ledger */
+  getLedgerOverview: LedgerOverview;
+  /** Get the accounts for a payee */
+  getLedgerPayeeAccounts: Array<Scalars['String']['output']>;
+  /** Get the payees of a specific ledger */
+  getLedgerPayees: Array<Scalars['String']['output']>;
+  /** Get the transactions for a payee */
+  getLedgerPayeeTransactions: Transaction;
+  /** Get plaintext journal in beancount format */
+  getLedgerPlaintextJournal: PlaintextJournalResponse;
+  /** Get the tags of a specific ledger */
+  getLedgerTags: Array<Scalars['String']['output']>;
+  /** Get the trial balance of a specific ledger */
+  getLedgerTrialBalance: TrialBalanceData;
+  /** Get the years of a specific ledger */
+  getLedgerYears: Array<Scalars['String']['output']>;
+  /** Get a specific public key by ID */
+  getPublicKey?: Maybe<PublicKey>;
+  getUserByExactMatch: Array<SearchUser>;
   /** is the server healthy? */
   health: Scalars['String']['output'];
   homeCharts: HomeChartsResponse;
   isPaid: IsPaidResponse;
   /** Get journal entries with enhanced search, filtering, and pagination */
   journalEntries: JournalEntriesResponse;
+  /** Get a specific ledger */
   ledgerMeta: LedgerMetaResponse;
-  /** get the ledger of the current user */
-  ledgers?: Maybe<Array<Ledger>>;
-  /** Get ranked accounts for a given payee */
-  payeeAccounts: PayeeAccountsResponse;
-  /** Get the last transaction for a given payee */
-  payeeTransaction: PayeeTransactionResponse;
+  listLedgerCollaborators: Array<CollaboratorUser>;
+  /** List all ledgers for the current user */
+  listLedgers: Array<Ledger>;
+  /** List all public keys for the current user */
+  listPublicKeys: Array<PublicKey>;
   paymentHistory: Array<Receipt>;
-  /** Execute a Beancount query and get results */
-  queryResult: QueryResultResponse;
+  /** Execute a shell query on a ledger */
+  queryShell?: Maybe<QueryResult>;
+  /** Search for ledgers/repositories */
+  searchLedgers: Array<Ledger>;
   subscriptionStatus: CustomerSubscriptionStatus;
   /** get the user */
   userProfile?: Maybe<UserProfileResponse>;
+  /** Validate whether an email token is valid and not expired */
+  validateEmailToken: ValidateEmailTokenResponse;
 };
 
 
@@ -64,19 +116,217 @@ export type QueryAccountHierarchyArgs = {
 };
 
 
-export type QueryChartsArgs = {
+export type QueryFeatureFlagsArgs = {
   userId: Scalars['String']['input'];
 };
 
 
-export type QueryContextArgs = {
-  entryHash: Scalars['String']['input'];
+export type QueryGetLedgerArgs = {
+  ledgerId: Scalars['String']['input'];
 };
 
 
-export type QueryExtractArgs = {
-  filename: Scalars['String']['input'];
-  importer: Scalars['String']['input'];
+export type QueryGetLedgerAccountJournalArgs = {
+  ledgerId: Scalars['String']['input'];
+  query: AccountJournalQueryInput;
+};
+
+
+export type QueryGetLedgerAccountLastEntriesArgs = {
+  account?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  ledgerId: Scalars['String']['input'];
+  time?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetLedgerAccountReportArgs = {
+  account?: InputMaybe<Scalars['String']['input']>;
+  accountName: Scalars['String']['input'];
+  conversion?: Scalars['String']['input'];
+  filter?: InputMaybe<Scalars['String']['input']>;
+  interval?: Scalars['String']['input'];
+  ledgerId: Scalars['String']['input'];
+  time?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetLedgerAccountsArgs = {
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerAttributesArgs = {
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerBalanceSheetArgs = {
+  account?: InputMaybe<Scalars['String']['input']>;
+  conversion?: Scalars['String']['input'];
+  filter?: InputMaybe<Scalars['String']['input']>;
+  interval?: Scalars['String']['input'];
+  ledgerId: Scalars['String']['input'];
+  time?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetLedgerCollaboratorPermissionArgs = {
+  collaborator: Scalars['String']['input'];
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerCommoditiesArgs = {
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerCurrenciesArgs = {
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerDirContentArgs = {
+  dirPath?: InputMaybe<Scalars['String']['input']>;
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerDocumentsArgs = {
+  account?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  ledgerId: Scalars['String']['input'];
+  time?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetLedgerEntriesCountPerTypeArgs = {
+  account?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  ledgerId: Scalars['String']['input'];
+  time?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetLedgerEntryContextArgs = {
+  entryHash: Scalars['String']['input'];
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerErrorsArgs = {
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerEventsArgs = {
+  account?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  ledgerId: Scalars['String']['input'];
+  time?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetLedgerFileArgs = {
+  ledgerId: Scalars['String']['input'];
+  path: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerIncomeStatementArgs = {
+  account?: InputMaybe<Scalars['String']['input']>;
+  conversion?: Scalars['String']['input'];
+  filter?: InputMaybe<Scalars['String']['input']>;
+  interval?: Scalars['String']['input'];
+  invertIncomeLiabilitiesEquity?: Scalars['Boolean']['input'];
+  ledgerId: Scalars['String']['input'];
+  time?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetLedgerJournalArgs = {
+  ledgerId: Scalars['String']['input'];
+  query?: InputMaybe<JournalQueryInput>;
+};
+
+
+export type QueryGetLedgerLinksArgs = {
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerNarrationsArgs = {
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerNarrationTransactionsArgs = {
+  ledgerId: Scalars['String']['input'];
+  narration: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerOverviewArgs = {
+  account?: InputMaybe<Scalars['String']['input']>;
+  conversion?: Scalars['String']['input'];
+  filter?: InputMaybe<Scalars['String']['input']>;
+  interval?: Scalars['String']['input'];
+  ledgerId: Scalars['String']['input'];
+  time?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetLedgerPayeeAccountsArgs = {
+  ledgerId: Scalars['String']['input'];
+  payee: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerPayeesArgs = {
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerPayeeTransactionsArgs = {
+  ledgerId: Scalars['String']['input'];
+  payee: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerPlaintextJournalArgs = {
+  ledgerId: Scalars['String']['input'];
+  query?: InputMaybe<PlaintextJournalQueryInput>;
+};
+
+
+export type QueryGetLedgerTagsArgs = {
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetLedgerTrialBalanceArgs = {
+  account?: InputMaybe<Scalars['String']['input']>;
+  conversion?: Scalars['String']['input'];
+  filter?: InputMaybe<Scalars['String']['input']>;
+  interval?: Scalars['String']['input'];
+  ledgerId: Scalars['String']['input'];
+  time?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetLedgerYearsArgs = {
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type QueryGetPublicKeyArgs = {
+  keyId: Scalars['Float']['input'];
+};
+
+
+export type QueryGetUserByExactMatchArgs = {
+  keyword: Scalars['String']['input'];
 };
 
 
@@ -107,23 +357,49 @@ export type QueryLedgerMetaArgs = {
 };
 
 
-export type QueryLedgersArgs = {
-  file?: InputMaybe<Scalars['BeanFilename']['input']>;
+export type QueryListLedgerCollaboratorsArgs = {
+  ledgerId: Scalars['String']['input'];
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  page?: InputMaybe<Scalars['Float']['input']>;
 };
 
 
-export type QueryPayeeAccountsArgs = {
-  payee: Scalars['String']['input'];
+export type QueryListLedgersArgs = {
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  page?: InputMaybe<Scalars['Float']['input']>;
 };
 
 
-export type QueryPayeeTransactionArgs = {
-  payee: Scalars['String']['input'];
+export type QueryListPublicKeysArgs = {
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  page?: InputMaybe<Scalars['Float']['input']>;
 };
 
 
-export type QueryQueryResultArgs = {
-  queryString: Scalars['String']['input'];
+export type QueryQueryShellArgs = {
+  ledgerId: Scalars['String']['input'];
+  query: Scalars['String']['input'];
+};
+
+
+export type QuerySearchLedgersArgs = {
+  archived?: InputMaybe<Scalars['Boolean']['input']>;
+  exclusive?: InputMaybe<Scalars['Boolean']['input']>;
+  includeDesc?: InputMaybe<Scalars['Boolean']['input']>;
+  isPrivate?: InputMaybe<Scalars['Boolean']['input']>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  mode?: InputMaybe<Scalars['String']['input']>;
+  order?: InputMaybe<Scalars['String']['input']>;
+  page?: InputMaybe<Scalars['Float']['input']>;
+  priorityOwnerId?: InputMaybe<Scalars['Float']['input']>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
+  q?: InputMaybe<Scalars['String']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  starredBy?: InputMaybe<Scalars['Float']['input']>;
+  teamId?: InputMaybe<Scalars['Float']['input']>;
+  template?: InputMaybe<Scalars['Boolean']['input']>;
+  topic?: InputMaybe<Scalars['Boolean']['input']>;
+  uid?: InputMaybe<Scalars['Float']['input']>;
 };
 
 
@@ -131,18 +407,9 @@ export type QueryUserProfileArgs = {
   userId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AccountBalancesResponse = {
-  __typename?: 'AccountBalancesResponse';
-  data: TreeNode;
-  success: Scalars['Boolean']['output'];
-};
 
-export type TreeNode = {
-  __typename?: 'TreeNode';
-  account: Scalars['String']['output'];
-  balance: Scalars['JSONObject']['output'];
-  balance_children: Scalars['JSONObject']['output'];
-  children: Array<TreeNode>;
+export type QueryValidateEmailTokenArgs = {
+  token: Scalars['String']['input'];
 };
 
 export type AccountHierarchyResponse = {
@@ -166,62 +433,305 @@ export type AccountBalance = {
   children: Array<AccountBalance>;
 };
 
-export type ChangedResponse = {
-  __typename?: 'ChangedResponse';
-  data: Scalars['Boolean']['output'];
-  success: Scalars['Boolean']['output'];
+export type Ledger = {
+  __typename?: 'Ledger';
+  /** Get the filter options (attributes) of a ledger */
+  attributes: LedgerAttributes;
+  createdAt: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  empty: Scalars['Boolean']['output'];
+  fullName: Scalars['String']['output'];
+  httpUrl: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  /** Get the beancount options of a ledger */
+  options: LedgerOptions;
+  permissions?: Maybe<Permission>;
+  private: Scalars['Boolean']['output'];
+  size: Scalars['Float']['output'];
+  sshUrl: Scalars['String']['output'];
+  updatedAt: Scalars['String']['output'];
 };
 
-export type ChartsResponse = {
-  __typename?: 'ChartsResponse';
-  data: Array<ChartItem>;
-  success: Scalars['Boolean']['output'];
+export type LedgerAttributes = {
+  __typename?: 'LedgerAttributes';
+  accounts: Array<Scalars['String']['output']>;
+  currencies: Array<Scalars['String']['output']>;
+  links: Array<Scalars['String']['output']>;
+  payees: Array<Scalars['String']['output']>;
+  tags: Array<Scalars['String']['output']>;
+  years: Array<Scalars['String']['output']>;
 };
 
-export type ChartItem = {
-  __typename?: 'ChartItem';
+export type LedgerOptions = {
+  __typename?: 'LedgerOptions';
+  nameAssets: Scalars['String']['output'];
+  nameEquity: Scalars['String']['output'];
+  nameExpenses: Scalars['String']['output'];
+  nameIncome: Scalars['String']['output'];
+  nameLiabilities: Scalars['String']['output'];
+  operatingCurrency: Array<Scalars['String']['output']>;
+};
+
+export type Permission = {
+  __typename?: 'Permission';
+  admin: Scalars['Boolean']['output'];
+  pull: Scalars['Boolean']['output'];
+  push: Scalars['Boolean']['output'];
+};
+
+export type AccountJournalQueryInput = {
+  account: Scalars['String']['input'];
+  conversion?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  offset?: InputMaybe<Scalars['Float']['input']>;
+  time?: InputMaybe<Scalars['String']['input']>;
+  with_children?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type AccountJournalResponse = {
+  __typename?: 'AccountJournalResponse';
+  account: Scalars['String']['output'];
+  items: Array<AccountJournalEntry>;
+  total: Scalars['Float']['output'];
+  with_children: Scalars['Boolean']['output'];
+};
+
+export type AccountJournalEntry = {
+  __typename?: 'AccountJournalEntry';
   balance: Scalars['JSONObject']['output'];
-  budgets?: Maybe<Scalars['JSONObject']['output']>;
+  change: Scalars['JSONObject']['output'];
+  entry: Scalars['JSONObject']['output'];
+};
+
+export type AccountLastEntry = {
+  __typename?: 'AccountLastEntry';
+  account: Scalars['String']['output'];
+  balance?: Maybe<Scalars['JSONObject']['output']>;
+  date?: Maybe<Scalars['String']['output']>;
+};
+
+export type AccountReport = {
+  __typename?: 'AccountReport';
+  accountBalanceData: Array<DateAndBalance>;
+  intervalTotalsData: Array<DateAndBalance>;
+  linechartData: Array<DateAndBalance>;
+};
+
+export type DateAndBalance = {
+  __typename?: 'DateAndBalance';
+  balance: Scalars['JSONObject']['output'];
   date: Scalars['String']['output'];
 };
 
-export type ContextResponse = {
-  __typename?: 'ContextResponse';
-  data: Context;
-  success: Scalars['Boolean']['output'];
+export type BalanceSheetData = {
+  __typename?: 'BalanceSheetData';
+  assetsData: Array<DateAndBalance>;
+  assetsHierarchyData: SerializableTreeNode;
+  equityData: Array<DateAndBalance>;
+  equityHierarchyData: SerializableTreeNode;
+  liabilitiesData: Array<DateAndBalance>;
+  liabilitiesHierarchyData: SerializableTreeNode;
+  netWorthData: Array<DateAndBalance>;
 };
 
-export type Context = {
-  __typename?: 'Context';
-  content: Scalars['String']['output'];
+export type SerializableTreeNode = {
+  __typename?: 'SerializableTreeNode';
+  account: Scalars['String']['output'];
+  balance: Scalars['JSONObject']['output'];
+  balanceChildren: Scalars['JSONObject']['output'];
+  children: Array<Scalars['JSONObject']['output']>;
+  cost?: Maybe<Scalars['JSONObject']['output']>;
+  costChildren?: Maybe<Scalars['JSONObject']['output']>;
+  hasTxns: Scalars['Boolean']['output'];
+};
+
+export type LedgerCollaborator = {
+  __typename?: 'LedgerCollaborator';
+  permission?: Maybe<Scalars['String']['output']>;
+  roleName?: Maybe<Scalars['String']['output']>;
+  user?: Maybe<User>;
+};
+
+export type User = {
+  __typename?: 'User';
+  active?: Maybe<Scalars['Boolean']['output']>;
+  created?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  fullName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['Float']['output']>;
+  isAdmin?: Maybe<Scalars['Boolean']['output']>;
+  lastLogin?: Maybe<Scalars['String']['output']>;
+  login?: Maybe<Scalars['String']['output']>;
+};
+
+export type CommodityPairWithPrices = {
+  __typename?: 'CommodityPairWithPrices';
+  base: Scalars['String']['output'];
+  prices: Array<PricePoint>;
+  quote: Scalars['String']['output'];
+};
+
+export type PricePoint = {
+  __typename?: 'PricePoint';
+  date: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
+
+export type LedgerFileContent = {
+  __typename?: 'LedgerFileContent';
+  content?: Maybe<Scalars['String']['output']>;
+  encoding?: Maybe<Scalars['String']['output']>;
+  lastAuthorDate?: Maybe<Scalars['String']['output']>;
+  lastCommitSha?: Maybe<Scalars['String']['output']>;
+  lastCommitterDate?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  path: Scalars['String']['output'];
+  sha: Scalars['String']['output'];
+  size: Scalars['Float']['output'];
+  type: Scalars['String']['output'];
+};
+
+export type Document = {
+  __typename?: 'Document';
+  account: Scalars['String']['output'];
+  date: Scalars['String']['output'];
+  filename: Scalars['String']['output'];
+  links?: Maybe<Array<Scalars['String']['output']>>;
+  meta?: Maybe<Scalars['JSONObject']['output']>;
+  tags?: Maybe<Array<Scalars['String']['output']>>;
+};
+
+export type EntriesByType = {
+  __typename?: 'EntriesByType';
+  number: Scalars['Float']['output'];
+  type: Scalars['String']['output'];
+};
+
+export type EntryContext = {
+  __typename?: 'EntryContext';
+  balances_after?: Maybe<Scalars['JSONObject']['output']>;
+  balances_before?: Maybe<Scalars['JSONObject']['output']>;
+  entry: Scalars['JSONObject']['output'];
   sha256sum: Scalars['String']['output'];
-  slice: Array<Scalars['Int']['output']>;
+  slice: Scalars['String']['output'];
 };
 
-export type EditorDataResponse = {
-  __typename?: 'EditorDataResponse';
-  data: EditorData;
-  success: Scalars['Boolean']['output'];
+export type BeancountError = {
+  __typename?: 'BeancountError';
+  filename?: Maybe<Scalars['String']['output']>;
+  lineno?: Maybe<Scalars['Float']['output']>;
+  message: Scalars['String']['output'];
 };
 
-export type EditorData = {
-  __typename?: 'EditorData';
-  file_path: Scalars['String']['output'];
-  sha256sum: Scalars['String']['output'];
-  source: Scalars['String']['output'];
-  sources: Array<Scalars['String']['output']>;
+export type Event = {
+  __typename?: 'Event';
+  date: Scalars['String']['output'];
+  description: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
-export type ExtractResponse = {
-  __typename?: 'ExtractResponse';
+export type IncomeStatementData = {
+  __typename?: 'IncomeStatementData';
+  expensesData: Array<DateAndBalanceWithAccountBalance>;
+  expensesHierarchyData: SerializableTreeNode;
+  incomeData: Array<DateAndBalanceWithAccountBalance>;
+  incomeHierarchyData: SerializableTreeNode;
+  netProfitData: Array<DateAndBalance>;
+};
+
+export type DateAndBalanceWithAccountBalance = {
+  __typename?: 'DateAndBalanceWithAccountBalance';
+  accountBalances: Scalars['JSONObject']['output'];
+  balance: Scalars['JSONObject']['output'];
+  budgets: Scalars['JSONObject']['output'];
+  date: Scalars['String']['output'];
+};
+
+export type JournalQueryInput = {
+  account?: InputMaybe<Scalars['String']['input']>;
+  customSubtypes?: InputMaybe<Array<Scalars['String']['input']>>;
+  directiveTypes?: InputMaybe<Array<Scalars['String']['input']>>;
+  documentSubtypes?: InputMaybe<Array<Scalars['String']['input']>>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  offset?: InputMaybe<Scalars['Float']['input']>;
+  time?: InputMaybe<Scalars['String']['input']>;
+  transactionSubtypes?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type JournalResponse = {
+  __typename?: 'JournalResponse';
   data: Array<Scalars['JSONObject']['output']>;
-  success: Scalars['Boolean']['output'];
+  total: Scalars['Float']['output'];
 };
 
-export type HealthResponse = {
-  __typename?: 'HealthResponse';
-  data: Scalars['String']['output'];
-  success: Scalars['Boolean']['output'];
+export type Transaction = {
+  __typename?: 'Transaction';
+  date: Scalars['String']['output'];
+  narration?: Maybe<Scalars['String']['output']>;
+  payee?: Maybe<Scalars['String']['output']>;
+  postings: Array<Posting>;
+};
+
+export type Posting = {
+  __typename?: 'Posting';
+  account: Scalars['String']['output'];
+  amount: Scalars['String']['output'];
+  commodity: Scalars['String']['output'];
+  price?: Maybe<Scalars['String']['output']>;
+};
+
+export type LedgerOverview = {
+  __typename?: 'LedgerOverview';
+  assetsData: Array<DateAndBalance>;
+  assetsHierarchyData: SerializableTreeNode;
+  expensesData: Array<DateAndBalance>;
+  expensesHierarchyData: SerializableTreeNode;
+  expensesIntervalData: Array<DateAndBalanceWithAccountBalance>;
+  incomeData: Array<DateAndBalance>;
+  incomeHierarchyData: SerializableTreeNode;
+  incomeIntervalData: Array<DateAndBalanceWithAccountBalance>;
+  liabilitiesData: Array<DateAndBalance>;
+  liabilitiesHierarchyData: SerializableTreeNode;
+  netWorthData: Array<DateAndBalance>;
+};
+
+export type PlaintextJournalQueryInput = {
+  account?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  time?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PlaintextJournalResponse = {
+  __typename?: 'PlaintextJournalResponse';
+  content: Scalars['String']['output'];
+};
+
+export type TrialBalanceData = {
+  __typename?: 'TrialBalanceData';
+  assetsHierarchyData: SerializableTreeNode;
+  equityHierarchyData: SerializableTreeNode;
+  expensesHierarchyData: SerializableTreeNode;
+  incomeHierarchyData: SerializableTreeNode;
+  liabilitiesHierarchyData: SerializableTreeNode;
+};
+
+export type PublicKey = {
+  __typename?: 'PublicKey';
+  createdAt: Scalars['String']['output'];
+  fingerprint: Scalars['String']['output'];
+  id: Scalars['Float']['output'];
+  key: Scalars['String']['output'];
+  lastUsedAt?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
+};
+
+export type SearchUser = {
+  __typename?: 'SearchUser';
+  email: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type HomeChartsResponse = {
@@ -246,8 +756,8 @@ export type ChartItemV2 = {
 
 export type IsPaidResponse = {
   __typename?: 'IsPaidResponse';
-  isForcedToPay?: Maybe<Scalars['Boolean']['output']>;
-  isPaid?: Maybe<Scalars['Boolean']['output']>;
+  isForcedToPay: Scalars['Boolean']['output'];
+  isPaid: Scalars['Boolean']['output'];
 };
 
 export type JournalEntriesResponse = {
@@ -356,23 +866,17 @@ export type Options = {
   operating_currency: Array<Scalars['String']['output']>;
 };
 
-export type Ledger = {
-  __typename?: 'Ledger';
-  file: Scalars['BeanFilename']['output'];
-  ledgerId: Scalars['String']['output'];
-  text: Scalars['String']['output'];
-};
-
-export type PayeeAccountsResponse = {
-  __typename?: 'PayeeAccountsResponse';
-  data: Array<Scalars['String']['output']>;
-  success: Scalars['Boolean']['output'];
-};
-
-export type PayeeTransactionResponse = {
-  __typename?: 'PayeeTransactionResponse';
-  data: Scalars['JSONObject']['output'];
-  success: Scalars['Boolean']['output'];
+export type CollaboratorUser = {
+  __typename?: 'CollaboratorUser';
+  active?: Maybe<Scalars['Boolean']['output']>;
+  created?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  fullName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['Float']['output']>;
+  isAdmin?: Maybe<Scalars['Boolean']['output']>;
+  lastLogin?: Maybe<Scalars['String']['output']>;
+  login?: Maybe<Scalars['String']['output']>;
+  permission?: Maybe<Scalars['String']['output']>;
 };
 
 export type Receipt = {
@@ -380,7 +884,7 @@ export type Receipt = {
   _id?: Maybe<Scalars['String']['output']>;
   amount: Scalars['String']['output'];
   chargeId?: Maybe<Scalars['String']['output']>;
-  createAt?: Maybe<Scalars['DateTime']['output']>;
+  createAt?: Maybe<Scalars['DateTimeISO']['output']>;
   currency: Scalars['String']['output'];
   estimatedIotx?: Maybe<Scalars['Float']['output']>;
   fulfilledHash?: Maybe<Scalars['String']['output']>;
@@ -388,16 +892,32 @@ export type Receipt = {
   userId: Scalars['String']['output'];
 };
 
-export type QueryResultResponse = {
-  __typename?: 'QueryResultResponse';
-  data: QueryResult;
-  success: Scalars['Boolean']['output'];
-};
-
 export type QueryResult = {
   __typename?: 'QueryResult';
-  chart?: Maybe<Scalars['JSONObject']['output']>;
-  table: Scalars['String']['output'];
+  /** Result type: 'table' or 'text' */
+  resultType: Scalars['String']['output'];
+  table?: Maybe<QueryResultTable>;
+  text?: Maybe<QueryResultText>;
+};
+
+export type QueryResultTable = {
+  __typename?: 'QueryResultTable';
+  /** Query result rows as array of arrays */
+  rows: Array<Array<Scalars['JSON']['output']>>;
+  t?: Maybe<Scalars['String']['output']>;
+  types: Array<QueryColumn>;
+};
+
+export type QueryColumn = {
+  __typename?: 'QueryColumn';
+  dtype: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+};
+
+export type QueryResultText = {
+  __typename?: 'QueryResultText';
+  contents: Scalars['String']['output'];
+  t?: Maybe<Scalars['String']['output']>;
 };
 
 export type CustomerSubscriptionStatus = {
@@ -408,12 +928,12 @@ export type CustomerSubscriptionStatus = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  cancelAt?: Maybe<Scalars['DateTime']['output']>;
+  cancelAt?: Maybe<Scalars['DateTimeISO']['output']>;
   cancelAtPeriodEnd: Scalars['Boolean']['output'];
-  canceledAt?: Maybe<Scalars['DateTime']['output']>;
+  canceledAt?: Maybe<Scalars['DateTimeISO']['output']>;
   clientId: Scalars['String']['output'];
-  currentPeriodEnd: Scalars['DateTime']['output'];
-  currentPeriodStart: Scalars['DateTime']['output'];
+  currentPeriodEnd: Scalars['DateTimeISO']['output'];
+  currentPeriodStart: Scalars['DateTimeISO']['output'];
   id: Scalars['ID']['output'];
   items: Array<SubscriptionItem>;
   status: Scalars['String']['output'];
@@ -452,7 +972,10 @@ export type UserProfileResponse = {
   firstName?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
+  limits: UserLimits;
   locale: Scalars['String']['output'];
+  tier: Scalars['String']['output'];
+  username?: Maybe<Scalars['String']['output']>;
 };
 
 /** The email report status */
@@ -462,40 +985,81 @@ export enum ReportStatus {
   Weekly = 'WEEKLY'
 }
 
+export type UserLimits = {
+  __typename?: 'UserLimits';
+  collaboratorsPerLedgerMax: Scalars['Float']['output'];
+  ledgersMax: Scalars['Float']['output'];
+  ledgersUsed: Scalars['Float']['output'];
+};
+
+export type ValidateEmailTokenResponse = {
+  __typename?: 'ValidateEmailTokenResponse';
+  isValid: Scalars['Boolean']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addEntries: AddEntryResponse;
+  /** Add a new balance entry to a specific ledger */
+  addEntryBalance: AddLedgerEntryResponse;
+  /** Add a new commodity entry to a specific ledger */
+  addEntryCommodity: AddLedgerEntryResponse;
+  /** Add a new note entry to a specific ledger */
+  addEntryNote: AddLedgerEntryResponse;
+  /** Add a new price entry to a specific ledger */
+  addEntryPrice: AddLedgerEntryResponse;
+  /** Add a new transaction entry to a specific ledger */
+  addEntryTransaction: AddLedgerEntryResponse;
+  addOrUpdateLedgerCollaborator: AddCollaboratorResponse;
   addPushToken: Scalars['Boolean']['output'];
-  /** Attach a document to an entry */
-  attachDocument: DocumentOperationResponse;
   cancelSubscription: SubscriptionActionResult;
-  /** Create or rename a file */
-  createOrRenameFile: FileOperationResponse;
+  /** Create a new ledger for the current user */
+  createLedger: Ledger;
+  /** Create a new file in a specific ledger */
+  createLedgerFile: LedgerFileContent;
+  createOneTimeToken: CreateOneTimeTokenResponse;
+  /** Create a new public key for the current user */
+  createPublicKey: PublicKey;
   createStripePortalSession: SubscriptionSessionResult;
   createSubscriptionSession: SubscriptionSessionResult;
   /** delete user account and its associated data */
   deleteAccount: Scalars['Boolean']['output'];
-  /** Delete a document */
-  deleteDocument: DocumentOperationResponse;
-  /** Delete a Fava file */
-  deleteFavaFile: FileOperationResponse;
-  /** delete file that belongs to the user. */
-  deleteFile?: Maybe<DeleteFileResponse>;
-  /** Format beancount source code */
-  formatSource: SourceUpdateResponse;
-  /** Move a document file to a different account */
-  moveDocument: MoveResponse;
-  /** rename file that belongs to the user. returns null if no file found. */
-  renameFile?: Maybe<Ledger>;
+  /** Delete a specific ledger */
+  deleteLedger: DeleteLedgerResponse;
+  deleteLedgerCollaborator: DeleteCollaboratorResponse;
+  /** Delete a source slice for a specific journal entry */
+  deleteLedgerEntrySourceSlice: DeleteSourceSliceResponse;
+  /** Delete a file from a specific ledger */
+  deleteLedgerFile: DeleteLedgerFileResponse;
+  /** Delete a specific public key by ID */
+  deletePublicKey: DeletePublicKeyResponse;
+  /** Finish signup process by verifying OTP and creating user account */
+  finishSignUp: TokenAuthResponse;
+  /** Create a pre-signup session with OTP verification. Sends OTP to user's email. */
+  preSignUp: PreSignUpResponse;
+  /** Refresh authentication token - issues a new token and revokes the current one */
+  refreshToken: TokenAuthResponse;
+  removeSelfFromRepo: DeleteCollaboratorResponse;
+  /** Rename a file in a specific ledger */
+  renameLedgerFile: RenameLedgerFileResponse;
+  /** Reset user password using a token from the password reset email */
+  resetPassword: ResetPasswordResponse;
+  /** Send a password reset link to the user's email */
+  sendForgotPasswordLink: SendForgotPasswordLinkResponse;
   sendPushNotification: Scalars['Boolean']['output'];
+  signIn: TokenAuthResponse;
+  signInWithOneTimeToken: TokenAuthResponse;
+  /** Update a specific ledger */
+  updateLedger: Ledger;
+  /** Update a source slice for a specific journal entry */
+  updateLedgerEntrySourceSlice: UpdateSourceSliceResponse;
+  /** Update an existing file in a specific ledger */
+  updateLedgerFile: LedgerFileContent;
+  /** Update user profile (firstName and lastName) */
+  updateProfile: UserProfileResponse;
   /** update or insert user report subscribe status */
   updateReportSubscribe?: Maybe<UpdateReportSubscribeResponse>;
-  /** Update source file content */
-  updateSource: SourceUpdateResponse;
-  /** Update entry source slice */
-  updateSourceSlice: SourceUpdateResponse;
-  /** update or insert a ledger text */
-  upsertLedger?: Maybe<Ledger>;
+  updateUsername: UserProfileResponse;
 };
 
 
@@ -504,13 +1068,45 @@ export type MutationAddEntriesArgs = {
 };
 
 
-export type MutationAddPushTokenArgs = {
-  token: Scalars['String']['input'];
+export type MutationAddEntryBalanceArgs = {
+  balance: LedgerBalanceInput;
+  ledgerId: Scalars['String']['input'];
 };
 
 
-export type MutationAttachDocumentArgs = {
-  attachInput: AttachDocumentInput;
+export type MutationAddEntryCommodityArgs = {
+  commodity: LedgerCommodityInput;
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type MutationAddEntryNoteArgs = {
+  ledgerId: Scalars['String']['input'];
+  note: LedgerNoteInput;
+};
+
+
+export type MutationAddEntryPriceArgs = {
+  ledgerId: Scalars['String']['input'];
+  price: LedgerPriceInput;
+};
+
+
+export type MutationAddEntryTransactionArgs = {
+  ledgerId: Scalars['String']['input'];
+  transaction: LedgerTransactionInput;
+};
+
+
+export type MutationAddOrUpdateLedgerCollaboratorArgs = {
+  collaborator: Scalars['String']['input'];
+  ledgerId: Scalars['String']['input'];
+  permission?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationAddPushTokenArgs = {
+  token: Scalars['String']['input'];
 };
 
 
@@ -520,8 +1116,25 @@ export type MutationCancelSubscriptionArgs = {
 };
 
 
-export type MutationCreateOrRenameFileArgs = {
-  fileInput: CreateOrRenameFileInput;
+export type MutationCreateLedgerArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  private?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationCreateLedgerFileArgs = {
+  content: Scalars['String']['input'];
+  ledgerId: Scalars['String']['input'];
+  message?: InputMaybe<Scalars['String']['input']>;
+  path: Scalars['String']['input'];
+};
+
+
+export type MutationCreatePublicKeyArgs = {
+  key: Scalars['String']['input'];
+  readOnly?: InputMaybe<Scalars['Boolean']['input']>;
+  title: Scalars['String']['input'];
 };
 
 
@@ -536,33 +1149,75 @@ export type MutationCreateSubscriptionSessionArgs = {
 };
 
 
-export type MutationDeleteDocumentArgs = {
-  filename: Scalars['String']['input'];
+export type MutationDeleteLedgerArgs = {
+  ledgerId: Scalars['String']['input'];
 };
 
 
-export type MutationDeleteFavaFileArgs = {
-  deleteInput: DeleteFavaFileInput;
+export type MutationDeleteLedgerCollaboratorArgs = {
+  collaborator: Scalars['String']['input'];
+  ledgerId: Scalars['String']['input'];
 };
 
 
-export type MutationDeleteFileArgs = {
-  deleteFileRequest: DeleteFileRequest;
+export type MutationDeleteLedgerEntrySourceSliceArgs = {
+  input: DeleteSourceSliceInput;
+  ledgerId: Scalars['String']['input'];
 };
 
 
-export type MutationFormatSourceArgs = {
-  source: Scalars['String']['input'];
+export type MutationDeleteLedgerFileArgs = {
+  ledgerId: Scalars['String']['input'];
+  message?: InputMaybe<Scalars['String']['input']>;
+  path: Scalars['String']['input'];
+  sha: Scalars['String']['input'];
 };
 
 
-export type MutationMoveDocumentArgs = {
-  moveInput: MoveDocumentInput;
+export type MutationDeletePublicKeyArgs = {
+  keyId: Scalars['Float']['input'];
 };
 
 
-export type MutationRenameFileArgs = {
-  renameFileRequest: RenameFileRequest;
+export type MutationFinishSignUpArgs = {
+  otp: Scalars['String']['input'];
+  sessionId: Scalars['String']['input'];
+};
+
+
+export type MutationPreSignUpArgs = {
+  email: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  inviteBy?: InputMaybe<Scalars['String']['input']>;
+  inviteSrc?: InputMaybe<Scalars['String']['input']>;
+  lastName: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  username?: InputMaybe<Scalars['String']['input']>;
+  withDefaultLedger?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationRemoveSelfFromRepoArgs = {
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type MutationRenameLedgerFileArgs = {
+  ledgerId: Scalars['String']['input'];
+  message?: InputMaybe<Scalars['String']['input']>;
+  newPath: Scalars['String']['input'];
+  oldPath: Scalars['String']['input'];
+};
+
+
+export type MutationResetPasswordArgs = {
+  newPassword: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+};
+
+
+export type MutationSendForgotPasswordLinkArgs = {
+  email: Scalars['String']['input'];
 };
 
 
@@ -573,25 +1228,54 @@ export type MutationSendPushNotificationArgs = {
 };
 
 
+export type MutationSignInArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+
+export type MutationSignInWithOneTimeTokenArgs = {
+  token: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateLedgerArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  ledgerId: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationUpdateLedgerEntrySourceSliceArgs = {
+  input: UpdateSourceSliceInput;
+  ledgerId: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateLedgerFileArgs = {
+  content: Scalars['String']['input'];
+  ledgerId: Scalars['String']['input'];
+  message?: InputMaybe<Scalars['String']['input']>;
+  path: Scalars['String']['input'];
+  sha: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateProfileArgs = {
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  lastName?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type MutationUpdateReportSubscribeArgs = {
   status: ReportStatus;
   userId: Scalars['String']['input'];
 };
 
 
-export type MutationUpdateSourceArgs = {
-  sourceInput: SourceInput;
-};
-
-
-export type MutationUpdateSourceSliceArgs = {
-  sourceSliceInput: SourceSliceInput;
-};
-
-
-export type MutationUpsertLedgerArgs = {
-  file: Scalars['BeanFilename']['input'];
-  text?: InputMaybe<Scalars['String']['input']>;
+export type MutationUpdateUsernameArgs = {
+  username: Scalars['String']['input'];
 };
 
 export type EntryInput = {
@@ -615,14 +1299,60 @@ export type AddEntryResponse = {
   success: Scalars['Boolean']['output'];
 };
 
-export type AttachDocumentInput = {
-  entry_hash: Scalars['String']['input'];
-  filename: Scalars['String']['input'];
+export type LedgerBalanceInput = {
+  account: Scalars['String']['input'];
+  amount: LedgerAmountInput;
+  date: Scalars['String']['input'];
 };
 
-export type DocumentOperationResponse = {
-  __typename?: 'DocumentOperationResponse';
-  data: Scalars['String']['output'];
+export type LedgerAmountInput = {
+  currency: Scalars['String']['input'];
+  number: Scalars['String']['input'];
+};
+
+export type AddLedgerEntryResponse = {
+  __typename?: 'AddLedgerEntryResponse';
+  message?: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
+};
+
+export type LedgerCommodityInput = {
+  currency: Scalars['String']['input'];
+  date: Scalars['String']['input'];
+};
+
+export type LedgerNoteInput = {
+  account: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  date: Scalars['String']['input'];
+};
+
+export type LedgerPriceInput = {
+  amount: LedgerAmountInput;
+  currency: Scalars['String']['input'];
+  date: Scalars['String']['input'];
+};
+
+export type LedgerTransactionInput = {
+  date: Scalars['String']['input'];
+  flag: Scalars['String']['input'];
+  links?: InputMaybe<Array<Scalars['String']['input']>>;
+  narration?: InputMaybe<Scalars['String']['input']>;
+  payee?: InputMaybe<Scalars['String']['input']>;
+  postings: Array<LedgerPostingInput>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type LedgerPostingInput = {
+  account: Scalars['String']['input'];
+  flag?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<LedgerAmountInput>;
+  units: LedgerAmountInput;
+};
+
+export type AddCollaboratorResponse = {
+  __typename?: 'AddCollaboratorResponse';
+  message?: Maybe<Scalars['String']['output']>;
   success: Scalars['Boolean']['output'];
 };
 
@@ -632,16 +1362,10 @@ export type SubscriptionActionResult = {
   success: Scalars['Boolean']['output'];
 };
 
-export type CreateOrRenameFileInput = {
-  ledger_id: Scalars['String']['input'];
-  new_file: Scalars['String']['input'];
-  old_file?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type FileOperationResponse = {
-  __typename?: 'FileOperationResponse';
-  data: Scalars['String']['output'];
-  success: Scalars['Boolean']['output'];
+export type CreateOneTimeTokenResponse = {
+  __typename?: 'CreateOneTimeTokenResponse';
+  expireAt: Scalars['String']['output'];
+  id: Scalars['String']['output'];
 };
 
 export type SubscriptionSessionResult = {
@@ -652,66 +1376,83 @@ export type SubscriptionSessionResult = {
   success: Scalars['Boolean']['output'];
 };
 
-export type DeleteFavaFileInput = {
-  filename: Scalars['String']['input'];
-  ledger_id: Scalars['String']['input'];
+export type DeleteLedgerResponse = {
+  __typename?: 'DeleteLedgerResponse';
+  ledgerId: Scalars['String']['output'];
 };
 
-export type DeleteFileRequest = {
-  file: Scalars['BeanFilename']['input'];
-  ledgerId: Scalars['String']['input'];
-};
-
-export type DeleteFileResponse = {
-  __typename?: 'DeleteFileResponse';
-  _id?: Maybe<Scalars['ID']['output']>;
-};
-
-export type SourceUpdateResponse = {
-  __typename?: 'SourceUpdateResponse';
-  data: Scalars['String']['output'];
+export type DeleteCollaboratorResponse = {
+  __typename?: 'DeleteCollaboratorResponse';
+  message?: Maybe<Scalars['String']['output']>;
   success: Scalars['Boolean']['output'];
 };
 
-export type MoveDocumentInput = {
-  account: Scalars['String']['input'];
-  filename: Scalars['String']['input'];
-  newName: Scalars['String']['input'];
+export type DeleteSourceSliceInput = {
+  entryHash: Scalars['String']['input'];
+  sha256sum: Scalars['String']['input'];
 };
 
-export type MoveResponse = {
-  __typename?: 'MoveResponse';
-  data: Scalars['String']['output'];
+export type DeleteSourceSliceResponse = {
+  __typename?: 'DeleteSourceSliceResponse';
+  entryHash: Scalars['String']['output'];
+  message: Scalars['String']['output'];
+};
+
+export type DeleteLedgerFileResponse = {
+  __typename?: 'DeleteLedgerFileResponse';
+  path: Scalars['String']['output'];
+};
+
+export type DeletePublicKeyResponse = {
+  __typename?: 'DeletePublicKeyResponse';
+  id: Scalars['Boolean']['output'];
+};
+
+export type TokenAuthResponse = {
+  __typename?: 'TokenAuthResponse';
+  expireAt: Scalars['DateTimeISO']['output'];
+  token: Scalars['String']['output'];
+};
+
+export type PreSignUpResponse = {
+  __typename?: 'PreSignUpResponse';
+  expireAt: Scalars['String']['output'];
+  sessionId: Scalars['String']['output'];
+};
+
+export type RenameLedgerFileResponse = {
+  __typename?: 'RenameLedgerFileResponse';
+  newPath: Scalars['String']['output'];
+  oldPath: Scalars['String']['output'];
+};
+
+export type ResetPasswordResponse = {
+  __typename?: 'ResetPasswordResponse';
   success: Scalars['Boolean']['output'];
 };
 
-export type RenameFileRequest = {
-  from: Scalars['String']['input'];
-  ledgerId: Scalars['String']['input'];
-  to: Scalars['String']['input'];
+export type SendForgotPasswordLinkResponse = {
+  __typename?: 'SendForgotPasswordLinkResponse';
+  success: Scalars['Boolean']['output'];
+};
+
+export type UpdateSourceSliceInput = {
+  entryHash: Scalars['String']['input'];
+  newContent: Scalars['String']['input'];
+  sha256sum: Scalars['String']['input'];
+};
+
+export type UpdateSourceSliceResponse = {
+  __typename?: 'UpdateSourceSliceResponse';
+  entryHash: Scalars['String']['output'];
+  message: Scalars['String']['output'];
+  newSha256sum: Scalars['String']['output'];
 };
 
 export type UpdateReportSubscribeResponse = {
   __typename?: 'UpdateReportSubscribeResponse';
   success: Scalars['Boolean']['output'];
 };
-
-export type SourceInput = {
-  file_path: Scalars['String']['input'];
-  sha256sum: Scalars['String']['input'];
-  source: Scalars['String']['input'];
-};
-
-export type SourceSliceInput = {
-  entry_hash: Scalars['String']['input'];
-  sha256sum: Scalars['String']['input'];
-  source: Scalars['String']['input'];
-};
-
-export type AccountBalancesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type AccountBalancesQuery = { __typename?: 'Query', accountBalances: { __typename?: 'AccountBalancesResponse', success: boolean, data: { __typename?: 'TreeNode', account: string, balance: Record<string, number | string>, balance_children: Record<string, number | string>, children: Array<{ __typename?: 'TreeNode', account: string, balance: Record<string, number | string>, balance_children: Record<string, number | string>, children: Array<{ __typename?: 'TreeNode', account: string, balance: Record<string, number | string>, balance_children: Record<string, number | string> }> }> } } };
 
 export type AccountHierarchyQueryVariables = Exact<{
   userId: Scalars['String']['input'];
@@ -742,13 +1483,6 @@ export type CancelSubscriptionMutationVariables = Exact<{
 
 export type CancelSubscriptionMutation = { __typename?: 'Mutation', cancelSubscription: { __typename?: 'SubscriptionActionResult', success: boolean, message?: string | null } };
 
-export type ChartsQueryVariables = Exact<{
-  userId: Scalars['String']['input'];
-}>;
-
-
-export type ChartsQuery = { __typename?: 'Query', charts: { __typename?: 'ChartsResponse', success: boolean, data: Array<{ __typename?: 'ChartItem', balance: Record<string, number | string>, budgets?: Record<string, number | string> | null, date: string }> } };
-
 export type CreateSubscriptionSessionMutationVariables = Exact<{
   clientId: Scalars['String']['input'];
   priceId: Scalars['String']['input'];
@@ -762,19 +1496,13 @@ export type DeleteAccountMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount: boolean };
 
-export type DeleteFileMutationVariables = Exact<{
-  deleteFileRequest: DeleteFileRequest;
+export type GetLedgerJournalQueryVariables = Exact<{
+  ledgerId: Scalars['String']['input'];
+  query?: InputMaybe<JournalQueryInput>;
 }>;
 
 
-export type DeleteFileMutation = { __typename?: 'Mutation', deleteFile?: { __typename?: 'DeleteFileResponse', _id?: string | null } | null };
-
-export type FormatSourceMutationVariables = Exact<{
-  source: Scalars['String']['input'];
-}>;
-
-
-export type FormatSourceMutation = { __typename?: 'Mutation', formatSource: { __typename?: 'SourceUpdateResponse', data: string, success: boolean } };
+export type GetLedgerJournalQuery = { __typename?: 'Query', getLedgerJournal: { __typename?: 'JournalResponse', total: number, data: Array<Record<string, number | string>> } };
 
 export type HomeChartsQueryVariables = Exact<{
   userId: Scalars['String']['input'];
@@ -786,7 +1514,7 @@ export type HomeChartsQuery = { __typename?: 'Query', homeCharts: { __typename?:
 export type IsPaidQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IsPaidQuery = { __typename?: 'Query', isPaid: { __typename?: 'IsPaidResponse', isPaid?: boolean | null, isForcedToPay?: boolean | null } };
+export type IsPaidQuery = { __typename?: 'Query', isPaid: { __typename?: 'IsPaidResponse', isPaid: boolean, isForcedToPay: boolean } };
 
 export type JournalEntriesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -814,45 +1542,13 @@ export type LedgerMetaQueryVariables = Exact<{
 
 export type LedgerMetaQuery = { __typename?: 'Query', ledgerMeta: { __typename?: 'LedgerMetaResponse', success: boolean, data: { __typename?: 'LedgerMeta', accounts: Array<string>, currencies: Array<string>, errors: number, options: { __typename?: 'Options', name_assets: string, name_equity: string, name_expenses: string, name_income: string, name_liabilities: string, operating_currency: Array<string> } } } };
 
-export type LedgersQueryVariables = Exact<{
-  file?: InputMaybe<Scalars['BeanFilename']['input']>;
+export type ListLedgersQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  page?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
 
-export type LedgersQuery = { __typename?: 'Query', ledgers?: Array<{ __typename?: 'Ledger', file: any, ledgerId: string, text: string }> | null };
-
-export type PayeeAccountsQueryVariables = Exact<{
-  payee: Scalars['String']['input'];
-}>;
-
-
-export type PayeeAccountsQuery = { __typename?: 'Query', payeeAccounts: { __typename?: 'PayeeAccountsResponse', data: Array<string>, success: boolean } };
-
-export type PayeeTransactionQueryVariables = Exact<{
-  payee: Scalars['String']['input'];
-}>;
-
-
-export type PayeeTransactionQuery = { __typename?: 'Query', payeeTransaction: { __typename?: 'PayeeTransactionResponse', data: Record<string, number | string>, success: boolean } };
-
-export type PaymentHistoryQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PaymentHistoryQuery = { __typename?: 'Query', paymentHistory: Array<{ __typename?: 'Receipt', _id?: string | null, amount: string, currency: string, paymentEmail: string, userId: string, createAt?: any | null, chargeId?: string | null, estimatedIotx?: number | null, fulfilledHash?: string | null }> };
-
-export type QueryResultQueryVariables = Exact<{
-  queryString: Scalars['String']['input'];
-}>;
-
-
-export type QueryResultQuery = { __typename?: 'Query', queryResult: { __typename?: 'QueryResultResponse', success: boolean, data: { __typename?: 'QueryResult', table: string, chart?: Record<string, number | string> | null } } };
-
-export type RenameFileMutationVariables = Exact<{
-  renameFileRequest: RenameFileRequest;
-}>;
-
-
-export type RenameFileMutation = { __typename?: 'Mutation', renameFile?: { __typename?: 'Ledger', file: any, ledgerId: string, text: string } | null };
+export type ListLedgersQuery = { __typename?: 'Query', listLedgers: Array<{ __typename?: 'Ledger', id: string, name: string, fullName: string, httpUrl: string, sshUrl: string, private: boolean, empty: boolean, size: number, createdAt: string, updatedAt: string, description?: string | null, permissions?: { __typename?: 'Permission', admin: boolean, pull: boolean, push: boolean } | null }> };
 
 export type SubscriptionStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -867,21 +1563,6 @@ export type UpdateReportSubscribeMutationVariables = Exact<{
 
 export type UpdateReportSubscribeMutation = { __typename?: 'Mutation', updateReportSubscribe?: { __typename?: 'UpdateReportSubscribeResponse', success: boolean } | null };
 
-export type UpdateSourceMutationVariables = Exact<{
-  sourceInput: SourceInput;
-}>;
-
-
-export type UpdateSourceMutation = { __typename?: 'Mutation', updateSource: { __typename?: 'SourceUpdateResponse', data: string, success: boolean } };
-
-export type UpsertLedgerMutationVariables = Exact<{
-  file: Scalars['BeanFilename']['input'];
-  text?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpsertLedgerMutation = { __typename?: 'Mutation', upsertLedger?: { __typename?: 'Ledger', file: any, ledgerId: string, text: string } | null };
-
 export type UserProfileQueryVariables = Exact<{
   userId: Scalars['String']['input'];
 }>;
@@ -890,60 +1571,6 @@ export type UserProfileQueryVariables = Exact<{
 export type UserProfileQuery = { __typename?: 'Query', userProfile?: { __typename?: 'UserProfileResponse', email: string, emailReportStatus?: ReportStatus | null } | null };
 
 
-export const AccountBalancesDocument = gql`
-    query AccountBalances {
-  accountBalances {
-    data {
-      account
-      balance
-      balance_children
-      children {
-        account
-        balance
-        balance_children
-        children {
-          account
-          balance
-          balance_children
-        }
-      }
-    }
-    success
-  }
-}
-    `;
-
-/**
- * __useAccountBalancesQuery__
- *
- * To run a query within a React component, call `useAccountBalancesQuery` and pass it any options that fit your needs.
- * When your component renders, `useAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useAccountBalancesQuery({
- *   variables: {
- *   },
- * });
- */
-export function useAccountBalancesQuery(baseOptions?: Apollo.QueryHookOptions<AccountBalancesQuery, AccountBalancesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AccountBalancesQuery, AccountBalancesQueryVariables>(AccountBalancesDocument, options);
-      }
-export function useAccountBalancesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AccountBalancesQuery, AccountBalancesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AccountBalancesQuery, AccountBalancesQueryVariables>(AccountBalancesDocument, options);
-        }
-export function useAccountBalancesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AccountBalancesQuery, AccountBalancesQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<AccountBalancesQuery, AccountBalancesQueryVariables>(AccountBalancesDocument, options);
-        }
-export type AccountBalancesQueryHookResult = ReturnType<typeof useAccountBalancesQuery>;
-export type AccountBalancesLazyQueryHookResult = ReturnType<typeof useAccountBalancesLazyQuery>;
-export type AccountBalancesSuspenseQueryHookResult = ReturnType<typeof useAccountBalancesSuspenseQuery>;
-export type AccountBalancesQueryResult = Apollo.QueryResult<AccountBalancesQuery, AccountBalancesQueryVariables>;
 export const AccountHierarchyDocument = gql`
     query AccountHierarchy($userId: String!) {
   accountHierarchy(userId: $userId) {
@@ -1098,51 +1725,6 @@ export function useCancelSubscriptionMutation(baseOptions?: Apollo.MutationHookO
 export type CancelSubscriptionMutationHookResult = ReturnType<typeof useCancelSubscriptionMutation>;
 export type CancelSubscriptionMutationResult = Apollo.MutationResult<CancelSubscriptionMutation>;
 export type CancelSubscriptionMutationOptions = Apollo.BaseMutationOptions<CancelSubscriptionMutation, CancelSubscriptionMutationVariables>;
-export const ChartsDocument = gql`
-    query Charts($userId: String!) {
-  charts(userId: $userId) {
-    data {
-      balance
-      budgets
-      date
-    }
-    success
-  }
-}
-    `;
-
-/**
- * __useChartsQuery__
- *
- * To run a query within a React component, call `useChartsQuery` and pass it any options that fit your needs.
- * When your component renders, `useChartsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useChartsQuery({
- *   variables: {
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useChartsQuery(baseOptions: Apollo.QueryHookOptions<ChartsQuery, ChartsQueryVariables> & ({ variables: ChartsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ChartsQuery, ChartsQueryVariables>(ChartsDocument, options);
-      }
-export function useChartsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ChartsQuery, ChartsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ChartsQuery, ChartsQueryVariables>(ChartsDocument, options);
-        }
-export function useChartsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ChartsQuery, ChartsQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<ChartsQuery, ChartsQueryVariables>(ChartsDocument, options);
-        }
-export type ChartsQueryHookResult = ReturnType<typeof useChartsQuery>;
-export type ChartsLazyQueryHookResult = ReturnType<typeof useChartsLazyQuery>;
-export type ChartsSuspenseQueryHookResult = ReturnType<typeof useChartsSuspenseQuery>;
-export type ChartsQueryResult = Apollo.QueryResult<ChartsQuery, ChartsQueryVariables>;
 export const CreateSubscriptionSessionDocument = gql`
     mutation CreateSubscriptionSession($clientId: String!, $priceId: String!) {
   createSubscriptionSession(clientId: $clientId, priceId: $priceId) {
@@ -1210,73 +1792,48 @@ export function useDeleteAccountMutation(baseOptions?: Apollo.MutationHookOption
 export type DeleteAccountMutationHookResult = ReturnType<typeof useDeleteAccountMutation>;
 export type DeleteAccountMutationResult = Apollo.MutationResult<DeleteAccountMutation>;
 export type DeleteAccountMutationOptions = Apollo.BaseMutationOptions<DeleteAccountMutation, DeleteAccountMutationVariables>;
-export const DeleteFileDocument = gql`
-    mutation DeleteFile($deleteFileRequest: DeleteFileRequest!) {
-  deleteFile(deleteFileRequest: $deleteFileRequest) {
-    _id
-  }
-}
-    `;
-export type DeleteFileMutationFn = Apollo.MutationFunction<DeleteFileMutation, DeleteFileMutationVariables>;
-
-/**
- * __useDeleteFileMutation__
- *
- * To run a mutation, you first call `useDeleteFileMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteFileMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteFileMutation, { data, loading, error }] = useDeleteFileMutation({
- *   variables: {
- *      deleteFileRequest: // value for 'deleteFileRequest'
- *   },
- * });
- */
-export function useDeleteFileMutation(baseOptions?: Apollo.MutationHookOptions<DeleteFileMutation, DeleteFileMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteFileMutation, DeleteFileMutationVariables>(DeleteFileDocument, options);
-      }
-export type DeleteFileMutationHookResult = ReturnType<typeof useDeleteFileMutation>;
-export type DeleteFileMutationResult = Apollo.MutationResult<DeleteFileMutation>;
-export type DeleteFileMutationOptions = Apollo.BaseMutationOptions<DeleteFileMutation, DeleteFileMutationVariables>;
-export const FormatSourceDocument = gql`
-    mutation FormatSource($source: String!) {
-  formatSource(source: $source) {
+export const GetLedgerJournalDocument = gql`
+    query GetLedgerJournal($ledgerId: String!, $query: JournalQueryInput) {
+  getLedgerJournal(ledgerId: $ledgerId, query: $query) {
+    total
     data
-    success
   }
 }
     `;
-export type FormatSourceMutationFn = Apollo.MutationFunction<FormatSourceMutation, FormatSourceMutationVariables>;
 
 /**
- * __useFormatSourceMutation__
+ * __useGetLedgerJournalQuery__
  *
- * To run a mutation, you first call `useFormatSourceMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useFormatSourceMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
+ * To run a query within a React component, call `useGetLedgerJournalQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLedgerJournalQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const [formatSourceMutation, { data, loading, error }] = useFormatSourceMutation({
+ * const { data, loading, error } = useGetLedgerJournalQuery({
  *   variables: {
- *      source: // value for 'source'
+ *      ledgerId: // value for 'ledgerId'
+ *      query: // value for 'query'
  *   },
  * });
  */
-export function useFormatSourceMutation(baseOptions?: Apollo.MutationHookOptions<FormatSourceMutation, FormatSourceMutationVariables>) {
+export function useGetLedgerJournalQuery(baseOptions: Apollo.QueryHookOptions<GetLedgerJournalQuery, GetLedgerJournalQueryVariables> & ({ variables: GetLedgerJournalQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<FormatSourceMutation, FormatSourceMutationVariables>(FormatSourceDocument, options);
+        return Apollo.useQuery<GetLedgerJournalQuery, GetLedgerJournalQueryVariables>(GetLedgerJournalDocument, options);
       }
-export type FormatSourceMutationHookResult = ReturnType<typeof useFormatSourceMutation>;
-export type FormatSourceMutationResult = Apollo.MutationResult<FormatSourceMutation>;
-export type FormatSourceMutationOptions = Apollo.BaseMutationOptions<FormatSourceMutation, FormatSourceMutationVariables>;
+export function useGetLedgerJournalLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLedgerJournalQuery, GetLedgerJournalQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLedgerJournalQuery, GetLedgerJournalQueryVariables>(GetLedgerJournalDocument, options);
+        }
+export function useGetLedgerJournalSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetLedgerJournalQuery, GetLedgerJournalQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetLedgerJournalQuery, GetLedgerJournalQueryVariables>(GetLedgerJournalDocument, options);
+        }
+export type GetLedgerJournalQueryHookResult = ReturnType<typeof useGetLedgerJournalQuery>;
+export type GetLedgerJournalLazyQueryHookResult = ReturnType<typeof useGetLedgerJournalLazyQuery>;
+export type GetLedgerJournalSuspenseQueryHookResult = ReturnType<typeof useGetLedgerJournalSuspenseQuery>;
+export type GetLedgerJournalQueryResult = Apollo.QueryResult<GetLedgerJournalQuery, GetLedgerJournalQueryVariables>;
 export const HomeChartsDocument = gql`
     query HomeCharts($userId: String!) {
   homeCharts(userId: $userId) {
@@ -1521,256 +2078,62 @@ export type LedgerMetaQueryHookResult = ReturnType<typeof useLedgerMetaQuery>;
 export type LedgerMetaLazyQueryHookResult = ReturnType<typeof useLedgerMetaLazyQuery>;
 export type LedgerMetaSuspenseQueryHookResult = ReturnType<typeof useLedgerMetaSuspenseQuery>;
 export type LedgerMetaQueryResult = Apollo.QueryResult<LedgerMetaQuery, LedgerMetaQueryVariables>;
-export const LedgersDocument = gql`
-    query Ledgers($file: BeanFilename) {
-  ledgers(file: $file) {
-    file
-    ledgerId
-    text
-  }
-}
-    `;
-
-/**
- * __useLedgersQuery__
- *
- * To run a query within a React component, call `useLedgersQuery` and pass it any options that fit your needs.
- * When your component renders, `useLedgersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useLedgersQuery({
- *   variables: {
- *      file: // value for 'file'
- *   },
- * });
- */
-export function useLedgersQuery(baseOptions?: Apollo.QueryHookOptions<LedgersQuery, LedgersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<LedgersQuery, LedgersQueryVariables>(LedgersDocument, options);
-      }
-export function useLedgersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LedgersQuery, LedgersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<LedgersQuery, LedgersQueryVariables>(LedgersDocument, options);
-        }
-export function useLedgersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<LedgersQuery, LedgersQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<LedgersQuery, LedgersQueryVariables>(LedgersDocument, options);
-        }
-export type LedgersQueryHookResult = ReturnType<typeof useLedgersQuery>;
-export type LedgersLazyQueryHookResult = ReturnType<typeof useLedgersLazyQuery>;
-export type LedgersSuspenseQueryHookResult = ReturnType<typeof useLedgersSuspenseQuery>;
-export type LedgersQueryResult = Apollo.QueryResult<LedgersQuery, LedgersQueryVariables>;
-export const PayeeAccountsDocument = gql`
-    query PayeeAccounts($payee: String!) {
-  payeeAccounts(payee: $payee) {
-    data
-    success
-  }
-}
-    `;
-
-/**
- * __usePayeeAccountsQuery__
- *
- * To run a query within a React component, call `usePayeeAccountsQuery` and pass it any options that fit your needs.
- * When your component renders, `usePayeeAccountsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePayeeAccountsQuery({
- *   variables: {
- *      payee: // value for 'payee'
- *   },
- * });
- */
-export function usePayeeAccountsQuery(baseOptions: Apollo.QueryHookOptions<PayeeAccountsQuery, PayeeAccountsQueryVariables> & ({ variables: PayeeAccountsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PayeeAccountsQuery, PayeeAccountsQueryVariables>(PayeeAccountsDocument, options);
-      }
-export function usePayeeAccountsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PayeeAccountsQuery, PayeeAccountsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PayeeAccountsQuery, PayeeAccountsQueryVariables>(PayeeAccountsDocument, options);
-        }
-export function usePayeeAccountsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<PayeeAccountsQuery, PayeeAccountsQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<PayeeAccountsQuery, PayeeAccountsQueryVariables>(PayeeAccountsDocument, options);
-        }
-export type PayeeAccountsQueryHookResult = ReturnType<typeof usePayeeAccountsQuery>;
-export type PayeeAccountsLazyQueryHookResult = ReturnType<typeof usePayeeAccountsLazyQuery>;
-export type PayeeAccountsSuspenseQueryHookResult = ReturnType<typeof usePayeeAccountsSuspenseQuery>;
-export type PayeeAccountsQueryResult = Apollo.QueryResult<PayeeAccountsQuery, PayeeAccountsQueryVariables>;
-export const PayeeTransactionDocument = gql`
-    query PayeeTransaction($payee: String!) {
-  payeeTransaction(payee: $payee) {
-    data
-    success
-  }
-}
-    `;
-
-/**
- * __usePayeeTransactionQuery__
- *
- * To run a query within a React component, call `usePayeeTransactionQuery` and pass it any options that fit your needs.
- * When your component renders, `usePayeeTransactionQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePayeeTransactionQuery({
- *   variables: {
- *      payee: // value for 'payee'
- *   },
- * });
- */
-export function usePayeeTransactionQuery(baseOptions: Apollo.QueryHookOptions<PayeeTransactionQuery, PayeeTransactionQueryVariables> & ({ variables: PayeeTransactionQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PayeeTransactionQuery, PayeeTransactionQueryVariables>(PayeeTransactionDocument, options);
-      }
-export function usePayeeTransactionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PayeeTransactionQuery, PayeeTransactionQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PayeeTransactionQuery, PayeeTransactionQueryVariables>(PayeeTransactionDocument, options);
-        }
-export function usePayeeTransactionSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<PayeeTransactionQuery, PayeeTransactionQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<PayeeTransactionQuery, PayeeTransactionQueryVariables>(PayeeTransactionDocument, options);
-        }
-export type PayeeTransactionQueryHookResult = ReturnType<typeof usePayeeTransactionQuery>;
-export type PayeeTransactionLazyQueryHookResult = ReturnType<typeof usePayeeTransactionLazyQuery>;
-export type PayeeTransactionSuspenseQueryHookResult = ReturnType<typeof usePayeeTransactionSuspenseQuery>;
-export type PayeeTransactionQueryResult = Apollo.QueryResult<PayeeTransactionQuery, PayeeTransactionQueryVariables>;
-export const PaymentHistoryDocument = gql`
-    query PaymentHistory {
-  paymentHistory {
-    _id
-    amount
-    currency
-    paymentEmail
-    userId
-    createAt
-    chargeId
-    estimatedIotx
-    fulfilledHash
-  }
-}
-    `;
-
-/**
- * __usePaymentHistoryQuery__
- *
- * To run a query within a React component, call `usePaymentHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `usePaymentHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePaymentHistoryQuery({
- *   variables: {
- *   },
- * });
- */
-export function usePaymentHistoryQuery(baseOptions?: Apollo.QueryHookOptions<PaymentHistoryQuery, PaymentHistoryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PaymentHistoryQuery, PaymentHistoryQueryVariables>(PaymentHistoryDocument, options);
-      }
-export function usePaymentHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PaymentHistoryQuery, PaymentHistoryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PaymentHistoryQuery, PaymentHistoryQueryVariables>(PaymentHistoryDocument, options);
-        }
-export function usePaymentHistorySuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<PaymentHistoryQuery, PaymentHistoryQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<PaymentHistoryQuery, PaymentHistoryQueryVariables>(PaymentHistoryDocument, options);
-        }
-export type PaymentHistoryQueryHookResult = ReturnType<typeof usePaymentHistoryQuery>;
-export type PaymentHistoryLazyQueryHookResult = ReturnType<typeof usePaymentHistoryLazyQuery>;
-export type PaymentHistorySuspenseQueryHookResult = ReturnType<typeof usePaymentHistorySuspenseQuery>;
-export type PaymentHistoryQueryResult = Apollo.QueryResult<PaymentHistoryQuery, PaymentHistoryQueryVariables>;
-export const QueryResultDocument = gql`
-    query QueryResult($queryString: String!) {
-  queryResult(queryString: $queryString) {
-    data {
-      table
-      chart
+export const ListLedgersDocument = gql`
+    query ListLedgers($limit: Float, $page: Float) {
+  listLedgers(limit: $limit, page: $page) {
+    id
+    name
+    fullName
+    httpUrl
+    sshUrl
+    private
+    empty
+    size
+    createdAt
+    updatedAt
+    description
+    permissions {
+      admin
+      pull
+      push
     }
-    success
   }
 }
     `;
 
 /**
- * __useQueryResultQuery__
+ * __useListLedgersQuery__
  *
- * To run a query within a React component, call `useQueryResultQuery` and pass it any options that fit your needs.
- * When your component renders, `useQueryResultQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useListLedgersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListLedgersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useQueryResultQuery({
+ * const { data, loading, error } = useListLedgersQuery({
  *   variables: {
- *      queryString: // value for 'queryString'
+ *      limit: // value for 'limit'
+ *      page: // value for 'page'
  *   },
  * });
  */
-export function useQueryResultQuery(baseOptions: Apollo.QueryHookOptions<QueryResultQuery, QueryResultQueryVariables> & ({ variables: QueryResultQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useListLedgersQuery(baseOptions?: Apollo.QueryHookOptions<ListLedgersQuery, ListLedgersQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<QueryResultQuery, QueryResultQueryVariables>(QueryResultDocument, options);
+        return Apollo.useQuery<ListLedgersQuery, ListLedgersQueryVariables>(ListLedgersDocument, options);
       }
-export function useQueryResultLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryResultQuery, QueryResultQueryVariables>) {
+export function useListLedgersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListLedgersQuery, ListLedgersQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<QueryResultQuery, QueryResultQueryVariables>(QueryResultDocument, options);
+          return Apollo.useLazyQuery<ListLedgersQuery, ListLedgersQueryVariables>(ListLedgersDocument, options);
         }
-export function useQueryResultSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<QueryResultQuery, QueryResultQueryVariables>) {
+export function useListLedgersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ListLedgersQuery, ListLedgersQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<QueryResultQuery, QueryResultQueryVariables>(QueryResultDocument, options);
+          return Apollo.useSuspenseQuery<ListLedgersQuery, ListLedgersQueryVariables>(ListLedgersDocument, options);
         }
-export type QueryResultQueryHookResult = ReturnType<typeof useQueryResultQuery>;
-export type QueryResultLazyQueryHookResult = ReturnType<typeof useQueryResultLazyQuery>;
-export type QueryResultSuspenseQueryHookResult = ReturnType<typeof useQueryResultSuspenseQuery>;
-export type QueryResultQueryResult = Apollo.QueryResult<QueryResultQuery, QueryResultQueryVariables>;
-export const RenameFileDocument = gql`
-    mutation RenameFile($renameFileRequest: RenameFileRequest!) {
-  renameFile(renameFileRequest: $renameFileRequest) {
-    file
-    ledgerId
-    text
-  }
-}
-    `;
-export type RenameFileMutationFn = Apollo.MutationFunction<RenameFileMutation, RenameFileMutationVariables>;
-
-/**
- * __useRenameFileMutation__
- *
- * To run a mutation, you first call `useRenameFileMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRenameFileMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [renameFileMutation, { data, loading, error }] = useRenameFileMutation({
- *   variables: {
- *      renameFileRequest: // value for 'renameFileRequest'
- *   },
- * });
- */
-export function useRenameFileMutation(baseOptions?: Apollo.MutationHookOptions<RenameFileMutation, RenameFileMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RenameFileMutation, RenameFileMutationVariables>(RenameFileDocument, options);
-      }
-export type RenameFileMutationHookResult = ReturnType<typeof useRenameFileMutation>;
-export type RenameFileMutationResult = Apollo.MutationResult<RenameFileMutation>;
-export type RenameFileMutationOptions = Apollo.BaseMutationOptions<RenameFileMutation, RenameFileMutationVariables>;
+export type ListLedgersQueryHookResult = ReturnType<typeof useListLedgersQuery>;
+export type ListLedgersLazyQueryHookResult = ReturnType<typeof useListLedgersLazyQuery>;
+export type ListLedgersSuspenseQueryHookResult = ReturnType<typeof useListLedgersSuspenseQuery>;
+export type ListLedgersQueryResult = Apollo.QueryResult<ListLedgersQuery, ListLedgersQueryVariables>;
 export const SubscriptionStatusDocument = gql`
     query SubscriptionStatus {
   subscriptionStatus {
@@ -1872,76 +2235,6 @@ export function useUpdateReportSubscribeMutation(baseOptions?: Apollo.MutationHo
 export type UpdateReportSubscribeMutationHookResult = ReturnType<typeof useUpdateReportSubscribeMutation>;
 export type UpdateReportSubscribeMutationResult = Apollo.MutationResult<UpdateReportSubscribeMutation>;
 export type UpdateReportSubscribeMutationOptions = Apollo.BaseMutationOptions<UpdateReportSubscribeMutation, UpdateReportSubscribeMutationVariables>;
-export const UpdateSourceDocument = gql`
-    mutation UpdateSource($sourceInput: SourceInput!) {
-  updateSource(sourceInput: $sourceInput) {
-    data
-    success
-  }
-}
-    `;
-export type UpdateSourceMutationFn = Apollo.MutationFunction<UpdateSourceMutation, UpdateSourceMutationVariables>;
-
-/**
- * __useUpdateSourceMutation__
- *
- * To run a mutation, you first call `useUpdateSourceMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateSourceMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateSourceMutation, { data, loading, error }] = useUpdateSourceMutation({
- *   variables: {
- *      sourceInput: // value for 'sourceInput'
- *   },
- * });
- */
-export function useUpdateSourceMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSourceMutation, UpdateSourceMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateSourceMutation, UpdateSourceMutationVariables>(UpdateSourceDocument, options);
-      }
-export type UpdateSourceMutationHookResult = ReturnType<typeof useUpdateSourceMutation>;
-export type UpdateSourceMutationResult = Apollo.MutationResult<UpdateSourceMutation>;
-export type UpdateSourceMutationOptions = Apollo.BaseMutationOptions<UpdateSourceMutation, UpdateSourceMutationVariables>;
-export const UpsertLedgerDocument = gql`
-    mutation UpsertLedger($file: BeanFilename!, $text: String) {
-  upsertLedger(file: $file, text: $text) {
-    file
-    ledgerId
-    text
-  }
-}
-    `;
-export type UpsertLedgerMutationFn = Apollo.MutationFunction<UpsertLedgerMutation, UpsertLedgerMutationVariables>;
-
-/**
- * __useUpsertLedgerMutation__
- *
- * To run a mutation, you first call `useUpsertLedgerMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpsertLedgerMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [upsertLedgerMutation, { data, loading, error }] = useUpsertLedgerMutation({
- *   variables: {
- *      file: // value for 'file'
- *      text: // value for 'text'
- *   },
- * });
- */
-export function useUpsertLedgerMutation(baseOptions?: Apollo.MutationHookOptions<UpsertLedgerMutation, UpsertLedgerMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpsertLedgerMutation, UpsertLedgerMutationVariables>(UpsertLedgerDocument, options);
-      }
-export type UpsertLedgerMutationHookResult = ReturnType<typeof useUpsertLedgerMutation>;
-export type UpsertLedgerMutationResult = Apollo.MutationResult<UpsertLedgerMutation>;
-export type UpsertLedgerMutationOptions = Apollo.BaseMutationOptions<UpsertLedgerMutation, UpsertLedgerMutationVariables>;
 export const UserProfileDocument = gql`
     query UserProfile($userId: String!) {
   userProfile(userId: $userId) {

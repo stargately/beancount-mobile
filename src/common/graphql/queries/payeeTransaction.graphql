@@ -1,6 +1,0 @@
-query PayeeTransaction($payee: String!) {
-  payeeTransaction(payee: $payee) {
-    data
-    success
-  }
-}
