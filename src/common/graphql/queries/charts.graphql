@@ -1,0 +1,10 @@
+query Charts($userId: String!) {
+  charts(userId: $userId) {
+    data {
+      balance
+      budgets
+      date
+    }
+    success
+  }
+}

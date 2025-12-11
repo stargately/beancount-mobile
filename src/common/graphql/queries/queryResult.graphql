@@ -1,0 +1,9 @@
+query QueryResult($queryString: String!) {
+  queryResult(queryString: $queryString) {
+    data {
+      table
+      chart
+    }
+    success
+  }
+}

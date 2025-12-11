@@ -1,0 +1,13 @@
+query PaymentHistory {
+  paymentHistory {
+    _id
+    amount
+    currency
+    paymentEmail
+    userId
+    createAt
+    chargeId
+    estimatedIotx
+    fulfilledHash
+  }
+}

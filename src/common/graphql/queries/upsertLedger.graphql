@@ -1,0 +1,7 @@
+mutation UpsertLedger($file: BeanFilename!, $text: String) {
+  upsertLedger(file: $file, text: $text) {
+    file
+    ledgerId
+    text
+  }
+}

@@ -1,0 +1,6 @@
+mutation FormatSource($source: String!) {
+  formatSource(source: $source) {
+    data
+    success
+  }
+}

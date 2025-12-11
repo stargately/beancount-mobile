@@ -1,0 +1,20 @@
+query AccountBalances {
+  accountBalances {
+    data {
+      account
+      balance
+      balance_children
+      children {
+        account
+        balance
+        balance_children
+        children {
+          account
+          balance
+          balance_children
+        }
+      }
+    }
+    success
+  }
+}
