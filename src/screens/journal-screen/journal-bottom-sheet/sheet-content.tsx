@@ -127,7 +127,7 @@ export const JournalBottomSheetContent: React.FC<
   const styles = useThemeStyle(getStyles);
   const theme = useTheme().colorTheme;
   const { t } = useTranslations();
-  const [isContextOpen, setIsContextOpen] = useState(false);
+  const [isContextOpen, setIsContextOpen] = useState(true);
 
   // Fetch entry context data
   const { data, loading, error } = useGetLedgerEntryContextQuery({

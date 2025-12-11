@@ -78,6 +78,7 @@ const JournalList = ({ ledgerId }: { ledgerId: string }) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [selectedEntry, setSelectedEntry] =
     useState<JournalDirectiveType | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   usePageView("journal");
 
@@ -211,8 +212,15 @@ const JournalList = ({ ledgerId }: { ledgerId: string }) => {
   ]);
 
   const onRefresh = async () => {
-    await analytics.track("tap_refresh", {});
-    await refetch();
+    try {
+      setIsRefreshing(true);
+      await analytics.track("tap_refresh", {});
+      await refetch();
+    } catch (error) {
+      console.error("Error refreshing journal:", error);
+    } finally {
+      setIsRefreshing(false);
+    }
   };
 
   const handleEntryPress = useCallback((entry: JournalDirectiveType) => {
@@ -274,7 +282,7 @@ const JournalList = ({ ledgerId }: { ledgerId: string }) => {
         }
         refreshControl={
           <RefreshControl
-            refreshing={loading && journalEntries.length === 0}
+            refreshing={isRefreshing}
             onRefresh={onRefresh}
             tintColor={theme.primary}
           />
