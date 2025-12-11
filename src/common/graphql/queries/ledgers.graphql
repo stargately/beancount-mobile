@@ -1,7 +1,0 @@
-query Ledgers($file: BeanFilename) {
-  ledgers(file: $file) {
-    file
-    ledgerId
-    text
-  }
-}

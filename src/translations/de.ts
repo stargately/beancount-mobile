@@ -144,4 +144,13 @@ export const de: typeof en = {
     "Sobald Sie Transaktionen hinzufügen, erscheinen sie hier.",
   journalLoadError: "Fehler beim Laden des Journals: ",
   accountsPlural: "Konten",
+  // journal entry context
+  journalLoadingEntryContext: "Lade Eintragskontext...",
+  journalError: "Fehler",
+  journalNoData: "Keine Eintragskontextdaten verfügbar",
+  journalLocation: "Standort",
+  journalEntryContext: "Eintragskontext",
+  journalBalancesBefore: "Salden vor Eintrag",
+  journalBalancesAfter: "Salden nach Eintrag",
+  journalSource: "Quellcode",
 };

@@ -135,4 +135,13 @@ export const sk: typeof en = {
   journalWelcomeInstructionFinal: "Akonáhle pridáte transakcie, objavia sa tu.",
   journalLoadError: "Načítanie denníka zlyhalo: ",
   accountsPlural: "účty",
+  // journal entry context
+  journalLoadingEntryContext: "Načítavanie kontextu záznamu...",
+  journalError: "Chyba",
+  journalNoData: "Údaje kontextu záznamu nie sú k dispozícii",
+  journalLocation: "Poloha",
+  journalEntryContext: "Kontext záznamu",
+  journalBalancesBefore: "Zostatky pred záznamom",
+  journalBalancesAfter: "Zostatky po zázname",
+  journalSource: "Zdrojový kód",
 };

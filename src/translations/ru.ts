@@ -144,4 +144,13 @@ export const ru: typeof en = {
     "После добавления транзакций они появятся здесь.",
   journalLoadError: "Ошибка загрузки журнала: ",
   accountsPlural: "счета",
+  // journal entry context
+  journalLoadingEntryContext: "Загрузка контекста записи...",
+  journalError: "Ошибка",
+  journalNoData: "Данные контекста записи недоступны",
+  journalLocation: "Местоположение",
+  journalEntryContext: "Контекст записи",
+  journalBalancesBefore: "Балансы до записи",
+  journalBalancesAfter: "Балансы после записи",
+  journalSource: "Исходный код",
 };

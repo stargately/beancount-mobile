@@ -1,0 +1,9 @@
+query GetLedgerEntryContext($entryHash: String!, $ledgerId: String!) {
+  getLedgerEntryContext(entryHash: $entryHash, ledgerId: $ledgerId) {
+    slice
+    sha256sum
+    entry
+    balances_before
+    balances_after
+  }
+}

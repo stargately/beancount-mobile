@@ -1,6 +1,0 @@
-mutation UpdateSource($sourceInput: SourceInput!) {
-  updateSource(sourceInput: $sourceInput) {
-    data
-    success
-  }
-}

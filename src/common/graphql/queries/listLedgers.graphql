@@ -1,0 +1,20 @@
+query ListLedgers($limit: Float, $page: Float) {
+  listLedgers(limit: $limit, page: $page) {
+    id
+    name
+    fullName
+    httpUrl
+    sshUrl
+    private
+    empty
+    size
+    createdAt
+    updatedAt
+    description
+    permissions {
+      admin
+      pull
+      push
+    }
+  }
+}

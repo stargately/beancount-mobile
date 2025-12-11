@@ -143,4 +143,13 @@ export const es: typeof en = {
     "Una vez que agregues transacciones, aparecerán aquí.",
   journalLoadError: "Error al cargar el diario: ",
   accountsPlural: "cuentas",
+  // journal entry context
+  journalLoadingEntryContext: "Cargando contexto de entrada...",
+  journalError: "Error",
+  journalNoData: "No hay datos de contexto de entrada disponibles",
+  journalLocation: "Ubicación",
+  journalEntryContext: "Contexto de entrada",
+  journalBalancesBefore: "Saldos antes de la entrada",
+  journalBalancesAfter: "Saldos después de la entrada",
+  journalSource: "Código fuente",
 };
