@@ -136,4 +136,13 @@ export const zh = {
   journalWelcomeInstructionFinal: "添加交易后，它们会显示在这里。",
   journalLoadError: "加载日记账失败：",
   accountsPlural: "账户",
+  // journal entry context
+  journalLoadingEntryContext: "正在加载条目上下文...",
+  journalError: "错误",
+  journalNoData: "没有可用的条目上下文数据",
+  journalLocation: "位置",
+  journalEntryContext: "条目上下文",
+  journalBalancesBefore: "条目前余额",
+  journalBalancesAfter: "条目后余额",
+  journalSource: "源代码",
 };

@@ -138,4 +138,13 @@ export const uk: typeof en = {
     "Після додавання транзакцій вони з'являться тут.",
   journalLoadError: "Помилка завантаження журналу: ",
   accountsPlural: "рахунки",
+  // journal entry context
+  journalLoadingEntryContext: "Завантаження контексту запису...",
+  journalError: "Помилка",
+  journalNoData: "Дані контексту запису недоступні",
+  journalLocation: "Місцезнаходження",
+  journalEntryContext: "Контекст запису",
+  journalBalancesBefore: "Баланси до запису",
+  journalBalancesAfter: "Баланси після запису",
+  journalSource: "Вихідний код",
 };

@@ -136,4 +136,13 @@ export const nl: typeof en = {
     "Zodra je transacties toevoegt, verschijnen ze hier.",
   journalLoadError: "Laden van journaal mislukt: ",
   accountsPlural: "accounts",
+  // journal entry context
+  journalLoadingEntryContext: "Context van vermelding laden...",
+  journalError: "Fout",
+  journalNoData: "Geen contextgegevens van vermelding beschikbaar",
+  journalLocation: "Locatie",
+  journalEntryContext: "Context van vermelding",
+  journalBalancesBefore: "Saldi voor vermelding",
+  journalBalancesAfter: "Saldi na vermelding",
+  journalSource: "Broncode",
 };

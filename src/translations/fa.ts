@@ -137,4 +137,13 @@ export const fa: typeof en = {
     "Once you add some transactions, they'll appear here.", // TODO: needs native speaker review
   journalLoadError: "Failed to load journal: ", // TODO: needs native speaker review
   accountsPlural: "accounts", // TODO: needs native speaker review
+  // journal entry context
+  journalLoadingEntryContext: "در حال بارگذاری زمینه ورودی...", // TODO: needs native speaker review
+  journalError: "خطا", // TODO: needs native speaker review
+  journalNoData: "داده‌های زمینه ورودی در دسترس نیست", // TODO: needs native speaker review
+  journalLocation: "موقعیت", // TODO: needs native speaker review
+  journalEntryContext: "زمینه ورودی", // TODO: needs native speaker review
+  journalBalancesBefore: "موجودی قبل از ورودی", // TODO: needs native speaker review
+  journalBalancesAfter: "موجودی بعد از ورودی", // TODO: needs native speaker review
+  journalSource: "کد منبع", // TODO: needs native speaker review
 };

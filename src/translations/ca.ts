@@ -137,4 +137,13 @@ export const ca: typeof en = {
     "Un cop afegeixis transaccions, apareixeran aquí.",
   journalLoadError: "Error en carregar el diari: ",
   accountsPlural: "comptes",
+  // journal entry context
+  journalLoadingEntryContext: "Carregant context de l'entrada...",
+  journalError: "Error",
+  journalNoData: "No hi ha dades de context d'entrada disponibles",
+  journalLocation: "Ubicació",
+  journalEntryContext: "Context de l'entrada",
+  journalBalancesBefore: "Saldo abans de l'entrada",
+  journalBalancesAfter: "Saldo després de l'entrada",
+  journalSource: "Codi font",
 };

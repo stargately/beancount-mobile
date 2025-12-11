@@ -143,4 +143,13 @@ export const fr: typeof en = {
     "Une fois que vous ajoutez des transactions, elles apparaîtront ici.",
   journalLoadError: "Échec du chargement du journal : ",
   accountsPlural: "comptes",
+  // journal entry context
+  journalLoadingEntryContext: "Chargement du contexte de l'entrée...",
+  journalError: "Erreur",
+  journalNoData: "Aucune donnée de contexte d'entrée disponible",
+  journalLocation: "Emplacement",
+  journalEntryContext: "Contexte de l'entrée",
+  journalBalancesBefore: "Soldes avant l'entrée",
+  journalBalancesAfter: "Soldes après l'entrée",
+  journalSource: "Code source",
 };

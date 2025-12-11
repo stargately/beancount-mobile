@@ -136,4 +136,13 @@ export const bg: typeof en = {
     "След като добавите транзакции, те ще се появят тук.",
   journalLoadError: "Неуспешно зареждане на журнала: ",
   accountsPlural: "сметки",
+  // journal entry context
+  journalLoadingEntryContext: "Зареждане на контекст на запис...",
+  journalError: "Грешка",
+  journalNoData: "Няма налични данни за контекст на запис",
+  journalLocation: "Местоположение",
+  journalEntryContext: "Контекст на запис",
+  journalBalancesBefore: "Салда преди запис",
+  journalBalancesAfter: "Салда след запис",
+  journalSource: "Изходен код",
 };
