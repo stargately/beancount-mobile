@@ -19,6 +19,9 @@ export const getStyles = (theme: ColorTheme) =>
     backgroundStyle: {
       backgroundColor: theme.white,
     },
+    overlayStyle: {
+      backgroundColor: theme.overlay,
+    },
   });
 
 interface JournalBottomSheetProps {
@@ -43,17 +46,18 @@ export const JournalBottomSheet: React.FC<JournalBottomSheetProps> = ({
         {...props}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
+        style={styles.overlayStyle}
         onPress={() => bottomSheetRef.current?.close()}
       />
     ),
-    [bottomSheetRef],
+    [bottomSheetRef, styles.overlayStyle],
   );
 
   return (
     <BottomSheet
       ref={bottomSheetRef}
       index={-1}
-      snapPoints={["50%", "75%", "90%"]}
+      snapPoints={["50%", "80%"]}
       enablePanDownToClose
       enableDynamicSizing={false}
       backgroundStyle={styles.backgroundStyle}
