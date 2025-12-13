@@ -4,6 +4,7 @@ import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { View, StyleSheet } from "react-native";
 import { loadLocale } from "@/common/vars/locale";
+import { loadLedger } from "@/common/vars/ledger";
 import { loadTheme } from "@/common/vars/theme";
 import { loadSession } from "@/common/vars/session";
 import { i18n } from "@/translations";
@@ -38,6 +39,7 @@ const SplashProviderComponent = ({
           loadLocale(),
           loadTheme(),
           loadSession(),
+          loadLedger(),
         ]);
         if (locale) {
           i18n.locale = locale;
