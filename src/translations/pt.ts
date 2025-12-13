@@ -136,6 +136,8 @@ export const pt: typeof en = {
   journalWelcomeInstruction3: "Importe dados contábeis existentes",
   journalWelcomeInstructionFinal:
     "Assim que adicionar transações, elas aparecerão aqui.",
+  journalNoEntriesForFilters:
+    "Nenhuma entrada no diário encontrada para os filtros atuais.",
   journalLoadError: "Falha ao carregar o diário: ",
   accountsPlural: "contas",
   // journal entry context

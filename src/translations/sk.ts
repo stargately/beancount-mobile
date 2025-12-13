@@ -133,6 +133,8 @@ export const sk: typeof en = {
   journalWelcomeInstruction2: "Nahrajte beancount súbory cez webové rozhranie",
   journalWelcomeInstruction3: "Importujte existujúce účtovné údaje",
   journalWelcomeInstructionFinal: "Akonáhle pridáte transakcie, objavia sa tu.",
+  journalNoEntriesForFilters:
+    "Pre aktuálne filtre sa nenašli žiadne záznamy v denníku.",
   journalLoadError: "Načítanie denníka zlyhalo: ",
   accountsPlural: "účty",
   // journal entry context

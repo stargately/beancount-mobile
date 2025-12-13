@@ -135,6 +135,8 @@ export const fa: typeof en = {
   journalWelcomeInstruction3: "Import existing accounting data", // TODO: needs native speaker review
   journalWelcomeInstructionFinal:
     "Once you add some transactions, they'll appear here.", // TODO: needs native speaker review
+  journalNoEntriesForFilters:
+    "No journal entries found for the current filters.", // TODO: needs native speaker review
   journalLoadError: "Failed to load journal: ", // TODO: needs native speaker review
   accountsPlural: "accounts", // TODO: needs native speaker review
   // journal entry context

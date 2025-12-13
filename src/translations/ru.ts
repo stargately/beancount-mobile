@@ -142,6 +142,7 @@ export const ru: typeof en = {
   journalWelcomeInstruction3: "Импортируйте существующие данные учёта",
   journalWelcomeInstructionFinal:
     "После добавления транзакций они появятся здесь.",
+  journalNoEntriesForFilters: "Для текущих фильтров записи журнала не найдены.",
   journalLoadError: "Ошибка загрузки журнала: ",
   accountsPlural: "счета",
   // journal entry context

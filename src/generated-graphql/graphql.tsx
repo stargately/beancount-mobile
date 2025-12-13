@@ -664,6 +664,7 @@ export type JournalQueryInput = {
 export type JournalResponse = {
   __typename?: 'JournalResponse';
   data: Array<Scalars['JSONObject']['output']>;
+  is_empty: Scalars['Boolean']['output'];
   total: Scalars['Float']['output'];
 };
 
@@ -1510,7 +1511,7 @@ export type GetLedgerJournalQueryVariables = Exact<{
 }>;
 
 
-export type GetLedgerJournalQuery = { __typename?: 'Query', getLedgerJournal: { __typename?: 'JournalResponse', total: number, data: Array<Record<string, number | string>> } };
+export type GetLedgerJournalQuery = { __typename?: 'Query', getLedgerJournal: { __typename?: 'JournalResponse', total: number, data: Array<Record<string, number | string>>, is_empty: boolean } };
 
 export type HomeChartsQueryVariables = Exact<{
   userId: Scalars['String']['input'];
@@ -1855,6 +1856,7 @@ export const GetLedgerJournalDocument = gql`
   getLedgerJournal(ledgerId: $ledgerId, query: $query) {
     total
     data
+    is_empty
   }
 }
     `;

@@ -135,6 +135,8 @@ export const ca: typeof en = {
   journalWelcomeInstruction3: "Importa dades comptables existents",
   journalWelcomeInstructionFinal:
     "Un cop afegeixis transaccions, apareixeran aquí.",
+  journalNoEntriesForFilters:
+    "No s'han trobat entrades del diari per als filtres actuals.",
   journalLoadError: "Error en carregar el diari: ",
   accountsPlural: "comptes",
   // journal entry context

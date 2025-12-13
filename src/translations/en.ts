@@ -140,6 +140,8 @@ export const en = {
   journalWelcomeInstruction3: "Import existing accounting data",
   journalWelcomeInstructionFinal:
     "Once you add some transactions, they'll appear here.",
+  journalNoEntriesForFilters:
+    "No journal entries found for the current filters.",
   journalLoadError: "Failed to load journal: ",
   accountsPlural: "accounts",
   // journal entry context

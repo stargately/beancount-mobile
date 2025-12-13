@@ -2,5 +2,6 @@ query GetLedgerJournal($ledgerId: String!, $query: JournalQueryInput) {
   getLedgerJournal(ledgerId: $ledgerId, query: $query) {
     total
     data
+    is_empty
   }
 }

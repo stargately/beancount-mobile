@@ -134,6 +134,7 @@ export const zh = {
   journalWelcomeInstruction2: "通过网页界面上传beancount文件",
   journalWelcomeInstruction3: "导入现有会计数据",
   journalWelcomeInstructionFinal: "添加交易后，它们会显示在这里。",
+  journalNoEntriesForFilters: "当前筛选条件下未找到日记账记录。",
   journalLoadError: "加载日记账失败：",
   accountsPlural: "账户",
   // journal entry context
