@@ -108,6 +108,13 @@ export const DashboardWebView = forwardRef<WebView, DashboardWebViewProps>(
         domStorageEnabled={true}
         style={styles.webView}
         scrollEnabled={scrollEnabled}
+        injectedJavaScriptBeforeContentLoaded={`
+          // Inject React Native detection flag before content loads
+          // This ensures the dashboard can detect it's running in React Native WebView
+          window.isReactNativeApp = true;
+          console.log('[DashboardWebView] Injected isReactNativeApp flag');
+          true; // Required for injectedJavaScript to work properly
+        `}
       />
     );
   },
