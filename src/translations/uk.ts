@@ -136,6 +136,8 @@ export const uk: typeof en = {
   journalWelcomeInstruction3: "Імпортуйте існуючі дані обліку",
   journalWelcomeInstructionFinal:
     "Після додавання транзакцій вони з'являться тут.",
+  journalNoEntriesForFilters:
+    "Для поточних фільтрів записів журналу не знайдено.",
   journalLoadError: "Помилка завантаження журналу: ",
   accountsPlural: "рахунки",
   // journal entry context

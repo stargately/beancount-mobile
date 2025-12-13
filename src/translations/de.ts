@@ -142,6 +142,8 @@ export const de: typeof en = {
   journalWelcomeInstruction3: "Importieren Sie vorhandene Buchhaltungsdaten",
   journalWelcomeInstructionFinal:
     "Sobald Sie Transaktionen hinzufügen, erscheinen sie hier.",
+  journalNoEntriesForFilters:
+    "Keine Journaleinträge für die aktuellen Filter gefunden.",
   journalLoadError: "Fehler beim Laden des Journals: ",
   accountsPlural: "Konten",
   // journal entry context

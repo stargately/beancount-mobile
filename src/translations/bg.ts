@@ -134,6 +134,8 @@ export const bg: typeof en = {
   journalWelcomeInstruction3: "Импортирайте съществуващи счетоводни данни",
   journalWelcomeInstructionFinal:
     "След като добавите транзакции, те ще се появят тук.",
+  journalNoEntriesForFilters:
+    "Не са намерени записи в журнала за текущите филтри.",
   journalLoadError: "Неуспешно зареждане на журнала: ",
   accountsPlural: "сметки",
   // journal entry context

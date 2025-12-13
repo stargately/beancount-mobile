@@ -134,6 +134,8 @@ export const nl: typeof en = {
   journalWelcomeInstruction3: "Importeer bestaande boekhoudgegevens",
   journalWelcomeInstructionFinal:
     "Zodra je transacties toevoegt, verschijnen ze hier.",
+  journalNoEntriesForFilters:
+    "Geen journaalvermeldingen gevonden voor de huidige filters.",
   journalLoadError: "Laden van journaal mislukt: ",
   accountsPlural: "accounts",
   // journal entry context

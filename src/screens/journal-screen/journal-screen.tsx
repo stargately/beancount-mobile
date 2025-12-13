@@ -22,6 +22,7 @@ import {
 import { JournalHeader } from "./journal-header";
 import { JournalEntryItem } from "./journal-entry-item";
 import { JournalEmptyState } from "./journal-empty-state";
+import { JournalNoEntriesForFiltersState } from "./journal-no-entries-for-filters-state";
 import { JournalBottomSheet } from "./journal-bottom-sheet";
 import { JournalDirectiveType, DirectiveType } from "./types";
 
@@ -139,6 +140,7 @@ const JournalList = ({ ledgerId }: { ledgerId: string }) => {
       (data?.getLedgerJournal.data || []) as unknown as JournalDirectiveType[],
     [data?.getLedgerJournal.data],
   );
+  const isEmpty = data?.getLedgerJournal.is_empty;
 
   // Check if we have more data to load
   const hasMore = journalEntries.length < total;
@@ -298,7 +300,9 @@ const JournalList = ({ ledgerId }: { ledgerId: string }) => {
             ? renderLoadingState
             : error
               ? renderErrorState
-              : JournalEmptyState
+              : isEmpty
+                ? JournalEmptyState
+                : JournalNoEntriesForFiltersState
         }
         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
         ListFooterComponent={

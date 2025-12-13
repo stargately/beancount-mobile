@@ -356,6 +356,7 @@ input JournalQueryInput {
 
 type JournalResponse {
   data: [JSONObject!]!
+  is_empty: Boolean!
   total: Float!
 }
 
