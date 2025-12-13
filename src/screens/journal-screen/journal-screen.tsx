@@ -15,10 +15,8 @@ import { useThemeStyle, usePageView } from "@/common/hooks";
 import { useTranslations } from "@/common/hooks/use-translations";
 import { ColorTheme } from "@/types/theme-props";
 import { NetworkStatus } from "@apollo/client";
-import {
-  useListLedgersQuery,
-  useGetLedgerJournalQuery,
-} from "@/generated-graphql/graphql";
+import { useGetLedgerJournalQuery } from "@/generated-graphql/graphql";
+import { LedgerGuardProvider, useLedgerGuard } from "@/components/ledger-guard";
 import { JournalHeader } from "./journal-header";
 import { JournalEntryItem } from "./journal-entry-item";
 import { JournalEmptyState } from "./journal-empty-state";
@@ -72,7 +70,8 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-const JournalList = ({ ledgerId }: { ledgerId: string }) => {
+const JournalList = () => {
+  const ledgerId = useLedgerGuard();
   const styles = useThemeStyle(getStyles);
   const theme = useTheme().colorTheme;
   const { t } = useTranslations();
@@ -329,15 +328,9 @@ const JournalList = ({ ledgerId }: { ledgerId: string }) => {
 };
 
 export const JournalScreen = () => {
-  const { data: ledgersData, loading: ledgersLoading } = useListLedgersQuery();
-  const ledgerId = useMemo(
-    () => ledgersData?.listLedgers?.[0]?.id || null,
-    [ledgersData?.listLedgers],
+  return (
+    <LedgerGuardProvider>
+      <JournalList />
+    </LedgerGuardProvider>
   );
-
-  if (ledgersLoading) {
-    return <ActivityIndicator size="large" />;
-  }
-
-  return <JournalList ledgerId={ledgerId!} />;
 };

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Dimensions, View } from "react-native";
+import { Dimensions, View, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
 import { useState } from "react";
 import { analytics } from "@/common/analytics";
@@ -7,12 +7,13 @@ import { getEndpoint, headers } from "@/common/request";
 import { ProgressBar } from "@/common/progress-bar";
 import { statusBarHeight } from "@/common/screen-util";
 import { router } from "expo-router";
-import { sessionVar } from "@/common/vars";
+import { sessionVar, ledgerVar } from "@/common/vars";
 import { createSession } from "@/common/session-utils";
 import { appendPreferenceParam } from "@/common/url-utils";
 import { ColorTheme } from "@/types/theme-props";
-import { StyleSheet } from "react-native";
 import { useThemeStyle } from "@/common/hooks/use-theme-style";
+import { apolloClient } from "@/common/apollo/client";
+import { ListLedgersDocument } from "@/generated-graphql/graphql";
 
 const { height } = Dimensions.get("window");
 
@@ -71,6 +72,29 @@ export const LoginWebView = ({ isSignUp, onClose }: Props) => {
               analytics.identify(session.userId);
               analytics.track(isSignUp ? "signed_up" : "logged_in", {});
               sessionVar(session);
+
+              // Query ledger list and set default ledger
+              try {
+                const { data } = await apolloClient.query({
+                  query: ListLedgersDocument,
+                  fetchPolicy: "network-only",
+                });
+                const ledgers = data?.listLedgers || [];
+                const currentLedger = ledgerVar();
+                if (ledgers.length > 0) {
+                  if (
+                    !currentLedger ||
+                    ledgers.every((l: { id: string }) => l.id !== currentLedger)
+                  ) {
+                    ledgerVar(ledgers[0].id);
+                  }
+                } else {
+                  ledgerVar(null);
+                }
+              } catch (e) {
+                console.error(`failed to query ledger list: ${e}`);
+              }
+
               onClose();
               router.push("/(app)/(tabs)");
             }
