@@ -33,6 +33,7 @@ export const nl: typeof en = {
   deleteAccountAlertConfirm: "Account verwijderen",
   deleteAccount: "Account verwijderen",
   deleteAccountDescription: "Account en gegevens permanent verwijderen",
+  ledgerDescription: "Selecteer of wissel tussen uw grootboeken",
   deleteAccountConfirmTitle: "Account verwijdering bevestigen",
   deleteAccountConfirmMessage:
     'Om te bevestigen, typ "sudo delete my account" hieronder:',

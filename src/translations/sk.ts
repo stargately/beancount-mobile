@@ -33,6 +33,7 @@ export const sk: typeof en = {
   deleteAccountAlertConfirm: "Vymazať účet",
   deleteAccount: "Vymazať účet",
   deleteAccountDescription: "Trvalo odstrániť účet a údaje",
+  ledgerDescription: "Vyberte alebo prepnite medzi svojimi knihami",
   deleteAccountConfirmTitle: "Potvrdiť vymazanie účtu",
   deleteAccountConfirmMessage:
     'Pre potvrdenie zadajte "sudo delete my account" nižšie:',

@@ -34,6 +34,7 @@ export const pt: typeof en = {
   deleteAccountAlertConfirm: "Excluir conta",
   deleteAccount: "Excluir conta",
   deleteAccountDescription: "Remover permanentemente a conta e os dados",
+  ledgerDescription: "Selecionar ou alternar entre seus livros-razão",
   deleteAccountConfirmTitle: "Confirmar exclusão da conta",
   deleteAccountConfirmMessage:
     'Para confirmar, digite "sudo delete my account" abaixo:',

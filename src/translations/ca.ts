@@ -33,6 +33,7 @@ export const ca: typeof en = {
   deleteAccountAlertConfirm: "Eliminar compte",
   deleteAccount: "Eliminar compte",
   deleteAccountDescription: "Eliminar permanentment el compte i les dades",
+  ledgerDescription: "Selecciona o canvia entre els teus llibres",
   deleteAccountConfirmTitle: "Confirmar eliminació del compte",
   deleteAccountConfirmMessage:
     'Per confirmar, si us plau escriu "sudo delete my account" a continuació:',

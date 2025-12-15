@@ -130,6 +130,14 @@ export const MainContent = () => {
             setThemeModalVisible(true);
           }}
         />
+        <ListItemHorizontal
+          icon={<Ionicons name="folder" size={22} color={theme.black80} />}
+          title={t("ledger")}
+          description={t("ledgerDescription")}
+          onPress={() => {
+            router.push("/(app)/ledger-selection");
+          }}
+        />
 
         <SectionHeader title={t("supportSettings")} />
         <ListItemHorizontal
