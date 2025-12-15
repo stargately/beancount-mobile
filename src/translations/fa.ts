@@ -33,6 +33,7 @@ export const fa: typeof en = {
   deleteAccountAlertConfirm: "حذف حساب",
   deleteAccount: "حذف حساب",
   deleteAccountDescription: "حذف دائمی حساب و داده‌ها",
+  ledgerDescription: "انتخاب یا تغییر بین دفترهای کل",
   deleteAccountConfirmTitle: "تأیید حذف حساب",
   deleteAccountConfirmMessage:
     'برای تأیید، لطفاً "sudo delete my account" را در زیر بنویسید:',

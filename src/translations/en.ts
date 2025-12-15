@@ -31,6 +31,7 @@ export const en = {
   deleteAccountAlertConfirm: "Delete Account",
   deleteAccount: "Delete Account",
   deleteAccountDescription: "Permanently remove your account and data",
+  ledgerDescription: "Select or switch between your ledgers",
   deleteAccountConfirmTitle: "Confirm Account Deletion",
   deleteAccountConfirmMessage:
     'To confirm, please type "sudo delete my account" below:',
@@ -178,4 +179,5 @@ export const en = {
   budgetEntries: "Budget Entries",
   toggleMetadata: "Toggle Metadata",
   togglePostings: "Toggle Postings",
+  tes: "1",
 };

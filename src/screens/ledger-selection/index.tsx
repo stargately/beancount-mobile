@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useListLedgersQuery } from "@/generated-graphql/graphql";
 import { useTheme } from "@/common/theme";
@@ -22,17 +21,6 @@ const getStyles = (theme: ColorTheme) =>
     container: {
       flex: 1,
       backgroundColor: theme.white,
-    },
-    header: {
-      paddingHorizontal: 16,
-      paddingVertical: 16,
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: theme.black20,
-    },
-    headerTitle: {
-      fontSize: 24,
-      fontWeight: "bold",
-      color: theme.black,
     },
     list: {
       flex: 1,
@@ -108,17 +96,17 @@ export function LedgerSelectionScreen() {
 
   if (loading) {
     return (
-      <SafeAreaView edges={["top"]} style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   if (error) {
     return (
-      <SafeAreaView edges={["top"]} style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.errorContainer}>
           <Ionicons
             name="alert-circle-outline"
@@ -129,15 +117,12 @@ export function LedgerSelectionScreen() {
             {error.message || "Failed to load ledgers"}
           </Text>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView edges={["top"]} style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Select Ledger</Text>
-      </View>
+    <View style={styles.container}>
       {ledgers.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Ionicons name="folder-outline" size={64} color={theme.black40} />
@@ -157,7 +142,7 @@ export function LedgerSelectionScreen() {
                 activeOpacity={0.7}
               >
                 <View style={styles.listItemContent}>
-                  <Text style={styles.listItemName}>{item.name}</Text>
+                  <Text style={styles.listItemName}>{item.fullName}</Text>
                   {item.description && (
                     <Text style={styles.listItemDescription}>
                       {item.description}
@@ -182,6 +167,6 @@ export function LedgerSelectionScreen() {
           }}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 }
