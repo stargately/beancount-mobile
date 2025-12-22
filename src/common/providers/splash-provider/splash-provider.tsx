@@ -4,11 +4,13 @@ import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { View, StyleSheet } from "react-native";
 import { loadLocale } from "@/common/vars/locale";
-import { loadLedger } from "@/common/vars/ledger";
+import { loadLedger, ledgerVar } from "@/common/vars/ledger";
 import { loadTheme } from "@/common/vars/theme";
 import { loadSession } from "@/common/vars/session";
 import { i18n } from "@/translations";
 import Constants from "expo-constants";
+import { apolloClient } from "@/common/apollo/client";
+import { GetLedgerDocument } from "@/generated-graphql/graphql";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -38,14 +40,28 @@ const SplashProviderComponent = ({
       try {
         // Pre-load fonts, make any API calls you need to do here
         await Font.loadAsync(Ionicons.font);
-        const [locale] = await Promise.all([
+        const [locale, session, ledger] = await Promise.all([
           loadLocale(),
-          loadTheme(),
           loadSession(),
           loadLedger(),
+          loadTheme(),
         ]);
         if (locale) {
           i18n.locale = locale;
+        }
+        // Validate ledger if both session and ledger are not null
+        if (session && ledger) {
+          try {
+            await apolloClient.query({
+              query: GetLedgerDocument,
+              variables: { ledgerId: ledger },
+              fetchPolicy: "network-only",
+            });
+          } catch (e) {
+            // If GetLedger query fails, clear the ledgerVar
+            console.warn("Failed to validate ledger, clearing ledgerVar:", e);
+            ledgerVar(null);
+          }
         }
       } catch (e) {
         console.warn(e);
@@ -58,13 +74,8 @@ const SplashProviderComponent = ({
     prepare();
   }, []);
 
-  const onLayoutRootView = useCallback(() => {
+  const onLayout = useCallback(() => {
     if (appIsReady) {
-      // This tells the splash screen to hide immediately! If we call this after
-      // `setAppIsReady`, then we may see a blank screen while the app is
-      // loading its initial state and rendering its first pixels. So instead,
-      // we hide the splash screen once we know the root view has already
-      // performed layout.
       SplashScreen.hideAsync();
     }
   }, [appIsReady]);
@@ -74,7 +85,7 @@ const SplashProviderComponent = ({
   }
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
+    <View style={styles.container} onLayout={onLayout}>
       {children}
     </View>
   );

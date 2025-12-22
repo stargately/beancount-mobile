@@ -98,6 +98,8 @@ export type Query = {
   listLedgers: Array<Ledger>;
   /** List all public keys for the current user */
   listPublicKeys: Array<PublicKey>;
+  /** List all user owned ledgers for the current user */
+  listUserOwnedLedgers: Array<Ledger>;
   paymentHistory: Array<Receipt>;
   /** Execute a shell query on a ledger */
   queryShell?: Maybe<QueryResult>;
@@ -112,6 +114,7 @@ export type Query = {
 
 
 export type QueryAccountHierarchyArgs = {
+  ledgerId?: InputMaybe<Scalars['String']['input']>;
   userId: Scalars['String']['input'];
 };
 
@@ -326,11 +329,13 @@ export type QueryGetPublicKeyArgs = {
 
 
 export type QueryGetUserByExactMatchArgs = {
+  includeCurrentUser?: InputMaybe<Scalars['String']['input']>;
   keyword: Scalars['String']['input'];
 };
 
 
 export type QueryHomeChartsArgs = {
+  ledgerId?: InputMaybe<Scalars['String']['input']>;
   userId: Scalars['String']['input'];
 };
 
@@ -353,6 +358,7 @@ export type QueryJournalEntriesArgs = {
 
 
 export type QueryLedgerMetaArgs = {
+  ledgerId?: InputMaybe<Scalars['String']['input']>;
   userId: Scalars['String']['input'];
 };
 
@@ -371,6 +377,12 @@ export type QueryListLedgersArgs = {
 
 
 export type QueryListPublicKeysArgs = {
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  page?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type QueryListUserOwnedLedgersArgs = {
   limit?: InputMaybe<Scalars['Float']['input']>;
   page?: InputMaybe<Scalars['Float']['input']>;
 };
@@ -1066,6 +1078,7 @@ export type Mutation = {
 
 export type MutationAddEntriesArgs = {
   entriesInput: Array<EntryInput>;
+  ledgerId?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -1406,7 +1419,7 @@ export type DeleteLedgerFileResponse = {
 
 export type DeletePublicKeyResponse = {
   __typename?: 'DeletePublicKeyResponse';
-  id: Scalars['Boolean']['output'];
+  id: Scalars['Float']['output'];
 };
 
 export type TokenAuthResponse = {
@@ -1496,6 +1509,13 @@ export type DeleteAccountMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount: boolean };
+
+export type GetLedgerQueryVariables = Exact<{
+  ledgerId: Scalars['String']['input'];
+}>;
+
+
+export type GetLedgerQuery = { __typename?: 'Query', getLedger: { __typename?: 'Ledger', id: string, name: string, fullName: string, httpUrl: string, sshUrl: string, private: boolean, empty: boolean, size: number, createdAt: string, updatedAt: string, description?: string | null, permissions?: { __typename?: 'Permission', admin: boolean, pull: boolean, push: boolean } | null, options: { __typename?: 'LedgerOptions', nameAssets: string, nameEquity: string, nameExpenses: string, nameIncome: string, nameLiabilities: string, operatingCurrency: Array<string> } } };
 
 export type GetLedgerEntryContextQueryVariables = Exact<{
   entryHash: Scalars['String']['input'];
@@ -1806,6 +1826,69 @@ export function useDeleteAccountMutation(baseOptions?: Apollo.MutationHookOption
 export type DeleteAccountMutationHookResult = ReturnType<typeof useDeleteAccountMutation>;
 export type DeleteAccountMutationResult = Apollo.MutationResult<DeleteAccountMutation>;
 export type DeleteAccountMutationOptions = Apollo.BaseMutationOptions<DeleteAccountMutation, DeleteAccountMutationVariables>;
+export const GetLedgerDocument = gql`
+    query GetLedger($ledgerId: String!) {
+  getLedger(ledgerId: $ledgerId) {
+    id
+    name
+    fullName
+    httpUrl
+    sshUrl
+    private
+    empty
+    size
+    createdAt
+    updatedAt
+    description
+    permissions {
+      admin
+      pull
+      push
+    }
+    options {
+      nameAssets
+      nameEquity
+      nameExpenses
+      nameIncome
+      nameLiabilities
+      operatingCurrency
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetLedgerQuery__
+ *
+ * To run a query within a React component, call `useGetLedgerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLedgerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLedgerQuery({
+ *   variables: {
+ *      ledgerId: // value for 'ledgerId'
+ *   },
+ * });
+ */
+export function useGetLedgerQuery(baseOptions: Apollo.QueryHookOptions<GetLedgerQuery, GetLedgerQueryVariables> & ({ variables: GetLedgerQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetLedgerQuery, GetLedgerQueryVariables>(GetLedgerDocument, options);
+      }
+export function useGetLedgerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLedgerQuery, GetLedgerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLedgerQuery, GetLedgerQueryVariables>(GetLedgerDocument, options);
+        }
+export function useGetLedgerSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetLedgerQuery, GetLedgerQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetLedgerQuery, GetLedgerQueryVariables>(GetLedgerDocument, options);
+        }
+export type GetLedgerQueryHookResult = ReturnType<typeof useGetLedgerQuery>;
+export type GetLedgerLazyQueryHookResult = ReturnType<typeof useGetLedgerLazyQuery>;
+export type GetLedgerSuspenseQueryHookResult = ReturnType<typeof useGetLedgerSuspenseQuery>;
+export type GetLedgerQueryResult = Apollo.QueryResult<GetLedgerQuery, GetLedgerQueryVariables>;
 export const GetLedgerEntryContextDocument = gql`
     query GetLedgerEntryContext($entryHash: String!, $ledgerId: String!) {
   getLedgerEntryContext(entryHash: $entryHash, ledgerId: $ledgerId) {
