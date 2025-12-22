@@ -120,7 +120,7 @@ const LedgerGuardProviderComponent = ({
 
 LedgerGuardProviderComponent.displayName = "LedgerGuardProvider";
 
-export const LedgerGuardProvider = memo(LedgerGuardProviderComponent);
+export const LedgerGuard = memo(LedgerGuardProviderComponent);
 
 export const useLedgerGuard = (): string => {
   const context = useContext(LedgerGuardContext);

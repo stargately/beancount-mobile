@@ -29,6 +29,7 @@ import { useThemeStyle, usePageView } from "@/common/hooks";
 import { Button } from "@/components";
 import { BarChartD3 } from "@/common/d3/bar-chart-d3";
 import { LineChartD3 } from "@/common/d3/line-chart-d3";
+import { LedgerGuard, useLedgerGuard } from "@/components/ledger-guard";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -42,12 +43,13 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-export const HomeScreen = (): JSX.Element => {
+export const HomeScreenImpl = (): JSX.Element => {
   const { userId } = useSession();
   const { t } = useTranslations();
   usePageView("home");
   const styles = useThemeStyle(getStyles);
   const router = useRouter();
+  const ledgerId = useLedgerGuard();
   const { currencies, refetch: ledgerMetaRefetch } = useLedgerMeta(userId);
   const currentTheme = useReactiveVar(themeVar);
 
@@ -60,13 +62,13 @@ export const HomeScreen = (): JSX.Element => {
     loading: netWorthLoading,
     refetch: netWorthRefetch,
     error: netWorthError,
-  } = useHomeCharts(userId, currency);
+  } = useHomeCharts(userId, currency, ledgerId);
   const {
     accounts,
     loading: accountsLoading,
     refetch: accountsRefetch,
     error: accountsError,
-  } = useAccountHierarchy(userId, currency);
+  } = useAccountHierarchy(userId, currency, ledgerId);
   const [refreshing, setRefreshing] = useState(false);
   const isLoading = netWorthLoading || refreshing;
   const onRefresh = async () => {
@@ -83,96 +85,100 @@ export const HomeScreen = (): JSX.Element => {
   };
 
   return (
-    <>
-      <SafeAreaView edges={["top"]} style={styles.container}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 16 }}
-          indicatorStyle={currentTheme === "dark" ? "white" : "default"}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              tintColor={currentTheme === "dark" ? "white" : "black"}
-            />
-          }
-        >
-          <CommonMargin />
-          <SmallHeaderText>{t("netAssets")}</SmallHeaderText>
-          <View>
-            {netWorthLoading || netWorthError || refreshing ? (
-              <LoadingTile height={40} mx={16} />
-            ) : (
-              <NetAssetsStyled
-                netAssets={`${netWorth.netAssets} ${currency}`}
-              />
-            )}
-          </View>
-          <CommonMargin />
+    <SafeAreaView edges={["top"]} style={styles.container}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 16 }}
+        indicatorStyle={currentTheme === "dark" ? "white" : "default"}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={currentTheme === "dark" ? "white" : "black"}
+          />
+        }
+      >
+        <CommonMargin />
+        <SmallHeaderText>{t("netAssets")}</SmallHeaderText>
+        <View>
+          {netWorthLoading || netWorthError || refreshing ? (
+            <LoadingTile height={40} mx={16} />
+          ) : (
+            <NetAssetsStyled netAssets={`${netWorth.netAssets} ${currency}`} />
+          )}
+        </View>
+        <CommonMargin />
 
-          <HeaderText>{t("accounts")}</HeaderText>
-          <CommonMargin />
-          <View>
-            {accountsLoading || accountsError || refreshing ? (
-              <LoadingTile height={216} mx={16} />
-            ) : (
-              <AccountsStyled
-                assets={`${accounts.assets} ${currency}`}
-                liabilities={`${accounts.liabilities} ${currency}`}
-                income={`${accounts.income} ${currency}`}
-                expenses={`${accounts.expenses} ${currency}`}
-                equity={`${accounts.equity} ${currency}`}
+        <HeaderText>{t("accounts")}</HeaderText>
+        <CommonMargin />
+        <View>
+          {accountsLoading || accountsError || refreshing ? (
+            <LoadingTile height={216} mx={16} />
+          ) : (
+            <AccountsStyled
+              assets={`${accounts.assets} ${currency}`}
+              liabilities={`${accounts.liabilities} ${currency}`}
+              income={`${accounts.income} ${currency}`}
+              expenses={`${accounts.expenses} ${currency}`}
+              equity={`${accounts.equity} ${currency}`}
+            />
+          )}
+        </View>
+        <CommonMargin />
+        <Button
+          type="primary"
+          onPress={async () => {
+            analytics.track("tap_quick_add", {});
+            AddTransactionCallback.setFn(onRefresh);
+            router.navigate({
+              pathname: "/add-transaction",
+            });
+          }}
+        >
+          <Text style={styles.quickAddLabel}>{t("quickAdd")}</Text>
+        </Button>
+        <CommonMargin />
+        <HeaderText>{t("monthlyNetIncome")}</HeaderText>
+        <CommonMargin />
+        <View>
+          {isLoading || netWorthError || accountsError ? (
+            <LoadingTile height={200} mx={16} />
+          ) : (
+            <>
+              <BarChartD3
+                currencySymbol={currencySymbol}
+                labels={lastSixProfitData.labels}
+                numbers={lastSixProfitData.numbers}
               />
-            )}
-          </View>
-          <CommonMargin />
-          <Button
-            type="primary"
-            onPress={async () => {
-              analytics.track("tap_quick_add", {});
-              AddTransactionCallback.setFn(onRefresh);
-              router.navigate({
-                pathname: "/add-transaction",
-              });
-            }}
-          >
-            <Text style={styles.quickAddLabel}>{t("quickAdd")}</Text>
-          </Button>
-          <CommonMargin />
-          <HeaderText>{t("monthlyNetIncome")}</HeaderText>
-          <CommonMargin />
-          <View>
-            {isLoading || netWorthError || accountsError ? (
-              <LoadingTile height={200} mx={16} />
-            ) : (
-              <>
-                <BarChartD3
-                  currencySymbol={currencySymbol}
-                  labels={lastSixProfitData.labels}
-                  numbers={lastSixProfitData.numbers}
-                />
-              </>
-            )}
-          </View>
-          <CommonMargin />
-          <HeaderText>{t("monthlyNetWorth")}</HeaderText>
-          <CommonMargin />
-          <View>
-            {isLoading || netWorthError ? (
-              <LoadingTile height={200} mx={16} />
-            ) : (
-              <>
-                <LineChartD3
-                  currencySymbol={currencySymbol}
-                  labels={lastSixWorthData.labels}
-                  numbers={lastSixWorthData.numbers}
-                />
-              </>
-            )}
-          </View>
-          <CommonMargin />
-        </ScrollView>
-      </SafeAreaView>
-    </>
+            </>
+          )}
+        </View>
+        <CommonMargin />
+        <HeaderText>{t("monthlyNetWorth")}</HeaderText>
+        <CommonMargin />
+        <View>
+          {isLoading || netWorthError ? (
+            <LoadingTile height={200} mx={16} />
+          ) : (
+            <>
+              <LineChartD3
+                currencySymbol={currencySymbol}
+                labels={lastSixWorthData.labels}
+                numbers={lastSixWorthData.numbers}
+              />
+            </>
+          )}
+        </View>
+        <CommonMargin />
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+export const HomeScreen = () => {
+  return (
+    <LedgerGuard>
+      <HomeScreenImpl />
+    </LedgerGuard>
   );
 };

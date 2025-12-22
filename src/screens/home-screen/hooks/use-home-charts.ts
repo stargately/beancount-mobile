@@ -3,9 +3,13 @@ import { selectNetWorthArray } from "@/screens/home-screen/selectors/select-net-
 import { selectNetProfitArray } from "@/screens/home-screen/selectors/select-net-profit-array";
 import { getNetWorth } from "@/screens/home-screen/selectors/select-net-worth";
 
-export const useHomeCharts = (userId: string, currency: string) => {
+export const useHomeCharts = (
+  userId: string,
+  currency: string,
+  ledgerId?: string,
+) => {
   const { loading, data, error, refetch } = useHomeChartsQuery({
-    variables: { userId },
+    variables: { userId, ledgerId },
     fetchPolicy: "network-only",
   });
 

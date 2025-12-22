@@ -1470,6 +1470,7 @@ export type UpdateReportSubscribeResponse = {
 
 export type AccountHierarchyQueryVariables = Exact<{
   userId: Scalars['String']['input'];
+  ledgerId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -1535,6 +1536,7 @@ export type GetLedgerJournalQuery = { __typename?: 'Query', getLedgerJournal: { 
 
 export type HomeChartsQueryVariables = Exact<{
   userId: Scalars['String']['input'];
+  ledgerId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -1606,8 +1608,8 @@ export type UserProfileQuery = { __typename?: 'Query', userProfile?: { __typenam
 
 
 export const AccountHierarchyDocument = gql`
-    query AccountHierarchy($userId: String!) {
-  accountHierarchy(userId: $userId) {
+    query AccountHierarchy($userId: String!, $ledgerId: String) {
+  accountHierarchy(userId: $userId, ledgerId: $ledgerId) {
     data {
       type
       label
@@ -1640,6 +1642,7 @@ export const AccountHierarchyDocument = gql`
  * const { data, loading, error } = useAccountHierarchyQuery({
  *   variables: {
  *      userId: // value for 'userId'
+ *      ledgerId: // value for 'ledgerId'
  *   },
  * });
  */
@@ -1978,8 +1981,8 @@ export type GetLedgerJournalLazyQueryHookResult = ReturnType<typeof useGetLedger
 export type GetLedgerJournalSuspenseQueryHookResult = ReturnType<typeof useGetLedgerJournalSuspenseQuery>;
 export type GetLedgerJournalQueryResult = Apollo.QueryResult<GetLedgerJournalQuery, GetLedgerJournalQueryVariables>;
 export const HomeChartsDocument = gql`
-    query HomeCharts($userId: String!) {
-  homeCharts(userId: $userId) {
+    query HomeCharts($userId: String!, $ledgerId: String) {
+  homeCharts(userId: $userId, ledgerId: $ledgerId) {
     data {
       type
       label
@@ -2007,6 +2010,7 @@ export const HomeChartsDocument = gql`
  * const { data, loading, error } = useHomeChartsQuery({
  *   variables: {
  *      userId: // value for 'userId'
+ *      ledgerId: // value for 'ledgerId'
  *   },
  * });
  */

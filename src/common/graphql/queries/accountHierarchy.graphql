@@ -1,5 +1,5 @@
-query AccountHierarchy($userId: String!) {
-  accountHierarchy(userId: $userId) {
+query AccountHierarchy($userId: String!, $ledgerId: String) {
+  accountHierarchy(userId: $userId, ledgerId: $ledgerId) {
     data {
       type
       label

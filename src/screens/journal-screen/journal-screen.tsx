@@ -16,7 +16,7 @@ import { useTranslations } from "@/common/hooks/use-translations";
 import { ColorTheme } from "@/types/theme-props";
 import { NetworkStatus } from "@apollo/client";
 import { useGetLedgerJournalQuery } from "@/generated-graphql/graphql";
-import { LedgerGuardProvider, useLedgerGuard } from "@/components/ledger-guard";
+import { LedgerGuard, useLedgerGuard } from "@/components/ledger-guard";
 import { JournalHeader } from "./journal-header";
 import { JournalEntryItem } from "./journal-entry-item";
 import { JournalEmptyState } from "./journal-empty-state";
@@ -329,8 +329,8 @@ const JournalList = () => {
 
 export const JournalScreen = () => {
   return (
-    <LedgerGuardProvider>
+    <LedgerGuard>
       <JournalList />
-    </LedgerGuardProvider>
+    </LedgerGuard>
   );
 };

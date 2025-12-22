@@ -1,9 +1,13 @@
 import { getAccountTotals } from "@/screens/home-screen/selectors/select-account-totals";
 import { useAccountHierarchyQuery } from "@/generated-graphql/graphql";
 
-export const useAccountHierarchy = (userId: string, currency: string) => {
+export const useAccountHierarchy = (
+  userId: string,
+  currency: string,
+  ledgerId?: string,
+) => {
   const { loading, data, error, refetch } = useAccountHierarchyQuery({
-    variables: { userId },
+    variables: { userId, ledgerId },
     fetchPolicy: "network-only",
   });
   const accounts = getAccountTotals(currency, data);
