@@ -8,14 +8,17 @@ import { loadLedger } from "@/common/vars/ledger";
 import { loadTheme } from "@/common/vars/theme";
 import { loadSession } from "@/common/vars/session";
 import { i18n } from "@/translations";
+import Constants from "expo-constants";
 
 SplashScreen.preventAutoHideAsync();
 
 // Set the animation options. This is optional.
-SplashScreen.setOptions({
-  fade: false,
-  duration: 0,
-});
+if (Constants.executionEnvironment === "standalone") {
+  SplashScreen.setOptions({
+    fade: false,
+    duration: 0,
+  });
+}
 
 const styles = StyleSheet.create({
   container: {
