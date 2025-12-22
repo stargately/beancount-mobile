@@ -1,5 +1,5 @@
-query HomeCharts($userId: String!) {
-  homeCharts(userId: $userId) {
+query HomeCharts($userId: String!, $ledgerId: String) {
+  homeCharts(userId: $userId, ledgerId: $ledgerId) {
     data {
       type
       label
