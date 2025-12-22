@@ -1,0 +1,28 @@
+query GetLedger($ledgerId: String!) {
+  getLedger(ledgerId: $ledgerId) {
+    id
+    name
+    fullName
+    httpUrl
+    sshUrl
+    private
+    empty
+    size
+    createdAt
+    updatedAt
+    description
+    permissions {
+      admin
+      pull
+      push
+    }
+    options {
+      nameAssets
+      nameEquity
+      nameExpenses
+      nameIncome
+      nameLiabilities
+      operatingCurrency
+    }
+  }
+}

@@ -18,6 +18,16 @@
             "description": null,
             "args": [
               {
+                "name": "ledgerId",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
                 "name": "userId",
                 "description": null,
                 "type": {
@@ -1719,6 +1729,16 @@
             "description": null,
             "args": [
               {
+                "name": "includeCurrentUser",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
                 "name": "keyword",
                 "description": null,
                 "type": {
@@ -1773,6 +1793,16 @@
             "name": "homeCharts",
             "description": null,
             "args": [
+              {
+                "name": "ledgerId",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
               {
                 "name": "userId",
                 "description": null,
@@ -1976,6 +2006,16 @@
             "description": "Get a specific ledger",
             "args": [
               {
+                "name": "ledgerId",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
                 "name": "userId",
                 "description": null,
                 "type": {
@@ -2143,6 +2183,51 @@
                   "ofType": {
                     "kind": "OBJECT",
                     "name": "PublicKey",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "listUserOwnedLedgers",
+            "description": "List all user owned ledgers for the current user",
+            "args": [
+              {
+                "name": "limit",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "page",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Ledger",
                     "ofType": null
                   }
                 }
@@ -8175,6 +8260,16 @@
                   }
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "ledgerId",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
               }
             ],
             "type": {
@@ -10858,7 +10953,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Boolean",
+                "name": "Float",
                 "ofType": null
               }
             },

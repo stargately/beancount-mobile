@@ -13,7 +13,7 @@ directive @specifiedBy(
 ) on SCALAR
 
 type Query {
-  accountHierarchy(userId: String!): AccountHierarchyResponse!
+  accountHierarchy(ledgerId: String, userId: String!): AccountHierarchyResponse!
   featureFlags(userId: String!): JSONObject!
   """Get a specific ledger"""
   getLedger(ledgerId: String!): Ledger!
@@ -75,10 +75,10 @@ type Query {
   getLedgerYears(ledgerId: String!): [String!]!
   """Get a specific public key by ID"""
   getPublicKey(keyId: Float!): PublicKey
-  getUserByExactMatch(keyword: String!): [SearchUser!]!
+  getUserByExactMatch(includeCurrentUser: String, keyword: String!): [SearchUser!]!
   """is the server healthy?"""
   health: String!
-  homeCharts(userId: String!): HomeChartsResponse!
+  homeCharts(ledgerId: String, userId: String!): HomeChartsResponse!
   isPaid: IsPaidResponse!
   """Get journal entries with enhanced search, filtering, and pagination"""
   journalEntries(
@@ -110,12 +110,14 @@ type Query {
     sortOrder: String
   ): JournalEntriesResponse!
   """Get a specific ledger"""
-  ledgerMeta(userId: String!): LedgerMetaResponse!
+  ledgerMeta(ledgerId: String, userId: String!): LedgerMetaResponse!
   listLedgerCollaborators(ledgerId: String!, limit: Float, page: Float): [CollaboratorUser!]!
   """List all ledgers for the current user"""
   listLedgers(limit: Float, page: Float): [Ledger!]!
   """List all public keys for the current user"""
   listPublicKeys(limit: Float, page: Float): [PublicKey!]!
+  """List all user owned ledgers for the current user"""
+  listUserOwnedLedgers(limit: Float, page: Float): [Ledger!]!
   paymentHistory: [Receipt!]!
   """Execute a shell query on a ledger"""
   queryShell(ledgerId: String!, query: String!): QueryResult
@@ -662,7 +664,7 @@ type ValidateEmailTokenResponse {
 }
 
 type Mutation {
-  addEntries(entriesInput: [EntryInput!]!): AddEntryResponse!
+  addEntries(entriesInput: [EntryInput!]!, ledgerId: String): AddEntryResponse!
   """Add a new balance entry to a specific ledger"""
   addEntryBalance(balance: LedgerBalanceInput!, ledgerId: String!): AddLedgerEntryResponse!
   """Add a new commodity entry to a specific ledger"""
@@ -841,7 +843,7 @@ type DeleteLedgerFileResponse {
 }
 
 type DeletePublicKeyResponse {
-  id: Boolean!
+  id: Float!
 }
 
 type TokenAuthResponse {
