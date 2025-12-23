@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { analytics } from "@/common/analytics";
@@ -12,6 +12,7 @@ import { useThemeStyle, usePageView } from "@/common/hooks";
 import { useTheme } from "@/common/theme";
 import { appendPreferenceParam } from "@/common/url-utils";
 import { DashboardWebView } from "@/components/dashboard-webview";
+import { LedgerGuard, useLedgerGuard } from "@/components/ledger-guard";
 
 const getStyles = (theme: ColorTheme) =>
   StyleSheet.create({
@@ -35,26 +36,30 @@ const getStyles = (theme: ColorTheme) =>
       flex: 1,
     },
   });
-
-export const LedgerScreen = () => {
+const LedgerScreenImpl = () => {
   const styles = useThemeStyle(getStyles);
   const theme = useTheme().colorTheme;
   const [progress, setProgress] = useState(0);
   const [key, setKey] = useState(0);
   usePageView("ledger");
-
+  const ledgerId = useLedgerGuard();
   const onRefresh = async () => {
     await analytics.track("tap_refresh", {});
     setKey((key) => key + 1);
   };
   const { authToken } = useSession();
-  const uri = appendPreferenceParam(getEndpoint("ledger/editor/"));
+  const uri = useMemo(() => {
+    const ledgerEditorUri = appendPreferenceParam(
+      getEndpoint(`ledger/editor/?ledgerId=${ledgerId}`),
+    );
+    return ledgerEditorUri;
+  }, [ledgerId]);
   return (
     <SafeAreaView edges={["top"]} style={styles.container}>
       <ProgressBar progress={progress} />
       <View style={styles.webViewContainer}>
         <DashboardWebView
-          key={key}
+          key={`${uri}-${key}`}
           scrollEnabled={false}
           onLoadProgress={({ nativeEvent }) =>
             setProgress(nativeEvent.progress)
@@ -73,5 +78,13 @@ export const LedgerScreen = () => {
         </TouchableOpacity>
       </View>
     </SafeAreaView>
+  );
+};
+
+export const LedgerScreen = () => {
+  return (
+    <LedgerGuard>
+      <LedgerScreenImpl />
+    </LedgerGuard>
   );
 };

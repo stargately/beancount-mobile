@@ -19,7 +19,7 @@
     "bump-dummy": "npx tsx ./src/scripts/bump-version-dummy.ts"
   },
   "dependencies": {
-    "@apollo/client": "^3.13.8",
+    "@apollo/client": "3.13.8",
     "@callstack/react-theme-provider": "^3.0.9",
     "@expo/vector-icons": "^15.0.2",
     "@gorhom/bottom-sheet": "^5",
