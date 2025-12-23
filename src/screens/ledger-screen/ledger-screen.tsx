@@ -50,9 +50,8 @@ const LedgerScreenImpl = () => {
   const { authToken } = useSession();
   const uri = useMemo(() => {
     const ledgerEditorUri = appendPreferenceParam(
-      getEndpoint(`ledger-editor?ledgerId=${ledgerId}`),
+      getEndpoint(`ledger/editor/?ledgerId=${ledgerId}`),
     );
-    console.log("ledgerEditorUri", ledgerEditorUri);
     return ledgerEditorUri;
   }, [ledgerId]);
   return (
