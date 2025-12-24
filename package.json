@@ -83,7 +83,7 @@
     "@graphql-codegen/schema-ast": "^4.1.0",
     "@graphql-codegen/typescript": "^4.1.6",
     "@graphql-codegen/typescript-operations": "^4.6.1",
-    "@graphql-codegen/typescript-react-apollo": "^4.3.3",
+    "@graphql-codegen/typescript-react-apollo": "^4.3.4",
     "@types/d3": "^7.4.3",
     "@types/i18n-js": "^3.8.0",
     "@types/jwt-decode": "^2.2.1",
