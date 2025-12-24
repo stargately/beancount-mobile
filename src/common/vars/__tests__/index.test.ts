@@ -109,9 +109,8 @@ describe("common/vars logic", () => {
   describe("createPersistentVar behavior", () => {
     // Replicating the logic from createPersistentVar
     const apolloPath = require.resolve("@apollo/client");
-    const asyncStoragePath = require.resolve(
-      "@react-native-async-storage/async-storage",
-    );
+    const asyncStoragePath =
+      require.resolve("@react-native-async-storage/async-storage");
 
     let originalApolloModule: NodeModule | undefined;
     let originalAsyncStorageModule: NodeModule | undefined;

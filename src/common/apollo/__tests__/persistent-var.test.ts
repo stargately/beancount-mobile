@@ -3,9 +3,8 @@ import type { ReactiveVar } from "@apollo/client";
 describe("createPersistentVar", () => {
   let createPersistentVar: typeof import("../persistent-var").createPersistentVar;
   const apolloPath = require.resolve("@apollo/client");
-  const asyncStoragePath = require.resolve(
-    "@react-native-async-storage/async-storage",
-  );
+  const asyncStoragePath =
+    require.resolve("@react-native-async-storage/async-storage");
   let originalApolloModule: NodeModule | undefined;
   let originalAsyncStorageModule: NodeModule | undefined;
 
