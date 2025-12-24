@@ -7,9 +7,9 @@ import {
 
 export type { OptionTab };
 
-export const useLedgerMeta = (userId: string) => {
+export const useLedgerMeta = (userId: string, ledgerId?: string) => {
   const { data, error, loading, refetch } = useLedgerMetaQuery({
-    variables: { userId },
+    variables: { userId, ledgerId },
     fetchPolicy: "network-only",
   });
 

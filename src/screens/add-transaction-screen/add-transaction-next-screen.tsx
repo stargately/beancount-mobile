@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -19,7 +19,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ListItem } from "@/screens/add-transaction-screen/list-item";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useToast, usePageView } from "@/common/hooks";
-import { List } from "@/components";
+import { LedgerGuard, List, useLedgerGuard } from "@/components";
 
 import {
   SelectedAssets,
@@ -71,7 +71,7 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-export const AddTransactionNextScreen = () => {
+export const AddTransactionNextScreenComponent = () => {
   usePageView("add_transaction_next");
   const theme = useTheme().colorTheme;
   const { t } = useTranslations();
@@ -93,6 +93,7 @@ export const AddTransactionNextScreen = () => {
   const { mutate, error } = useAddEntriesToRemote();
 
   const currencySymbol = getCurrencySymbol(currentCurrency);
+  const ledgerId = useLedgerGuard();
 
   const addEntries = async () => {
     await analytics.track("tap_add_transaction_done", {});
@@ -122,7 +123,7 @@ export const AddTransactionNextScreen = () => {
         },
       ];
 
-      await mutate({ variables: { entriesInput: params } });
+      await mutate({ variables: { entriesInput: params, ledgerId } });
       // await new Promise(resolve => setTimeout(resolve, 1000));
 
       cancel();
@@ -283,3 +284,13 @@ export const AddTransactionNextScreen = () => {
     </SafeAreaView>
   );
 };
+
+export const AddTransactionNextScreen = memo(function () {
+  return (
+    <LedgerGuard>
+      <AddTransactionNextScreenComponent />
+    </LedgerGuard>
+  );
+});
+
+AddTransactionNextScreen.displayName = "AddTransactionNextScreen";

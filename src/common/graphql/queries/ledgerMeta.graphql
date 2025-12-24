@@ -1,5 +1,5 @@
-query ledgerMeta($userId: String!) {
-  ledgerMeta(userId: $userId) {
+query ledgerMeta($userId: String!, $ledgerId: String) {
+  ledgerMeta(userId: $userId, ledgerId: $ledgerId) {
     data {
       accounts
       currencies

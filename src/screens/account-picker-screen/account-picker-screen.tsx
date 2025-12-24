@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   View,
   Text,
@@ -17,7 +17,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { SelectedAssets, SelectedExpenses } from "@/common/globalFnFactory";
 import { useSession } from "@/common/hooks/use-session";
 import { Ionicons } from "@expo/vector-icons";
-import { Tabs, FlexCenter } from "@/components";
+import { Tabs, FlexCenter, LedgerGuard, useLedgerGuard } from "@/components";
 import { analytics } from "@/common/analytics";
 import { usePageView } from "@/common/hooks";
 
@@ -38,13 +38,15 @@ const getStyles = (theme: ColorTheme) =>
     },
   });
 
-export function AccountPickerScreen(): JSX.Element {
+export function AccountPickerScreenComponent(): JSX.Element {
   const router = useRouter();
   const { userId } = useSession();
   usePageView("account_picker");
+  const ledgerId = useLedgerGuard();
   const { type } = useLocalSearchParams<{ type: string }>();
   const { assetsOptionTabs, expensesOptionTabs, loading } = useLedgerMeta(
     userId ?? "",
+    ledgerId,
   );
 
   const onSelected =
@@ -119,3 +121,13 @@ export function AccountPickerScreen(): JSX.Element {
     </View>
   );
 }
+
+export const AccountPickerScreen = memo(function () {
+  return (
+    <LedgerGuard>
+      <AccountPickerScreenComponent />
+    </LedgerGuard>
+  );
+});
+
+AccountPickerScreen.displayName = "AccountPickerScreen";
