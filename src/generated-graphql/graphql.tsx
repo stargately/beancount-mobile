@@ -1478,6 +1478,7 @@ export type AccountHierarchyQuery = { __typename?: 'Query', accountHierarchy: { 
 
 export type AddEntriesMutationVariables = Exact<{
   entriesInput: Array<EntryInput> | EntryInput;
+  ledgerId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -1568,6 +1569,7 @@ export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: { __ty
 
 export type LedgerMetaQueryVariables = Exact<{
   userId: Scalars['String']['input'];
+  ledgerId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -1663,8 +1665,8 @@ export type AccountHierarchyLazyQueryHookResult = ReturnType<typeof useAccountHi
 export type AccountHierarchySuspenseQueryHookResult = ReturnType<typeof useAccountHierarchySuspenseQuery>;
 export type AccountHierarchyQueryResult = Apollo.QueryResult<AccountHierarchyQuery, AccountHierarchyQueryVariables>;
 export const AddEntriesDocument = gql`
-    mutation addEntries($entriesInput: [EntryInput!]!) {
-  addEntries(entriesInput: $entriesInput) {
+    mutation addEntries($entriesInput: [EntryInput!]!, $ledgerId: String) {
+  addEntries(entriesInput: $entriesInput, ledgerId: $ledgerId) {
     data
     success
   }
@@ -1686,6 +1688,7 @@ export type AddEntriesMutationFn = Apollo.MutationFunction<AddEntriesMutation, A
  * const [addEntriesMutation, { data, loading, error }] = useAddEntriesMutation({
  *   variables: {
  *      entriesInput: // value for 'entriesInput'
+ *      ledgerId: // value for 'ledgerId'
  *   },
  * });
  */
@@ -2173,8 +2176,8 @@ export type JournalEntriesLazyQueryHookResult = ReturnType<typeof useJournalEntr
 export type JournalEntriesSuspenseQueryHookResult = ReturnType<typeof useJournalEntriesSuspenseQuery>;
 export type JournalEntriesQueryResult = Apollo.QueryResult<JournalEntriesQuery, JournalEntriesQueryVariables>;
 export const LedgerMetaDocument = gql`
-    query ledgerMeta($userId: String!) {
-  ledgerMeta(userId: $userId) {
+    query ledgerMeta($userId: String!, $ledgerId: String) {
+  ledgerMeta(userId: $userId, ledgerId: $ledgerId) {
     data {
       accounts
       currencies
@@ -2206,6 +2209,7 @@ export const LedgerMetaDocument = gql`
  * const { data, loading, error } = useLedgerMetaQuery({
  *   variables: {
  *      userId: // value for 'userId'
+ *      ledgerId: // value for 'ledgerId'
  *   },
  * });
  */
