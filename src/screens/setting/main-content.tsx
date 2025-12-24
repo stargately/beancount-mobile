@@ -23,6 +23,7 @@ import {
 import { Theme } from "@/common/vars/theme";
 import { useTheme } from "@/common/theme";
 import { Ionicons } from "@expo/vector-icons";
+import { LedgerListItem } from "./ledger-list-item";
 
 export const MainContent = () => {
   const { authToken } = useSession();
@@ -130,14 +131,7 @@ export const MainContent = () => {
             setThemeModalVisible(true);
           }}
         />
-        <ListItemHorizontal
-          icon={<Ionicons name="folder" size={22} color={theme.black80} />}
-          title={t("ledger")}
-          description={t("ledgerDescription")}
-          onPress={() => {
-            router.push("/(app)/ledger-selection");
-          }}
-        />
+        <LedgerListItem />
 
         <SectionHeader title={t("supportSettings")} />
         <ListItemHorizontal
