@@ -2,9 +2,8 @@ const Module = require("module");
 
 const configModulePath = require.resolve("../../config");
 const analyticsModulePath = require.resolve("../analytics");
-const mixpanelMockPath = require.resolve(
-  "./fixtures/mock-expo-mixpanel-analytics",
-);
+const mixpanelMockPath =
+  require.resolve("./fixtures/mock-expo-mixpanel-analytics");
 
 const { config } = require("../../config");
 
