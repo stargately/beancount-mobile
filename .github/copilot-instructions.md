@@ -17,3 +17,10 @@ This is a React Native mobile application built with Expo. When making suggestio
 - Follow existing TypeScript patterns and conventions in the codebase
 - Respect the project's dependency management through Yarn
 - Do not modify lock files or package manager configuration
+
+## Temporary Files
+
+When creating temporary files, scripts, or artifacts during development:
+- Use the `/tmp` directory at the repository root
+- This directory is gitignored and safe for temporary work
+- Clean up temporary files when they're no longer needed

@@ -76,3 +76,6 @@ ios
 android
 !fastlane/metadata/android
 dist
+
+# Temporary files directory for agents (Claude Code, GitHub Copilot)
+tmp/

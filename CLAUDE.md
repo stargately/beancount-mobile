@@ -142,6 +142,7 @@ Most screens follow this pattern:
 - Test in both light and dark themes
 - Ensure proper background colors for loading states
 - Test language switching to verify translations update instantly
+- **For temporary files**: Use the `/tmp` directory at the repository root (gitignored) for any temporary files, scripts, or artifacts needed during development
 
 ## Repository Info
 
